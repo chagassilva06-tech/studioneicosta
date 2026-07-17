@@ -330,8 +330,8 @@ function Index() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <span className="h-2.5 w-2.5 rounded-full bg-sky-400 shadow-[0_0_12px_rgba(56,155,255,0.9)]" />
-              <span className="font-display text-2xl">
-                Studio<span className="text-sky-400">Nei</span>
+              <span className="font-display text-3xl md:text-4xl">
+                Studio<span className="text-sky-300 font-normal drop-shadow-[0_0_10px_rgba(56,155,255,0.9)]">Nei</span>
               </span>
             </div>
             <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
