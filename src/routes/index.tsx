@@ -150,7 +150,7 @@ function Index() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="max-w-2xl"
+            className="max-w-none"
           >
             <div className="flex items-center gap-3 mb-8">
               <div className="h-px w-12 bg-sky-400" />
