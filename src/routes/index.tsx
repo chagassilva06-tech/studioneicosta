@@ -55,7 +55,7 @@ const searchSuggestions = [
 function Index() {
   const [dark, setDark] = useState(true);
   const [query, setQuery] = useState("");
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(true);
   const [showSuggest, setShowSuggest] = useState(false);
 
   const navigate = useNavigate();
@@ -171,7 +171,7 @@ function Index() {
                     key={c}
                     to="/galeria/$categoria"
                     params={{ categoria: c }}
-                    onClick={() => setMenuOpen(false)}
+                    
                     className="px-4 py-1.5 rounded-full text-sm border border-border/60 hover:border-sky-400/60 hover:text-sky-400 hover:shadow-[0_0_16px_rgba(56,155,255,0.35)] transition"
                   >
                     {c}
@@ -186,7 +186,7 @@ function Index() {
       </header>
 
       {/* Hero */}
-      <section id="top" className="relative min-h-screen flex items-center overflow-hidden pt-16">
+      <section id="top" className="relative min-h-screen flex items-center overflow-hidden pt-32">
         <div className="absolute inset-0">
           <img src={hero} alt="Galeria StudioNei" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background" />
