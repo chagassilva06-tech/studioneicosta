@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
-  Menu,
   Moon,
   Sun,
   Instagram,
@@ -109,13 +108,6 @@ function Index() {
               aria-label="Alternar tema"
             >
               {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </button>
-            <button
-              onClick={() => setMenuOpen((m) => !m)}
-              className="p-2 rounded-full hover:bg-muted/60 transition"
-              aria-label="Categorias"
-            >
-              <Menu className="h-4 w-4" />
             </button>
           </div>
         </div>
