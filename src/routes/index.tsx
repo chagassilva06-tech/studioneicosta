@@ -103,7 +103,7 @@ function Index() {
               className="p-2 rounded-full hover:bg-muted/60 transition"
               aria-label="Alternar tema"
             >
-              {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              {dark ? <Lightbulb className="h-4 w-4 text-sky-400" /> : <LightbulbOff className="h-4 w-4" />}
             </button>
           </div>
         </div>
