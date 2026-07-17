@@ -162,6 +162,18 @@
   50% { opacity: 1; transform: scale(1.05); }
 }
 
+@keyframes hero-light-pulse {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.55; }
+}
+
+@utility animate-hero-light {
+  background: radial-gradient(ellipse at 50% 45%, rgba(255,255,255,0.22), rgba(255,255,255,0.06) 40%, transparent 70%);
+  animation: hero-light-pulse 6s ease-in-out infinite;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
 @keyframes text-shimmer {
   0% { background-position: -200% center; }
   100% { background-position: 200% center; }

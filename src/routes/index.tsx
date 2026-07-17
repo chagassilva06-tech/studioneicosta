@@ -187,6 +187,7 @@ function Index() {
           <img src={hero} alt="Galeria StudioNei" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background" />
           <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-transparent" />
+          <div className="absolute inset-0 animate-hero-light" />
         </div>
         <div className="relative max-w-7xl mx-auto px-6 md:px-10 py-24 w-full">
           <motion.div
