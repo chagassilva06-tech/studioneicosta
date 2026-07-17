@@ -338,11 +338,6 @@ function Index() {
               contemporânea. Cada obra é um exercício de observação — luz,
               textura e silêncio traduzidos em grafite, carvão e tinta.
             </p>
-            <p className="text-foreground/75 leading-relaxed">
-              Formado em artes visuais, dedico-me há mais de uma década ao desenho
-              realista, à pintura a óleo e à ilustração. Este espaço reúne
-              trabalhos autorais e séries em andamento.
-            </p>
             <div className="mt-8 grid grid-cols-3 gap-6 max-w-md">
               {[
                 ["120+", "Obras"],
