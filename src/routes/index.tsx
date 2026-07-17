@@ -91,8 +91,8 @@ function Index() {
         <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
           <a href="#top" className="flex items-center gap-2 min-w-0">
             <span className="h-2.5 w-2.5 rounded-full bg-sky-400 shadow-[0_0_12px_rgba(56,155,255,0.9)]" />
-            <span className="font-display text-2xl tracking-wide truncate">
-              Studio<span className="text-sky-400">Nei</span>
+            <span className="font-display text-3xl md:text-4xl tracking-wide truncate">
+              Studio<span className="text-sky-300 font-normal drop-shadow-[0_0_10px_rgba(56,155,255,0.9)]">Nei</span>
             </span>
           </a>
           <div className="flex items-center gap-2 sm:gap-4">
@@ -100,10 +100,10 @@ function Index() {
 
             <button
               onClick={() => setDark((d) => !d)}
-              className="p-2 rounded-full hover:bg-muted/60 transition"
+              className="p-2 rounded-full border-2 border-sky-400/70 bg-sky-400/5 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.85)] hover:border-sky-300 transition-all"
               aria-label="Alternar tema"
             >
-              {dark ? <Lightbulb className="h-4 w-4 text-sky-400" /> : <LightbulbOff className="h-4 w-4" />}
+              {dark ? <Lightbulb className="h-4 w-4 text-sky-400" /> : <LightbulbOff className="h-4 w-4 text-sky-400" />}
             </button>
           </div>
         </div>
