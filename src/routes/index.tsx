@@ -311,7 +311,7 @@ function Index() {
 
       {/* About */}
       <section id="about" className="border-t border-border/40 bg-muted/20">
-        <div className="max-w-6xl mx-auto px-6 md:px-10 py-24 grid md:grid-cols-2 gap-12 md:gap-20 items-center">
+        <div className="max-w-6xl mx-auto px-6 md:px-10 py-14 grid md:grid-cols-2 gap-10 md:gap-16 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
