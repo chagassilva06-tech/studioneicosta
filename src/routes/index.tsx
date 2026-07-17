@@ -171,7 +171,7 @@ function Index() {
                     key={c}
                     to="/galeria/$categoria"
                     params={{ categoria: c }}
-                    onClick={() => setMenuOpen(false)}
+                    
                     className="px-4 py-1.5 rounded-full text-sm border border-border/60 hover:border-sky-400/60 hover:text-sky-400 hover:shadow-[0_0_16px_rgba(56,155,255,0.35)] transition"
                   >
                     {c}
