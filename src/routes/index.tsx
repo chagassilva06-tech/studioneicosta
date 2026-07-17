@@ -158,14 +158,17 @@ function Index() {
                 Portfólio artístico
               </span>
             </div>
-            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl leading-[1.05] font-light text-foreground drop-shadow-[0_2px_18px_rgba(0,0,0,0.65)]">
-              Seu talento merece{" "}
-              <span className="text-shimmer italic font-normal">uma galeria</span>.
-            </h1>
-            <p className="mt-8 text-base md:text-lg text-foreground/85 max-w-lg leading-relaxed drop-shadow-[0_1px_10px_rgba(0,0,0,0.55)]">
-              Organize, apresente e compartilhe seus desenhos e pinturas de forma
-              profissional. Uma coleção digital onde a obra é o foco.
-            </p>
+            <div className="relative">
+              <div className="pointer-events-none absolute -inset-8 animate-glow-pulse rounded-3xl" />
+              <h1 className="relative font-display text-5xl md:text-7xl lg:text-8xl leading-[1.05] font-light text-foreground drop-shadow-[0_2px_18px_rgba(0,0,0,0.65)]">
+                Seu talento merece{" "}
+                <span className="text-shimmer italic font-normal">uma galeria</span>.
+              </h1>
+              <p className="relative mt-8 text-base md:text-lg text-foreground/85 max-w-lg leading-relaxed drop-shadow-[0_1px_10px_rgba(0,0,0,0.55)]">
+                Organize, apresente e compartilhe seus desenhos e pinturas de forma
+                profissional. Uma coleção digital onde a obra é o foco.
+              </p>
+            </div>
             <div className="mt-10 flex flex-wrap gap-4">
               <a
                 href="#gallery"
@@ -338,18 +341,6 @@ function Index() {
               contemporânea. Cada obra é um exercício de observação — luz,
               textura e silêncio traduzidos em grafite, carvão e tinta.
             </p>
-            <div className="mt-8 grid grid-cols-3 gap-6 max-w-md">
-              {[
-                ["120+", "Obras"],
-                ["10", "Anos"],
-                ["7", "Coleções"],
-              ].map(([n, l]) => (
-                <div key={l}>
-                  <p className="font-display text-3xl text-sky-400">{n}</p>
-                  <p className="text-xs uppercase tracking-widest text-muted-foreground mt-1">{l}</p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
