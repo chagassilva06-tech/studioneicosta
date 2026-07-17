@@ -203,3 +203,13 @@
   animation: pulse-slow 2.6s ease-in-out infinite;
 }
 
+@keyframes neon-slide {
+  0% { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@utility animate-neon-slide {
+  animation: neon-slide 3.2s linear infinite;
+}
+
+
