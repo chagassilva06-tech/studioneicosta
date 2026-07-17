@@ -26,7 +26,7 @@ export const Route = createFileRoute("/galeria/$categoria")({
 function Galeria() {
   const { categoria } = useParams({ from: "/galeria/$categoria" });
   const nome = decodeURIComponent(categoria);
-  const total = nome.toLowerCase() === "animais" ? 3 : 8;
+  const total = 3;
   const slots = Array.from({ length: total });
 
   return (
