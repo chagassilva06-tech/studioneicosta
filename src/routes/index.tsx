@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
-  
+  Menu,
   Moon,
   Sun,
   Instagram,
@@ -12,6 +12,7 @@ import {
   Play,
   ImageIcon,
 } from "lucide-react";
+
 
 import hero from "@/assets/hero.jpg";
 import artist from "@/assets/artist.jpg";
@@ -54,8 +55,9 @@ const searchSuggestions = [
 function Index() {
   const [dark, setDark] = useState(true);
   const [query, setQuery] = useState("");
-  
+  const [menuOpen, setMenuOpen] = useState(false);
   const [showSuggest, setShowSuggest] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -146,29 +148,45 @@ function Index() {
             >
               {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
-
-
+            <button
+              onClick={() => setMenuOpen((m) => !m)}
+              className="p-2 rounded-full hover:bg-muted/60 transition"
+              aria-label="Categorias"
+            >
+              <Menu className="h-4 w-4" />
+            </button>
           </div>
         </div>
-        <div className="border-t border-border/40 bg-background/80 backdrop-blur">
-          <div className="max-w-7xl mx-auto px-6 md:px-10 py-3 flex flex-wrap gap-2 justify-center">
-            {categories.map((c) => (
-              <Link
-                key={c}
-                to="/galeria/$categoria"
-                params={{ categoria: c }}
-                className="px-4 py-1.5 rounded-full text-sm border border-border/60 hover:border-sky-400/60 hover:text-sky-400 hover:shadow-[0_0_16px_rgba(56,155,255,0.35)] transition"
-              >
-                {c}
-              </Link>
-            ))}
-          </div>
-        </div>
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              className="border-t border-border/40 bg-background/95 backdrop-blur"
+            >
+              <div className="max-w-7xl mx-auto px-6 md:px-10 py-4 flex flex-wrap gap-2">
+                {categories.map((c) => (
+                  <Link
+                    key={c}
+                    to="/galeria/$categoria"
+                    params={{ categoria: c }}
+                    onClick={() => setMenuOpen(false)}
+                    className="px-4 py-1.5 rounded-full text-sm border border-border/60 hover:border-sky-400/60 hover:text-sky-400 hover:shadow-[0_0_16px_rgba(56,155,255,0.35)] transition"
+                  >
+                    {c}
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
 
       </header>
 
       {/* Hero */}
-      <section id="top" className="relative min-h-screen flex items-center overflow-hidden pt-28">
+      <section id="top" className="relative min-h-screen flex items-center overflow-hidden pt-16">
         <div className="absolute inset-0">
           <img src={hero} alt="Galeria StudioNei" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background" />
