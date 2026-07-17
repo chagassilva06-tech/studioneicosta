@@ -88,14 +88,15 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground font-sans transition-colors duration-500">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/40 shadow-[0_4px_18px_-6px_rgba(56,155,255,0.35)]">
-        <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 grid grid-cols-3 items-center gap-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 h-16 grid grid-cols-3 items-center gap-2 sm:gap-4">
           <div />
           <a href="#top" className="group justify-self-center flex items-center gap-2 min-w-0 transition-transform duration-300 hover:scale-[1.015]">
-            <span className="h-2.5 w-2.5 rounded-full bg-sky-400 shadow-[0_0_12px_rgba(56,155,255,0.9)] group-hover:shadow-[0_0_16px_rgba(56,155,255,1)] transition-shadow" />
-            <span className="font-display text-3xl md:text-4xl tracking-wide truncate drop-shadow-[0_0_10px_rgba(56,155,255,0.45)] transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(56,155,255,0.6)]">
+            <span className="h-2 w-2 sm:h-2.5 sm:w-2.5 shrink-0 rounded-full bg-sky-400 shadow-[0_0_12px_rgba(56,155,255,0.9)] group-hover:shadow-[0_0_16px_rgba(56,155,255,1)] transition-shadow" />
+            <span className="font-display text-xl sm:text-2xl md:text-4xl tracking-wide truncate drop-shadow-[0_0_10px_rgba(56,155,255,0.45)] transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(56,155,255,0.6)]">
               Studio<span className="text-sky-300 font-normal drop-shadow-[0_0_12px_rgba(56,155,255,0.7)] group-hover:text-sky-200 group-hover:drop-shadow-[0_0_14px_rgba(56,155,255,0.8)]">Nei</span>
             </span>
           </a>
+
           <div className="justify-self-end flex items-center gap-2 sm:gap-4">
             <button
               onClick={() => setDark((d) => !d)}
@@ -115,19 +116,19 @@ function Index() {
               className="relative border-t border-sky-400/30 bg-background/95 backdrop-blur shadow-[inset_0_1px_0_rgba(186,230,255,0.35),inset_0_-1px_0_rgba(0,0,0,0.35),0_10px_28px_-10px_rgba(56,155,255,0.5)]"
             >
               <div className="pointer-events-none absolute inset-x-0 -top-px h-[2px] bg-[linear-gradient(90deg,transparent,rgba(56,155,255,0.8),transparent)] animate-neon-slide bg-[length:200%_100%]" />
-              <div className="max-w-7xl mx-auto px-6 md:px-10 py-5 flex flex-wrap gap-3">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-4 flex flex-wrap justify-center md:justify-start gap-2 sm:gap-3">
                 {categories.map((c) => (
                   <Link
                     key={c}
                     to="/galeria/$categoria"
                     params={{ categoria: c }}
-                    className="group relative px-8 py-2.5 min-w-[140px] text-center rounded-full text-base md:text-lg font-medium tracking-wide border-2 border-sky-400/50 text-foreground bg-background/40 shadow-[0_0_10px_rgba(56,155,255,0.25),inset_0_1px_0_rgba(255,255,255,0.06)] hover:border-sky-300 hover:text-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.65),inset_0_1px_0_rgba(255,255,255,0.15)] hover:-translate-y-0.5 transition-all duration-300 overflow-hidden"
+                    className="group relative px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 min-w-[100px] sm:min-w-[130px] text-center rounded-full text-sm sm:text-base md:text-lg font-medium tracking-wide border-2 border-sky-400/50 text-foreground bg-background/40 shadow-[0_0_10px_rgba(56,155,255,0.25),inset_0_1px_0_rgba(255,255,255,0.06)] hover:border-sky-300 hover:text-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.65),inset_0_1px_0_rgba(255,255,255,0.15)] hover:-translate-y-0.5 transition-all duration-300"
                   >
                     <span className="relative z-10">{c}</span>
-                    <span className="pointer-events-none absolute left-2 right-2 bottom-1 h-[2px] rounded-full animate-neon-line opacity-70 group-hover:opacity-100" />
                   </Link>
                 ))}
               </div>
+
             </motion.div>
           )}
         </AnimatePresence>
@@ -137,7 +138,7 @@ function Index() {
 
 
       {/* Hero */}
-      <section id="top" className="relative min-h-screen flex items-center overflow-hidden pt-32">
+      <section id="top" className="relative min-h-screen flex items-center overflow-hidden pt-40 sm:pt-36 md:pt-32">
         <div className="absolute inset-0">
           <img src={hero} alt="Galeria StudioNei" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/70 to-background" />
@@ -313,14 +314,15 @@ function Index() {
 
       {/* About */}
       <section id="about" className="border-t border-border/40 bg-muted/20">
-        <div className="max-w-5xl mx-auto px-6 md:px-10 py-8 grid md:grid-cols-[280px_1fr] gap-8 md:gap-12 items-center">
+        <div className="max-w-5xl mx-auto pl-2 pr-6 sm:pl-4 sm:pr-8 md:pl-2 md:pr-10 py-8 grid md:grid-cols-[220px_1fr] gap-8 md:gap-14 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="group relative justify-self-start w-full max-w-[260px]"
+            className="group relative justify-self-start w-full max-w-[220px] md:-ml-2"
           >
+
             <div className="absolute -inset-4 rounded-3xl bg-sky-400/10 blur-2xl transition-all duration-500 group-hover:bg-sky-400/25 group-hover:-inset-6" />
             <img
               src={artist}
