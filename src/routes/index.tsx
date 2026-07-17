@@ -29,7 +29,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "StudioNei — Galeria de Desenhos e Pinturas" },
       {
         property: "og:description",
-        content: "Coleção digital de desenhos e pinturas. Uma galeria minimalista onde a obra é o foco.",
+        content: "Portfólio artístico de StudioNei. Galeria digital de desenhos e pinturas organizada por categorias — retratos, paisagens, anime e mais.",
       },
     ],
   }),
