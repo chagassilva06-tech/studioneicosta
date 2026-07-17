@@ -89,10 +89,10 @@ function Index() {
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/40 shadow-[0_4px_18px_-6px_rgba(56,155,255,0.35)]">
         <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
-          <a href="#top" className="group flex items-center gap-2 min-w-0 transition-transform duration-300 hover:scale-[1.04]">
-            <span className="h-2.5 w-2.5 rounded-full bg-sky-400 shadow-[0_0_12px_rgba(56,155,255,0.9)] group-hover:shadow-[0_0_22px_rgba(56,155,255,1)] transition-shadow" />
-            <span className="font-display text-3xl md:text-4xl tracking-wide truncate drop-shadow-[0_0_10px_rgba(56,155,255,0.45)] transition-all duration-300 group-hover:drop-shadow-[0_0_16px_rgba(56,155,255,0.85)]">
-              Studio<span className="text-sky-300 font-normal drop-shadow-[0_0_12px_rgba(56,155,255,0.7)] group-hover:text-sky-200 group-hover:drop-shadow-[0_0_20px_rgba(56,155,255,1)]">Nei</span>
+          <a href="#top" className="group flex items-center gap-2 min-w-0 transition-transform duration-300 hover:scale-[1.015]">
+            <span className="h-2.5 w-2.5 rounded-full bg-sky-400 shadow-[0_0_12px_rgba(56,155,255,0.9)] group-hover:shadow-[0_0_16px_rgba(56,155,255,1)] transition-shadow" />
+            <span className="font-display text-3xl md:text-4xl tracking-wide truncate drop-shadow-[0_0_10px_rgba(56,155,255,0.45)] transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(56,155,255,0.6)]">
+              Studio<span className="text-sky-300 font-normal drop-shadow-[0_0_12px_rgba(56,155,255,0.7)] group-hover:text-sky-200 group-hover:drop-shadow-[0_0_14px_rgba(56,155,255,0.8)]">Nei</span>
             </span>
           </a>
           <div className="flex items-center gap-2 sm:gap-4">
@@ -122,7 +122,7 @@ function Index() {
                     key={c}
                     to="/galeria/$categoria"
                     params={{ categoria: c }}
-                    className="group relative px-5 py-2.5 rounded-full text-base md:text-lg font-medium tracking-wide border-2 border-sky-400/50 text-foreground bg-background/40 shadow-[0_0_10px_rgba(56,155,255,0.25),inset_0_1px_0_rgba(255,255,255,0.06)] hover:border-sky-300 hover:text-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.65),inset_0_1px_0_rgba(255,255,255,0.15)] hover:-translate-y-0.5 transition-all duration-300 overflow-hidden"
+                    className="group relative px-8 py-2.5 min-w-[140px] text-center rounded-full text-base md:text-lg font-medium tracking-wide border-2 border-sky-400/50 text-foreground bg-background/40 shadow-[0_0_10px_rgba(56,155,255,0.25),inset_0_1px_0_rgba(255,255,255,0.06)] hover:border-sky-300 hover:text-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.65),inset_0_1px_0_rgba(255,255,255,0.15)] hover:-translate-y-0.5 transition-all duration-300 overflow-hidden"
                   >
                     <span className="relative z-10">{c}</span>
                     <span className="pointer-events-none absolute left-2 right-2 bottom-1 h-[2px] rounded-full animate-neon-line opacity-70 group-hover:opacity-100" />
@@ -337,11 +337,6 @@ function Index() {
               StudioNei nasce do encontro entre técnica clássica e sensibilidade
               contemporânea. Cada obra é um exercício de observação — luz,
               textura e silêncio traduzidos em grafite, carvão e tinta.
-            </p>
-            <p className="text-foreground/75 leading-relaxed">
-              Formado em artes visuais, dedico-me há mais de uma década ao desenho
-              realista, à pintura a óleo e à ilustração. Este espaço reúne
-              trabalhos autorais e séries em andamento.
             </p>
             <div className="mt-8 grid grid-cols-3 gap-6 max-w-md">
               {[
