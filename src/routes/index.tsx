@@ -314,14 +314,15 @@ function Index() {
 
       {/* About */}
       <section id="about" className="border-t border-border/40 bg-muted/20">
-        <div className="max-w-5xl mx-auto px-6 md:px-10 py-8 grid md:grid-cols-[280px_1fr] gap-8 md:gap-12 items-center">
+        <div className="max-w-5xl mx-auto pl-2 pr-6 sm:pl-4 sm:pr-8 md:pl-2 md:pr-10 py-8 grid md:grid-cols-[220px_1fr] gap-8 md:gap-14 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="group relative justify-self-start w-full max-w-[260px]"
+            className="group relative justify-self-start w-full max-w-[220px] md:-ml-2"
           >
+
             <div className="absolute -inset-4 rounded-3xl bg-sky-400/10 blur-2xl transition-all duration-500 group-hover:bg-sky-400/25 group-hover:-inset-6" />
             <img
               src={artist}
