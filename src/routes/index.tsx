@@ -155,30 +155,21 @@ function Index() {
             </button>
           </div>
         </div>
-        <AnimatePresence>
-          {menuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              className="border-t border-border/40 bg-background/95 backdrop-blur"
-            >
-              <div className="max-w-7xl mx-auto px-6 md:px-10 py-4 flex flex-wrap gap-2">
-                {categories.map((c) => (
-                  <Link
-                    key={c}
-                    to="/galeria/$categoria"
-                    params={{ categoria: c }}
-                    onClick={() => setMenuOpen(false)}
-                    className="px-4 py-1.5 rounded-full text-sm border border-border/60 hover:border-sky-400/60 hover:text-sky-400 transition"
-                  >
-                    {c}
-                  </Link>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <div className="border-t border-border/40 bg-background/80 backdrop-blur">
+          <div className="max-w-7xl mx-auto px-6 md:px-10 py-3 flex flex-wrap gap-2 justify-center">
+            {categories.map((c) => (
+              <Link
+                key={c}
+                to="/galeria/$categoria"
+                params={{ categoria: c }}
+                className="px-4 py-1.5 rounded-full text-sm border border-border/60 hover:border-sky-400/60 hover:text-sky-400 hover:shadow-[0_0_16px_rgba(56,155,255,0.35)] transition"
+              >
+                {c}
+              </Link>
+            ))}
+          </div>
+        </div>
+
       </header>
 
       {/* Hero */}
