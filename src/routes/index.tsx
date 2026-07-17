@@ -97,50 +97,8 @@ function Index() {
             </span>
           </a>
           <div className="flex items-center gap-2 sm:gap-4">
-            <div className="hidden md:block relative">
-              <div className="flex items-center gap-2 bg-muted/50 rounded-full px-4 py-2 border border-border/50 w-64 focus-within:border-sky-400/60 transition">
-                <Search className="h-4 w-4 text-muted-foreground shrink-0" />
-                <input
-                  value={query}
-                  onChange={(e) => {
-                    setQuery(e.target.value);
-                    setShowSuggest(true);
-                  }}
-                  onFocus={() => setShowSuggest(true)}
-                  onBlur={() => setTimeout(() => setShowSuggest(false), 150)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") submitSearch(query);
-                  }}
-                  placeholder="Buscar categoria..."
-                  className="bg-transparent outline-none text-sm w-full placeholder:text-muted-foreground"
-                />
-              </div>
-              <AnimatePresence>
-                {showSuggest && suggestions.length > 0 && (
-                  <motion.ul
-                    initial={{ opacity: 0, y: -6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -6 }}
-                    className="absolute top-full mt-2 left-0 right-0 bg-background/95 backdrop-blur-xl border border-border/60 rounded-2xl overflow-hidden shadow-[0_20px_60px_-15px_rgba(56,155,255,0.35)] py-1 z-50"
-                  >
-                    {suggestions.slice(0, 6).map((s) => (
-                      <li key={s}>
-                        <button
-                          onMouseDown={(e) => {
-                            e.preventDefault();
-                            setQuery(s);
-                            submitSearch(s);
-                          }}
-                          className="w-full text-left px-4 py-2 text-sm hover:bg-sky-400/10 hover:text-sky-400 transition"
-                        >
-                          {s}
-                        </button>
-                      </li>
-                    ))}
-                  </motion.ul>
-                )}
-              </AnimatePresence>
-            </div>
+
+
             <button
               onClick={() => setDark((d) => !d)}
               className="p-2 rounded-full hover:bg-muted/60 transition"
