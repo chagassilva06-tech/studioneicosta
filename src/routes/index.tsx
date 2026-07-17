@@ -326,7 +326,7 @@ function Index() {
               src={artist}
               alt="Retrato do artista"
               loading="lazy"
-              className="relative rounded-2xl border border-sky-400/30 w-full h-auto object-contain shadow-[0_0_60px_-15px_rgba(56,155,255,0.4)] transition-all duration-500 group-hover:scale-[1.03] group-hover:border-sky-300 group-hover:shadow-[0_0_80px_-10px_rgba(56,155,255,0.75)]"
+              className="relative rounded-full border-2 border-sky-400/40 w-full aspect-square object-cover shadow-[0_0_60px_-15px_rgba(56,155,255,0.5)] transition-all duration-500 group-hover:scale-[1.03] group-hover:border-sky-300 group-hover:shadow-[0_0_80px_-10px_rgba(56,155,255,0.85)]"
             />
           </motion.div>
           <div>
