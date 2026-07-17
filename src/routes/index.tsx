@@ -333,12 +333,12 @@ function Index() {
               <span className="uppercase tracking-[0.3em] text-xs text-sky-400/90">Sobre</span>
             </div>
             <h2 className="font-display text-4xl md:text-5xl font-light mb-6">O Artista</h2>
-            <p className="text-muted-foreground leading-relaxed text-lg mb-4">
+            <p className="text-foreground/85 leading-relaxed text-lg mb-4">
               StudioNei nasce do encontro entre técnica clássica e sensibilidade
               contemporânea. Cada obra é um exercício de observação — luz,
               textura e silêncio traduzidos em grafite, carvão e tinta.
             </p>
-            <p className="text-muted-foreground leading-relaxed">
+            <p className="text-foreground/75 leading-relaxed">
               Formado em artes visuais, dedico-me há mais de uma década ao desenho
               realista, à pintura a óleo e à ilustração. Este espaço reúne
               trabalhos autorais e séries em andamento.
