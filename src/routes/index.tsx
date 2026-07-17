@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
@@ -8,23 +8,12 @@ import {
   Sun,
   Instagram,
   Mail,
-  X,
-  ChevronLeft,
   ChevronRight,
-  ZoomIn,
-  Maximize2,
   Play,
-  Eye,
+  ImageIcon,
 } from "lucide-react";
 
 import hero from "@/assets/hero.jpg";
-import artLandscape from "@/assets/art-landscape.jpg";
-import artPortrait from "@/assets/art-portrait.jpg";
-import artAnime from "@/assets/art-anime.jpg";
-import artForest from "@/assets/art-forest.jpg";
-import artHorse from "@/assets/art-horse.jpg";
-import artStreet from "@/assets/art-street.jpg";
-import artEye from "@/assets/art-eye.jpg";
 import artist from "@/assets/artist.jpg";
 
 export const Route = createFileRoute("/")({
@@ -46,71 +35,53 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Artwork = {
-  id: string;
-  title: string;
-  technique: string;
-  category: string;
-  year: number;
-  src: string;
-};
+const categories = ["Paisagem", "Retrato", "Anime", "Pintura", "Animais", "Estudo"];
 
-const artworks: Artwork[] = [
-  { id: "1", title: "Montanhas de Névoa", technique: "Lápis Grafite", category: "Paisagem", year: 2026, src: artLandscape },
-  { id: "2", title: "Silêncio", technique: "Grafite sobre papel", category: "Retrato", year: 2025, src: artPortrait },
-  { id: "3", title: "Hana", technique: "Nanquim e Lápis", category: "Anime", year: 2026, src: artAnime },
-  { id: "4", title: "Bosque Dourado", technique: "Óleo sobre tela", category: "Pintura", year: 2024, src: artForest },
-  { id: "5", title: "Vento", technique: "Carvão", category: "Animais", year: 2025, src: artHorse },
-  { id: "6", title: "Rua de Verão", technique: "Aquarela", category: "Pintura", year: 2026, src: artStreet },
-  { id: "7", title: "Íris", technique: "Lápis Grafite", category: "Estudo", year: 2025, src: artEye },
+const searchSuggestions = [
+  "Paisagem",
+  "Retrato",
+  "Anime",
+  "Pintura",
+  "Animais",
+  "Estudo",
+  "Aquarela",
+  "Óleo sobre tela",
+  "Lápis grafite",
+  "Nanquim",
+  "Carvão",
 ];
-
-const categories = ["Todos", "Paisagem", "Retrato", "Anime", "Pintura", "Animais", "Estudo"];
 
 function Index() {
   const [dark, setDark] = useState(true);
   const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("Todos");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [lightbox, setLightbox] = useState<number | null>(null);
+  const [showSuggest, setShowSuggest] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
 
-  const filtered = useMemo(
-    () =>
-      artworks.filter(
-        (a) =>
-          (category === "Todos" || a.category === category) &&
-          (query === "" ||
-            a.title.toLowerCase().includes(query.toLowerCase()) ||
-            a.technique.toLowerCase().includes(query.toLowerCase()) ||
-            a.category.toLowerCase().includes(query.toLowerCase())),
-      ),
-    [query, category],
-  );
+  const suggestions = query
+    ? searchSuggestions.filter((s) =>
+        s.toLowerCase().includes(query.toLowerCase()),
+      )
+    : searchSuggestions;
 
-  const openLightbox = (id: string) => {
-    const idx = filtered.findIndex((a) => a.id === id);
-    setLightbox(idx >= 0 ? idx : 0);
+  const submitSearch = (term: string) => {
+    const match = categories.find(
+      (c) => c.toLowerCase() === term.toLowerCase(),
+    );
+    if (match) {
+      navigate({
+        to: "/galeria/$categoria",
+        params: { categoria: match },
+      });
+    }
+    setShowSuggest(false);
   };
 
-  const nav = (dir: 1 | -1) => {
-    if (lightbox === null) return;
-    setLightbox((lightbox + dir + filtered.length) % filtered.length);
-  };
-
-  useEffect(() => {
-    if (lightbox === null) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setLightbox(null);
-      if (e.key === "ArrowRight") nav(1);
-      if (e.key === "ArrowLeft") nav(-1);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [lightbox, filtered.length]);
+  const featured = Array.from({ length: 6 });
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans transition-colors duration-500">
@@ -124,14 +95,49 @@ function Index() {
             </span>
           </a>
           <div className="flex items-center gap-2 sm:gap-4">
-            <div className="hidden md:flex items-center gap-2 bg-muted/50 rounded-full px-4 py-2 border border-border/50 w-64">
-              <Search className="h-4 w-4 text-muted-foreground shrink-0" />
-              <input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Buscar obra..."
-                className="bg-transparent outline-none text-sm w-full placeholder:text-muted-foreground"
-              />
+            <div className="hidden md:block relative">
+              <div className="flex items-center gap-2 bg-muted/50 rounded-full px-4 py-2 border border-border/50 w-64 focus-within:border-sky-400/60 transition">
+                <Search className="h-4 w-4 text-muted-foreground shrink-0" />
+                <input
+                  value={query}
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                    setShowSuggest(true);
+                  }}
+                  onFocus={() => setShowSuggest(true)}
+                  onBlur={() => setTimeout(() => setShowSuggest(false), 150)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") submitSearch(query);
+                  }}
+                  placeholder="Buscar categoria..."
+                  className="bg-transparent outline-none text-sm w-full placeholder:text-muted-foreground"
+                />
+              </div>
+              <AnimatePresence>
+                {showSuggest && suggestions.length > 0 && (
+                  <motion.ul
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    className="absolute top-full mt-2 left-0 right-0 bg-background/95 backdrop-blur-xl border border-border/60 rounded-2xl overflow-hidden shadow-[0_20px_60px_-15px_rgba(56,155,255,0.35)] py-1 z-50"
+                  >
+                    {suggestions.slice(0, 6).map((s) => (
+                      <li key={s}>
+                        <button
+                          onMouseDown={(e) => {
+                            e.preventDefault();
+                            setQuery(s);
+                            submitSearch(s);
+                          }}
+                          className="w-full text-left px-4 py-2 text-sm hover:bg-sky-400/10 hover:text-sky-400 transition"
+                        >
+                          {s}
+                        </button>
+                      </li>
+                    ))}
+                  </motion.ul>
+                )}
+              </AnimatePresence>
             </div>
             <button
               onClick={() => setDark((d) => !d)}
@@ -159,30 +165,16 @@ function Index() {
             >
               <div className="max-w-7xl mx-auto px-6 md:px-10 py-4 flex flex-wrap gap-2">
                 {categories.map((c) => (
-                  <button
+                  <Link
                     key={c}
-                    onClick={() => {
-                      setCategory(c);
-                      setMenuOpen(false);
-                    }}
-                    className={`px-4 py-1.5 rounded-full text-sm border transition ${
-                      category === c
-                        ? "border-sky-400 text-sky-400 shadow-[0_0_18px_rgba(56,155,255,0.35)]"
-                        : "border-border/60 hover:border-sky-400/60"
-                    }`}
+                    to="/galeria/$categoria"
+                    params={{ categoria: c }}
+                    onClick={() => setMenuOpen(false)}
+                    className="px-4 py-1.5 rounded-full text-sm border border-border/60 hover:border-sky-400/60 hover:text-sky-400 transition"
                   >
                     {c}
-                  </button>
+                  </Link>
                 ))}
-                <div className="flex md:hidden items-center gap-2 bg-muted/50 rounded-full px-4 py-2 border border-border/50 w-full mt-2">
-                  <Search className="h-4 w-4 text-muted-foreground" />
-                  <input
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Buscar obra..."
-                    className="bg-transparent outline-none text-sm w-full"
-                  />
-                </div>
               </div>
             </motion.div>
           )}
@@ -210,7 +202,8 @@ function Index() {
               </span>
             </div>
             <h1 className="font-display text-5xl md:text-7xl lg:text-8xl leading-[1.05] font-light">
-              Seu talento merece <em className="text-sky-400 not-italic italic">uma galeria</em>.
+              Seu talento merece{" "}
+              <span className="text-shimmer italic font-normal">uma galeria</span>.
             </h1>
             <p className="mt-8 text-base md:text-lg text-muted-foreground max-w-lg leading-relaxed">
               Organize, apresente e compartilhe seus desenhos e pinturas de forma
@@ -228,7 +221,7 @@ function Index() {
                 href="#about"
                 className="inline-flex items-center gap-2 px-8 py-3.5 border border-border rounded-full hover:border-sky-400/60 transition"
               >
-                Adicionar Foto
+                Sobre o Artista
               </a>
             </div>
           </motion.div>
@@ -250,73 +243,46 @@ function Index() {
           </div>
           <div className="flex flex-wrap gap-2">
             {categories.map((c) => (
-              <button
+              <Link
                 key={c}
-                onClick={() => setCategory(c)}
-                className={`px-4 py-1.5 rounded-full text-xs uppercase tracking-wider border transition ${
-                  category === c
-                    ? "border-sky-400 text-sky-400 bg-sky-400/5"
-                    : "border-border/60 text-muted-foreground hover:border-sky-400/60 hover:text-foreground"
-                }`}
+                to="/galeria/$categoria"
+                params={{ categoria: c }}
+                className="px-4 py-1.5 rounded-full text-xs uppercase tracking-wider border border-border/60 text-muted-foreground hover:border-sky-400/60 hover:text-sky-400 transition"
               >
                 {c}
-              </button>
+              </Link>
             ))}
           </div>
         </div>
 
-        {/* Masonry grid */}
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 [column-fill:_balance]">
-          {filtered.map((a, i) => (
-            <motion.button
-              key={a.id}
-              onClick={() => openLightbox(a.id)}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featured.map((_, i) => (
+            <motion.div
+              key={i}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: (i % 6) * 0.05 }}
-              className="group relative mb-6 block w-full break-inside-avoid overflow-hidden rounded-2xl border border-border/50 bg-card text-left transition-all duration-500 hover:border-sky-400/70 hover:shadow-[0_0_0_1px_rgba(56,155,255,0.4),0_20px_60px_-15px_rgba(56,155,255,0.4)]"
+              transition={{ duration: 0.6, delay: (i % 6) * 0.08 }}
+              className="group relative aspect-[4/5] overflow-hidden rounded-2xl border border-border/50 bg-card transition-all duration-500 hover:border-sky-400/70 hover:shadow-[0_0_0_1px_rgba(56,155,255,0.4),0_20px_60px_-15px_rgba(56,155,255,0.4)]"
             >
-              <div className="relative overflow-hidden">
-                <img
-                  src={a.src}
-                  alt={a.title}
-                  loading="lazy"
-                  className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-[1.06]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute inset-x-0 bottom-0 p-5 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="text-white min-w-0">
-                      <p className="font-display text-xl truncate">{a.title}</p>
-                      <p className="text-xs text-white/70 uppercase tracking-widest mt-1">
-                        {a.category} · {a.year}
-                      </p>
-                    </div>
-                    <span className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 bg-sky-400 text-slate-950 text-xs rounded-full font-medium">
-                      <Eye className="h-3 w-3" /> Visualizar
-                    </span>
-                  </div>
+              <div
+                className="absolute inset-0 animate-glow-pulse"
+                style={{ animationDelay: `${i * 0.6}s` }}
+              />
+              <div className="relative h-full w-full flex flex-col items-center justify-center gap-4 text-center px-6">
+                <div className="p-4 rounded-full bg-sky-400/10 border border-sky-400/20 group-hover:border-sky-400/60 transition">
+                  <ImageIcon className="h-6 w-6 text-sky-400/80" />
+                </div>
+                <div>
+                  <p className="font-display text-2xl">Em breve</p>
+                  <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mt-2">
+                    Receberá fotos em breve
+                  </p>
                 </div>
               </div>
-              <div className="p-5 border-t border-border/40">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <p className="font-display text-lg truncate">{a.title}</p>
-                    <p className="text-xs text-muted-foreground mt-1">{a.technique}</p>
-                  </div>
-                  <span className="shrink-0 text-xs text-muted-foreground tabular-nums">{a.year}</span>
-                </div>
-              </div>
-            </motion.button>
+            </motion.div>
           ))}
         </div>
-
-        {filtered.length === 0 && (
-          <div className="text-center py-24 text-muted-foreground">
-            Nenhuma obra encontrada.
-          </div>
-        )}
       </section>
 
       {/* About */}
@@ -425,81 +391,6 @@ function Index() {
           © {new Date().getFullYear()} StudioNei · Todos os direitos reservados
         </div>
       </footer>
-
-      {/* Lightbox */}
-      <AnimatePresence>
-        {lightbox !== null && filtered[lightbox] && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-10"
-            onClick={() => setLightbox(null)}
-          >
-            <button
-              onClick={() => setLightbox(null)}
-              className="absolute top-6 right-6 p-3 rounded-full bg-white/5 hover:bg-white/10 text-white transition"
-              aria-label="Fechar"
-            >
-              <X className="h-5 w-5" />
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                nav(-1);
-              }}
-              className="absolute left-4 md:left-8 p-3 rounded-full bg-white/5 hover:bg-white/10 text-white transition"
-              aria-label="Anterior"
-            >
-              <ChevronLeft className="h-6 w-6" />
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                nav(1);
-              }}
-              className="absolute right-4 md:right-8 p-3 rounded-full bg-white/5 hover:bg-white/10 text-white transition"
-              aria-label="Próxima"
-            >
-              <ChevronRight className="h-6 w-6" />
-            </button>
-            <motion.div
-              key={filtered[lightbox].id}
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
-              transition={{ duration: 0.3 }}
-              className="max-w-6xl w-full flex flex-col items-center gap-6"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="relative rounded-2xl overflow-hidden border border-sky-400/30 shadow-[0_0_80px_-10px_rgba(56,155,255,0.5)] max-h-[75vh]">
-                <img
-                  src={filtered[lightbox].src}
-                  alt={filtered[lightbox].title}
-                  className="max-h-[75vh] w-auto object-contain"
-                />
-              </div>
-              <div className="text-center text-white">
-                <p className="font-display text-3xl md:text-4xl">{filtered[lightbox].title}</p>
-                <p className="text-sm text-white/60 uppercase tracking-[0.3em] mt-3">
-                  {filtered[lightbox].technique} · {filtered[lightbox].category} · {filtered[lightbox].year}
-                </p>
-                <div className="mt-5 flex justify-center gap-2 text-xs text-white/60">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10">
-                    <ZoomIn className="h-3 w-3" /> Zoom
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10">
-                    <Maximize2 className="h-3 w-3" /> Tela cheia
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10">
-                    <Play className="h-3 w-3" /> Slideshow
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
