@@ -55,7 +55,7 @@ const searchSuggestions = [
 function Index() {
   const [dark, setDark] = useState(true);
   const [query, setQuery] = useState("");
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(true);
   const [showSuggest, setShowSuggest] = useState(false);
 
   const navigate = useNavigate();
