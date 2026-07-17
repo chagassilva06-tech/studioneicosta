@@ -91,8 +91,8 @@ function Index() {
         <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
           <a href="#top" className="flex items-center gap-2 min-w-0">
             <span className="h-2.5 w-2.5 rounded-full bg-sky-400 shadow-[0_0_12px_rgba(56,155,255,0.9)]" />
-            <span className="font-display text-2xl tracking-wide truncate">
-              Studio<span className="text-sky-400">Nei</span>
+            <span className="font-display text-3xl md:text-4xl tracking-wide truncate">
+              Studio<span className="text-sky-300 font-normal drop-shadow-[0_0_10px_rgba(56,155,255,0.9)]">Nei</span>
             </span>
           </a>
           <div className="flex items-center gap-2 sm:gap-4">
@@ -100,10 +100,10 @@ function Index() {
 
             <button
               onClick={() => setDark((d) => !d)}
-              className="p-2 rounded-full hover:bg-muted/60 transition"
+              className="p-2 rounded-full border-2 border-sky-400/70 bg-sky-400/5 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.85)] hover:border-sky-300 transition-all"
               aria-label="Alternar tema"
             >
-              {dark ? <Lightbulb className="h-4 w-4 text-sky-400" /> : <LightbulbOff className="h-4 w-4" />}
+              {dark ? <Lightbulb className="h-4 w-4 text-sky-400" /> : <LightbulbOff className="h-4 w-4 text-sky-400" />}
             </button>
           </div>
         </div>
@@ -122,9 +122,10 @@ function Index() {
                     key={c}
                     to="/galeria/$categoria"
                     params={{ categoria: c }}
-                    className="px-5 py-2.5 rounded-full text-base md:text-lg font-medium tracking-wide border-2 border-sky-400/50 text-foreground bg-background/40 shadow-[0_0_10px_rgba(56,155,255,0.25),inset_0_1px_0_rgba(255,255,255,0.06)] hover:border-sky-300 hover:text-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.65),inset_0_1px_0_rgba(255,255,255,0.15)] hover:-translate-y-0.5 transition-all duration-300"
+                    className="group relative px-5 py-2.5 rounded-full text-base md:text-lg font-medium tracking-wide border-2 border-sky-400/50 text-foreground bg-background/40 shadow-[0_0_10px_rgba(56,155,255,0.25),inset_0_1px_0_rgba(255,255,255,0.06)] hover:border-sky-300 hover:text-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.65),inset_0_1px_0_rgba(255,255,255,0.15)] hover:-translate-y-0.5 transition-all duration-300 overflow-hidden"
                   >
-                    {c}
+                    <span className="relative z-10">{c}</span>
+                    <span className="pointer-events-none absolute left-2 right-2 bottom-1 h-[2px] rounded-full animate-neon-line opacity-70 group-hover:opacity-100" />
                   </Link>
                 ))}
               </div>
@@ -281,14 +282,14 @@ function Index() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="relative"
+            className="group relative"
           >
-            <div className="absolute -inset-4 rounded-3xl bg-sky-400/10 blur-2xl" />
+            <div className="absolute -inset-4 rounded-3xl bg-sky-400/10 blur-2xl transition-all duration-500 group-hover:bg-sky-400/25 group-hover:-inset-6" />
             <img
               src={artist}
               alt="Retrato do artista"
               loading="lazy"
-              className="relative rounded-2xl border border-sky-400/30 w-full aspect-square object-cover shadow-[0_0_60px_-15px_rgba(56,155,255,0.4)]"
+              className="relative rounded-2xl border border-sky-400/30 w-full aspect-square object-cover shadow-[0_0_60px_-15px_rgba(56,155,255,0.4)] transition-all duration-500 group-hover:scale-[1.03] group-hover:border-sky-300 group-hover:shadow-[0_0_80px_-10px_rgba(56,155,255,0.75)]"
             />
           </motion.div>
           <div>
