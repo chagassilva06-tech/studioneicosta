@@ -368,11 +368,7 @@ function Index() {
                 </a>
               </li>
               <li>
-                <a href="#" className="inline-flex items-center gap-2 hover:text-sky-300 transition">
-                  <Play className="h-4 w-4 rotate-90" /> Behance
-                </a>
-              </li>
-              <li>
+
                 <a href="#" className="inline-flex items-center gap-2 hover:text-sky-300 transition">
                   <Mail className="h-4 w-4" /> contato@studionei.art
                 </a>
