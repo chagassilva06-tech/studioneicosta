@@ -256,18 +256,8 @@ function Index() {
             </div>
             <h2 className="font-display text-4xl md:text-5xl font-light">Coleção em Destaque</h2>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {categories.map((c) => (
-              <Link
-                key={c}
-                to="/galeria/$categoria"
-                params={{ categoria: c }}
-                className="px-4 py-1.5 rounded-full text-xs uppercase tracking-wider border border-border/60 text-muted-foreground hover:border-sky-400/60 hover:text-sky-400 transition"
-              >
-                {c}
-              </Link>
-            ))}
-          </div>
+        </div>
+
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
