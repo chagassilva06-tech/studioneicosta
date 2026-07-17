@@ -88,10 +88,6 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground font-sans transition-colors duration-500">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/40 shadow-[0_4px_18px_-6px_rgba(56,155,255,0.35)]">
-        {/* Neon animated top line */}
-        <div className="pointer-events-none absolute top-0 left-0 right-0 h-[2px] overflow-hidden">
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(56,155,255,0.9),rgba(186,230,255,1),rgba(56,155,255,0.9),transparent)] bg-[length:200%_100%] animate-neon-slide shadow-[0_0_12px_rgba(56,155,255,0.9)]" />
-        </div>
         <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
           <a href="#top" className="flex items-center gap-2 min-w-0">
             <span className="h-2.5 w-2.5 rounded-full bg-sky-400 shadow-[0_0_12px_rgba(56,155,255,0.9)]" />
