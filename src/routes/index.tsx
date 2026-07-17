@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
-  Moon,
-  Sun,
+  Lightbulb,
+  LightbulbOff,
   Instagram,
   Mail,
   ChevronRight,
