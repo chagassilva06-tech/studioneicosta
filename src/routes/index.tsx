@@ -54,7 +54,7 @@ const searchSuggestions = [
 function Index() {
   const [dark, setDark] = useState(true);
   const [query, setQuery] = useState("");
-  const [menuOpen, setMenuOpen] = useState(false);
+  
   const [showSuggest, setShowSuggest] = useState(false);
   const navigate = useNavigate();
 
@@ -168,7 +168,7 @@ function Index() {
       </header>
 
       {/* Hero */}
-      <section id="top" className="relative min-h-screen flex items-center overflow-hidden pt-16">
+      <section id="top" className="relative min-h-screen flex items-center overflow-hidden pt-28">
         <div className="absolute inset-0">
           <img src={hero} alt="Galeria StudioNei" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background" />
