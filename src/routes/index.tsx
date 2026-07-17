@@ -361,7 +361,7 @@ function Index() {
 
       {/* Footer */}
       <footer className="border-t border-border/40">
-        <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 grid md:grid-cols-3 gap-10">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 py-10 grid md:grid-cols-3 gap-10">
           <div>
             <div className="flex items-center gap-2 mb-4">
               <span className="h-2.5 w-2.5 rounded-full bg-sky-400 shadow-[0_0_12px_rgba(56,155,255,0.9)]" />
