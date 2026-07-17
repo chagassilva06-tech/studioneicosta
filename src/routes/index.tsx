@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
-  Moon,
-  Sun,
+  Lightbulb,
+  LightbulbOff,
   Instagram,
   Mail,
   ChevronRight,
@@ -88,10 +88,6 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground font-sans transition-colors duration-500">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/40 shadow-[0_4px_18px_-6px_rgba(56,155,255,0.35)]">
-        {/* Neon animated top line */}
-        <div className="pointer-events-none absolute top-0 left-0 right-0 h-[2px] overflow-hidden">
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(56,155,255,0.9),rgba(186,230,255,1),rgba(56,155,255,0.9),transparent)] bg-[length:200%_100%] animate-neon-slide shadow-[0_0_12px_rgba(56,155,255,0.9)]" />
-        </div>
         <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
           <a href="#top" className="flex items-center gap-2 min-w-0">
             <span className="h-2.5 w-2.5 rounded-full bg-sky-400 shadow-[0_0_12px_rgba(56,155,255,0.9)]" />
@@ -107,7 +103,7 @@ function Index() {
               className="p-2 rounded-full hover:bg-muted/60 transition"
               aria-label="Alternar tema"
             >
-              {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              {dark ? <Lightbulb className="h-4 w-4 text-sky-400" /> : <LightbulbOff className="h-4 w-4" />}
             </button>
           </div>
         </div>
@@ -184,56 +180,51 @@ function Index() {
                 Sobre o Artista
               </a>
             </div>
-          </motion.div>
-        </div>
-        <div className="absolute bottom-8 right-6 flex flex-col items-end gap-4 w-full max-w-sm">
-          <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground animate-pulse">
-            scroll
-          </span>
-          <div className="relative w-full">
-            <div className="flex items-center gap-2 bg-background/60 backdrop-blur-xl rounded-full px-4 py-2.5 border border-sky-400/70 shadow-[0_0_24px_rgba(56,155,255,0.35)] transition">
-              <Search className="h-4 w-4 text-muted-foreground shrink-0" />
-              <input
-                value={query}
-                onChange={(e) => {
-                  setQuery(e.target.value);
-                  setShowSuggest(true);
-                }}
-                onFocus={() => setShowSuggest(true)}
-                onBlur={() => setTimeout(() => setShowSuggest(false), 150)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") submitSearch(query);
-                }}
-                placeholder="Buscar categoria..."
-                className="bg-transparent outline-none text-sm w-full placeholder:text-muted-foreground"
-              />
+            <div className="mt-8 relative max-w-md">
+              <div className="flex items-center gap-2 bg-background/60 backdrop-blur-xl rounded-full px-4 py-3 border-2 border-sky-400/80 shadow-[0_0_28px_rgba(56,155,255,0.45)] transition">
+                <Search className="h-4 w-4 text-sky-400 shrink-0" />
+                <input
+                  value={query}
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                    setShowSuggest(true);
+                  }}
+                  onFocus={() => setShowSuggest(true)}
+                  onBlur={() => setTimeout(() => setShowSuggest(false), 150)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") submitSearch(query);
+                  }}
+                  placeholder="Buscar categoria..."
+                  className="bg-transparent outline-none text-sm w-full placeholder:text-muted-foreground"
+                />
+              </div>
+              <AnimatePresence>
+                {showSuggest && suggestions.length > 0 && (
+                  <motion.ul
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    className="absolute top-full mt-2 left-0 right-0 bg-background/95 backdrop-blur-xl border border-sky-400/60 rounded-2xl overflow-hidden shadow-[0_20px_60px_-15px_rgba(56,155,255,0.45)] py-1 z-50"
+                  >
+                    {suggestions.slice(0, 6).map((s) => (
+                      <li key={s}>
+                        <button
+                          onMouseDown={(e) => {
+                            e.preventDefault();
+                            setQuery(s);
+                            submitSearch(s);
+                          }}
+                          className="w-full text-left px-4 py-2 text-sm hover:bg-sky-400/10 hover:text-sky-400 transition"
+                        >
+                          {s}
+                        </button>
+                      </li>
+                    ))}
+                  </motion.ul>
+                )}
+              </AnimatePresence>
             </div>
-            <AnimatePresence>
-              {showSuggest && suggestions.length > 0 && (
-                <motion.ul
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 6 }}
-                  className="absolute bottom-full mb-2 left-0 right-0 bg-background/95 backdrop-blur-xl border border-border/60 rounded-2xl overflow-hidden shadow-[0_20px_60px_-15px_rgba(56,155,255,0.35)] py-1 z-50"
-                >
-                  {suggestions.slice(0, 6).map((s) => (
-                    <li key={s}>
-                      <button
-                        onMouseDown={(e) => {
-                          e.preventDefault();
-                          setQuery(s);
-                          submitSearch(s);
-                        }}
-                        className="w-full text-left px-4 py-2 text-sm hover:bg-sky-400/10 hover:text-sky-400 transition"
-                      >
-                        {s}
-                      </button>
-                    </li>
-                  ))}
-                </motion.ul>
-              )}
-            </AnimatePresence>
-          </div>
+          </motion.div>
         </div>
 
       </section>
