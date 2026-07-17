@@ -186,12 +186,12 @@ function Index() {
             </div>
           </motion.div>
         </div>
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 w-full max-w-sm px-6">
+        <div className="absolute bottom-8 right-6 flex flex-col items-end gap-4 w-full max-w-sm">
           <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground animate-pulse">
             scroll
           </span>
           <div className="relative w-full">
-            <div className="flex items-center gap-2 bg-background/60 backdrop-blur-xl rounded-full px-4 py-2.5 border border-border/60 focus-within:border-sky-400/70 focus-within:shadow-[0_0_24px_rgba(56,155,255,0.35)] transition">
+            <div className="flex items-center gap-2 bg-background/60 backdrop-blur-xl rounded-full px-4 py-2.5 border border-sky-400/70 shadow-[0_0_24px_rgba(56,155,255,0.35)] transition">
               <Search className="h-4 w-4 text-muted-foreground shrink-0" />
               <input
                 value={query}
