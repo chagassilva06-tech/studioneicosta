@@ -88,14 +88,15 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground font-sans transition-colors duration-500">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/40 shadow-[0_4px_18px_-6px_rgba(56,155,255,0.35)]">
-        <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 grid grid-cols-3 items-center gap-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 h-16 grid grid-cols-3 items-center gap-2 sm:gap-4">
           <div />
           <a href="#top" className="group justify-self-center flex items-center gap-2 min-w-0 transition-transform duration-300 hover:scale-[1.015]">
-            <span className="h-2.5 w-2.5 rounded-full bg-sky-400 shadow-[0_0_12px_rgba(56,155,255,0.9)] group-hover:shadow-[0_0_16px_rgba(56,155,255,1)] transition-shadow" />
-            <span className="font-display text-3xl md:text-4xl tracking-wide truncate drop-shadow-[0_0_10px_rgba(56,155,255,0.45)] transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(56,155,255,0.6)]">
+            <span className="h-2 w-2 sm:h-2.5 sm:w-2.5 shrink-0 rounded-full bg-sky-400 shadow-[0_0_12px_rgba(56,155,255,0.9)] group-hover:shadow-[0_0_16px_rgba(56,155,255,1)] transition-shadow" />
+            <span className="font-display text-xl sm:text-2xl md:text-4xl tracking-wide truncate drop-shadow-[0_0_10px_rgba(56,155,255,0.45)] transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(56,155,255,0.6)]">
               Studio<span className="text-sky-300 font-normal drop-shadow-[0_0_12px_rgba(56,155,255,0.7)] group-hover:text-sky-200 group-hover:drop-shadow-[0_0_14px_rgba(56,155,255,0.8)]">Nei</span>
             </span>
           </a>
+
           <div className="justify-self-end flex items-center gap-2 sm:gap-4">
             <button
               onClick={() => setDark((d) => !d)}
