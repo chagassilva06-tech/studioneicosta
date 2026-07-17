@@ -83,7 +83,7 @@ function Index() {
     setShowSuggest(false);
   };
 
-  const featured = Array.from({ length: 6 });
+  const featured = Array.from({ length: 3 });
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans transition-colors duration-500">
