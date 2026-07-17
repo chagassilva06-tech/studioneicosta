@@ -14,7 +14,7 @@ import {
 
 
 import hero from "@/assets/hero.jpg";
-import artist from "@/assets/artist.jpg";
+import artist from "@/assets/artist.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
