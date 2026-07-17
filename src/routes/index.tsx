@@ -91,8 +91,8 @@ function Index() {
         <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
           <a href="#top" className="group flex items-center gap-2 min-w-0 transition-transform duration-300 hover:scale-[1.04]">
             <span className="h-2.5 w-2.5 rounded-full bg-sky-400 shadow-[0_0_12px_rgba(56,155,255,0.9)] group-hover:shadow-[0_0_22px_rgba(56,155,255,1)] transition-shadow" />
-            <span className="font-display text-3xl md:text-4xl tracking-wide truncate transition-all duration-300 group-hover:drop-shadow-[0_0_14px_rgba(56,155,255,0.7)]">
-              Studio<span className="text-sky-300 font-normal drop-shadow-[0_0_10px_rgba(56,155,255,0.9)] group-hover:text-sky-200 group-hover:drop-shadow-[0_0_18px_rgba(56,155,255,1)]">Nei</span>
+            <span className="font-display text-3xl md:text-4xl tracking-wide truncate drop-shadow-[0_0_10px_rgba(56,155,255,0.45)] transition-all duration-300 group-hover:drop-shadow-[0_0_16px_rgba(56,155,255,0.85)]">
+              Studio<span className="text-sky-300 font-normal drop-shadow-[0_0_12px_rgba(56,155,255,0.7)] group-hover:text-sky-200 group-hover:drop-shadow-[0_0_20px_rgba(56,155,255,1)]">Nei</span>
             </span>
           </a>
           <div className="flex items-center gap-2 sm:gap-4">
@@ -360,58 +360,42 @@ function Index() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border/40">
-        <div className="max-w-7xl mx-auto px-6 md:px-10 py-10 grid md:grid-cols-3 gap-10">
+      <footer className="border-t border-sky-400/30 bg-background/80 shadow-[inset_0_1px_0_rgba(186,230,255,0.35),inset_0_-1px_0_rgba(0,0,0,0.5),0_-10px_28px_-14px_rgba(56,155,255,0.5)]">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 py-10 grid md:grid-cols-2 gap-10">
           <div>
             <div className="flex items-center gap-2 mb-4">
               <span className="h-2.5 w-2.5 rounded-full bg-sky-400 shadow-[0_0_12px_rgba(56,155,255,0.9)]" />
-              <span className="font-display text-3xl md:text-4xl">
-                Studio<span className="text-sky-300 font-normal drop-shadow-[0_0_10px_rgba(56,155,255,0.9)]">Nei</span>
+              <span className="font-display text-3xl md:text-4xl drop-shadow-[0_0_10px_rgba(56,155,255,0.45)]">
+                Studio<span className="text-sky-300 font-normal drop-shadow-[0_0_12px_rgba(56,155,255,0.7)]">Nei</span>
               </span>
             </div>
-            <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
+            <p className="text-sm text-foreground/75 max-w-xs leading-relaxed">
               Galeria digital de desenhos e pinturas. Uma coleção minimalista onde
               a obra é o foco principal.
             </p>
           </div>
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-4">Redes</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-sky-300/90 mb-4">Redes</p>
             <ul className="space-y-3 text-sm">
               <li>
-                <a href="#" className="inline-flex items-center gap-2 hover:text-sky-400 transition">
+                <a href="#" className="inline-flex items-center gap-2 hover:text-sky-300 transition">
                   <Instagram className="h-4 w-4" /> Instagram
                 </a>
               </li>
               <li>
-                <a href="#" className="inline-flex items-center gap-2 hover:text-sky-400 transition">
+                <a href="#" className="inline-flex items-center gap-2 hover:text-sky-300 transition">
                   <Play className="h-4 w-4 rotate-90" /> Behance
                 </a>
               </li>
               <li>
-                <a href="#" className="inline-flex items-center gap-2 hover:text-sky-400 transition">
+                <a href="#" className="inline-flex items-center gap-2 hover:text-sky-300 transition">
                   <Mail className="h-4 w-4" /> contato@studionei.art
                 </a>
               </li>
             </ul>
           </div>
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-4">Newsletter</p>
-            <p className="text-sm text-muted-foreground mb-4">
-              Receba novas obras e coleções direto no seu email.
-            </p>
-            <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
-              <input
-                type="email"
-                placeholder="seu@email.com"
-                className="flex-1 bg-muted/50 border border-border/60 rounded-full px-4 py-2 text-sm outline-none focus:border-sky-400 transition"
-              />
-              <button className="px-4 py-2 bg-sky-400 text-slate-950 rounded-full text-sm font-medium hover:shadow-[0_0_20px_rgba(56,155,255,0.5)] transition">
-                Assinar
-              </button>
-            </form>
-          </div>
         </div>
-        <div className="border-t border-border/40 py-6 text-center text-xs text-muted-foreground">
+        <div className="border-t border-sky-400/20 py-6 text-center text-xs text-foreground/70 shadow-[inset_0_1px_0_rgba(186,230,255,0.2)]">
           © {new Date().getFullYear()} StudioNei · Todos os direitos reservados
         </div>
       </footer>
