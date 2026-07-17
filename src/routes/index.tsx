@@ -338,18 +338,6 @@ function Index() {
               contemporânea. Cada obra é um exercício de observação — luz,
               textura e silêncio traduzidos em grafite, carvão e tinta.
             </p>
-            <div className="mt-8 grid grid-cols-3 gap-6 max-w-md">
-              {[
-                ["120+", "Obras"],
-                ["10", "Anos"],
-                ["7", "Coleções"],
-              ].map(([n, l]) => (
-                <div key={l}>
-                  <p className="font-display text-3xl text-sky-400">{n}</p>
-                  <p className="text-xs uppercase tracking-widest text-muted-foreground mt-1">{l}</p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
