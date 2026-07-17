@@ -266,8 +266,8 @@ function Index() {
       </section>
 
       {/* Featured */}
-      <section id="gallery" className="max-w-7xl mx-auto px-6 md:px-10 py-24">
-        <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
+      <section id="gallery" className="max-w-7xl mx-auto px-6 md:px-10 py-14">
+        <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
           <div>
             <div className="flex items-center gap-3 mb-3">
               <div className="h-px w-8 bg-sky-400" />
