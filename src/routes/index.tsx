@@ -110,13 +110,6 @@ function Index() {
             >
               {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
-            <button
-              onClick={() => setMenuOpen((m) => !m)}
-              className="p-2 rounded-full hover:bg-muted/60 transition"
-              aria-label="Categorias"
-            >
-              <Menu className="h-4 w-4" />
-            </button>
           </div>
         </div>
         <AnimatePresence>
