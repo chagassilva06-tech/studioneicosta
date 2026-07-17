@@ -193,3 +193,13 @@
   color: transparent;
   animation: text-shimmer 4.5s linear infinite;
 }
+
+@keyframes pulse-slow {
+  0%, 100% { box-shadow: 0 0 10px rgba(56,155,255,0.35), inset 0 0 0 rgba(56,155,255,0); }
+  50% { box-shadow: 0 0 22px rgba(56,155,255,0.7), inset 0 0 12px rgba(56,155,255,0.15); }
+}
+
+@utility animate-pulse-slow {
+  animation: pulse-slow 2.6s ease-in-out infinite;
+}
+

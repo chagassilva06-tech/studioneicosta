@@ -41,10 +41,11 @@ function Galeria() {
           </Link>
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-sky-400 transition"
+            className="group inline-flex items-center gap-2 text-sm font-medium text-sky-400 border border-sky-400/60 rounded-full px-4 py-1.5 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 hover:text-sky-300 hover:bg-sky-400/10 transition-all duration-300 animate-pulse-slow"
           >
-            <ChevronLeft className="h-4 w-4" /> Voltar
+            <ChevronLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" /> Voltar
           </Link>
+
         </div>
       </header>
 
