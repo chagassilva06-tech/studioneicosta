@@ -158,14 +158,17 @@ function Index() {
                 Portfólio artístico
               </span>
             </div>
-            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl leading-[1.05] font-light text-foreground drop-shadow-[0_2px_18px_rgba(0,0,0,0.65)]">
-              Seu talento merece{" "}
-              <span className="text-shimmer italic font-normal">uma galeria</span>.
-            </h1>
-            <p className="mt-8 text-base md:text-lg text-foreground/85 max-w-lg leading-relaxed drop-shadow-[0_1px_10px_rgba(0,0,0,0.55)]">
-              Organize, apresente e compartilhe seus desenhos e pinturas de forma
-              profissional. Uma coleção digital onde a obra é o foco.
-            </p>
+            <div className="relative">
+              <div className="pointer-events-none absolute -inset-8 animate-glow-pulse rounded-3xl" />
+              <h1 className="relative font-display text-5xl md:text-7xl lg:text-8xl leading-[1.05] font-light text-foreground drop-shadow-[0_2px_18px_rgba(0,0,0,0.65)]">
+                Seu talento merece{" "}
+                <span className="text-shimmer italic font-normal">uma galeria</span>.
+              </h1>
+              <p className="relative mt-8 text-base md:text-lg text-foreground/85 max-w-lg leading-relaxed drop-shadow-[0_1px_10px_rgba(0,0,0,0.55)]">
+                Organize, apresente e compartilhe seus desenhos e pinturas de forma
+                profissional. Uma coleção digital onde a obra é o foco.
+              </p>
+            </div>
             <div className="mt-10 flex flex-wrap gap-4">
               <a
                 href="#gallery"
