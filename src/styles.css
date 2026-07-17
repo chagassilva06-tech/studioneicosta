@@ -156,3 +156,28 @@
     color: var(--color-foreground);
   }
 }
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes text-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@utility animate-glow-pulse {
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.18), transparent 65%);
+  animation: glow-pulse 3.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@utility text-shimmer {
+  background: linear-gradient(90deg, rgb(56,155,255) 0%, rgb(186,230,255) 45%, rgb(255,255,255) 50%, rgb(186,230,255) 55%, rgb(56,155,255) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: text-shimmer 4.5s linear infinite;
+}
