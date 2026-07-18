@@ -2,9 +2,11 @@ import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { ChevronLeft, ImageIcon } from "lucide-react";
 import paisagem1 from "@/assets/paisagem-1.png";
+import pintura1 from "@/assets/pintura-1.png";
 
 const categoryImages: Record<string, string[]> = {
   Paisagem: [paisagem1],
+  Pintura: [pintura1],
 };
 
 export const Route = createFileRoute("/galeria/$categoria")({
