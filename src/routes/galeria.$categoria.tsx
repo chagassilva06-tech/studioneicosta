@@ -102,6 +102,7 @@ function Galeria() {
                 ) : (
                   <>
                     <div className="absolute inset-0 animate-glow-pulse bg-white/[0.03]" />
+                    <div className="pointer-events-none absolute inset-3 rounded-xl border-2 border-sky-400/70 shadow-[inset_0_0_12px_rgba(56,189,248,0.55),0_0_14px_rgba(56,189,248,0.5)]" />
                     <div className="relative h-full w-full flex flex-col items-center justify-center gap-4 text-center px-6">
                       <div className="p-4 rounded-full bg-sky-400/10 border border-sky-400/20">
                         <ImageIcon className="h-6 w-6 text-sky-400/80" />
