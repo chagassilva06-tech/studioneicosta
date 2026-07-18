@@ -1,6 +1,11 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { ChevronLeft, ImageIcon } from "lucide-react";
+import paisagem1 from "@/assets/paisagem-1.png";
+
+const categoryImages: Record<string, string[]> = {
+  Paisagem: [paisagem1],
+};
 
 export const Route = createFileRoute("/galeria/$categoria")({
   head: ({ params }) => {
@@ -26,6 +31,7 @@ export const Route = createFileRoute("/galeria/$categoria")({
 function Galeria() {
   const { categoria } = useParams({ from: "/galeria/$categoria" });
   const nome = decodeURIComponent(categoria);
+  const images = categoryImages[nome] ?? [];
   const total = 3;
   const slots = Array.from({ length: total });
 
@@ -71,29 +77,46 @@ function Galeria() {
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {slots.map((_, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: (i % 6) * 0.05 }}
-              className="group relative aspect-[4/5] rounded-2xl border border-border/50 bg-card overflow-hidden hover:border-sky-400/70 hover:shadow-[0_0_0_1px_rgba(56,155,255,0.4),0_20px_60px_-15px_rgba(56,155,255,0.4)] transition-all duration-500"
-            >
-              <div className="absolute inset-0 animate-glow-pulse bg-white/[0.03]" />
-              <div className="relative h-full w-full flex flex-col items-center justify-center gap-4 text-center px-6">
-                <div className="p-4 rounded-full bg-sky-400/10 border border-sky-400/20">
-                  <ImageIcon className="h-6 w-6 text-sky-400/80" />
-                </div>
-                <div>
-                  <p className="font-display text-xl">Em breve</p>
-                  <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mt-2">
-                    Receberá fotos em breve
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+          {slots.map((_, i) => {
+            const image = images[i];
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: (i % 6) * 0.05 }}
+                className="group relative aspect-[4/5] rounded-2xl border border-border/50 bg-card overflow-hidden hover:border-sky-400/70 hover:shadow-[0_0_0_1px_rgba(56,155,255,0.4),0_20px_60px_-15px_rgba(56,155,255,0.4)] transition-all duration-500"
+              >
+                {image ? (
+                  <>
+                    <img
+                      src={image}
+                      alt={`${nome} — obra ${i + 1}`}
+                      loading="lazy"
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  </>
+                ) : (
+                  <>
+                    <div className="absolute inset-0 animate-glow-pulse bg-white/[0.03]" />
+                    <div className="relative h-full w-full flex flex-col items-center justify-center gap-4 text-center px-6">
+                      <div className="p-4 rounded-full bg-sky-400/10 border border-sky-400/20">
+                        <ImageIcon className="h-6 w-6 text-sky-400/80" />
+                      </div>
+                      <div>
+                        <p className="font-display text-xl">Em breve</p>
+                        <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mt-2">
+                          Receberá fotos em breve
+                        </p>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </motion.div>
+            );
+          })}
         </div>
       </section>
     </div>
