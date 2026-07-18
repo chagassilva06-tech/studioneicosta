@@ -31,6 +31,7 @@ export const Route = createFileRoute("/galeria/$categoria")({
 function Galeria() {
   const { categoria } = useParams({ from: "/galeria/$categoria" });
   const nome = decodeURIComponent(categoria);
+  const images = categoryImages[nome] ?? [];
   const total = 3;
   const slots = Array.from({ length: total });
 
