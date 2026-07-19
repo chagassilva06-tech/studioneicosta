@@ -235,16 +235,29 @@ function Index() {
                   className="bg-transparent outline-none text-sm w-full text-foreground placeholder:text-foreground/60"
                 />
                 {query && (
-                  <button
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                      setQuery("");
-                    }}
-                    className="text-xs text-sky-300/80 hover:text-sky-200 px-1"
-                    aria-label="Limpar busca"
-                  >
-                    ✕
-                  </button>
+                  <>
+                    <button
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        setQuery("");
+                      }}
+                      className="text-xs text-sky-300/80 hover:text-sky-200 px-1"
+                      aria-label="Limpar busca"
+                    >
+                      ✕
+                    </button>
+                    <button
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        submitSearch(query);
+                      }}
+                      className="ml-1 inline-flex items-center gap-1 px-4 py-1.5 rounded-full bg-sky-400/10 border border-sky-400/70 text-sky-200 text-xs font-medium hover:bg-sky-400/20 hover:text-sky-100 hover:shadow-[0_0_18px_rgba(56,155,255,0.7)] transition-all"
+                      aria-label="Buscar"
+                    >
+                      <Search className="h-3.5 w-3.5" />
+                      Buscar
+                    </button>
+                  </>
                 )}
               </div>
               <AnimatePresence>
