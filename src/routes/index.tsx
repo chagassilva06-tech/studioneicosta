@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
@@ -8,13 +8,30 @@ import {
   Instagram,
   Mail,
   ChevronRight,
+  ChevronLeft,
   Play,
+  Pause,
   ImageIcon,
 } from "lucide-react";
 
 
 import hero from "@/assets/hero.jpg";
 import artist from "@/assets/artist.png";
+import paisagem1 from "@/assets/paisagem-1.png";
+import pintura1 from "@/assets/pintura-1.png";
+import artPortrait from "@/assets/art-portrait.jpg";
+import artAnime from "@/assets/art-anime.jpg";
+import artHorse from "@/assets/art-horse.jpg";
+import artForest from "@/assets/art-forest.jpg";
+
+const featuredSlides = [
+  { src: paisagem1, title: "Paisagem", categoria: "Paisagem" },
+  { src: pintura1, title: "Pintura", categoria: "Pintura" },
+  { src: artPortrait, title: "Retrato", categoria: "Retrato" },
+  { src: artAnime, title: "Anime", categoria: "Anime" },
+  { src: artHorse, title: "Animais", categoria: "Animais" },
+  { src: artForest, title: "Estudo", categoria: "Estudo" },
+];
 
 export const Route = createFileRoute("/")({
   head: () => ({
