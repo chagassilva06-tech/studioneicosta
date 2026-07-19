@@ -346,7 +346,7 @@ function Index() {
                 <img
                   src={featuredSlides[featuredIdx].src}
                   alt={featuredSlides[featuredIdx].title}
-                  className="absolute inset-0 h-full w-full object-cover"
+                  className="absolute inset-0 h-full w-full object-contain bg-background"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/20 to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6">
