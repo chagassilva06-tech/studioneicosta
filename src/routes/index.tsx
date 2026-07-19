@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
@@ -8,13 +8,30 @@ import {
   Instagram,
   Mail,
   ChevronRight,
+  ChevronLeft,
   Play,
+  Pause,
   ImageIcon,
 } from "lucide-react";
 
 
 import hero from "@/assets/hero.jpg";
 import artist from "@/assets/artist.png";
+import paisagem1 from "@/assets/paisagem-1.png";
+import pintura1 from "@/assets/pintura-1.png";
+import artPortrait from "@/assets/art-portrait.jpg";
+import artAnime from "@/assets/art-anime.jpg";
+import artHorse from "@/assets/art-horse.jpg";
+import artForest from "@/assets/art-forest.jpg";
+
+const featuredSlides = [
+  { src: paisagem1, title: "Paisagem", categoria: "Paisagem" },
+  { src: pintura1, title: "Pintura", categoria: "Pintura" },
+  { src: artPortrait, title: "Retrato", categoria: "Retrato" },
+  { src: artAnime, title: "Anime", categoria: "Anime" },
+  { src: artHorse, title: "Animais", categoria: "Animais" },
+  { src: artForest, title: "Estudo", categoria: "Estudo" },
+];
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -82,7 +99,22 @@ function Index() {
     setShowSuggest(false);
   };
 
-  const featured = Array.from({ length: 3 });
+  const [featuredIdx, setFeaturedIdx] = useState(0);
+  const [featuredPlaying, setFeaturedPlaying] = useState(true);
+  const [featuredHover, setFeaturedHover] = useState(false);
+  const featuredTotal = featuredSlides.length;
+
+  useEffect(() => {
+    if (!featuredPlaying || featuredHover) return;
+    const t = setInterval(() => {
+      setFeaturedIdx((i) => (i + 1) % featuredTotal);
+    }, 5000);
+    return () => clearInterval(t);
+  }, [featuredPlaying, featuredHover, featuredTotal]);
+
+  const nextFeatured = () => setFeaturedIdx((i) => (i + 1) % featuredTotal);
+  const prevFeatured = () =>
+    setFeaturedIdx((i) => (i - 1 + featuredTotal) % featuredTotal);
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans transition-colors duration-500">
@@ -283,34 +315,80 @@ function Index() {
 
 
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featured.map((_, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: (i % 6) * 0.08 }}
-              className="group relative aspect-[4/5] overflow-hidden rounded-2xl border border-border/50 bg-card transition-all duration-500 hover:border-sky-400/70 hover:shadow-[0_0_0_1px_rgba(56,155,255,0.4),0_20px_60px_-15px_rgba(56,155,255,0.4)]"
-            >
-              <div
-                className="absolute inset-0 animate-glow-pulse"
-                style={{ animationDelay: `${i * 0.6}s` }}
-              />
-              <div className="pointer-events-none absolute inset-3 rounded-xl border-2 border-sky-400/70 shadow-[inset_0_0_12px_rgba(56,189,248,0.55),0_0_14px_rgba(56,189,248,0.5)]" />
-              <div className="relative h-full w-full flex flex-col items-center justify-center gap-4 text-center px-6">
-                <div className="p-4 rounded-full bg-sky-400/10 border border-sky-400/20 group-hover:border-sky-400/60 transition">
-                  <ImageIcon className="h-6 w-6 text-sky-400/80" />
-                </div>
-                <div>
-                  <p className="font-display text-2xl">Em breve</p>
-                  <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mt-2">
-                    Receberá fotos em breve
+        <div
+          className="relative"
+          onMouseEnter={() => setFeaturedHover(true)}
+          onMouseLeave={() => setFeaturedHover(false)}
+        >
+          <div className="relative aspect-[16/9] sm:aspect-[16/8] overflow-hidden rounded-2xl border border-border/50 bg-card">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={featuredIdx}
+                initial={{ opacity: 0, scale: 1.02 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="absolute inset-0"
+              >
+                <img
+                  src={featuredSlides[featuredIdx].src}
+                  alt={featuredSlides[featuredIdx].title}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/20 to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6">
+                  <p className="text-xs uppercase tracking-[0.3em] text-sky-300/90 mb-2">
+                    Destaque {featuredIdx + 1} / {featuredTotal}
                   </p>
+                  <h3 className="font-display text-3xl md:text-4xl">
+                    {featuredSlides[featuredIdx].title}
+                  </h3>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            </AnimatePresence>
+            <div className="pointer-events-none absolute inset-3 rounded-xl border-2 border-sky-400/70 shadow-[inset_0_0_12px_rgba(56,189,248,0.55),0_0_14px_rgba(56,189,248,0.5)]" />
+
+            {/* Prev / Next */}
+            <button
+              onClick={prevFeatured}
+              aria-label="Anterior"
+              className="absolute left-4 top-1/2 -translate-y-1/2 p-2.5 rounded-full border-2 border-sky-400/70 bg-background/50 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.85)] hover:border-sky-300 transition-all"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              onClick={nextFeatured}
+              aria-label="Próximo"
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-2.5 rounded-full border-2 border-sky-400/70 bg-background/50 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.85)] hover:border-sky-300 transition-all"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+
+            {/* Play/Pause */}
+            <button
+              onClick={() => setFeaturedPlaying((p) => !p)}
+              aria-label={featuredPlaying ? "Pausar" : "Reproduzir"}
+              className="absolute top-4 right-4 p-2.5 rounded-full border-2 border-sky-400/70 bg-background/50 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.85)] hover:border-sky-300 transition-all"
+            >
+              {featuredPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+            </button>
+          </div>
+
+          {/* Indicators */}
+          <div className="mt-5 flex justify-center gap-2.5">
+            {featuredSlides.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setFeaturedIdx(i)}
+                aria-label={`Ir para slide ${i + 1}`}
+                className={`h-2.5 rounded-full border-2 transition-all duration-300 ${
+                  i === featuredIdx
+                    ? "w-8 bg-sky-400 border-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.85)]"
+                    : "w-2.5 border-sky-400/50 bg-transparent hover:border-sky-300"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
