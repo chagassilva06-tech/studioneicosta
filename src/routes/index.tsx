@@ -378,19 +378,31 @@ function Index() {
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                 className="absolute inset-0 [transform-style:preserve-3d]"
               >
-                <img
-                  src={featuredSlides[featuredIdx].src}
-                  alt={featuredSlides[featuredIdx].title}
-                  className="absolute inset-0 h-full w-full object-contain bg-background"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/20 to-transparent" />
-                <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6">
-                  <p className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-sky-300/90 mb-1.5 sm:mb-2">
-                    Destaque {featuredIdx + 1} / {featuredTotal}
-                  </p>
-                  <h3 className="font-display text-2xl sm:text-3xl md:text-4xl">
-                    {featuredSlides[featuredIdx].title}
-                  </h3>
+                <div className="group absolute inset-0 overflow-hidden">
+                  <img
+                    src={featuredSlides[featuredIdx].src}
+                    alt={featuredSlides[featuredIdx].title}
+                    className="absolute inset-0 h-full w-full object-contain bg-background transition-transform duration-700 ease-out group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/20 to-transparent" />
+                  <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 flex items-end justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-sky-300/90 mb-1.5 sm:mb-2">
+                        Destaque {featuredIdx + 1} / {featuredTotal}
+                      </p>
+                      <h3 className="font-display text-2xl sm:text-3xl md:text-4xl truncate">
+                        {featuredSlides[featuredIdx].title}
+                      </h3>
+                    </div>
+                    <Link
+                      to="/galeria/$categoria"
+                      params={{ categoria: featuredSlides[featuredIdx].categoria }}
+                      className="shrink-0 inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium tracking-wide border-2 border-sky-400/70 text-sky-200 bg-sky-400/10 backdrop-blur shadow-[0_0_14px_rgba(56,155,255,0.45)] hover:bg-sky-400/20 hover:border-sky-300 hover:text-sky-100 hover:shadow-[0_0_22px_rgba(56,155,255,0.85)] transition-all"
+                    >
+                      Ver detalhes
+                      <ChevronRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </div>
                 </div>
               </motion.div>
             </AnimatePresence>
