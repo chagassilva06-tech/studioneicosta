@@ -188,7 +188,7 @@ function Index() {
           <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/40 to-transparent" />
           <div className="absolute inset-0 animate-hero-light" />
         </div>
-        <div className="relative max-w-7xl mx-auto px-6 md:px-10 py-16 w-full">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-12 sm:py-16 w-full">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
