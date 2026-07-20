@@ -143,6 +143,16 @@ function Galeria() {
                 <div className="absolute bottom-4 left-4 right-4 flex justify-center z-10 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
                   <button
                     type="button"
+                    onClick={() =>
+                      setLightbox({
+                        src: image,
+                        title: image ? `${nome} — obra ${i + 1}` : "Em breve",
+                        description: image
+                          ? desc
+                          : `Nova obra da categoria ${nome} chegando em breve. Fique atento às próximas publicações da coleção.`,
+                        categoria: nome,
+                      })
+                    }
                     className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium tracking-wide border-2 border-sky-400/80 text-sky-100 bg-background/70 backdrop-blur shadow-[0_0_18px_rgba(56,155,255,0.55)] hover:bg-sky-400/20 hover:border-sky-300 hover:shadow-[0_0_26px_rgba(56,155,255,0.9)] transition-all"
                   >
                     Ver detalhes
@@ -154,6 +164,8 @@ function Galeria() {
           })}
         </div>
       </section>
+      <Lightbox data={lightbox} onClose={() => setLightbox(null)} />
     </div>
   );
 }
+
