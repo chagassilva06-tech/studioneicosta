@@ -57,12 +57,12 @@ function Galeria() {
         </div>
       </header>
 
-      <section className="max-w-7xl mx-auto px-6 md:px-10 pt-32 pb-24">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-24 sm:pt-32 pb-16 sm:pb-24">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="mb-14"
+          className="mb-10 sm:mb-14"
         >
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px w-12 bg-sky-400" />
@@ -70,7 +70,7 @@ function Galeria() {
               Categoria
             </span>
           </div>
-          <h1 className="font-display text-5xl md:text-7xl font-light">
+          <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-light">
             {nome}
           </h1>
           <p className="mt-4 text-muted-foreground max-w-lg">
@@ -78,7 +78,7 @@ function Galeria() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {slots.map((_, i) => {
             const image = images[i];
             return (
