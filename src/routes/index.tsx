@@ -102,19 +102,30 @@ function Index() {
   const [featuredIdx, setFeaturedIdx] = useState(0);
   const [featuredPlaying, setFeaturedPlaying] = useState(true);
   const [featuredHover, setFeaturedHover] = useState(false);
+  const [featuredDir, setFeaturedDir] = useState(1);
   const featuredTotal = featuredSlides.length;
 
   useEffect(() => {
     if (!featuredPlaying || featuredHover) return;
     const t = setInterval(() => {
+      setFeaturedDir(1);
       setFeaturedIdx((i) => (i + 1) % featuredTotal);
     }, 5000);
     return () => clearInterval(t);
   }, [featuredPlaying, featuredHover, featuredTotal]);
 
-  const nextFeatured = () => setFeaturedIdx((i) => (i + 1) % featuredTotal);
-  const prevFeatured = () =>
+  const nextFeatured = () => {
+    setFeaturedDir(1);
+    setFeaturedIdx((i) => (i + 1) % featuredTotal);
+  };
+  const prevFeatured = () => {
+    setFeaturedDir(-1);
     setFeaturedIdx((i) => (i - 1 + featuredTotal) % featuredTotal);
+  };
+  const goFeatured = (i: number) => {
+    setFeaturedDir(i > featuredIdx ? 1 : -1);
+    setFeaturedIdx(i);
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans transition-colors duration-500">
@@ -329,19 +340,43 @@ function Index() {
 
 
         <div
-          className="relative"
+          className="relative mx-auto max-w-xl"
           onMouseEnter={() => setFeaturedHover(true)}
           onMouseLeave={() => setFeaturedHover(false)}
         >
-          <div className="relative aspect-[16/9] sm:aspect-[16/8] overflow-hidden rounded-2xl border border-border/50 bg-card">
-            <AnimatePresence mode="wait">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-border/50 bg-card [perspective:1400px]">
+            <AnimatePresence mode="wait" custom={featuredDir}>
               <motion.div
                 key={featuredIdx}
-                initial={{ opacity: 0, scale: 1.02 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                className="absolute inset-0"
+                custom={featuredDir}
+                variants={{
+                  enter: (dir: number) => ({
+                    opacity: 0,
+                    x: dir * 120,
+                    rotateY: dir * 25,
+                    scale: 0.9,
+                    filter: "blur(14px)",
+                  }),
+                  center: {
+                    opacity: 1,
+                    x: 0,
+                    rotateY: 0,
+                    scale: 1,
+                    filter: "blur(0px)",
+                  },
+                  exit: (dir: number) => ({
+                    opacity: 0,
+                    x: dir * -120,
+                    rotateY: dir * -25,
+                    scale: 0.9,
+                    filter: "blur(14px)",
+                  }),
+                }}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute inset-0 [transform-style:preserve-3d]"
               >
                 <img
                   src={featuredSlides[featuredIdx].src}
@@ -392,7 +427,7 @@ function Index() {
             {featuredSlides.map((_, i) => (
               <button
                 key={i}
-                onClick={() => setFeaturedIdx(i)}
+                onClick={() => goFeatured(i)}
                 aria-label={`Ir para slide ${i + 1}`}
                 className={`h-2.5 rounded-full border-2 transition-all duration-300 ${
                   i === featuredIdx
