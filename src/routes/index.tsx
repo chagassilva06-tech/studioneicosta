@@ -465,8 +465,8 @@ function Index() {
               <div className="h-px w-8 bg-sky-400" />
               <span className="uppercase tracking-[0.3em] text-xs text-sky-400/90">Sobre</span>
             </div>
-            <h2 className="font-display text-4xl md:text-5xl font-light mb-6">O Artista</h2>
-            <p className="text-foreground/85 leading-relaxed text-lg mb-4">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-light mb-4 sm:mb-6">O Artista</h2>
+            <p className="text-foreground/85 leading-relaxed text-base sm:text-lg mb-4">
               StudioNei nasce do encontro entre técnica clássica e sensibilidade
               contemporânea. Cada obra é um exercício de observação — luz,
               textura e silêncio traduzidos em grafite, carvão e tinta.
