@@ -55,6 +55,9 @@ function Galeria() {
   const images = categoryImages[nome] ?? [];
   const total = 3;
   const slots = Array.from({ length: total });
+  const [lightbox, setLightbox] = useState<LightboxData>(null);
+  const desc = categoryDescriptions[nome] ?? `Obra da coleção ${nome}.`;
+
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
