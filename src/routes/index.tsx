@@ -340,19 +340,38 @@ function Index() {
 
 
         <div
-          className="relative"
+          className="relative mx-auto max-w-xl"
           onMouseEnter={() => setFeaturedHover(true)}
           onMouseLeave={() => setFeaturedHover(false)}
         >
-          <div className="relative aspect-[16/9] sm:aspect-[16/8] overflow-hidden rounded-2xl border border-border/50 bg-card">
-            <AnimatePresence mode="wait">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-border/50 bg-card [perspective:1400px]">
+            <AnimatePresence mode="wait" custom={featuredDir}>
               <motion.div
                 key={featuredIdx}
-                initial={{ opacity: 0, scale: 1.02 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                className="absolute inset-0"
+                custom={featuredDir}
+                initial={(dir: number) => ({
+                  opacity: 0,
+                  x: dir * 120,
+                  rotateY: dir * 25,
+                  scale: 0.9,
+                  filter: "blur(14px)",
+                })}
+                animate={{
+                  opacity: 1,
+                  x: 0,
+                  rotateY: 0,
+                  scale: 1,
+                  filter: "blur(0px)",
+                }}
+                exit={(dir: number) => ({
+                  opacity: 0,
+                  x: dir * -120,
+                  rotateY: dir * -25,
+                  scale: 0.9,
+                  filter: "blur(14px)",
+                })}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute inset-0 [transform-style:preserve-3d]"
               >
                 <img
                   src={featuredSlides[featuredIdx].src}
@@ -403,7 +422,7 @@ function Index() {
             {featuredSlides.map((_, i) => (
               <button
                 key={i}
-                onClick={() => setFeaturedIdx(i)}
+                onClick={() => goFeatured(i)}
                 aria-label={`Ir para slide ${i + 1}`}
                 className={`h-2.5 rounded-full border-2 transition-all duration-300 ${
                   i === featuredIdx
