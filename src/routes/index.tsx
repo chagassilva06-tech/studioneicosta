@@ -442,7 +442,7 @@ function Index() {
 
       {/* About */}
       <section id="about" className="border-t border-border/40 bg-muted/20">
-        <div className="max-w-5xl mx-auto pl-2 pr-6 sm:pl-4 sm:pr-8 md:pl-2 md:pr-10 py-8 grid md:grid-cols-[220px_1fr] gap-8 md:gap-14 items-center">
+        <div className="max-w-5xl mx-auto px-4 sm:pl-4 sm:pr-8 md:pl-2 md:pr-10 py-10 sm:py-8 grid md:grid-cols-[220px_1fr] gap-8 md:gap-14 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
