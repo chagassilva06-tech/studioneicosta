@@ -435,14 +435,23 @@ function Index() {
                         {featuredSlides[featuredIdx].title}
                       </h3>
                     </div>
-                    <Link
-                      to="/galeria/$categoria"
-                      params={{ categoria: featuredSlides[featuredIdx].categoria }}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const s = featuredSlides[featuredIdx];
+                        setLightbox({
+                          src: s.src,
+                          title: s.title,
+                          description: s.description,
+                          categoria: s.categoria,
+                        });
+                      }}
                       className="shrink-0 inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium tracking-wide border-2 border-sky-400/70 text-sky-200 bg-sky-400/10 backdrop-blur shadow-[0_0_14px_rgba(56,155,255,0.45)] hover:bg-sky-400/20 hover:border-sky-300 hover:text-sky-100 hover:shadow-[0_0_22px_rgba(56,155,255,0.85)] transition-all"
                     >
                       Ver detalhes
                       <ChevronRight className="h-3.5 w-3.5" />
-                    </Link>
+                    </button>
+
                   </div>
                 </div>
               </motion.div>
