@@ -102,19 +102,30 @@ function Index() {
   const [featuredIdx, setFeaturedIdx] = useState(0);
   const [featuredPlaying, setFeaturedPlaying] = useState(true);
   const [featuredHover, setFeaturedHover] = useState(false);
+  const [featuredDir, setFeaturedDir] = useState(1);
   const featuredTotal = featuredSlides.length;
 
   useEffect(() => {
     if (!featuredPlaying || featuredHover) return;
     const t = setInterval(() => {
+      setFeaturedDir(1);
       setFeaturedIdx((i) => (i + 1) % featuredTotal);
     }, 5000);
     return () => clearInterval(t);
   }, [featuredPlaying, featuredHover, featuredTotal]);
 
-  const nextFeatured = () => setFeaturedIdx((i) => (i + 1) % featuredTotal);
-  const prevFeatured = () =>
+  const nextFeatured = () => {
+    setFeaturedDir(1);
+    setFeaturedIdx((i) => (i + 1) % featuredTotal);
+  };
+  const prevFeatured = () => {
+    setFeaturedDir(-1);
     setFeaturedIdx((i) => (i - 1 + featuredTotal) % featuredTotal);
+  };
+  const goFeatured = (i: number) => {
+    setFeaturedDir(i > featuredIdx ? 1 : -1);
+    setFeaturedIdx(i);
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans transition-colors duration-500">
