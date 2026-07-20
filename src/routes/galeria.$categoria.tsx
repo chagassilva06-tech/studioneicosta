@@ -1,13 +1,32 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { ChevronLeft, ChevronRight, ImageIcon } from "lucide-react";
 import paisagem1 from "@/assets/paisagem-1.png";
 import pintura1 from "@/assets/pintura-1.png";
+import { Lightbox, type LightboxData } from "@/components/Lightbox";
 
 const categoryImages: Record<string, string[]> = {
   Paisagem: [paisagem1],
   Pintura: [pintura1],
 };
+
+const categoryDescriptions: Record<string, string> = {
+  Paisagem:
+    "Estudo de paisagem explorando luz natural, profundidade e atmosfera. Composição pensada para transmitir serenidade e a força silenciosa do ambiente retratado.",
+  Pintura:
+    "Obra em técnica mista, com camadas de cor trabalhadas para revelar textura, contraste e movimento. Cada pincelada compõe o gesto e a expressão da peça.",
+  Retrato:
+    "Retrato construído com foco em traços humanos, expressão do olhar e volume da luz sobre a pele. Trabalho autoral em desenvolvimento.",
+  Anime:
+    "Ilustração de estilo anime com linhas limpas, sombreamento estilizado e paleta vibrante. Nova obra em produção.",
+  Animais:
+    "Estudo de anatomia animal, com atenção à textura do pelo, olhar e postura. Peça inédita chegando em breve.",
+  Estudo:
+    "Estudo técnico exploratório — proporção, luz e forma. Base para obras futuras da coleção.",
+};
+
+
 
 export const Route = createFileRoute("/galeria/$categoria")({
   head: ({ params }) => {
