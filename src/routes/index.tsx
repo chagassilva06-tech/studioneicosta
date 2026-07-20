@@ -24,14 +24,53 @@ import artAnime from "@/assets/art-anime.jpg";
 import artHorse from "@/assets/art-horse.jpg";
 import artForest from "@/assets/art-forest.jpg";
 
+import { Lightbox, type LightboxData } from "@/components/Lightbox";
+
 const featuredSlides = [
-  { src: paisagem1, title: "Paisagem", categoria: "Paisagem" },
-  { src: pintura1, title: "Pintura", categoria: "Pintura" },
-  { src: artPortrait, title: "Retrato", categoria: "Retrato" },
-  { src: artAnime, title: "Anime", categoria: "Anime" },
-  { src: artHorse, title: "Animais", categoria: "Animais" },
-  { src: artForest, title: "Estudo", categoria: "Estudo" },
+  {
+    src: paisagem1,
+    title: "Paisagem",
+    categoria: "Paisagem",
+    description:
+      "Estudo de paisagem explorando luz natural, profundidade e atmosfera. Composição pensada para transmitir serenidade e a força silenciosa do ambiente retratado.",
+  },
+  {
+    src: pintura1,
+    title: "Pintura",
+    categoria: "Pintura",
+    description:
+      "Obra em técnica mista, com camadas de cor trabalhadas para revelar textura, contraste e movimento. Cada pincelada compõe o gesto e a expressão da peça.",
+  },
+  {
+    src: artPortrait,
+    title: "Retrato",
+    categoria: "Retrato",
+    description:
+      "Retrato realista com foco em expressão do olhar, volume da luz sobre a pele e traços humanos autênticos.",
+  },
+  {
+    src: artAnime,
+    title: "Anime",
+    categoria: "Anime",
+    description:
+      "Ilustração de estilo anime com linhas limpas, sombreamento estilizado e paleta vibrante.",
+  },
+  {
+    src: artHorse,
+    title: "Animais",
+    categoria: "Animais",
+    description:
+      "Estudo de anatomia animal, atenção à textura do pelo, olhar atento e postura em movimento.",
+  },
+  {
+    src: artForest,
+    title: "Estudo",
+    categoria: "Estudo",
+    description:
+      "Estudo técnico exploratório — proporção, luz e forma. Base para obras futuras da coleção.",
+  },
 ];
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
