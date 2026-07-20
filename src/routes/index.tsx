@@ -384,11 +384,11 @@ function Index() {
                   className="absolute inset-0 h-full w-full object-contain bg-background"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/20 to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6">
-                  <p className="text-xs uppercase tracking-[0.3em] text-sky-300/90 mb-2">
+                <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6">
+                  <p className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-sky-300/90 mb-1.5 sm:mb-2">
                     Destaque {featuredIdx + 1} / {featuredTotal}
                   </p>
-                  <h3 className="font-display text-3xl md:text-4xl">
+                  <h3 className="font-display text-2xl sm:text-3xl md:text-4xl">
                     {featuredSlides[featuredIdx].title}
                   </h3>
                 </div>
