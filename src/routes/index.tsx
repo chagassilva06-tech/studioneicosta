@@ -326,14 +326,14 @@ function Index() {
       </section>
 
       {/* Featured */}
-      <section id="gallery" className="max-w-7xl mx-auto px-6 md:px-10 py-14">
-        <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
+      <section id="gallery" className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-10 sm:py-14">
+        <div className="flex items-end justify-between mb-6 sm:mb-8 flex-wrap gap-4">
           <div>
             <div className="flex items-center gap-3 mb-3">
               <div className="h-px w-8 bg-sky-400" />
               <span className="uppercase tracking-[0.3em] text-xs text-sky-400/90">Destaques</span>
             </div>
-            <h2 className="font-display text-4xl md:text-5xl font-light">Coleção em Destaque</h2>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-light">Coleção em Destaque</h2>
           </div>
         </div>
 
