@@ -142,6 +142,8 @@ function Index() {
   const [featuredPlaying, setFeaturedPlaying] = useState(true);
   const [featuredHover, setFeaturedHover] = useState(false);
   const [featuredDir, setFeaturedDir] = useState(1);
+  const [lightbox, setLightbox] = useState<LightboxData>(null);
+
   const featuredTotal = featuredSlides.length;
 
   useEffect(() => {
