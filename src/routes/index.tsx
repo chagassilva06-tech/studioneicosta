@@ -400,16 +400,16 @@ function Index() {
             <button
               onClick={prevFeatured}
               aria-label="Anterior"
-              className="absolute left-4 top-1/2 -translate-y-1/2 p-2.5 rounded-full border-2 border-sky-400/70 bg-background/50 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.85)] hover:border-sky-300 transition-all"
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 rounded-full border-2 border-sky-400/70 bg-background/50 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.85)] hover:border-sky-300 transition-all"
             >
-              <ChevronLeft className="h-5 w-5" />
+              <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
             </button>
             <button
               onClick={nextFeatured}
               aria-label="Próximo"
-              className="absolute right-4 top-1/2 -translate-y-1/2 p-2.5 rounded-full border-2 border-sky-400/70 bg-background/50 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.85)] hover:border-sky-300 transition-all"
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 rounded-full border-2 border-sky-400/70 bg-background/50 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.85)] hover:border-sky-300 transition-all"
             >
-              <ChevronRight className="h-5 w-5" />
+              <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
             </button>
 
             {/* Play/Pause */}
