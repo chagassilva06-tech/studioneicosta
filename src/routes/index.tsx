@@ -349,27 +349,32 @@ function Index() {
               <motion.div
                 key={featuredIdx}
                 custom={featuredDir}
-                initial={(dir: number) => ({
-                  opacity: 0,
-                  x: dir * 120,
-                  rotateY: dir * 25,
-                  scale: 0.9,
-                  filter: "blur(14px)",
-                })}
-                animate={{
-                  opacity: 1,
-                  x: 0,
-                  rotateY: 0,
-                  scale: 1,
-                  filter: "blur(0px)",
+                variants={{
+                  enter: (dir: number) => ({
+                    opacity: 0,
+                    x: dir * 120,
+                    rotateY: dir * 25,
+                    scale: 0.9,
+                    filter: "blur(14px)",
+                  }),
+                  center: {
+                    opacity: 1,
+                    x: 0,
+                    rotateY: 0,
+                    scale: 1,
+                    filter: "blur(0px)",
+                  },
+                  exit: (dir: number) => ({
+                    opacity: 0,
+                    x: dir * -120,
+                    rotateY: dir * -25,
+                    scale: 0.9,
+                    filter: "blur(14px)",
+                  }),
                 }}
-                exit={(dir: number) => ({
-                  opacity: 0,
-                  x: dir * -120,
-                  rotateY: dir * -25,
-                  scale: 0.9,
-                  filter: "blur(14px)",
-                })}
+                initial="enter"
+                animate="center"
+                exit="exit"
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                 className="absolute inset-0 [transform-style:preserve-3d]"
               >
