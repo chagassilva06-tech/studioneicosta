@@ -159,13 +159,13 @@ function Index() {
               className="relative border-t border-sky-400/30 bg-background/95 backdrop-blur shadow-[inset_0_1px_0_rgba(186,230,255,0.35),inset_0_-1px_0_rgba(0,0,0,0.35),0_10px_28px_-10px_rgba(56,155,255,0.5)]"
             >
               <div className="pointer-events-none absolute inset-x-0 -top-px h-[2px] bg-[linear-gradient(90deg,transparent,rgba(56,155,255,0.8),transparent)] animate-neon-slide bg-[length:200%_100%]" />
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-4 flex flex-wrap justify-center md:justify-start gap-2 sm:gap-3">
+              <div className="max-w-7xl mx-auto px-3 sm:px-6 md:px-10 py-2.5 sm:py-4 flex flex-wrap justify-center md:justify-start gap-1.5 sm:gap-3">
                 {categories.map((c) => (
                   <Link
                     key={c}
                     to="/galeria/$categoria"
                     params={{ categoria: c }}
-                    className="group relative px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 min-w-[100px] sm:min-w-[130px] text-center rounded-full text-sm sm:text-base md:text-lg font-medium tracking-wide border-2 border-sky-400/50 text-foreground bg-background/40 shadow-[0_0_10px_rgba(56,155,255,0.25),inset_0_1px_0_rgba(255,255,255,0.06)] hover:border-sky-300 hover:text-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.65),inset_0_1px_0_rgba(255,255,255,0.15)] hover:-translate-y-0.5 transition-all duration-300"
+                    className="group relative px-3 sm:px-6 md:px-8 py-1.5 sm:py-2.5 min-w-[72px] sm:min-w-[130px] text-center rounded-full text-[11px] sm:text-base md:text-lg font-medium tracking-wide border-2 border-sky-400/50 text-foreground bg-background/40 shadow-[0_0_10px_rgba(56,155,255,0.25),inset_0_1px_0_rgba(255,255,255,0.06)] hover:border-sky-300 hover:text-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.65),inset_0_1px_0_rgba(255,255,255,0.15)] hover:-translate-y-0.5 transition-all duration-300"
                   >
                     <span className="relative z-10">{c}</span>
                   </Link>
