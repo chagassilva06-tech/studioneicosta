@@ -1,13 +1,32 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { ChevronLeft, ChevronRight, ImageIcon } from "lucide-react";
 import paisagem1 from "@/assets/paisagem-1.png";
 import pintura1 from "@/assets/pintura-1.png";
+import { Lightbox, type LightboxData } from "@/components/Lightbox";
 
 const categoryImages: Record<string, string[]> = {
   Paisagem: [paisagem1],
   Pintura: [pintura1],
 };
+
+const categoryDescriptions: Record<string, string> = {
+  Paisagem:
+    "Estudo de paisagem explorando luz natural, profundidade e atmosfera. Composição pensada para transmitir serenidade e a força silenciosa do ambiente retratado.",
+  Pintura:
+    "Obra em técnica mista, com camadas de cor trabalhadas para revelar textura, contraste e movimento. Cada pincelada compõe o gesto e a expressão da peça.",
+  Retrato:
+    "Retrato construído com foco em traços humanos, expressão do olhar e volume da luz sobre a pele. Trabalho autoral em desenvolvimento.",
+  Anime:
+    "Ilustração de estilo anime com linhas limpas, sombreamento estilizado e paleta vibrante. Nova obra em produção.",
+  Animais:
+    "Estudo de anatomia animal, com atenção à textura do pelo, olhar e postura. Peça inédita chegando em breve.",
+  Estudo:
+    "Estudo técnico exploratório — proporção, luz e forma. Base para obras futuras da coleção.",
+};
+
+
 
 export const Route = createFileRoute("/galeria/$categoria")({
   head: ({ params }) => {
@@ -36,6 +55,9 @@ function Galeria() {
   const images = categoryImages[nome] ?? [];
   const total = 3;
   const slots = Array.from({ length: total });
+  const [lightbox, setLightbox] = useState<LightboxData>(null);
+  const desc = categoryDescriptions[nome] ?? `Obra da coleção ${nome}.`;
+
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
@@ -121,6 +143,16 @@ function Galeria() {
                 <div className="absolute bottom-4 left-4 right-4 flex justify-center z-10 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
                   <button
                     type="button"
+                    onClick={() =>
+                      setLightbox({
+                        src: image,
+                        title: image ? `${nome} — obra ${i + 1}` : "Em breve",
+                        description: image
+                          ? desc
+                          : `Nova obra da categoria ${nome} chegando em breve. Fique atento às próximas publicações da coleção.`,
+                        categoria: nome,
+                      })
+                    }
                     className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium tracking-wide border-2 border-sky-400/80 text-sky-100 bg-background/70 backdrop-blur shadow-[0_0_18px_rgba(56,155,255,0.55)] hover:bg-sky-400/20 hover:border-sky-300 hover:shadow-[0_0_26px_rgba(56,155,255,0.9)] transition-all"
                   >
                     Ver detalhes
@@ -132,6 +164,8 @@ function Galeria() {
           })}
         </div>
       </section>
+      <Lightbox data={lightbox} onClose={() => setLightbox(null)} />
     </div>
   );
 }
+
