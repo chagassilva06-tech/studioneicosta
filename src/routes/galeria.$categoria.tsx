@@ -40,7 +40,7 @@ function Galeria() {
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
       <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/40">
-        <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 h-16 flex items-center justify-between gap-3">
           <Link to="/" className="flex items-center gap-2">
             <span className="h-2.5 w-2.5 rounded-full bg-sky-400 shadow-[0_0_12px_rgba(56,155,255,0.9)]" />
             <span className="font-display text-2xl tracking-wide">
@@ -57,12 +57,12 @@ function Galeria() {
         </div>
       </header>
 
-      <section className="max-w-7xl mx-auto px-6 md:px-10 pt-32 pb-24">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-24 sm:pt-32 pb-16 sm:pb-24">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="mb-14"
+          className="mb-10 sm:mb-14"
         >
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px w-12 bg-sky-400" />
@@ -70,7 +70,7 @@ function Galeria() {
               Categoria
             </span>
           </div>
-          <h1 className="font-display text-5xl md:text-7xl font-light">
+          <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-light">
             {nome}
           </h1>
           <p className="mt-4 text-muted-foreground max-w-lg">
@@ -78,7 +78,7 @@ function Galeria() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {slots.map((_, i) => {
             const image = images[i];
             return (
