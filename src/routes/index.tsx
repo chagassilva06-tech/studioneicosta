@@ -222,7 +222,7 @@ function Index() {
 
 
       {/* Hero */}
-      <section id="top" className="relative min-h-screen flex items-center overflow-hidden pt-48 sm:pt-40 md:pt-32">
+      <section id="top" className="relative min-h-screen flex items-center overflow-hidden pt-28 sm:pt-24 md:pt-20">
         <div className="absolute inset-0">
           <img src={hero} alt="Galeria StudioNei" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/70 to-background" />
