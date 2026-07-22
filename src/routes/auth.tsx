@@ -187,6 +187,32 @@ function AuthPage() {
               </div>
             )}
 
+            {mode === "signin" && (
+              <label className="flex items-center gap-2 select-none cursor-pointer text-sm text-foreground/85">
+                <input
+                  type="checkbox"
+                  checked={keepSignedIn}
+                  onChange={(e) => setKeepSignedIn(e.target.checked)}
+                  className="peer sr-only"
+                />
+                <span
+                  aria-hidden
+                  className="relative h-4 w-4 rounded border-2 border-sky-400/70 bg-sky-400/5 shadow-[0_0_8px_rgba(56,155,255,0.35)] peer-checked:bg-sky-400 peer-checked:border-sky-300 peer-checked:shadow-[0_0_14px_rgba(56,155,255,0.75)] peer-focus-visible:ring-2 peer-focus-visible:ring-sky-300/70 transition-all after:content-[''] after:absolute after:left-1/2 after:top-1/2 after:-translate-x-1/2 after:-translate-y-[60%] after:h-2 after:w-1 after:border-r-2 after:border-b-2 after:border-slate-950 after:rotate-45 after:opacity-0 peer-checked:after:opacity-100"
+                />
+                Manter conectado?
+              </label>
+            )}
+                      type="button"
+                      onClick={() => switchMode("reset")}
+                      className="text-xs text-sky-300/90 hover:text-sky-200 transition-colors"
+                    >
+                      Esqueceu sua senha?
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
             {error && (
               <p className="text-sm text-red-300 bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-2">
                 {error}
