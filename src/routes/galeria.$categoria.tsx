@@ -1,11 +1,13 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, ImageIcon, Upload, RefreshCw, Loader2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, ImageIcon, Upload, RefreshCw, Loader2, LogIn, LogOut } from "lucide-react";
 import paisagem1 from "@/assets/paisagem-1.png";
 import pintura1 from "@/assets/pintura-1.png";
 import { Lightbox, type LightboxData } from "@/components/Lightbox";
 import { supabase } from "@/integrations/supabase/client";
+import { useAdmin } from "@/hooks/use-admin";
+
 
 
 const categoryImages: Record<string, string[]> = {
@@ -57,6 +59,12 @@ function Galeria() {
   const [uploadingSlot, setUploadingSlot] = useState<number | null>(null);
   const fileInputs = useRef<Record<number, HTMLInputElement | null>>({});
   const desc = categoryDescriptions[nome] ?? `Obra da coleção ${nome}.`;
+  const { isAdmin, userEmail } = useAdmin();
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+  };
+
 
   useEffect(() => {
     let cancelled = false;
@@ -134,12 +142,31 @@ function Galeria() {
               Studio<span className="text-sky-400">Nei</span>
             </span>
           </Link>
-          <Link
-            to="/"
-            className="group inline-flex items-center gap-2 text-sm font-medium text-sky-400 border border-sky-400/60 rounded-full px-4 py-1.5 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 hover:text-sky-300 hover:bg-sky-400/10 transition-all duration-300 animate-pulse-slow"
-          >
-            <ChevronLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" /> Voltar
-          </Link>
+          <div className="flex items-center gap-2">
+            {isAdmin ? (
+              <button
+                onClick={handleSignOut}
+                title={userEmail ?? undefined}
+                className="group inline-flex items-center gap-2 text-xs font-medium text-sky-400 border border-sky-400/60 rounded-full px-3 py-1.5 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 transition-all"
+              >
+                <LogOut className="h-3.5 w-3.5" /> Sair
+              </button>
+            ) : (
+              <Link
+                to="/auth"
+                className="group inline-flex items-center gap-2 text-xs font-medium text-sky-400 border border-sky-400/60 rounded-full px-3 py-1.5 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 transition-all"
+              >
+                <LogIn className="h-3.5 w-3.5" /> Admin
+              </Link>
+            )}
+            <Link
+              to="/"
+              className="group inline-flex items-center gap-2 text-sm font-medium text-sky-400 border border-sky-400/60 rounded-full px-4 py-1.5 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 hover:text-sky-300 hover:bg-sky-400/10 transition-all duration-300 animate-pulse-slow"
+            >
+              <ChevronLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" /> Voltar
+            </Link>
+          </div>
+
         </div>
       </header>
 
@@ -218,28 +245,31 @@ function Galeria() {
                   }}
                 />
 
-                <div className="absolute top-3 left-3 z-10 opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
-                  <button
-                    type="button"
-                    disabled={isUploading}
-                    onClick={() => fileInputs.current[i]?.click()}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium tracking-wide border-2 border-sky-400/80 text-sky-100 bg-background/70 backdrop-blur shadow-[0_0_14px_rgba(56,155,255,0.55)] hover:bg-sky-400/20 hover:border-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] transition-all disabled:opacity-70"
-                  >
-                    {isUploading ? (
-                      <>
-                        <Loader2 className="h-3.5 w-3.5 animate-spin" /> Enviando…
-                      </>
-                    ) : hasImage ? (
-                      <>
-                        <RefreshCw className="h-3.5 w-3.5" /> Substituir imagem
-                      </>
-                    ) : (
-                      <>
-                        <Upload className="h-3.5 w-3.5" /> Carregar imagem
-                      </>
-                    )}
-                  </button>
-                </div>
+                {isAdmin && (
+                  <div className="absolute top-3 left-3 z-10 opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                    <button
+                      type="button"
+                      disabled={isUploading}
+                      onClick={() => fileInputs.current[i]?.click()}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium tracking-wide border-2 border-sky-400/80 text-sky-100 bg-background/70 backdrop-blur shadow-[0_0_14px_rgba(56,155,255,0.55)] hover:bg-sky-400/20 hover:border-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] transition-all disabled:opacity-70"
+                    >
+                      {isUploading ? (
+                        <>
+                          <Loader2 className="h-3.5 w-3.5 animate-spin" /> Enviando…
+                        </>
+                      ) : hasImage ? (
+                        <>
+                          <RefreshCw className="h-3.5 w-3.5" /> Substituir imagem
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="h-3.5 w-3.5" /> Carregar imagem
+                        </>
+                      )}
+                    </button>
+                  </div>
+                )}
+
 
                 <div className="absolute bottom-4 left-4 right-4 flex justify-center z-10 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
                   <button
