@@ -57,9 +57,26 @@ function Galeria() {
   const total = 3;
   const slots = Array.from({ length: total });
   const [lightbox, setLightbox] = useState<LightboxData>(null);
+  const storageKey = `studionei:uploads:${nome}`;
   const [uploaded, setUploaded] = useState<Record<number, string>>({});
+  const [hydrated, setHydrated] = useState(false);
   const fileInputs = useRef<Record<number, HTMLInputElement | null>>({});
   const desc = categoryDescriptions[nome] ?? `Obra da coleção ${nome}.`;
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(storageKey);
+      if (raw) setUploaded(JSON.parse(raw));
+    } catch {}
+    setHydrated(true);
+  }, [storageKey]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(uploaded));
+    } catch {}
+  }, [uploaded, storageKey, hydrated]);
 
   const handleUpload = (i: number, file?: File | null) => {
     if (!file) return;
