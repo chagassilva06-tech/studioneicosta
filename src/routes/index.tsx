@@ -244,10 +244,11 @@ function Index() {
             </div>
             <div className="relative">
               <div className="pointer-events-none absolute -inset-8 animate-glow-pulse rounded-3xl" />
-              <h1 className="relative font-display text-[2rem] sm:text-4xl md:text-5xl lg:text-6xl leading-[1.05] font-light text-foreground drop-shadow-[0_2px_18px_rgba(0,0,0,0.65)] text-left sm:whitespace-nowrap">
+              <h1 className="relative font-display text-[1.75rem] xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1] font-light text-foreground drop-shadow-[0_2px_18px_rgba(0,0,0,0.65)] text-left lg:whitespace-nowrap break-words">
                 Seu talento merece{" "}
                 <span className="text-shimmer italic font-normal">uma galeria</span>.
               </h1>
+
 
               <p className="relative mt-8 text-base md:text-lg text-foreground/85 max-w-lg leading-relaxed drop-shadow-[0_1px_10px_rgba(0,0,0,0.55)]">
                 Organize, apresente e compartilhe seus desenhos e pinturas de forma
