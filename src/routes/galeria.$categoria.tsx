@@ -1,10 +1,11 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, ImageIcon, Upload, RefreshCw } from "lucide-react";
+import { ChevronLeft, ChevronRight, ImageIcon, Upload, RefreshCw, Loader2 } from "lucide-react";
 import paisagem1 from "@/assets/paisagem-1.png";
 import pintura1 from "@/assets/pintura-1.png";
 import { Lightbox, type LightboxData } from "@/components/Lightbox";
+import { supabase } from "@/integrations/supabase/client";
 
 
 const categoryImages: Record<string, string[]> = {
@@ -27,7 +28,8 @@ const categoryDescriptions: Record<string, string> = {
     "Estudo técnico exploratório — proporção, luz e forma. Base para obras futuras da coleção.",
 };
 
-
+const BUCKET = "artworks";
+const SIGNED_TTL = 60 * 60 * 24 * 365; // 1 year
 
 export const Route = createFileRoute("/galeria/$categoria")({
   head: ({ params }) => {
@@ -35,15 +37,9 @@ export const Route = createFileRoute("/galeria/$categoria")({
     return {
       meta: [
         { title: `${nome} — StudioNei` },
-        {
-          name: "description",
-          content: `Galeria de ${nome} — StudioNei. Novas obras em breve.`,
-        },
+        { name: "description", content: `Galeria de ${nome} — StudioNei. Novas obras em breve.` },
         { property: "og:title", content: `${nome} — StudioNei` },
-        {
-          property: "og:description",
-          content: `Coleção de ${nome}. Novas obras em breve.`,
-        },
+        { property: "og:description", content: `Coleção de ${nome}. Novas obras em breve.` },
       ],
     };
   },
@@ -57,37 +53,76 @@ function Galeria() {
   const total = 3;
   const slots = Array.from({ length: total });
   const [lightbox, setLightbox] = useState<LightboxData>(null);
-  const storageKey = `studionei:uploads:${nome}`;
-  const [uploaded, setUploaded] = useState<Record<number, string>>({});
-  const [hydrated, setHydrated] = useState(false);
+  const [uploaded, setUploaded] = useState<Record<number, { path: string; url: string }>>({});
+  const [uploadingSlot, setUploadingSlot] = useState<number | null>(null);
   const fileInputs = useRef<Record<number, HTMLInputElement | null>>({});
   const desc = categoryDescriptions[nome] ?? `Obra da coleção ${nome}.`;
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(storageKey);
-      if (raw) setUploaded(JSON.parse(raw));
-    } catch {}
-    setHydrated(true);
-  }, [storageKey]);
-
-  useEffect(() => {
-    if (!hydrated) return;
-    try {
-      localStorage.setItem(storageKey, JSON.stringify(uploaded));
-    } catch {}
-  }, [uploaded, storageKey, hydrated]);
-
-  const handleUpload = (i: number, file?: File | null) => {
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      setUploaded((prev) => ({ ...prev, [i]: String(reader.result) }));
+    let cancelled = false;
+    (async () => {
+      const { data, error } = await supabase
+        .from("artworks")
+        .select("slot, storage_path")
+        .eq("categoria", nome);
+      if (error || !data || cancelled) return;
+      const paths = data.map((r) => r.storage_path);
+      if (paths.length === 0) return;
+      const { data: signed } = await supabase.storage
+        .from(BUCKET)
+        .createSignedUrls(paths, SIGNED_TTL);
+      if (cancelled || !signed) return;
+      const next: Record<number, { path: string; url: string }> = {};
+      data.forEach((row, idx) => {
+        const s = signed[idx];
+        if (s?.signedUrl) next[row.slot] = { path: row.storage_path, url: s.signedUrl };
+      });
+      setUploaded(next);
+    })();
+    return () => {
+      cancelled = true;
     };
-    reader.readAsDataURL(file);
+  }, [nome]);
+
+  const handleUpload = async (i: number, file?: File | null) => {
+    if (!file) return;
+    setUploadingSlot(i);
+    try {
+      const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+      const path = `${nome}/slot-${i}-${Date.now()}.${ext}`;
+      const { error: upErr } = await supabase.storage
+        .from(BUCKET)
+        .upload(path, file, { upsert: true, contentType: file.type });
+      if (upErr) throw upErr;
+
+      // Remove previous file for this slot (if any)
+      const previous = uploaded[i]?.path;
+
+      const { error: dbErr } = await supabase
+        .from("artworks")
+        .upsert(
+          { categoria: nome, slot: i, storage_path: path, updated_at: new Date().toISOString() },
+          { onConflict: "categoria,slot" },
+        );
+      if (dbErr) throw dbErr;
+
+      if (previous && previous !== path) {
+        await supabase.storage.from(BUCKET).remove([previous]);
+      }
+
+      const { data: signed } = await supabase.storage
+        .from(BUCKET)
+        .createSignedUrl(path, SIGNED_TTL);
+      if (signed?.signedUrl) {
+        setUploaded((prev) => ({ ...prev, [i]: { path, url: signed.signedUrl } }));
+      }
+    } catch (e) {
+      console.error("Upload failed", e);
+      alert("Falha ao enviar imagem. Tente novamente.");
+    } finally {
+      setUploadingSlot(null);
+    }
   };
-
-
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
@@ -105,7 +140,6 @@ function Galeria() {
           >
             <ChevronLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" /> Voltar
           </Link>
-
         </div>
       </header>
 
@@ -118,13 +152,9 @@ function Galeria() {
         >
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px w-12 bg-sky-400" />
-            <span className="uppercase tracking-[0.4em] text-xs text-sky-400/90">
-              Categoria
-            </span>
+            <span className="uppercase tracking-[0.4em] text-xs text-sky-400/90">Categoria</span>
           </div>
-          <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-light">
-            {nome}
-          </h1>
+          <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-light">{nome}</h1>
           <p className="mt-4 text-muted-foreground max-w-lg">
             Esta coleção receberá fotos em breve. Volte em breve para conferir novas obras.
           </p>
@@ -133,8 +163,9 @@ function Galeria() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {slots.map((_, i) => {
             const baseImage = images[i];
-            const image = uploaded[i] ?? baseImage;
+            const image = uploaded[i]?.url ?? baseImage;
             const hasImage = Boolean(image);
+            const isUploading = uploadingSlot === i;
             return (
               <motion.div
                 key={i}
@@ -180,16 +211,25 @@ function Galeria() {
                   type="file"
                   accept="image/*"
                   className="hidden"
-                  onChange={(e) => handleUpload(i, e.target.files?.[0])}
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    e.target.value = "";
+                    handleUpload(i, f);
+                  }}
                 />
 
                 <div className="absolute top-3 left-3 z-10 opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
                   <button
                     type="button"
+                    disabled={isUploading}
                     onClick={() => fileInputs.current[i]?.click()}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium tracking-wide border-2 border-sky-400/80 text-sky-100 bg-background/70 backdrop-blur shadow-[0_0_14px_rgba(56,155,255,0.55)] hover:bg-sky-400/20 hover:border-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] transition-all"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium tracking-wide border-2 border-sky-400/80 text-sky-100 bg-background/70 backdrop-blur shadow-[0_0_14px_rgba(56,155,255,0.55)] hover:bg-sky-400/20 hover:border-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] transition-all disabled:opacity-70"
                   >
-                    {hasImage ? (
+                    {isUploading ? (
+                      <>
+                        <Loader2 className="h-3.5 w-3.5 animate-spin" /> Enviando…
+                      </>
+                    ) : hasImage ? (
                       <>
                         <RefreshCw className="h-3.5 w-3.5" /> Substituir imagem
                       </>
@@ -223,11 +263,9 @@ function Galeria() {
               </motion.div>
             );
           })}
-
         </div>
       </section>
       <Lightbox data={lightbox} onClose={() => setLightbox(null)} />
     </div>
   );
 }
-
