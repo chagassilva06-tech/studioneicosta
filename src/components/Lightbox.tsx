@@ -46,7 +46,7 @@ export function Lightbox({
             exit={{ opacity: 0, scale: 0.94, y: 20 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-5xl max-h-[90vh] grid md:grid-cols-[1.4fr_1fr] gap-0 rounded-2xl overflow-hidden border-2 border-sky-400/70 bg-card shadow-[0_0_0_1px_rgba(56,155,255,0.4),0_30px_90px_-20px_rgba(56,155,255,0.55)]"
+            className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto grid md:grid-cols-[1.4fr_1fr] gap-0 rounded-2xl border-2 border-sky-400/70 bg-card shadow-[0_0_0_1px_rgba(56,155,255,0.4),0_30px_90px_-20px_rgba(56,155,255,0.55)]"
           >
             <div className="relative aspect-[4/5] md:aspect-auto bg-background min-h-[280px]">
               {data.src ? (
