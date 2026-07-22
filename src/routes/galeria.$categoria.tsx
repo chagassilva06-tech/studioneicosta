@@ -57,7 +57,19 @@ function Galeria() {
   const total = 3;
   const slots = Array.from({ length: total });
   const [lightbox, setLightbox] = useState<LightboxData>(null);
+  const [uploaded, setUploaded] = useState<Record<number, string>>({});
+  const fileInputs = useRef<Record<number, HTMLInputElement | null>>({});
   const desc = categoryDescriptions[nome] ?? `Obra da coleção ${nome}.`;
+
+  const handleUpload = (i: number, file?: File | null) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      setUploaded((prev) => ({ ...prev, [i]: String(reader.result) }));
+    };
+    reader.readAsDataURL(file);
+  };
+
 
 
   return (
