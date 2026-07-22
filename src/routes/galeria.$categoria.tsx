@@ -183,7 +183,7 @@ function Galeria() {
                   onChange={(e) => handleUpload(i, e.target.files?.[0])}
                 />
 
-                <div className="absolute top-3 left-3 z-10">
+                <div className="absolute top-3 left-3 z-10 opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
                   <button
                     type="button"
                     onClick={() => fileInputs.current[i]?.click()}
