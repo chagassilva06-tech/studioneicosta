@@ -100,12 +100,6 @@ function AuthPage() {
               Studio<span className="text-sky-400">Nei</span>
             </span>
           </Link>
-          <Link
-            to="/"
-            className="group inline-flex items-center gap-2 text-sm font-medium text-sky-400 border border-sky-400/60 rounded-full px-4 py-1.5 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 transition-all"
-          >
-            <ChevronLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" /> Voltar
-          </Link>
         </div>
       </header>
 
