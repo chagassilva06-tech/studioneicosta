@@ -75,6 +75,11 @@ function AuthPage() {
       } else {
         const { error: err } = await supabase.auth.signInWithPassword({ email, password });
         if (err) throw err;
+        if (keepSignedIn) {
+          localStorage.removeItem("sn:ephemeral");
+        } else {
+          localStorage.setItem("sn:ephemeral", "1");
+        }
         navigate({ to: "/" });
       }
     } catch (err) {
