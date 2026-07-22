@@ -25,6 +25,7 @@ import artHorse from "@/assets/art-horse.jpg";
 import artForest from "@/assets/art-forest.jpg";
 
 import { Lightbox, type LightboxData } from "@/components/Lightbox";
+import { supabase } from "@/integrations/supabase/client";
 
 const featuredSlides = [
   {
@@ -114,6 +115,18 @@ function Index() {
   const [showSuggest, setShowSuggest] = useState(false);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let cancelled = false;
+    supabase.auth.getSession().then(({ data }) => {
+      if (!cancelled && !data.session) {
+        navigate({ to: "/auth", replace: true });
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [navigate]);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
