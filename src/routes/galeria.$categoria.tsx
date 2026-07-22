@@ -246,7 +246,7 @@ function Galeria() {
                 />
 
                 {isAdmin && (
-                  <div className="absolute top-3 left-3 z-10 opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                  <div className="absolute top-3 left-3 z-10 opacity-100 translate-y-0 lg:opacity-0 lg:-translate-y-2 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
                     <button
                       type="button"
                       disabled={isUploading}
