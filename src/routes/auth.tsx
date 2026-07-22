@@ -202,16 +202,6 @@ function AuthPage() {
                 Manter conectado?
               </label>
             )}
-                      type="button"
-                      onClick={() => switchMode("reset")}
-                      className="text-xs text-sky-300/90 hover:text-sky-200 transition-colors"
-                    >
-                      Esqueceu sua senha?
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
 
             {error && (
               <p className="text-sm text-red-300 bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-2">
