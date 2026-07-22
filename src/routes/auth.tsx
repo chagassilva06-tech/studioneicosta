@@ -346,6 +346,19 @@ function AuthPage() {
                 </div>
               </div>
 
+              {mode === "signin" && (
+                <div className="pt-1 text-center">
+                  <button
+                    type="button"
+                    onClick={() => switchMode("reset")}
+                    className="inline-flex items-center gap-2 px-5 py-2 border border-[color:var(--gold)]/50 text-[11px] tracking-[0.3em] uppercase text-[color:var(--gold-soft)] hover:text-[color:var(--ink)] hover:border-[color:var(--gold-soft)] hover:bg-[color:var(--gold)]/10 transition-all"
+                    style={{ fontFamily: "'Cinzel', serif" }}
+                  >
+                    Alterar senha
+                  </button>
+                </div>
+              )}
+
               {mode === "reset" && (
                 <div className="pt-1 text-center">
                   <button
