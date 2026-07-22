@@ -1,10 +1,11 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { ChevronLeft, ChevronRight, ImageIcon } from "lucide-react";
+import { useRef, useState } from "react";
+import { ChevronLeft, ChevronRight, ImageIcon, Upload, RefreshCw } from "lucide-react";
 import paisagem1 from "@/assets/paisagem-1.png";
 import pintura1 from "@/assets/pintura-1.png";
 import { Lightbox, type LightboxData } from "@/components/Lightbox";
+
 
 const categoryImages: Record<string, string[]> = {
   Paisagem: [paisagem1],
@@ -56,7 +57,19 @@ function Galeria() {
   const total = 3;
   const slots = Array.from({ length: total });
   const [lightbox, setLightbox] = useState<LightboxData>(null);
+  const [uploaded, setUploaded] = useState<Record<number, string>>({});
+  const fileInputs = useRef<Record<number, HTMLInputElement | null>>({});
   const desc = categoryDescriptions[nome] ?? `Obra da coleção ${nome}.`;
+
+  const handleUpload = (i: number, file?: File | null) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      setUploaded((prev) => ({ ...prev, [i]: String(reader.result) }));
+    };
+    reader.readAsDataURL(file);
+  };
+
 
 
   return (
@@ -102,7 +115,9 @@ function Galeria() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {slots.map((_, i) => {
-            const image = images[i];
+            const baseImage = images[i];
+            const image = uploaded[i] ?? baseImage;
+            const hasImage = Boolean(image);
             return (
               <motion.div
                 key={i}
@@ -112,7 +127,7 @@ function Galeria() {
                 transition={{ duration: 0.5, delay: (i % 6) * 0.05 }}
                 className="group relative aspect-[4/5] rounded-2xl border border-border/50 bg-card overflow-hidden hover:border-sky-400/70 hover:shadow-[0_0_0_1px_rgba(56,155,255,0.4),0_20px_60px_-15px_rgba(56,155,255,0.4)] transition-all duration-500"
               >
-                {image ? (
+                {hasImage ? (
                   <>
                     <img
                       src={image}
@@ -140,14 +155,43 @@ function Galeria() {
                     </div>
                   </>
                 )}
+
+                <input
+                  ref={(el) => {
+                    fileInputs.current[i] = el;
+                  }}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => handleUpload(i, e.target.files?.[0])}
+                />
+
+                <div className="absolute top-3 left-3 z-10">
+                  <button
+                    type="button"
+                    onClick={() => fileInputs.current[i]?.click()}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium tracking-wide border-2 border-sky-400/80 text-sky-100 bg-background/70 backdrop-blur shadow-[0_0_14px_rgba(56,155,255,0.55)] hover:bg-sky-400/20 hover:border-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] transition-all"
+                  >
+                    {hasImage ? (
+                      <>
+                        <RefreshCw className="h-3.5 w-3.5" /> Substituir imagem
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="h-3.5 w-3.5" /> Carregar imagem
+                      </>
+                    )}
+                  </button>
+                </div>
+
                 <div className="absolute bottom-4 left-4 right-4 flex justify-center z-10 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
                   <button
                     type="button"
                     onClick={() =>
                       setLightbox({
                         src: image,
-                        title: image ? `${nome} — obra ${i + 1}` : "Em breve",
-                        description: image
+                        title: hasImage ? `${nome} — obra ${i + 1}` : "Em breve",
+                        description: hasImage
                           ? desc
                           : `Nova obra da categoria ${nome} chegando em breve. Fique atento às próximas publicações da coleção.`,
                         categoria: nome,
@@ -162,6 +206,7 @@ function Galeria() {
               </motion.div>
             );
           })}
+
         </div>
       </section>
       <Lightbox data={lightbox} onClose={() => setLightbox(null)} />
