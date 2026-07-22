@@ -568,9 +568,9 @@ function Index() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-10 grid md:grid-cols-2 gap-8 md:gap-10">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <span className="h-2.5 w-2.5 rounded-full bg-sky-400 shadow-[0_0_12px_rgba(56,155,255,0.9)]" />
-              <span className="font-display text-3xl md:text-4xl drop-shadow-[0_0_10px_rgba(56,155,255,0.45)]">
-                Studio<span className="text-sky-300 font-normal drop-shadow-[0_0_12px_rgba(56,155,255,0.7)]">Nei</span>
+              <span className="h-2.5 w-2.5 rounded-full bg-[#b89a5e] shadow-[0_0_10px_rgba(184,154,94,0.7)]" />
+              <span className="font-display text-3xl md:text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                Studio<span className="italic font-normal text-[#d8bf85] drop-shadow-[0_0_10px_rgba(216,191,133,0.5)]">Nei</span>
               </span>
             </div>
             <p className="text-sm text-foreground/75 max-w-xs leading-relaxed">
