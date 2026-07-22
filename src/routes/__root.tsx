@@ -121,6 +121,20 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (localStorage.getItem("sn:ephemeral") !== "1") return;
+    const handler = () => {
+      try {
+        void supabase.auth.signOut();
+      } catch {
+        // best-effort during unload
+      }
+    };
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
