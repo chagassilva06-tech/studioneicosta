@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, ImageIcon, Upload, RefreshCw } from "lucide-react";
 import paisagem1 from "@/assets/paisagem-1.png";
 import pintura1 from "@/assets/pintura-1.png";
@@ -57,9 +57,26 @@ function Galeria() {
   const total = 3;
   const slots = Array.from({ length: total });
   const [lightbox, setLightbox] = useState<LightboxData>(null);
+  const storageKey = `studionei:uploads:${nome}`;
   const [uploaded, setUploaded] = useState<Record<number, string>>({});
+  const [hydrated, setHydrated] = useState(false);
   const fileInputs = useRef<Record<number, HTMLInputElement | null>>({});
   const desc = categoryDescriptions[nome] ?? `Obra da coleção ${nome}.`;
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(storageKey);
+      if (raw) setUploaded(JSON.parse(raw));
+    } catch {}
+    setHydrated(true);
+  }, [storageKey]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(uploaded));
+    } catch {}
+  }, [uploaded, storageKey, hydrated]);
 
   const handleUpload = (i: number, file?: File | null) => {
     if (!file) return;
@@ -166,7 +183,7 @@ function Galeria() {
                   onChange={(e) => handleUpload(i, e.target.files?.[0])}
                 />
 
-                <div className="absolute top-3 left-3 z-10">
+                <div className="absolute top-3 left-3 z-10 opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
                   <button
                     type="button"
                     onClick={() => fileInputs.current[i]?.click()}
