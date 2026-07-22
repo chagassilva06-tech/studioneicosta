@@ -59,6 +59,12 @@ function Galeria() {
   const [uploadingSlot, setUploadingSlot] = useState<number | null>(null);
   const fileInputs = useRef<Record<number, HTMLInputElement | null>>({});
   const desc = categoryDescriptions[nome] ?? `Obra da coleção ${nome}.`;
+  const { isAdmin, userEmail } = useAdmin();
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+  };
+
 
   useEffect(() => {
     let cancelled = false;
