@@ -12,7 +12,6 @@ import {
   Play,
   Pause,
   ImageIcon,
-  ImageIcon,
   LogOut,
 } from "lucide-react";
 
