@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, ImageIcon, Upload, RefreshCw } from "lucide-react";
 import paisagem1 from "@/assets/paisagem-1.png";
 import pintura1 from "@/assets/pintura-1.png";
