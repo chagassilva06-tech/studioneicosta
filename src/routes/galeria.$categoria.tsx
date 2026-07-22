@@ -136,10 +136,13 @@ function Galeria() {
     <div className="min-h-screen bg-background text-foreground font-sans">
       <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 h-16 flex items-center justify-between gap-3">
-          <Link to="/" className="flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-full bg-sky-400 shadow-[0_0_12px_rgba(56,155,255,0.9)]" />
-            <span className="font-display text-2xl tracking-wide">
-              Studio<span className="text-sky-400">Nei</span>
+          <Link to="/" className="flex items-center gap-2 group">
+            <span className="h-2 w-2 rounded-full bg-[#b89a5e] shadow-[0_0_10px_rgba(184,154,94,0.7)]" />
+            <span
+              className="text-2xl sm:text-3xl tracking-wide text-foreground transition-all duration-500 group-hover:tracking-[0.06em]"
+              style={{ fontFamily: "'Cormorant Garamond', serif" }}
+            >
+              Studio<span className="italic text-[#d8bf85]">Nei</span>
             </span>
           </Link>
           <div className="flex items-center gap-2">
