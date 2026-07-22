@@ -12,6 +12,7 @@ import {
   Play,
   Pause,
   ImageIcon,
+  LogOut,
 } from "lucide-react";
 
 
@@ -201,6 +202,17 @@ function Index() {
               aria-label="Alternar tema"
             >
               {dark ? <Lightbulb className="h-4 w-4 text-sky-400" /> : <LightbulbOff className="h-4 w-4 text-sky-400" />}
+            </button>
+            <button
+              onClick={async () => {
+                await supabase.auth.signOut();
+                navigate({ to: "/auth", replace: true });
+              }}
+              className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium text-sky-400 border-2 border-sky-400/70 bg-sky-400/5 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.85)] hover:border-sky-300 hover:text-sky-300 transition-all"
+              aria-label="Sair"
+            >
+              <LogOut className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Sair</span>
             </button>
           </div>
         </div>
