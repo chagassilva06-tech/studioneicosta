@@ -221,32 +221,8 @@ function AuthPage() {
               )}
             </button>
 
-            <div className="pt-2 text-center text-sm text-muted-foreground">
-              {mode === "signin" && (
-                <>
-                  Ainda não possui conta?{" "}
-                  <button
-                    type="button"
-                    onClick={() => switchMode("signup")}
-                    className="text-sky-300 hover:text-sky-200 font-medium transition-colors"
-                  >
-                    Criar conta →
-                  </button>
-                </>
-              )}
-              {mode === "signup" && (
-                <>
-                  Já tem conta?{" "}
-                  <button
-                    type="button"
-                    onClick={() => switchMode("signin")}
-                    className="text-sky-300 hover:text-sky-200 font-medium transition-colors"
-                  >
-                    Entrar →
-                  </button>
-                </>
-              )}
-              {mode === "reset" && (
+            {mode === "reset" && (
+              <div className="pt-2 text-center text-sm text-muted-foreground">
                 <button
                   type="button"
                   onClick={() => switchMode("signin")}
@@ -254,8 +230,8 @@ function AuthPage() {
                 >
                   ← Voltar para entrar
                 </button>
-              )}
-            </div>
+              </div>
+            )}
           </form>
         </div>
       </main>
