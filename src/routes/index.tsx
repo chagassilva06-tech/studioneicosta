@@ -27,6 +27,7 @@ import artForest from "@/assets/art-forest.jpg";
 
 import { Lightbox, type LightboxData } from "@/components/Lightbox";
 import { supabase } from "@/integrations/supabase/client";
+import { useDominantColor, rgbTriplet } from "@/hooks/use-dominant-color";
 
 const featuredSlides = [
   {
@@ -159,6 +160,45 @@ function Index() {
   const [lightbox, setLightbox] = useState<LightboxData>(null);
 
   const featuredTotal = featuredSlides.length;
+
+  const [featuredUrls, setFeaturedUrls] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const { data } = await supabase
+        .from("artworks")
+        .select("categoria, slot, storage_path")
+        .order("slot", { ascending: true });
+      if (!data || cancelled) return;
+      const firstByCat: Record<string, string> = {};
+      for (const row of data) {
+        if (!firstByCat[row.categoria]) firstByCat[row.categoria] = row.storage_path;
+      }
+      const entries = Object.entries(firstByCat);
+      if (!entries.length) return;
+      const paths = entries.map(([, p]) => p);
+      const { data: signed } = await supabase.storage
+        .from("artworks")
+        .createSignedUrls(paths, 60 * 60 * 24 * 365);
+      if (!signed || cancelled) return;
+      const urlByCat: Record<string, string> = {};
+      entries.forEach(([cat], i) => {
+        const s = signed[i];
+        if (s?.signedUrl) urlByCat[cat] = s.signedUrl;
+      });
+      setFeaturedUrls(urlByCat);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const currentSlide = featuredSlides[featuredIdx];
+  const currentSrc = featuredUrls[currentSlide.categoria] ?? currentSlide.src;
+  const featuredDominant = useDominantColor(currentSrc);
+  const featuredTriplet = rgbTriplet(featuredDominant) ?? "56, 189, 248";
+  const featuredColor = featuredDominant ?? "rgb(56, 189, 248)";
 
   useEffect(() => {
     if (!featuredPlaying || featuredHover) return;
@@ -447,8 +487,9 @@ function Index() {
               >
                 <div className="group absolute inset-0 overflow-hidden">
                   <img
-                    src={featuredSlides[featuredIdx].src}
-                    alt={featuredSlides[featuredIdx].title}
+                    src={currentSrc}
+                    alt={currentSlide.title}
+                    crossOrigin="anonymous"
                     className="absolute inset-0 h-full w-full object-contain bg-background transition-transform duration-700 ease-out group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/20 to-transparent" />
@@ -458,18 +499,17 @@ function Index() {
                         Destaque {featuredIdx + 1} / {featuredTotal}
                       </p>
                       <h3 className="font-display text-2xl sm:text-3xl md:text-4xl truncate">
-                        {featuredSlides[featuredIdx].title}
+                        {currentSlide.title}
                       </h3>
                     </div>
                     <button
                       type="button"
                       onClick={() => {
-                        const s = featuredSlides[featuredIdx];
                         setLightbox({
-                          src: s.src,
-                          title: s.title,
-                          description: s.description,
-                          categoria: s.categoria,
+                          src: currentSrc,
+                          title: currentSlide.title,
+                          description: currentSlide.description,
+                          categoria: currentSlide.categoria,
                         });
                       }}
                       className="shrink-0 inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium tracking-wide border-2 border-sky-400/70 text-sky-200 bg-sky-400/10 backdrop-blur shadow-[0_0_14px_rgba(56,155,255,0.45)] hover:bg-sky-400/20 hover:border-sky-300 hover:text-sky-100 hover:shadow-[0_0_22px_rgba(56,155,255,0.85)] transition-all"
@@ -482,7 +522,14 @@ function Index() {
                 </div>
               </motion.div>
             </AnimatePresence>
-            <div className="pointer-events-none absolute inset-3 rounded-xl border-2 border-sky-400/70 shadow-[inset_0_0_12px_rgba(56,189,248,0.55),0_0_14px_rgba(56,189,248,0.5)]" />
+            <div
+              className="pointer-events-none absolute inset-3 rounded-xl border-2 transition-colors duration-500"
+              style={{
+                borderColor: featuredColor,
+                boxShadow: `inset 0 0 12px rgba(${featuredTriplet}, 0.55), 0 0 14px rgba(${featuredTriplet}, 0.5)`,
+              }}
+            />
+
 
             {/* Prev / Next */}
             <button
