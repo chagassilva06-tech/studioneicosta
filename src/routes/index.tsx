@@ -161,6 +161,45 @@ function Index() {
 
   const featuredTotal = featuredSlides.length;
 
+  const [featuredUrls, setFeaturedUrls] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const { data } = await supabase
+        .from("artworks")
+        .select("categoria, slot, storage_path")
+        .order("slot", { ascending: true });
+      if (!data || cancelled) return;
+      const firstByCat: Record<string, string> = {};
+      for (const row of data) {
+        if (!firstByCat[row.categoria]) firstByCat[row.categoria] = row.storage_path;
+      }
+      const entries = Object.entries(firstByCat);
+      if (!entries.length) return;
+      const paths = entries.map(([, p]) => p);
+      const { data: signed } = await supabase.storage
+        .from("artworks")
+        .createSignedUrls(paths, 60 * 60 * 24 * 365);
+      if (!signed || cancelled) return;
+      const urlByCat: Record<string, string> = {};
+      entries.forEach(([cat], i) => {
+        const s = signed[i];
+        if (s?.signedUrl) urlByCat[cat] = s.signedUrl;
+      });
+      setFeaturedUrls(urlByCat);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const currentSlide = featuredSlides[featuredIdx];
+  const currentSrc = featuredUrls[currentSlide.categoria] ?? currentSlide.src;
+  const featuredDominant = useDominantColor(currentSrc);
+  const featuredTriplet = rgbTriplet(featuredDominant) ?? "56, 189, 248";
+  const featuredColor = featuredDominant ?? "rgb(56, 189, 248)";
+
   useEffect(() => {
     if (!featuredPlaying || featuredHover) return;
     const t = setInterval(() => {
