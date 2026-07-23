@@ -7,6 +7,7 @@ import pintura1 from "@/assets/pintura-1.png";
 import { Lightbox, type LightboxData } from "@/components/Lightbox";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdmin } from "@/hooks/use-admin";
+import { useDominantColor, rgbTriplet } from "@/hooks/use-dominant-color";
 
 
 
