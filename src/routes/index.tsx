@@ -452,12 +452,6 @@ function Index() {
           const ringCount = 10;
           const ringItems = Array.from({ length: ringCount }, (_, i) => featuredSlides[i % featuredSlides.length]);
           const angleStep = 360 / ringCount;
-          const [isMobile, setIsMobileLocal] = [
-            typeof window !== "undefined" && window.matchMedia("(max-width: 640px)").matches,
-            (_: boolean) => {},
-          ];
-          void setIsMobileLocal;
-          // sizes per breakpoint
           const cardW = isMobile ? 150 : 260;
           const cardH = isMobile ? 200 : 340;
           const translateZ = isMobile ? 260 : 460;
