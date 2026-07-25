@@ -629,14 +629,21 @@ function Index() {
             <p className="text-xs uppercase tracking-[0.3em] text-sky-300/90 mb-4">Redes</p>
             <ul className="space-y-3 text-sm">
               <li>
-                <a href="#" className="inline-flex items-center gap-2 hover:text-sky-300 transition">
+                <a
+                  href="https://www.instagram.com/sidnei_costa1961?igsh=MWFsdWF4NTlsOTJoaA=="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 hover:text-sky-300 transition"
+                >
                   <Instagram className="h-4 w-4" /> Instagram
                 </a>
               </li>
               <li>
-
-                <a href="#" className="inline-flex items-center gap-2 hover:text-sky-300 transition">
-                  <Mail className="h-4 w-4" /> contato@studionei.art
+                <a
+                  href="mailto:costa.sidnei@gmail.com"
+                  className="inline-flex items-center gap-2 hover:text-sky-300 transition"
+                >
+                  <Mail className="h-4 w-4" /> costa.sidnei@gmail.com
                 </a>
               </li>
             </ul>
