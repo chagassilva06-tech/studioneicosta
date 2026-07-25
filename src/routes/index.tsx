@@ -495,8 +495,14 @@ function Index() {
                         src={src}
                         alt={slide.title}
                         crossOrigin="anonymous"
-                        loading="lazy"
-                        className="absolute inset-0 h-full w-full object-cover"
+                        loading={i < 3 ? "eager" : "lazy"}
+                        decoding="async"
+                        fetchPriority={i === 0 ? "high" : "low"}
+                        draggable={false}
+                        width={cardW}
+                        height={cardH}
+                        sizes={isMobile ? "150px" : "260px"}
+                        className="absolute inset-0 h-full w-full object-cover object-center select-none [transform:translateZ(0)] [backface-visibility:hidden] will-change-transform"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/10 to-transparent" />
                       <div className="absolute bottom-2 left-2 right-2 sm:bottom-3 sm:left-3 sm:right-3 text-left">
