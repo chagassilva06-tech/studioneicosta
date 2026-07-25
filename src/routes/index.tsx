@@ -446,133 +446,69 @@ function Index() {
 
 
 
-        <div
-          className="relative mx-auto max-w-xl"
-          onMouseEnter={() => setFeaturedHover(true)}
-          onMouseLeave={() => setFeaturedHover(false)}
-        >
-          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-border/50 bg-card [perspective:1400px]">
-            <AnimatePresence mode="wait" custom={featuredDir}>
-              <motion.div
-                key={featuredIdx}
-                custom={featuredDir}
-                variants={{
-                  enter: (dir: number) => ({
-                    opacity: 0,
-                    x: dir * 120,
-                    rotateY: dir * 25,
-                    scale: 0.9,
-                    filter: "blur(14px)",
-                  }),
-                  center: {
-                    opacity: 1,
-                    x: 0,
-                    rotateY: 0,
-                    scale: 1,
-                    filter: "blur(0px)",
-                  },
-                  exit: (dir: number) => ({
-                    opacity: 0,
-                    x: dir * -120,
-                    rotateY: dir * -25,
-                    scale: 0.9,
-                    filter: "blur(14px)",
-                  }),
-                }}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute inset-0 [transform-style:preserve-3d]"
-              >
-                <div className="group absolute inset-0 overflow-hidden">
-                  <img
-                    src={currentSrc}
-                    alt={currentSlide.title}
-                    crossOrigin="anonymous"
-                    className="absolute inset-0 h-full w-full object-contain bg-background transition-transform duration-700 ease-out group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/20 to-transparent" />
-                  <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 flex items-end justify-between gap-3">
-                    <div className="min-w-0">
-                      <p className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-sky-300/90 mb-1.5 sm:mb-2">
-                        Destaque {featuredIdx + 1} / {featuredTotal}
-                      </p>
-                      <h3 className="font-display text-2xl sm:text-3xl md:text-4xl truncate">
-                        {currentSlide.title}
-                      </h3>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setLightbox({
-                          src: currentSrc,
-                          title: currentSlide.title,
-                          description: currentSlide.description,
-                          categoria: currentSlide.categoria,
-                        });
-                      }}
-                      className="shrink-0 inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium tracking-wide border-2 border-sky-400/70 text-sky-200 bg-sky-400/10 backdrop-blur shadow-[0_0_14px_rgba(56,155,255,0.45)] hover:bg-sky-400/20 hover:border-sky-300 hover:text-sky-100 hover:shadow-[0_0_22px_rgba(56,155,255,0.85)] transition-all"
-                    >
-                      Ver detalhes
-                      <ChevronRight className="h-3.5 w-3.5" />
-                    </button>
-
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+        {(() => {
+          const ringCount = 10;
+          const ringItems = Array.from({ length: ringCount }, (_, i) => featuredSlides[i % featuredSlides.length]);
+          const angleStep = 360 / ringCount;
+          const translateZ = 460;
+          return (
             <div
-              className="pointer-events-none absolute inset-3 rounded-xl border-2 transition-colors duration-500"
-              style={{
-                borderColor: featuredColor,
-                boxShadow: `inset 0 0 12px rgba(${featuredTriplet}, 0.55), 0 0 14px rgba(${featuredTriplet}, 0.5)`,
-              }}
-            />
-
-
-            {/* Prev / Next */}
-            <button
-              onClick={prevFeatured}
-              aria-label="Anterior"
-              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 rounded-full border-2 border-sky-400/70 bg-background/50 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.85)] hover:border-sky-300 transition-all"
+              className="group/ring relative mx-auto w-full max-w-3xl h-[420px] sm:h-[520px] md:h-[600px] flex items-center justify-center overflow-hidden"
+              style={{ perspective: "1400px" }}
             >
-              <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
-            </button>
-            <button
-              onClick={nextFeatured}
-              aria-label="Próximo"
-              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 rounded-full border-2 border-sky-400/70 bg-background/50 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.85)] hover:border-sky-300 transition-all"
-            >
-              <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
-            </button>
+              <div
+                className="relative animate-ring-spin group-hover/ring:[animation-play-state:paused]"
+                style={{
+                  width: "260px",
+                  height: "340px",
+                  transformStyle: "preserve-3d",
+                }}
+              >
+                {ringItems.map((slide, i) => {
+                  const src = featuredUrls[slide.categoria] ?? slide.src;
+                  return (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() =>
+                        setLightbox({
+                          src,
+                          title: slide.title,
+                          description: slide.description,
+                          categoria: slide.categoria,
+                        })
+                      }
+                      className="absolute inset-0 rounded-2xl overflow-hidden border-2 border-sky-400/70 bg-card shadow-[0_0_22px_rgba(56,155,255,0.5),inset_0_0_14px_rgba(56,155,255,0.35)] hover:border-sky-300 hover:shadow-[0_0_36px_rgba(56,155,255,0.9),inset_0_0_18px_rgba(56,155,255,0.5)] transition-all"
+                      style={{
+                        transform: `rotateY(${i * angleStep}deg) translateZ(${translateZ}px)`,
+                        backfaceVisibility: "hidden",
+                      }}
+                      aria-label={`${slide.title} — ver detalhes`}
+                    >
+                      <img
+                        src={src}
+                        alt={slide.title}
+                        crossOrigin="anonymous"
+                        loading="lazy"
+                        className="absolute inset-0 h-full w-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/10 to-transparent" />
+                      <div className="absolute bottom-3 left-3 right-3 text-left">
+                        <p className="text-[9px] uppercase tracking-[0.3em] text-sky-300/90 mb-1">
+                          Destaque {i + 1}
+                        </p>
+                        <h3 className="font-display text-xl sm:text-2xl truncate text-foreground">
+                          {slide.title}
+                        </h3>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })()}
 
-            {/* Play/Pause */}
-            <button
-              onClick={() => setFeaturedPlaying((p) => !p)}
-              aria-label={featuredPlaying ? "Pausar" : "Reproduzir"}
-              className="absolute top-4 right-4 p-2.5 rounded-full border-2 border-sky-400/70 bg-background/50 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.85)] hover:border-sky-300 transition-all"
-            >
-              {featuredPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-            </button>
-          </div>
-
-          {/* Indicators */}
-          <div className="mt-5 flex justify-center gap-2.5">
-            {featuredSlides.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => goFeatured(i)}
-                aria-label={`Ir para slide ${i + 1}`}
-                className={`h-2.5 rounded-full border-2 transition-all duration-300 ${
-                  i === featuredIdx
-                    ? "w-8 bg-sky-400 border-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.85)]"
-                    : "w-2.5 border-sky-400/50 bg-transparent hover:border-sky-300"
-                }`}
-              />
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* About */}
