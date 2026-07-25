@@ -116,6 +116,7 @@ function Index() {
   const [query, setQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(true);
   const [showSuggest, setShowSuggest] = useState(false);
+  const isMobile = useIsMobile();
 
   const navigate = useNavigate();
 
