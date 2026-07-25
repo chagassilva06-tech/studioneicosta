@@ -28,6 +28,7 @@ import artForest from "@/assets/art-forest.jpg";
 import { Lightbox, type LightboxData } from "@/components/Lightbox";
 import { supabase } from "@/integrations/supabase/client";
 import { useDominantColor, rgbTriplet } from "@/hooks/use-dominant-color";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const featuredSlides = [
   {
@@ -115,6 +116,7 @@ function Index() {
   const [query, setQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(true);
   const [showSuggest, setShowSuggest] = useState(false);
+  const isMobile = useIsMobile();
 
   const navigate = useNavigate();
 
@@ -450,17 +452,21 @@ function Index() {
           const ringCount = 10;
           const ringItems = Array.from({ length: ringCount }, (_, i) => featuredSlides[i % featuredSlides.length]);
           const angleStep = 360 / ringCount;
-          const translateZ = 460;
+          const cardW = isMobile ? 150 : 260;
+          const cardH = isMobile ? 200 : 340;
+          const translateZ = isMobile ? 260 : 460;
+          const perspective = isMobile ? 900 : 1400;
+          const containerH = isMobile ? 340 : 600;
           return (
             <div
-              className="group/ring relative mx-auto w-full max-w-3xl h-[420px] sm:h-[520px] md:h-[600px] flex items-center justify-center overflow-hidden"
-              style={{ perspective: "1400px" }}
+              className="group/ring relative mx-auto w-full max-w-3xl flex items-center justify-center overflow-hidden"
+              style={{ perspective: `${perspective}px`, height: `${containerH}px` }}
             >
               <div
                 className="relative animate-ring-spin group-hover/ring:[animation-play-state:paused]"
                 style={{
-                  width: "260px",
-                  height: "340px",
+                  width: `${cardW}px`,
+                  height: `${cardH}px`,
                   transformStyle: "preserve-3d",
                 }}
               >
@@ -493,11 +499,11 @@ function Index() {
                         className="absolute inset-0 h-full w-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/10 to-transparent" />
-                      <div className="absolute bottom-3 left-3 right-3 text-left">
-                        <p className="text-[9px] uppercase tracking-[0.3em] text-sky-300/90 mb-1">
+                      <div className="absolute bottom-2 left-2 right-2 sm:bottom-3 sm:left-3 sm:right-3 text-left">
+                        <p className="text-[8px] sm:text-[9px] uppercase tracking-[0.25em] sm:tracking-[0.3em] text-sky-300/90 mb-0.5 sm:mb-1">
                           Destaque {i + 1}
                         </p>
-                        <h3 className="font-display text-xl sm:text-2xl truncate text-foreground">
+                        <h3 className="font-display text-base sm:text-2xl truncate text-foreground">
                           {slide.title}
                         </h3>
                       </div>
@@ -508,6 +514,7 @@ function Index() {
             </div>
           );
         })()}
+
 
       </section>
 
