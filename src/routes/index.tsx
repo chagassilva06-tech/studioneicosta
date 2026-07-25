@@ -454,7 +454,7 @@ function Index() {
           const angleStep = 360 / ringCount;
           const cardW = isMobile ? 150 : 260;
           const cardH = isMobile ? 200 : 340;
-          const translateZ = isMobile ? 260 : 460;
+          const translateZ = isMobile ? 240 : 420;
           const perspective = isMobile ? 900 : 1400;
           const containerH = isMobile ? 340 : 600;
           return (
