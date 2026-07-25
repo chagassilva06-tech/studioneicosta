@@ -448,78 +448,18 @@ function Index() {
 
 
 
-        {(() => {
-          const ringCount = 10;
-          const ringItems = Array.from({ length: ringCount }, (_, i) => featuredSlides[i % featuredSlides.length]);
-          const angleStep = 360 / ringCount;
-          const cardW = isMobile ? 150 : 260;
-          const cardH = isMobile ? 200 : 340;
-          const translateZ = isMobile ? 240 : 420;
-          const perspective = isMobile ? 900 : 1400;
-          const containerH = isMobile ? 340 : 600;
-          return (
-            <div
-              className="group/ring relative mx-auto w-full max-w-3xl flex items-center justify-center overflow-hidden"
-              style={{ perspective: `${perspective}px`, height: `${containerH}px` }}
-            >
-              <div
-                className="relative animate-ring-spin group-hover/ring:[animation-play-state:paused]"
-                style={{
-                  width: `${cardW}px`,
-                  height: `${cardH}px`,
-                  transformStyle: "preserve-3d",
-                }}
-              >
-                {ringItems.map((slide, i) => {
-                  const src = featuredUrls[slide.categoria] ?? slide.src;
-                  return (
-                    <button
-                      key={i}
-                      type="button"
-                      onClick={() =>
-                        setLightbox({
-                          src,
-                          title: slide.title,
-                          description: slide.description,
-                          categoria: slide.categoria,
-                        })
-                      }
-                      className="absolute inset-0 rounded-2xl overflow-hidden border-2 border-sky-400/70 bg-card shadow-[0_0_22px_rgba(56,155,255,0.5),inset_0_0_14px_rgba(56,155,255,0.35)] hover:border-sky-300 hover:shadow-[0_0_36px_rgba(56,155,255,0.9),inset_0_0_18px_rgba(56,155,255,0.5)] transition-all"
-                      style={{
-                        transform: `rotateY(${i * angleStep}deg) translateZ(${translateZ}px)`,
-                        backfaceVisibility: "hidden",
-                      }}
-                      aria-label={`${slide.title} — ver detalhes`}
-                    >
-                      <img
-                        src={src}
-                        alt={slide.title}
-                        crossOrigin="anonymous"
-                        loading={i < 3 ? "eager" : "lazy"}
-                        decoding="async"
-                        fetchPriority={i === 0 ? "high" : "low"}
-                        draggable={false}
-                        width={cardW}
-                        height={cardH}
-                        sizes={isMobile ? "150px" : "260px"}
-                        className="absolute inset-0 h-full w-full object-cover object-center select-none [transform:translateZ(0)] [backface-visibility:hidden] will-change-transform"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/10 to-transparent" />
-                      <div className="absolute bottom-2 left-2 right-2 sm:bottom-3 sm:left-3 sm:right-3 text-left">
-                        <p className="text-[8px] sm:text-[9px] uppercase tracking-[0.25em] sm:tracking-[0.3em] text-sky-300/90 mb-0.5 sm:mb-1">
-                          Destaque {i + 1}
-                        </p>
-                        <h3 className="font-display text-base sm:text-2xl truncate text-foreground">
-                          {slide.title}
-                        </h3>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })()}
+        <FeaturedRing
+          slides={featuredSlides}
+          urls={featuredUrls}
+          onSelect={(slide, src) =>
+            setLightbox({
+              src,
+              title: slide.title,
+              description: slide.description,
+              categoria: slide.categoria,
+            })
+          }
+        />
 
 
       </section>
