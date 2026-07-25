@@ -225,4 +225,15 @@
   animation: neon-line-flow 3s linear infinite;
 }
 
+@keyframes ring-spin {
+  from { transform: perspective(1400px) rotateY(0deg); }
+  to { transform: perspective(1400px) rotateY(360deg); }
+}
+
+@utility animate-ring-spin {
+  animation: ring-spin 30s linear infinite;
+  transform-style: preserve-3d;
+}
+
+
 
