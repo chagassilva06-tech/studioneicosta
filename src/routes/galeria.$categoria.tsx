@@ -301,6 +301,7 @@ function Slot({
             src={image}
             alt={`${nome} — obra ${index + 1}`}
             loading="lazy"
+            decoding="async"
             crossOrigin="anonymous"
             className="absolute inset-0 h-full w-full object-contain p-3 transition-transform duration-700 ease-out group-hover:scale-[1.15]"
           />
