@@ -141,13 +141,19 @@ function Index() {
       const entries = Object.entries(firstByCat);
       if (!entries.length) return;
       const paths = entries.map(([, p]) => p);
-      const { data: signed } = await supabase.storage
-        .from("artworks")
-        .createSignedUrls(paths, 60 * 60 * 24 * 365);
-      if (!signed || cancelled) return;
+      const signed = await Promise.all(
+        paths.map((p) =>
+          supabase.storage
+            .from("artworks")
+            .createSignedUrl(p, 60 * 60 * 24 * 365, {
+              transform: { width: 900, quality: 78, resize: "contain" },
+            }),
+        ),
+      );
+      if (cancelled) return;
       const urlByCat: Record<string, string> = {};
       entries.forEach(([cat], i) => {
-        const s = signed[i];
+        const s = signed[i]?.data;
         if (s?.signedUrl) urlByCat[cat] = s.signedUrl;
       });
       setFeaturedUrls(urlByCat);
@@ -249,7 +255,7 @@ function Index() {
       {/* Hero */}
       <section id="top" className="relative min-h-screen flex items-center overflow-hidden pt-40 sm:pt-36 md:pt-28">
         <div className="absolute inset-0">
-          <img src={hero} alt="Galeria StudioNei" className="w-full h-full object-cover" />
+          <img src={hero} alt="Galeria StudioNei" fetchPriority="high" decoding="async" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-background/55 via-background/75 to-background" />
           <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/40 to-transparent" />
           <div className="absolute inset-0 animate-hero-light" />
@@ -346,6 +352,7 @@ function Index() {
               src={artist}
               alt="Retrato do artista"
               loading="lazy"
+              decoding="async"
               className="relative rounded-full border-2 border-sky-400/40 w-full aspect-square object-cover shadow-[0_0_60px_-15px_rgba(56,155,255,0.5)] transition-all duration-500 group-hover:scale-[1.03] group-hover:border-sky-300 group-hover:shadow-[0_0_80px_-10px_rgba(56,155,255,0.85)]"
             />
           </motion.div>
