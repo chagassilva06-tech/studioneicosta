@@ -173,13 +173,6 @@ function Galeria() {
                 <LogIn className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Admin</span>
               </Link>
             )}
-            <Link
-              to="/"
-              aria-label="Voltar"
-              className="group inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-sky-400 border border-sky-400/60 rounded-full px-2.5 sm:px-4 py-1.5 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 hover:text-sky-300 hover:bg-sky-400/10 transition-all duration-300 animate-pulse-slow"
-            >
-              <ChevronLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" /> <span className="hidden xs:inline sm:inline">Voltar</span>
-            </Link>
           </div>
 
         </div>
