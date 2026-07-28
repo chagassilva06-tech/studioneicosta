@@ -2,7 +2,6 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Search,
   Instagram,
   Mail,
   ChevronRight,
@@ -12,6 +11,7 @@ import {
   ImageIcon,
   LogOut,
 } from "lucide-react";
+
 
 
 import hero from "@/assets/hero.jpg";
@@ -96,24 +96,9 @@ export const Route = createFileRoute("/")({
 
 const categories = ["Paisagem", "Retrato", "Anime", "Pintura", "Animais", "Estudo"];
 
-const searchSuggestions = [
-  "Paisagem",
-  "Retrato",
-  "Anime",
-  "Pintura",
-  "Animais",
-  "Estudo",
-  "Aquarela",
-  "Óleo sobre tela",
-  "Lápis grafite",
-  "Nanquim",
-  "Carvão",
-];
 
 function Index() {
-  const [query, setQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(true);
-  const [showSuggest, setShowSuggest] = useState(false);
   const isMobile = useIsMobile();
 
   const navigate = useNavigate();
@@ -130,26 +115,8 @@ function Index() {
     };
   }, [navigate]);
 
-  const suggestions = query
-    ? searchSuggestions.filter((s) =>
-        s.toLowerCase().includes(query.toLowerCase()),
-      )
-    : searchSuggestions;
-
-  const submitSearch = (term: string) => {
-    const match = categories.find(
-      (c) => c.toLowerCase() === term.toLowerCase(),
-    );
-    if (match) {
-      navigate({
-        to: "/galeria/$categoria",
-        params: { categoria: match },
-      });
-    }
-    setShowSuggest(false);
-  };
-
   const [featuredIdx, setFeaturedIdx] = useState(0);
+
   const [featuredPlaying, setFeaturedPlaying] = useState(true);
   const [featuredHover, setFeaturedHover] = useState(false);
   const [featuredDir, setFeaturedDir] = useState(1);
@@ -329,106 +296,14 @@ function Index() {
                 Sobre o Artista
               </a>
             </div>
-            <div className="mt-8 relative max-w-md">
-              <div className="flex items-center gap-2 bg-background/70 backdrop-blur-xl rounded-full px-4 py-3 border-2 border-sky-400/80 shadow-[0_0_28px_rgba(56,155,255,0.45)] transition focus-within:border-sky-300 focus-within:shadow-[0_0_36px_rgba(56,155,255,0.75)]">
-                <Search className="h-4 w-4 text-sky-300 shrink-0" />
-                <input
-                  value={query}
-                  onChange={(e) => {
-                    setQuery(e.target.value);
-                    setShowSuggest(true);
-                  }}
-                  onFocus={() => setShowSuggest(true)}
-                  onBlur={() => setTimeout(() => setShowSuggest(false), 150)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") submitSearch(query);
-                  }}
-                  placeholder="Buscar categoria ou técnica..."
-                  className="bg-transparent outline-none text-sm w-full text-foreground placeholder:text-foreground/60"
-                />
-                {query && (
-                  <>
-                    <button
-                      onMouseDown={(e) => {
-                        e.preventDefault();
-                        setQuery("");
-                      }}
-                      className="text-xs text-sky-300/80 hover:text-sky-200 px-1"
-                      aria-label="Limpar busca"
-                    >
-                      ✕
-                    </button>
-                    <button
-                      onMouseDown={(e) => {
-                        e.preventDefault();
-                        submitSearch(query);
-                      }}
-                      className="ml-1 inline-flex items-center gap-1 px-4 py-1.5 rounded-full bg-sky-400/10 border border-sky-400/70 text-sky-200 text-xs font-medium hover:bg-sky-400/20 hover:text-sky-100 hover:shadow-[0_0_18px_rgba(56,155,255,0.7)] transition-all"
-                      aria-label="Buscar"
-                    >
-                      <Search className="h-3.5 w-3.5" />
-                      Buscar
-                    </button>
-                  </>
-                )}
-              </div>
-              <AnimatePresence>
-                {showSuggest && suggestions.length > 0 && (
-                  <motion.ul
-                    initial={{ opacity: 0, y: -6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -6 }}
-                    className="absolute top-full mt-2 left-0 right-0 bg-background/95 backdrop-blur-xl border-2 border-sky-400/60 rounded-2xl overflow-hidden shadow-[0_20px_60px_-15px_rgba(56,155,255,0.55)] py-2 z-50 max-h-72 overflow-y-auto"
-                  >
-                    <li className="px-4 pb-1 text-[10px] uppercase tracking-[0.3em] text-sky-300/80">
-                      {query ? "Sugestões" : "Categorias e técnicas"}
-                    </li>
-                    {suggestions.slice(0, 8).map((s) => {
-                      const isCategory = categories.includes(s);
-                      const idx = s.toLowerCase().indexOf(query.toLowerCase());
-                      return (
-                        <li key={s}>
-                          <button
-                            onMouseDown={(e) => {
-                              e.preventDefault();
-                              setQuery(s);
-                              submitSearch(s);
-                            }}
-                            className="w-full flex items-center gap-3 text-left px-4 py-2.5 text-sm text-foreground hover:bg-sky-400/15 hover:text-sky-200 transition group"
-                          >
-                            <Search className="h-3.5 w-3.5 text-sky-400/70 group-hover:text-sky-300" />
-                            <span className="flex-1">
-                              {query && idx >= 0 ? (
-                                <>
-                                  {s.slice(0, idx)}
-                                  <span className="text-sky-300 font-medium">
-                                    {s.slice(idx, idx + query.length)}
-                                  </span>
-                                  {s.slice(idx + query.length)}
-                                </>
-                              ) : (
-                                s
-                              )}
-                            </span>
-                            <span className="text-[10px] uppercase tracking-widest text-foreground/50 group-hover:text-sky-300/80">
-                              {isCategory ? "Categoria" : "Técnica"}
-                            </span>
-                          </button>
-                        </li>
-                      );
-                    })}
-                  </motion.ul>
-                )}
-              </AnimatePresence>
-            </div>
           </motion.div>
         </div>
 
       </section>
 
       {/* Featured */}
-      <section id="gallery" className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-6 sm:pt-10 pb-6 sm:pb-10">
-        <div className="relative z-10 text-center mb-10 sm:mb-14 md:mb-16">
+      <section id="gallery" className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-0 pb-6 sm:pb-10">
+        <div className="relative z-10 text-center pt-2 sm:pt-4 mb-12 sm:mb-16 md:mb-20 -mt-2 sm:-mt-4">
           <div className="flex items-center justify-center gap-4 mb-4">
             <div className="rule-gold w-12" />
             <span className="label-luxe">Destaques</span>
@@ -438,6 +313,7 @@ function Index() {
             Coleção em <span className="italic text-gold-shimmer">Destaque</span>
           </h2>
         </div>
+
 
 
         <StackedCarousel
