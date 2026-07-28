@@ -302,8 +302,8 @@ function Index() {
       </section>
 
       {/* Featured */}
-      <section id="gallery" className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-6 sm:pt-10 pb-6 sm:pb-10">
-        <div className="relative z-10 text-center mb-10 sm:mb-14 md:mb-16">
+      <section id="gallery" className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-0 pb-6 sm:pb-10">
+        <div className="relative z-10 text-center pt-2 sm:pt-4 mb-12 sm:mb-16 md:mb-20 -mt-2 sm:-mt-4">
           <div className="flex items-center justify-center gap-4 mb-4">
             <div className="rule-gold w-12" />
             <span className="label-luxe">Destaques</span>
@@ -313,6 +313,7 @@ function Index() {
             Coleção em <span className="italic text-gold-shimmer">Destaque</span>
           </h2>
         </div>
+
 
 
         <StackedCarousel
