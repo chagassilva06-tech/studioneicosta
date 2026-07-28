@@ -53,7 +53,7 @@ function Galeria() {
   const { categoria } = useParams({ from: "/galeria/$categoria" });
   const nome = decodeURIComponent(categoria);
   const images = categoryImages[nome] ?? [];
-  const total = 3;
+  const total = 10;
   const slots = Array.from({ length: total });
   const [lightbox, setLightbox] = useState<LightboxData>(null);
   const [uploaded, setUploaded] = useState<Record<number, { path: string; url: string }>>({});
