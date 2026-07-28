@@ -284,7 +284,7 @@ function Slot({
       transition={{ duration: 0.5, delay: (index % 6) * 0.05 }}
       style={cardHoverStyle}
       onClick={openDetails}
-      className="group relative aspect-[4/5] rounded-2xl border border-border/50 bg-card overflow-hidden transition-all duration-500 hover:[border-color:var(--frame)] hover:shadow-[0_0_0_1px_rgba(var(--frame-triplet),0.5),0_20px_60px_-15px_rgba(var(--frame-triplet),0.55)] cursor-zoom-in select-none"
+      className="group relative aspect-[4/5] rounded-2xl border border-border/50 bg-card overflow-hidden cursor-zoom-in select-none"
     >
 
       {hasImage ? (
