@@ -136,43 +136,47 @@ function Galeria() {
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
       <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 h-16 flex items-center justify-between gap-3">
-          <Link to="/" className="flex items-center gap-2 group">
-            <span className="h-2 w-2 rounded-full bg-[#b89a5e] shadow-[0_0_10px_rgba(184,154,94,0.7)]" />
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 md:px-10 h-16 flex items-center justify-between gap-2 sm:gap-3">
+          <Link to="/" className="flex items-center gap-2 group min-w-0 shrink">
+            <span className="h-2 w-2 shrink-0 rounded-full bg-[#b89a5e] shadow-[0_0_10px_rgba(184,154,94,0.7)]" />
             <span
-              className="text-2xl sm:text-3xl tracking-wide text-foreground transition-all duration-500 group-hover:tracking-[0.06em]"
+              className="text-xl sm:text-2xl md:text-3xl tracking-wide text-foreground truncate transition-all duration-500 group-hover:tracking-[0.06em]"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               Studio<span className="italic text-[#d8bf85]">Nei</span>
             </span>
           </Link>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             {isAdmin ? (
               <button
                 onClick={handleSignOut}
                 title={userEmail ?? undefined}
-                className="group inline-flex items-center gap-2 text-xs font-medium text-sky-400 border border-sky-400/60 rounded-full px-3 py-1.5 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 transition-all"
+                aria-label="Sair"
+                className="group inline-flex items-center gap-1.5 text-xs font-medium text-sky-400 border border-sky-400/60 rounded-full px-2.5 sm:px-3 py-1.5 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 transition-all"
               >
-                <LogOut className="h-3.5 w-3.5" /> Sair
+                <LogOut className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Sair</span>
               </button>
             ) : (
               <Link
                 to="/auth"
-                className="group inline-flex items-center gap-2 text-xs font-medium text-sky-400 border border-sky-400/60 rounded-full px-3 py-1.5 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 transition-all"
+                aria-label="Admin"
+                className="group inline-flex items-center gap-1.5 text-xs font-medium text-sky-400 border border-sky-400/60 rounded-full px-2.5 sm:px-3 py-1.5 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 transition-all"
               >
-                <LogIn className="h-3.5 w-3.5" /> Admin
+                <LogIn className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Admin</span>
               </Link>
             )}
             <Link
               to="/"
-              className="group inline-flex items-center gap-2 text-sm font-medium text-sky-400 border border-sky-400/60 rounded-full px-4 py-1.5 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 hover:text-sky-300 hover:bg-sky-400/10 transition-all duration-300 animate-pulse-slow"
+              aria-label="Voltar"
+              className="group inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-sky-400 border border-sky-400/60 rounded-full px-2.5 sm:px-4 py-1.5 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 hover:text-sky-300 hover:bg-sky-400/10 transition-all duration-300 animate-pulse-slow"
             >
-              <ChevronLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" /> Voltar
+              <ChevronLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" /> <span className="hidden xs:inline sm:inline">Voltar</span>
             </Link>
           </div>
 
         </div>
       </header>
+
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-24 sm:pt-32 pb-16 sm:pb-24">
         <motion.div
