@@ -456,7 +456,7 @@ function Index() {
 
 
 
-        <FeaturedRing
+        <StackedCarousel
           slides={featuredSlides}
           urls={featuredUrls}
           onSelect={(slide, src) =>
@@ -468,6 +468,7 @@ function Index() {
             })
           }
         />
+
 
 
       </section>
