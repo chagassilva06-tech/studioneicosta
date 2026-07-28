@@ -493,11 +493,13 @@ function Index() {
           </motion.div>
 
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="h-px w-8 bg-sky-400" />
-              <span className="uppercase tracking-[0.3em] text-xs text-sky-400/90">Sobre</span>
+            <div className="flex items-center gap-4 mb-4">
+              <div className="rule-gold w-12" />
+              <span className="label-luxe">Sobre</span>
             </div>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-light mb-4 sm:mb-6">O Artista</h2>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-light mb-4 sm:mb-6 tracking-[0.01em]">
+              O <span className="italic text-gold-shimmer">Artista</span>
+            </h2>
             <p className="text-foreground/85 leading-relaxed text-base sm:text-lg mb-4">
               StudioNei nasce do encontro entre técnica clássica e sensibilidade
               contemporânea. Cada obra é um exercício de observação — luz,
