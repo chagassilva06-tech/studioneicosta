@@ -144,8 +144,8 @@ function AuthPage() {
         </Link>
       </div>
 
-      <main className="relative z-10 flex-1 flex items-center justify-center px-4 py-12 sm:py-16">
-        <div className="w-full max-w-md">
+      <main className="relative z-10 flex-1 flex items-center justify-center px-4 py-10 sm:py-12">
+        <div className="w-full max-w-md -translate-y-4 sm:-translate-y-6">
           {/* Logo + signature */}
           <div className="text-center mb-10 sm:mb-12">
             <Link to="/" className="inline-block">
@@ -177,7 +177,7 @@ function AuthPage() {
           {/* Card */}
           <form
             onSubmit={handleSubmit}
-            className="relative rounded-[2px] border border-white/10 bg-white/[0.03] backdrop-blur-xl px-7 sm:px-10 py-9 sm:py-11 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.75)] animate-in fade-in duration-700"
+            className="relative rounded-[2px] border border-white/10 bg-white/[0.03] backdrop-blur-xl px-7 sm:px-10 py-9 sm:py-11 shadow-[0_24px_70px_-24px_rgba(0,0,0,0.6)] animate-in fade-in duration-700"
           >
             {/* Ornamental corner marks */}
             <span aria-hidden className="absolute top-0 left-0 h-3 w-3 border-t border-l border-[color:var(--gold)]/60" />
