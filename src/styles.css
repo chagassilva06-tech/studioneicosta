@@ -151,11 +151,22 @@
     border-color: var(--color-border);
   }
 
+  html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
+
+  img, video {
+    max-width: 100%;
+    height: auto;
+  }
 }
+
 
 @keyframes glow-pulse {
   0%, 100% { opacity: 0; transform: scale(0.9); }
