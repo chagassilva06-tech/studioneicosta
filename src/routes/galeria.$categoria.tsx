@@ -334,7 +334,7 @@ function Slot({
           <button
             type="button"
             disabled={isUploading}
-            onClick={onPickFile}
+            onClick={(e) => { e.stopPropagation(); onPickFile(); }}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium tracking-wide border-2 border-sky-400/80 text-sky-100 bg-background/70 backdrop-blur shadow-[0_0_14px_rgba(56,155,255,0.55)] hover:bg-sky-400/20 hover:border-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] transition-all disabled:opacity-70"
           >
             {isUploading ? (
