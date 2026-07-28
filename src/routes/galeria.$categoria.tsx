@@ -275,16 +275,6 @@ function Slot({
         : `Nova obra da categoria ${nome} chegando em breve. Fique atento às próximas publicações da coleção.`,
       categoria: nome,
     });
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    const now = Date.now();
-    if (now - lastTapRef.current < 300) {
-      e.preventDefault();
-      openDetails();
-      lastTapRef.current = 0;
-    } else {
-      lastTapRef.current = now;
-    }
-  };
 
   return (
     <motion.div
@@ -293,10 +283,10 @@ function Slot({
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay: (index % 6) * 0.05 }}
       style={cardHoverStyle}
-      onDoubleClick={openDetails}
-      onTouchEnd={handleTouchEnd}
+      onClick={openDetails}
       className="group relative aspect-[4/5] rounded-2xl border border-border/50 bg-card overflow-hidden transition-all duration-500 hover:[border-color:var(--frame)] hover:shadow-[0_0_0_1px_rgba(var(--frame-triplet),0.5),0_20px_60px_-15px_rgba(var(--frame-triplet),0.55)] cursor-zoom-in select-none"
     >
+
       {hasImage ? (
         <>
           <img
@@ -344,7 +334,7 @@ function Slot({
           <button
             type="button"
             disabled={isUploading}
-            onClick={onPickFile}
+            onClick={(e) => { e.stopPropagation(); onPickFile(); }}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium tracking-wide border-2 border-sky-400/80 text-sky-100 bg-background/70 backdrop-blur shadow-[0_0_14px_rgba(56,155,255,0.55)] hover:bg-sky-400/20 hover:border-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] transition-all disabled:opacity-70"
           >
             {isUploading ? (
