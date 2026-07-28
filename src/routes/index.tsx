@@ -298,7 +298,7 @@ function Index() {
             </div>
 
             {/* Gallery title positioned below the action buttons */}
-            <div id="gallery" className="relative z-10 text-center pt-6 sm:pt-8 mt-2 sm:mt-4">
+            <div id="gallery" className="relative z-10 text-center pt-6 sm:pt-8 mt-2 sm:mt-4 pb-8 sm:pb-12">
               <div className="flex items-center justify-center gap-3 mb-2">
                 <div className="rule-gold w-10 sm:w-12" />
                 <span className="label-luxe">Destaques</span>
