@@ -226,9 +226,13 @@ function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans transition-colors duration-500">
+    <div className="min-h-screen bg-background bg-canvas-texture text-foreground font-sans transition-colors duration-500">
+      {/* Editorial signature bar */}
+      <div className="fixed top-0 left-0 right-0 z-50 h-6 flex items-center justify-center bg-background/85 backdrop-blur-md border-b border-[#d8bf85]/15">
+        <span className="label-luxe text-[0.58rem] tracking-[0.55em]">Arte · Pintura · Projetos Autorais</span>
+      </div>
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/40 shadow-[0_4px_18px_-6px_rgba(56,155,255,0.35)]">
+      <header className="fixed top-6 left-0 right-0 z-40 backdrop-blur-xl bg-background/70 border-b border-[#d8bf85]/20 shadow-[0_4px_24px_-8px_rgba(216,191,133,0.35)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 h-16 grid grid-cols-3 items-center gap-2 sm:gap-4">
           <div />
           <a href="#top" className="group justify-self-center flex items-center gap-2 min-w-0 transition-transform duration-300 hover:scale-[1.015]">
