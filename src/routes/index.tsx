@@ -3,8 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
-  Lightbulb,
-  LightbulbOff,
   Instagram,
   Mail,
   ChevronRight,
@@ -113,7 +111,6 @@ const searchSuggestions = [
 ];
 
 function Index() {
-  const [dark, setDark] = useState(true);
   const [query, setQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(true);
   const [showSuggest, setShowSuggest] = useState(false);
@@ -132,10 +129,6 @@ function Index() {
       cancelled = true;
     };
   }, [navigate]);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", dark);
-  }, [dark]);
 
   const suggestions = query
     ? searchSuggestions.filter((s) =>
