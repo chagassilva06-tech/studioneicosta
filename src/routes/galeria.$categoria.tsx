@@ -190,19 +190,19 @@ function Galeria() {
             <div className="h-px w-12 bg-sky-400" />
             <span className="uppercase tracking-[0.4em] text-xs text-sky-400/90">Categoria</span>
           </div>
-          <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
-            <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-light">{nome}</h1>
+          <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-light">{nome}</h1>
+          <p className="mt-4 text-muted-foreground max-w-lg">
+            Esta coleção receberá fotos em breve. Volte em breve para conferir novas obras.
+          </p>
+          <div className="mt-6">
             <Link
               to="/"
               aria-label="Voltar"
-              className="group inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-sky-400 border border-sky-400/60 rounded-full px-2.5 sm:px-4 py-1.5 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 hover:text-sky-300 hover:bg-sky-400/10 transition-all duration-300 animate-pulse-slow"
+              className="group inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-sky-400 border border-sky-400/60 rounded-full px-3 sm:px-4 py-1.5 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 hover:text-sky-300 hover:bg-sky-400/10 transition-all duration-300 animate-pulse-slow"
             >
               <ChevronLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" /> <span className="hidden xs:inline sm:inline">Voltar</span>
             </Link>
           </div>
-          <p className="mt-4 text-muted-foreground max-w-lg">
-            Esta coleção receberá fotos em breve. Volte em breve para conferir novas obras.
-          </p>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
