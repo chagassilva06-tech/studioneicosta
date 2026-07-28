@@ -31,8 +31,8 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
 
   return (
     <div
-      className="relative mx-auto w-full max-w-5xl select-none"
-      style={{ height: "clamp(360px, 55vw, 540px)" }}
+      className="relative mx-auto w-full max-w-5xl select-none pt-6 sm:pt-8"
+      style={{ height: "clamp(380px, 58vw, 560px)" }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
@@ -47,11 +47,11 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
           const isActive = offset === 0;
           const src = urls[slide.categoria] ?? slide.src;
 
-          // Visual clamps
-          const translateX = offset * 70; // % of card width
+          // Visual clamps — tighter spread to avoid overlap with section title
+          const translateX = offset * 60; // % of card width
           const scale = isActive ? 1 : Math.max(0.55, 1 - abs * 0.15);
           const opacity = abs > 3 ? 0 : isActive ? 1 : Math.max(0.35, 1 - abs * 0.25);
-          const rotateY = offset * -8;
+          const rotateY = offset * -5;
           const zIndex = 50 - abs;
           const blur = abs === 0 ? 0 : Math.min(2, abs * 0.6);
 
@@ -61,7 +61,7 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
               key={i}
               onClick={() => (isActive ? onSelect(slide, src) : setActive(i))}
               aria-label={isActive ? `Ver ${slide.title}` : `Focar ${slide.title}`}
-              className="absolute top-1/2 left-1/2 h-[78%] w-[clamp(220px,32vw,340px)] -translate-x-1/2 -translate-y-1/2 rounded-2xl overflow-hidden border-2 border-sky-400/70 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.65),0_0_28px_rgba(56,155,255,0.35)] transition-all duration-500 ease-out will-change-transform hover:border-sky-300"
+              className="absolute top-1/2 left-1/2 h-[72%] w-[clamp(220px,32vw,340px)] -translate-x-1/2 -translate-y-1/2 rounded-2xl overflow-hidden border-2 border-sky-400/70 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.65),0_0_28px_rgba(56,155,255,0.35)] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform hover:border-sky-300"
               style={{
                 transform: `translate(-50%, -50%) translateX(${translateX}%) scale(${scale}) rotateY(${rotateY}deg)`,
                 opacity,
