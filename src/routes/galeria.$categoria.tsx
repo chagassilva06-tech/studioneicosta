@@ -127,7 +127,9 @@ function Galeria() {
 
       const { data: signed } = await supabase.storage
         .from(BUCKET)
-        .createSignedUrl(path, SIGNED_TTL);
+        .createSignedUrl(path, SIGNED_TTL, {
+          transform: { width: 800, quality: 75, resize: "contain" },
+        });
       if (signed?.signedUrl) {
         setUploaded((prev) => ({ ...prev, [i]: { path, url: signed.signedUrl } }));
       }
