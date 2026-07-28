@@ -314,7 +314,7 @@ function Index() {
       </section>
 
       {/* Featured */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-0 pb-6 sm:pb-10">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-6 sm:pt-8 pb-6 sm:pb-10">
         <StackedCarousel
           slides={featuredSlides}
           urls={featuredUrls}
