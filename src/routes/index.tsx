@@ -315,7 +315,7 @@ function Index() {
             </div>
             <div className="relative">
               <div className="pointer-events-none absolute -inset-8 animate-glow-pulse rounded-3xl" />
-              <h1 className="relative font-display text-[1.75rem] xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1] font-light text-foreground drop-shadow-[0_2px_18px_rgba(0,0,0,0.65)] text-left lg:whitespace-nowrap break-words tracking-[0.005em]">
+              <h1 className="relative font-display text-[1.6rem] xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1] font-light text-foreground drop-shadow-[0_2px_18px_rgba(0,0,0,0.65)] text-left break-words tracking-[0.005em]">
                 Seu talento merece{" "}
                 <span className="text-shimmer italic font-normal">uma galeria</span>.
               </h1>
