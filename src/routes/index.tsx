@@ -298,13 +298,13 @@ function Index() {
             </div>
 
             {/* Gallery title positioned below the action buttons */}
-            <div id="gallery" className="relative z-10 text-center pt-12 sm:pt-16 md:pt-20 mt-4 sm:mt-8">
-              <div className="flex items-center justify-center gap-4 mb-4">
-                <div className="rule-gold w-12" />
+            <div id="gallery" className="relative z-10 text-center pt-6 sm:pt-8 mt-2 sm:mt-4 pb-8 sm:pb-12">
+              <div className="flex items-center justify-center gap-3 mb-2">
+                <div className="rule-gold w-10 sm:w-12" />
                 <span className="label-luxe">Destaques</span>
-                <div className="rule-gold w-12" />
+                <div className="rule-gold w-10 sm:w-12" />
               </div>
-              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-light tracking-[0.01em]">
+              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-light tracking-[0.01em]">
                 Coleção em <span className="italic text-gold-shimmer">Destaque</span>
               </h2>
             </div>
@@ -314,7 +314,7 @@ function Index() {
       </section>
 
       {/* Featured */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-0 pb-6 sm:pb-10">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-6 sm:pt-8 pb-6 sm:pb-10">
         <StackedCarousel
           slides={featuredSlides}
           urls={featuredUrls}
