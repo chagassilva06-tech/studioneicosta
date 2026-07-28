@@ -265,6 +265,27 @@ function Slot({
     ["--frame-triplet" as string]: frameTriplet,
   };
 
+  const lastTapRef = useRef<number>(0);
+  const openDetails = () =>
+    onOpenLightbox({
+      src: image,
+      title: hasImage ? `${nome} — obra ${index + 1}` : "Em breve",
+      description: hasImage
+        ? desc
+        : `Nova obra da categoria ${nome} chegando em breve. Fique atento às próximas publicações da coleção.`,
+      categoria: nome,
+    });
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const now = Date.now();
+    if (now - lastTapRef.current < 300) {
+      e.preventDefault();
+      openDetails();
+      lastTapRef.current = 0;
+    } else {
+      lastTapRef.current = now;
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -272,7 +293,9 @@ function Slot({
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay: (index % 6) * 0.05 }}
       style={cardHoverStyle}
-      className="group relative aspect-[4/5] rounded-2xl border border-border/50 bg-card overflow-hidden transition-all duration-500 hover:[border-color:var(--frame)] hover:shadow-[0_0_0_1px_rgba(var(--frame-triplet),0.5),0_20px_60px_-15px_rgba(var(--frame-triplet),0.55)]"
+      onDoubleClick={openDetails}
+      onTouchEnd={handleTouchEnd}
+      className="group relative aspect-[4/5] rounded-2xl border border-border/50 bg-card overflow-hidden transition-all duration-500 hover:[border-color:var(--frame)] hover:shadow-[0_0_0_1px_rgba(var(--frame-triplet),0.5),0_20px_60px_-15px_rgba(var(--frame-triplet),0.55)] cursor-zoom-in select-none"
     >
       {hasImage ? (
         <>
