@@ -26,7 +26,7 @@ import artHorse from "@/assets/art-horse.jpg";
 import artForest from "@/assets/art-forest.jpg";
 
 import { Lightbox, type LightboxData } from "@/components/Lightbox";
-import { FeaturedRing } from "@/components/FeaturedRing";
+import { StackedCarousel } from "@/components/StackedCarousel";
 import { supabase } from "@/integrations/supabase/client";
 import { useDominantColor, rgbTriplet } from "@/hooks/use-dominant-color";
 import { useIsMobile } from "@/hooks/use-mobile";
