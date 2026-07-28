@@ -3,8 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
-  Lightbulb,
-  LightbulbOff,
   Instagram,
   Mail,
   ChevronRight,
@@ -113,7 +111,6 @@ const searchSuggestions = [
 ];
 
 function Index() {
-  const [dark, setDark] = useState(true);
   const [query, setQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(true);
   const [showSuggest, setShowSuggest] = useState(false);
@@ -132,10 +129,6 @@ function Index() {
       cancelled = true;
     };
   }, [navigate]);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", dark);
-  }, [dark]);
 
   const suggestions = query
     ? searchSuggestions.filter((s) =>
@@ -243,13 +236,6 @@ function Index() {
           </a>
 
           <div className="justify-self-end flex items-center gap-2 sm:gap-4">
-            <button
-              onClick={() => setDark((d) => !d)}
-              className="p-2 rounded-full border-2 border-sky-400/70 bg-sky-400/5 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.85)] hover:border-sky-300 transition-all"
-              aria-label="Alternar tema"
-            >
-              {dark ? <Lightbulb className="h-4 w-4 text-sky-400" /> : <LightbulbOff className="h-4 w-4 text-sky-400" />}
-            </button>
             <button
               onClick={async () => {
                 await supabase.auth.signOut();
