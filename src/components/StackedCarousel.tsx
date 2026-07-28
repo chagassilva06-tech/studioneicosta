@@ -31,7 +31,7 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
 
   return (
     <div
-      className="relative mx-auto w-full max-w-5xl select-none pt-6 sm:pt-8"
+      className="relative mx-auto w-full max-w-5xl select-none pt-2 sm:pt-4"
       style={{ height: "clamp(380px, 58vw, 560px)" }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -59,8 +59,8 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
             <button
               type="button"
               key={i}
-              onClick={() => (isActive ? onSelect(slide, src) : setActive(i))}
-              aria-label={isActive ? `Ver ${slide.title}` : `Focar ${slide.title}`}
+              onClick={() => onSelect(slide, src)}
+              aria-label={`Ver ${slide.title}`}
               className="absolute top-1/2 left-1/2 h-[72%] w-[clamp(220px,32vw,340px)] -translate-x-1/2 -translate-y-1/2 rounded-2xl overflow-hidden border-2 border-sky-400/70 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.65),0_0_28px_rgba(56,155,255,0.35)] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform hover:border-sky-300"
               style={{
                 transform: `translate(-50%, -50%) translateX(${translateX}%) scale(${scale}) rotateY(${rotateY}deg)`,
