@@ -427,20 +427,17 @@ function Index() {
       </section>
 
       {/* Featured */}
-      <section id="gallery" className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-14 sm:py-20">
-        <div className="relative z-10 flex items-end justify-between mb-10 sm:mb-14 md:mb-16 flex-wrap gap-4">
-          <div className="relative">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="rule-gold w-12" />
-              <span className="label-luxe">Destaques</span>
-            </div>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-light tracking-[0.01em]">
-              Coleção em <span className="italic text-gold-shimmer">Destaque</span>
-            </h2>
+      <section id="gallery" className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-14 sm:pt-20 pb-6 sm:pb-10">
+        <div className="relative z-10 text-center mb-12 sm:mb-16 md:mb-20">
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <div className="rule-gold w-12" />
+            <span className="label-luxe">Destaques</span>
+            <div className="rule-gold w-12" />
           </div>
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-light tracking-[0.01em]">
+            Coleção em <span className="italic text-gold-shimmer">Destaque</span>
+          </h2>
         </div>
-
-
 
         <StackedCarousel
           slides={featuredSlides}
@@ -454,10 +451,8 @@ function Index() {
             })
           }
         />
-
-
-
       </section>
+
 
       {/* About */}
       <section id="about" className="border-t border-border/40 bg-muted/20">
