@@ -297,9 +297,10 @@ function Index() {
       <section id="top" className="relative min-h-screen flex items-center overflow-hidden pt-40 sm:pt-36 md:pt-28">
         <div className="absolute inset-0">
           <img src={hero} alt="Galeria StudioNei" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/70 to-background" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/55 via-background/75 to-background" />
           <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/40 to-transparent" />
           <div className="absolute inset-0 animate-hero-light" />
+          <div className="absolute inset-0 vignette-museum" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-12 sm:py-16 w-full">
           <motion.div
@@ -308,21 +309,21 @@ function Index() {
             transition={{ duration: 1, ease: "easeOut" }}
             className="max-w-none"
           >
-            <div className="flex items-center gap-3 mb-8">
-              <div className="h-px w-12 bg-sky-400" />
-              <span className="uppercase tracking-[0.4em] text-xs text-sky-300">
-                Portfólio artístico
-              </span>
+            <div className="flex items-center gap-4 mb-8">
+              <div className="rule-gold w-16" />
+              <span className="label-luxe">Portfólio Artístico</span>
             </div>
             <div className="relative">
               <div className="pointer-events-none absolute -inset-8 animate-glow-pulse rounded-3xl" />
-              <h1 className="relative font-display text-[1.75rem] xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1] font-light text-foreground drop-shadow-[0_2px_18px_rgba(0,0,0,0.65)] text-left lg:whitespace-nowrap break-words">
+              <h1 className="relative font-display text-[1.75rem] xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1] font-light text-foreground drop-shadow-[0_2px_18px_rgba(0,0,0,0.65)] text-left lg:whitespace-nowrap break-words tracking-[0.005em]">
                 Seu talento merece{" "}
                 <span className="text-shimmer italic font-normal">uma galeria</span>.
               </h1>
+              <p className="relative mt-4 font-display italic text-lg md:text-xl text-[#d8bf85]/85 drop-shadow-[0_0_14px_rgba(216,191,133,0.35)]">
+                "Onde cada parede se transforma em arte."
+              </p>
 
-
-              <p className="relative mt-8 text-base md:text-lg text-foreground/85 max-w-lg leading-relaxed drop-shadow-[0_1px_10px_rgba(0,0,0,0.55)]">
+              <p className="relative mt-6 text-base md:text-lg text-foreground/85 max-w-lg leading-relaxed drop-shadow-[0_1px_10px_rgba(0,0,0,0.55)]">
                 Organize, apresente e compartilhe seus desenhos e pinturas de forma
                 profissional. Uma coleção digital onde a obra é o foco.
               </p>
