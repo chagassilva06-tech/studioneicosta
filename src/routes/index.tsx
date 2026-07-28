@@ -525,7 +525,7 @@ function Index() {
             </p>
           </div>
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-sky-300/90 mb-4">Redes</p>
+            <p className="label-luxe mb-4">Redes</p>
             <ul className="space-y-3 text-sm">
               <li>
                 <a
