@@ -79,7 +79,9 @@ function Galeria() {
       if (paths.length === 0) return;
       const { data: signed } = await supabase.storage
         .from(BUCKET)
-        .createSignedUrls(paths, SIGNED_TTL);
+        .createSignedUrls(paths, SIGNED_TTL, {
+          transform: { width: 800, quality: 75, resize: "contain" },
+        });
       if (cancelled || !signed) return;
       const next: Record<number, { path: string; url: string }> = {};
       data.forEach((row, idx) => {
