@@ -98,9 +98,7 @@ const categories = ["Paisagem", "Retrato", "Anime", "Pintura", "Animais", "Estud
 
 
 function Index() {
-  const [query, setQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(true);
-  const [showSuggest, setShowSuggest] = useState(false);
   const isMobile = useIsMobile();
 
   const navigate = useNavigate();
@@ -117,26 +115,8 @@ function Index() {
     };
   }, [navigate]);
 
-  const suggestions = query
-    ? searchSuggestions.filter((s) =>
-        s.toLowerCase().includes(query.toLowerCase()),
-      )
-    : searchSuggestions;
-
-  const submitSearch = (term: string) => {
-    const match = categories.find(
-      (c) => c.toLowerCase() === term.toLowerCase(),
-    );
-    if (match) {
-      navigate({
-        to: "/galeria/$categoria",
-        params: { categoria: match },
-      });
-    }
-    setShowSuggest(false);
-  };
-
   const [featuredIdx, setFeaturedIdx] = useState(0);
+
   const [featuredPlaying, setFeaturedPlaying] = useState(true);
   const [featuredHover, setFeaturedHover] = useState(false);
   const [featuredDir, setFeaturedDir] = useState(1);
