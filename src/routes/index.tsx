@@ -237,13 +237,6 @@ function Index() {
 
           <div className="justify-self-end flex items-center gap-2 sm:gap-4">
             <button
-              onClick={() => setDark((d) => !d)}
-              className="p-2 rounded-full border-2 border-sky-400/70 bg-sky-400/5 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.85)] hover:border-sky-300 transition-all"
-              aria-label="Alternar tema"
-            >
-              {dark ? <Lightbulb className="h-4 w-4 text-sky-400" /> : <LightbulbOff className="h-4 w-4 text-sky-400" />}
-            </button>
-            <button
               onClick={async () => {
                 await supabase.auth.signOut();
                 navigate({ to: "/auth", replace: true });
