@@ -304,7 +304,7 @@ function Slot({
             alt={`${nome} — obra ${index + 1}`}
             loading="lazy"
             crossOrigin="anonymous"
-            className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-125"
+            className="absolute inset-0 h-full w-full object-contain p-3 transition-transform duration-700 ease-out group-hover:scale-110"
           />
           <div className="pointer-events-none absolute inset-3 rounded-xl border-2" style={frameStyle} />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
