@@ -296,26 +296,25 @@ function Index() {
                 Sobre o Artista
               </a>
             </div>
+
+            {/* Gallery title positioned below the action buttons */}
+            <div id="gallery" className="relative z-10 text-center pt-12 sm:pt-16 md:pt-20 mt-4 sm:mt-8">
+              <div className="flex items-center justify-center gap-4 mb-4">
+                <div className="rule-gold w-12" />
+                <span className="label-luxe">Destaques</span>
+                <div className="rule-gold w-12" />
+              </div>
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-light tracking-[0.01em]">
+                Coleção em <span className="italic text-gold-shimmer">Destaque</span>
+              </h2>
+            </div>
           </motion.div>
         </div>
 
       </section>
 
       {/* Featured */}
-      <section id="gallery" className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-0 pb-6 sm:pb-10">
-        <div className="relative z-10 text-center pt-2 sm:pt-4 mb-12 sm:mb-16 md:mb-20 -mt-2 sm:-mt-4">
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <div className="rule-gold w-12" />
-            <span className="label-luxe">Destaques</span>
-            <div className="rule-gold w-12" />
-          </div>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-light tracking-[0.01em]">
-            Coleção em <span className="italic text-gold-shimmer">Destaque</span>
-          </h2>
-        </div>
-
-
-
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-0 pb-6 sm:pb-10">
         <StackedCarousel
           slides={featuredSlides}
           urls={featuredUrls}
