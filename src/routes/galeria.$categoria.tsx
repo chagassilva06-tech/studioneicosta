@@ -284,7 +284,7 @@ function Slot({
       transition={{ duration: 0.5, delay: (index % 6) * 0.05 }}
       style={cardHoverStyle}
       onClick={openDetails}
-      className="group relative aspect-[4/5] rounded-2xl border border-border/50 bg-card overflow-hidden transition-all duration-500 hover:[border-color:var(--frame)] hover:shadow-[0_0_0_1px_rgba(var(--frame-triplet),0.5),0_20px_60px_-15px_rgba(var(--frame-triplet),0.55)] cursor-zoom-in select-none"
+      className="group relative aspect-[4/5] rounded-2xl border border-border/50 bg-card overflow-hidden cursor-zoom-in select-none"
     >
 
       {hasImage ? (
@@ -294,16 +294,16 @@ function Slot({
             alt={`${nome} — obra ${index + 1}`}
             loading="lazy"
             crossOrigin="anonymous"
-            className="absolute inset-0 h-full w-full object-contain p-3 transition-transform duration-700 ease-out group-hover:scale-110"
+            className="absolute inset-0 h-full w-full object-contain p-3 transition-transform duration-700 ease-out group-hover:scale-[1.15]"
           />
           <div className="pointer-events-none absolute inset-3 rounded-xl border-2" style={frameStyle} />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         </>
       ) : (
         <>
-          <div className="absolute inset-0 animate-glow-pulse bg-white/[0.03] transition-transform duration-700 ease-out group-hover:scale-110" />
+          <div className="absolute inset-0 animate-glow-pulse bg-white/[0.03]" />
           <div className="pointer-events-none absolute inset-3 rounded-xl border-2" style={frameStyle} />
-          <div className="relative h-full w-full flex flex-col items-center justify-center gap-4 text-center px-6 transition-transform duration-700 ease-out group-hover:scale-110">
+          <div className="relative h-full w-full flex flex-col items-center justify-center gap-4 text-center px-6">
             <div className="p-4 rounded-full bg-sky-400/10 border border-sky-400/20">
               <ImageIcon className="h-6 w-6 text-sky-400/80" />
             </div>
