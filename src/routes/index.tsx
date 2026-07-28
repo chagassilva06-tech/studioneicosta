@@ -2,7 +2,6 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Search,
   Instagram,
   Mail,
   ChevronRight,
@@ -12,6 +11,7 @@ import {
   ImageIcon,
   LogOut,
 } from "lucide-react";
+
 
 
 import hero from "@/assets/hero.jpg";
