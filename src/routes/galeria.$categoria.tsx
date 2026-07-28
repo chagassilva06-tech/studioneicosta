@@ -77,15 +77,19 @@ function Galeria() {
       if (error || !data || cancelled) return;
       const paths = data.map((r) => r.storage_path);
       if (paths.length === 0) return;
-      const { data: signed } = await supabase.storage
-        .from(BUCKET)
-        .createSignedUrls(paths, SIGNED_TTL, {
-          transform: { width: 800, quality: 75, resize: "contain" },
-        });
-      if (cancelled || !signed) return;
+      const signed = await Promise.all(
+        paths.map((p) =>
+          supabase.storage
+            .from(BUCKET)
+            .createSignedUrl(p, SIGNED_TTL, {
+              transform: { width: 800, quality: 75, resize: "contain" },
+            }),
+        ),
+      );
+      if (cancelled) return;
       const next: Record<number, { path: string; url: string }> = {};
       data.forEach((row, idx) => {
-        const s = signed[idx];
+        const s = signed[idx]?.data;
         if (s?.signedUrl) next[row.slot] = { path: row.storage_path, url: s.signedUrl };
       });
       setUploaded(next);
