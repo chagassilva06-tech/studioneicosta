@@ -141,13 +141,19 @@ function Index() {
       const entries = Object.entries(firstByCat);
       if (!entries.length) return;
       const paths = entries.map(([, p]) => p);
-      const { data: signed } = await supabase.storage
-        .from("artworks")
-        .createSignedUrls(paths, 60 * 60 * 24 * 365);
-      if (!signed || cancelled) return;
+      const signed = await Promise.all(
+        paths.map((p) =>
+          supabase.storage
+            .from("artworks")
+            .createSignedUrl(p, 60 * 60 * 24 * 365, {
+              transform: { width: 900, quality: 78, resize: "contain" },
+            }),
+        ),
+      );
+      if (cancelled) return;
       const urlByCat: Record<string, string> = {};
       entries.forEach(([cat], i) => {
-        const s = signed[i];
+        const s = signed[i]?.data;
         if (s?.signedUrl) urlByCat[cat] = s.signedUrl;
       });
       setFeaturedUrls(urlByCat);
