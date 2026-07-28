@@ -96,19 +96,6 @@ export const Route = createFileRoute("/")({
 
 const categories = ["Paisagem", "Retrato", "Anime", "Pintura", "Animais", "Estudo"];
 
-const searchSuggestions = [
-  "Paisagem",
-  "Retrato",
-  "Anime",
-  "Pintura",
-  "Animais",
-  "Estudo",
-  "Aquarela",
-  "Óleo sobre tela",
-  "Lápis grafite",
-  "Nanquim",
-  "Carvão",
-];
 
 function Index() {
   const [query, setQuery] = useState("");
