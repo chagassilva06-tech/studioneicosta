@@ -215,6 +215,7 @@ function Galeria() {
           {slots.map((_, i) => {
             const baseImage = images[i];
             const image = uploaded[i]?.url ?? baseImage;
+            const srcSet = uploaded[i]?.srcSet;
             const isUploading = uploadingSlot === i;
             return (
               <Slot
@@ -222,6 +223,7 @@ function Galeria() {
                 index={i}
                 nome={nome}
                 image={image}
+                srcSet={srcSet}
                 desc={desc}
                 isAdmin={isAdmin}
                 isUploading={isUploading}
