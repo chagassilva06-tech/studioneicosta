@@ -420,7 +420,7 @@ function Index() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-6 sm:pt-8 pb-6 sm:pb-10">
         <Suspense fallback={<div className="h-[420px]" />}>
           <StackedCarousel
-            slides={featuredSlides}
+            slides={slides.length ? slides : featuredSlides}
             urls={featuredUrls}
             
             onSelect={(slide, src) =>
