@@ -1,10 +1,11 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, ImageIcon, Upload, RefreshCw, Loader2, LogIn, LogOut } from "lucide-react";
 import paisagem1 from "@/assets/paisagem-1.webp";
 import pintura1 from "@/assets/pintura-1.webp";
-import { Lightbox, type LightboxData } from "@/components/Lightbox";
+import type { LightboxData } from "@/components/Lightbox";
+const Lightbox = lazy(() => import("@/components/Lightbox").then((m) => ({ default: m.Lightbox })));
 import { supabase } from "@/integrations/supabase/client";
 import { useAdmin } from "@/hooks/use-admin";
 import { useDominantColor, rgbTriplet } from "@/hooks/use-dominant-color";
