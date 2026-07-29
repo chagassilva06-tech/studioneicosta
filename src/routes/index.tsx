@@ -273,26 +273,41 @@ function Index() {
           <div
             className="max-w-7xl mx-auto h-full px-3 sm:px-6 md:px-10 flex items-center gap-2 sm:gap-2.5 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
           >
-            <a
-              href="#gallery"
+            <button
+              type="button"
+              onClick={() => setShowAllModal(true)}
               className="shrink-0 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-sky-400 text-slate-950 border border-sky-300 shadow-[0_0_18px_rgba(56,189,248,0.6)] hover:shadow-[0_0_26px_rgba(56,189,248,0.9)] transition-all duration-200 hover:scale-[1.05]"
             >
               <LayoutGrid className="h-3.5 w-3.5" />
               Todos
               <span className="opacity-80 text-[10px] sm:text-xs">({totalCount})</span>
-            </a>
-            {categories.map(({ name, icon: Icon }) => (
-              <Link
-                key={name}
-                to="/galeria/$categoria"
-                params={{ categoria: name }}
-                className="shrink-0 group inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium text-foreground/85 border border-sky-400/40 bg-transparent hover:bg-sky-400/10 hover:border-sky-300 hover:text-sky-100 hover:shadow-[0_0_14px_rgba(56,155,255,0.6)] transition-all duration-200 hover:scale-[1.05]"
+            </button>
+            {categories.map((c) => {
+              const Icon = getIcon(c.icon);
+              return (
+                <Link
+                  key={c.id}
+                  to="/galeria/$categoria"
+                  params={{ categoria: c.name }}
+                  className="shrink-0 group inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium text-foreground/85 border border-sky-400/40 bg-transparent hover:bg-sky-400/10 hover:border-sky-300 hover:text-sky-100 hover:shadow-[0_0_14px_rgba(56,155,255,0.6)] transition-all duration-200 hover:scale-[1.05]"
+                >
+                  <Icon className="h-3.5 w-3.5 text-sky-300/85 group-hover:text-sky-200" />
+                  {c.name}
+                  <span className="opacity-60 text-[10px] sm:text-xs">({counts[c.name] ?? 0})</span>
+                </Link>
+              );
+            })}
+            {isAdmin && (
+              <button
+                type="button"
+                onClick={() => setShowCategoryManager(true)}
+                className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-[#d8bf85] border border-[#d8bf85]/50 bg-[#d8bf85]/[0.06] hover:bg-[#d8bf85]/15 hover:border-[#d8bf85] transition-all duration-200 hover:scale-[1.05]"
+                title="Gerenciar categorias"
               >
-                <Icon className="h-3.5 w-3.5 text-sky-300/85 group-hover:text-sky-200" />
-                {name}
-                <span className="opacity-60 text-[10px] sm:text-xs">({counts[name] ?? 0})</span>
-              </Link>
-            ))}
+                <Settings2 className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline">Gerenciar</span>
+              </button>
+            )}
           </div>
         </div>
 
