@@ -46,6 +46,7 @@ const featuredSlides = [
     src: paisagem1,
     title: "Paisagem",
     categoria: "Paisagem",
+    pos: 0,
     description:
       "Estudo de paisagem explorando luz natural, profundidade e atmosfera. Composição pensada para transmitir serenidade e a força silenciosa do ambiente retratado.",
   },
@@ -53,6 +54,7 @@ const featuredSlides = [
     src: pintura1,
     title: "Pintura",
     categoria: "Pintura",
+    pos: 0,
     description:
       "Obra em técnica mista, com camadas de cor trabalhadas para revelar textura, contraste e movimento. Cada pincelada compõe o gesto e a expressão da peça.",
   },
@@ -60,6 +62,7 @@ const featuredSlides = [
     src: artPortrait,
     title: "Retrato",
     categoria: "Retrato",
+    pos: 0,
     description:
       "Retrato realista com foco em expressão do olhar, volume da luz sobre a pele e traços humanos autênticos.",
   },
@@ -67,6 +70,7 @@ const featuredSlides = [
     src: artAnime,
     title: "Anime",
     categoria: "Anime",
+    pos: 0,
     description:
       "Ilustração de estilo anime com linhas limpas, sombreamento estilizado e paleta vibrante.",
   },
@@ -74,6 +78,7 @@ const featuredSlides = [
     src: artHorse,
     title: "Animais",
     categoria: "Animais",
+    pos: 0,
     description:
       "Estudo de anatomia animal, atenção à textura do pelo, olhar atento e postura em movimento.",
   },
@@ -81,6 +86,7 @@ const featuredSlides = [
     src: artForest,
     title: "Estudo",
     categoria: "Estudo",
+    pos: 0,
     description:
       "Estudo técnico exploratório — proporção, luz e forma. Base para obras futuras da coleção.",
   },
@@ -137,7 +143,7 @@ function Index() {
   const [query, setQuery] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
   const [categories, setCategories] = useState<Cat[]>([]);
-  const [featuredUrls, setFeaturedUrls] = useState<Record<string, string>>({});
+  const [featuredUrls, setFeaturedUrls] = useState<Record<string, string[]>>({});
   const [showCategoryManager, setShowCategoryManager] = useState(false);
   const [showAllModal, setShowAllModal] = useState(false);
   const [refreshTick, setRefreshTick] = useState(0);
@@ -176,7 +182,7 @@ function Index() {
     ? categories.filter((c) => c.name.toLowerCase().includes(query.trim().toLowerCase()))
     : [];
 
-  // Featured URLs: prefer featured=true, else lowest slot
+  // Featured URLs: collect up to the 2 first images per category
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -185,16 +191,32 @@ function Index() {
         .select("categoria, slot, storage_path, featured")
         .order("slot", { ascending: true });
       if (!data || cancelled) return;
-      const chosen: Record<string, string> = {};
-      // First pass: featured
+
+      // featured flag gets absolute priority
+      const featured: Record<string, string[]> = {};
       for (const row of data as { categoria: string; storage_path: string; featured: boolean }[]) {
-        if (row.featured) chosen[row.categoria] = row.storage_path;
+        if (row.featured) {
+          featured[row.categoria] = [row.storage_path];
+        }
       }
-      // Second pass: fallback to first slot
+
+      // Then fill the rest of the first 2 slots per category
+      const byCat: Record<string, string[]> = {};
       for (const row of data as { categoria: string; storage_path: string }[]) {
-        if (!chosen[row.categoria]) chosen[row.categoria] = row.storage_path;
+        const arr = byCat[row.categoria] ?? (byCat[row.categoria] = []);
+        if (arr.length < 2) arr.push(row.storage_path);
       }
-      const entries = Object.entries(chosen);
+      for (const cat of Object.keys(byCat)) {
+        if (featured[cat]) {
+          // Merge so the featured image is first, then the next available slot
+          const rest = byCat[cat].filter((p) => p !== featured[cat][0]);
+          byCat[cat] = [...featured[cat], ...rest].slice(0, 2);
+        }
+      }
+
+      const entries = Object.entries(byCat).flatMap(([cat, paths]) =>
+        paths.map((path) => [cat, path] as [string, string]),
+      );
       if (!entries.length) return;
       const signed = await Promise.all(
         entries.map(([, p]) =>
@@ -206,10 +228,13 @@ function Index() {
         ),
       );
       if (cancelled) return;
-      const urlByCat: Record<string, string> = {};
+      const urlByCat: Record<string, string[]> = {};
       entries.forEach(([cat], i) => {
         const s = signed[i]?.data;
-        if (s?.signedUrl) urlByCat[cat] = s.signedUrl;
+        if (s?.signedUrl) {
+          const arr = urlByCat[cat] ?? (urlByCat[cat] = []);
+          arr.push(s.signedUrl);
+        }
       });
       setFeaturedUrls(urlByCat);
     })();
@@ -218,13 +243,19 @@ function Index() {
     };
   }, [refreshTick]);
 
-  // Build slides from categories (ordered)
-  const slides = categories.map((c) => ({
-    src: fallbackSrc[c.name] ?? paisagem1,
-    title: c.name,
-    categoria: c.name,
-    description: fallbackDescriptions[c.name] ?? `Obra da coleção ${c.name}.`,
-  }));
+  // Build slides: two per category (pos 0 and 1) using the first images available
+  const slides = categories.flatMap((c) => {
+    const base = {
+      src: fallbackSrc[c.name] ?? paisagem1,
+      title: c.name,
+      categoria: c.name,
+      description: fallbackDescriptions[c.name] ?? `Obra da coleção ${c.name}.`,
+    };
+    return [
+      { ...base, pos: 0 },
+      { ...base, pos: 1 },
+    ];
+  });
 
 
 
