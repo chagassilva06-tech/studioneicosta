@@ -310,7 +310,7 @@ function Index() {
                 <span className="label-luxe">Destaques</span>
                 <div className="rule-gold w-10 sm:w-12" />
               </div>
-              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-light tracking-[0.01em]">
+              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-light tracking-[0.01em] animate-title-glow-subtle">
                 Coleção em <span className="italic text-gold-shimmer">Destaque</span>
               </h2>
             </div>
@@ -362,7 +362,7 @@ function Index() {
               <div className="rule-gold w-12" />
               <span className="label-luxe">Sobre</span>
             </div>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-light mb-4 sm:mb-6 tracking-[0.01em]">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-light mb-4 sm:mb-6 tracking-[0.01em] animate-title-glow-subtle">
               O <span className="italic text-gold-shimmer">Artista</span>
             </h2>
             <p className="text-foreground/85 leading-relaxed text-base sm:text-lg mb-4">
