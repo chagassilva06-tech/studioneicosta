@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Instagram,
@@ -15,16 +15,19 @@ import {
 
 
 import hero from "@/assets/hero.jpg";
-import artist from "@/assets/artist.png";
-import paisagem1 from "@/assets/paisagem-1.png";
-import pintura1 from "@/assets/pintura-1.png";
+import artist from "@/assets/artist.webp";
+import paisagem1 from "@/assets/paisagem-1.webp";
+import pintura1 from "@/assets/pintura-1.webp";
 import artPortrait from "@/assets/art-portrait.jpg";
 import artAnime from "@/assets/art-anime.jpg";
 import artHorse from "@/assets/art-horse.jpg";
 import artForest from "@/assets/art-forest.jpg";
 
-import { Lightbox, type LightboxData } from "@/components/Lightbox";
-import { StackedCarousel } from "@/components/StackedCarousel";
+import type { LightboxData } from "@/components/Lightbox";
+const Lightbox = lazy(() => import("@/components/Lightbox").then((m) => ({ default: m.Lightbox })));
+const StackedCarousel = lazy(() =>
+  import("@/components/StackedCarousel").then((m) => ({ default: m.StackedCarousel })),
+);
 import { supabase } from "@/integrations/supabase/client";
 import { useDominantColor, rgbTriplet } from "@/hooks/use-dominant-color";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -321,19 +324,21 @@ function Index() {
 
       {/* Featured */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-6 sm:pt-8 pb-6 sm:pb-10">
-        <StackedCarousel
-          slides={featuredSlides}
-          urls={featuredUrls}
-          pairMode
-          onSelect={(slide, src) =>
-            setLightbox({
-              src,
-              title: slide.title,
-              description: slide.description,
-              categoria: slide.categoria,
-            })
-          }
-        />
+        <Suspense fallback={<div className="h-[420px]" />}>
+          <StackedCarousel
+            slides={featuredSlides}
+            urls={featuredUrls}
+            pairMode
+            onSelect={(slide, src) =>
+              setLightbox({
+                src,
+                title: slide.title,
+                description: slide.description,
+                categoria: slide.categoria,
+              })
+            }
+          />
+        </Suspense>
       </section>
 
 
@@ -418,7 +423,9 @@ function Index() {
           © {new Date().getFullYear()} StudioNei · Todos os direitos reservados
         </div>
       </footer>
-      <Lightbox data={lightbox} onClose={() => setLightbox(null)} />
+      <Suspense fallback={null}>
+        {lightbox && <Lightbox data={lightbox} onClose={() => setLightbox(null)} />}
+      </Suspense>
     </div>
   );
 
