@@ -257,6 +257,9 @@ function Galeria() {
             const image = uploaded[i]?.url ?? baseImage;
             const srcSet = uploaded[i]?.srcSet;
             const isUploading = uploadingSlot === i;
+            const isFeatured = uploaded[i]?.featured ?? false;
+            const canToggle = Boolean(uploaded[i]);
+            const isToggling = togglingSlot === i;
             return (
               <Slot
                 key={i}
@@ -267,6 +270,10 @@ function Galeria() {
                 desc={desc}
                 isAdmin={isAdmin}
                 isUploading={isUploading}
+                isFeatured={isFeatured}
+                canToggleFeatured={canToggle}
+                isToggling={isToggling}
+                onToggleFeatured={() => handleToggleFeatured(i)}
                 registerInput={(el) => {
                   fileInputs.current[i] = el;
                 }}
