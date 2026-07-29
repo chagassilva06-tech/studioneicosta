@@ -114,12 +114,18 @@ function Galeria() {
     if (!file) return;
     setUploadingSlot(i);
     try {
-      const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+      const { file: optimized, ext, originalSize, size } = await compressImage(file);
+      if (size < originalSize) {
+        console.info(
+          `[upload] ${(originalSize / 1024 / 1024).toFixed(2)}MB → ${(size / 1024 / 1024).toFixed(2)}MB`,
+        );
+      }
       const path = `${nome}/slot-${i}-${Date.now()}.${ext}`;
       const { error: upErr } = await supabase.storage
         .from(BUCKET)
-        .upload(path, file, { upsert: true, contentType: file.type });
+        .upload(path, optimized, { upsert: true, contentType: optimized.type });
       if (upErr) throw upErr;
+
 
       const previous = uploaded[i]?.path;
 
