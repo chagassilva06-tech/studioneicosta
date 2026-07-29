@@ -166,6 +166,21 @@
   50% { box-shadow: 0 0 22px rgba(56,155,255,0.7), inset 0 0 12px rgba(56,155,255,0.15); }
 }
 
+@keyframes title-glow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(56,189,248,0.6), 0 0 20px rgba(56,155,255,0.35), 0 0 30px rgba(56,155,255,0.15);
+    transform: scale(1);
+  }
+  50% {
+    text-shadow: 0 0 18px rgba(56,189,248,0.95), 0 0 36px rgba(56,155,255,0.75), 0 0 54px rgba(56,155,255,0.5);
+    transform: scale(1.05);
+  }
+}
+
+@utility animate-title-glow {
+  animation: title-glow 1.8s ease-in-out infinite;
+}
+
 @utility animate-pulse-slow {
   animation: pulse-slow 2.6s ease-in-out infinite;
 }
