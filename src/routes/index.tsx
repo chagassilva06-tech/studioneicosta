@@ -240,7 +240,7 @@ function Index() {
                     key={c}
                     to="/galeria/$categoria"
                     params={{ categoria: c }}
-                    className="group relative px-3 sm:px-6 md:px-8 py-1.5 sm:py-2.5 min-w-[72px] sm:min-w-[130px] text-center rounded-full text-[11px] sm:text-base md:text-lg font-medium tracking-wide border border-sky-400/50 bg-sky-400/[0.04] text-foreground transition-all duration-300 [text-shadow:0_0_10px_rgba(56,189,248,0.55),0_0_20px_rgba(56,155,255,0.35)] hover:text-sky-300 hover:border-sky-400/80 hover:bg-sky-400/8 hover:[text-shadow:0_0_14px_rgba(56,189,248,0.95),0_0_28px_rgba(56,155,255,0.75),0_0_44px_rgba(56,155,255,0.5)] hover:-translate-y-0.5"
+                    className="group relative px-3 sm:px-6 md:px-8 py-1.5 sm:py-2.5 min-w-[72px] sm:min-w-[130px] text-center rounded-full text-[11px] sm:text-base md:text-lg font-medium tracking-wide border border-sky-400/50 bg-sky-400/[0.04] text-foreground transition-all duration-300 [text-shadow:0_0_10px_rgba(56,189,248,0.55),0_0_20px_rgba(56,155,255,0.35)] hover:text-sky-300 hover:border-sky-400/80 hover:bg-sky-400/[0.08] hover:[text-shadow:0_0_14px_rgba(56,189,248,0.95),0_0_28px_rgba(56,155,255,0.75),0_0_44px_rgba(56,155,255,0.5)] hover:-translate-y-0.5"
                   >
                     <span className="relative z-10">{c}</span>
                   </Link>
