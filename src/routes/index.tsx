@@ -140,14 +140,99 @@ function Index() {
   }, [navigate]);
 
   const [lightbox, setLightbox] = useState<LightboxData>(null);
-  const [counts, setCounts] = useState<Record<string, number>>({});
   const [query, setQuery] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
-  const [categories, setCategories] = useState<Cat[]>([]);
-  const [featuredUrls, setFeaturedUrls] = useState<Record<string, string[]>>({});
   const [showCategoryManager, setShowCategoryManager] = useState(false);
   const [showAllModal, setShowAllModal] = useState(false);
-  const [refreshTick, setRefreshTick] = useState(0);
+  const queryClient = useQueryClient();
+
+  const categoriesQuery = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("categories")
+        .select("id, name, icon, sort_order")
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return (data ?? []) as Cat[];
+    },
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+  });
+  const categories = categoriesQuery.data ?? [];
+
+  const countsQuery = useQuery({
+    queryKey: ["artwork-counts"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("artworks").select("categoria");
+      if (error) throw error;
+      const c: Record<string, number> = {};
+      for (const r of data as { categoria: string }[]) {
+        c[r.categoria] = (c[r.categoria] ?? 0) + 1;
+      }
+      return c;
+    },
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+  });
+  const counts = countsQuery.data ?? {};
+
+  const featuredUrlsQuery = useQuery({
+    queryKey: ["featured-urls"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("artworks")
+        .select("categoria, slot, storage_path, featured")
+        .order("slot", { ascending: true });
+      if (error) throw error;
+      if (!data || data.length === 0) return {} as Record<string, string[]>;
+
+      const featured: Record<string, string[]> = {};
+      for (const row of data as { categoria: string; storage_path: string; featured: boolean }[]) {
+        if (row.featured) {
+          featured[row.categoria] = [row.storage_path];
+        }
+      }
+
+      const byCat: Record<string, string[]> = {};
+      for (const row of data as { categoria: string; storage_path: string }[]) {
+        const arr = byCat[row.categoria] ?? (byCat[row.categoria] = []);
+        if (arr.length < 2) arr.push(row.storage_path);
+      }
+      for (const cat of Object.keys(byCat)) {
+        if (featured[cat]) {
+          const rest = byCat[cat].filter((p) => p !== featured[cat][0]);
+          byCat[cat] = [...featured[cat], ...rest].slice(0, 2);
+        }
+      }
+
+      const entries = Object.entries(byCat).flatMap(([cat, paths]) =>
+        paths.map((path) => [cat, path] as [string, string]),
+      );
+      if (!entries.length) return {} as Record<string, string[]>;
+      const signed = await Promise.all(
+        entries.map(([, p]) =>
+          supabase.storage
+            .from("artworks")
+            .createSignedUrl(p, 60 * 60 * 24 * 365, {
+              transform: { width: 900, quality: 78, resize: "contain" },
+            }),
+        ),
+      );
+      const urlByCat: Record<string, string[]> = {};
+      entries.forEach(([cat], i) => {
+        const s = signed[i]?.data;
+        if (s?.signedUrl) {
+          const arr = urlByCat[cat] ?? (urlByCat[cat] = []);
+          arr.push(s.signedUrl);
+        }
+      });
+      return urlByCat;
+    },
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+  });
+  const featuredUrls = featuredUrlsQuery.data ?? {};
 
   // Load categories
   useEffect(() => {
