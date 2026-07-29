@@ -294,3 +294,9 @@ body {
 
 
 
+
+.lightbox-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+.lightbox-scroll::-webkit-scrollbar-track { background: transparent; }
+.lightbox-scroll::-webkit-scrollbar-thumb { background: rgba(216,191,133,0.35); border-radius: 9999px; }
+.lightbox-scroll::-webkit-scrollbar-thumb:hover { background: rgba(216,191,133,0.6); }
+.lightbox-scroll { scrollbar-width: thin; scrollbar-color: rgba(216,191,133,0.4) transparent; }
