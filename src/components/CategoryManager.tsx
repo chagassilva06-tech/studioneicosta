@@ -25,6 +25,8 @@ export function CategoryManager({ open, onClose, onChanged }: Props) {
   const [draftIcon, setDraftIcon] = useState<IconName>("Palette");
   const [newName, setNewName] = useState("");
   const [newIcon, setNewIcon] = useState<IconName>("Palette");
+  const [confirmId, setConfirmId] = useState<string | null>(null);
+  const [confirmName, setConfirmName] = useState<string>("");
 
   const load = async () => {
     setLoading(true);
@@ -42,10 +44,10 @@ export function CategoryManager({ open, onClose, onChanged }: Props) {
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && !confirmId && onClose();
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
+  }, [open, onClose, confirmId]);
 
   if (!open) return null;
 
@@ -72,15 +74,27 @@ export function CategoryManager({ open, onClose, onChanged }: Props) {
     onChanged();
   };
 
-  const remove = async (id: string, name: string) => {
-    if (!confirm(`Excluir a categoria "${name}"? As obras existentes desta categoria permanecerão no banco.`)) return;
-    const { error } = await supabase.from("categories").delete().eq("id", id);
+  const askRemove = (id: string, name: string) => {
+    setConfirmId(id);
+    setConfirmName(name);
+  };
+
+  const confirmRemove = async () => {
+    if (!confirmId) return;
+    const { error } = await supabase.from("categories").delete().eq("id", confirmId);
+    setConfirmId(null);
+    setConfirmName("");
     if (error) {
       alert("Falha ao excluir: " + error.message);
       return;
     }
     await load();
     onChanged();
+  };
+
+  const cancelRemove = () => {
+    setConfirmId(null);
+    setConfirmName("");
   };
 
   const create = async () => {
@@ -109,7 +123,7 @@ export function CategoryManager({ open, onClose, onChanged }: Props) {
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-2xl max-h-[90vh] overflow-hidden rounded-2xl border border-sky-400/40 bg-background/95 shadow-[0_0_60px_-10px_rgba(56,155,255,0.6)]"
+        className="relative w-full max-w-2xl max-h-[70vh] overflow-hidden rounded-2xl border border-sky-400/40 bg-background/95 shadow-[0_0_60px_-10px_rgba(56,155,255,0.6)]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-sky-400/20">
@@ -125,7 +139,7 @@ export function CategoryManager({ open, onClose, onChanged }: Props) {
           </button>
         </div>
 
-        <div className="overflow-y-auto max-h-[calc(90vh-70px)] px-6 py-5 space-y-6">
+        <div className="overflow-y-auto max-h-[calc(70vh-70px)] px-6 py-5 space-y-6">
           {/* Create */}
           <div className="rounded-xl border border-sky-400/30 bg-sky-400/[0.04] p-4">
             <p className="label-luxe mb-3">Nova categoria</p>
@@ -204,7 +218,7 @@ export function CategoryManager({ open, onClose, onChanged }: Props) {
                               <Pencil className="h-3.5 w-3.5" />
                             </button>
                             <button
-                              onClick={() => remove(c.id, c.name)}
+                              onClick={() => askRemove(c.id, c.name)}
                               className="h-8 w-8 rounded-full inline-flex items-center justify-center text-rose-300 hover:bg-rose-400/15 border border-rose-400/30"
                               aria-label="Excluir"
                               title="Excluir"
@@ -226,6 +240,33 @@ export function CategoryManager({ open, onClose, onChanged }: Props) {
             )}
           </div>
         </div>
+
+        {/* Confirmação de exclusão */}
+        {confirmId && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+            <div className="w-full max-w-sm rounded-2xl border border-rose-400/40 bg-background/95 p-6 shadow-[0_0_40px_-10px_rgba(244,63,94,0.5)] text-center">
+              <p className="text-sm text-muted-foreground mb-1">Excluir categoria?</p>
+              <p className="text-lg font-medium mb-5">"{confirmName}"</p>
+              <p className="text-xs text-muted-foreground mb-6">
+                As obras existentes desta categoria permanecerão no banco.
+              </p>
+              <div className="flex items-center justify-center gap-3">
+                <button
+                  onClick={cancelRemove}
+                  className="px-5 py-2 rounded-lg border border-sky-400/40 text-sm font-medium hover:bg-sky-400/15 transition-colors"
+                >
+                  Não
+                </button>
+                <button
+                  onClick={confirmRemove}
+                  className="px-5 py-2 rounded-lg bg-rose-500 text-white text-sm font-medium hover:bg-rose-400 shadow-[0_0_20px_-4px_rgba(244,63,94,0.6)] transition-colors"
+                >
+                  Sim
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
