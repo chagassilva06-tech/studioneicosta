@@ -231,7 +231,9 @@ function Galeria() {
           })}
         </div>
       </section>
-      <Lightbox data={lightbox} onClose={() => setLightbox(null)} />
+      <Suspense fallback={null}>
+        {lightbox && <Lightbox data={lightbox} onClose={() => setLightbox(null)} />}
+      </Suspense>
     </div>
   );
 }
