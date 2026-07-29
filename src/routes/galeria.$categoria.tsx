@@ -434,6 +434,36 @@ function Slot({
         </div>
       )}
 
+      {isAdmin && canToggleFeatured && (
+        <div className="absolute top-3 right-3 z-10">
+          <button
+            type="button"
+            disabled={isToggling}
+            onClick={(e) => { e.stopPropagation(); onToggleFeatured(); }}
+            title={isFeatured ? "Remover destaque" : "Marcar como destaque"}
+            aria-label={isFeatured ? "Remover destaque" : "Marcar como destaque"}
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[11px] font-medium tracking-wide border-2 backdrop-blur transition-all disabled:opacity-70 ${
+              isFeatured
+                ? "border-[#d8bf85] text-slate-950 bg-[#d8bf85] shadow-[0_0_18px_rgba(216,191,133,0.75)] hover:shadow-[0_0_26px_rgba(216,191,133,0.95)]"
+                : "border-[#d8bf85]/60 text-[#d8bf85] bg-background/70 hover:bg-[#d8bf85]/15 hover:border-[#d8bf85]"
+            }`}
+          >
+            {isToggling ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <Star className={`h-3.5 w-3.5 ${isFeatured ? "fill-current" : ""}`} />
+            )}
+            <span className="hidden sm:inline">{isFeatured ? "Destaque" : "Destacar"}</span>
+          </button>
+        </div>
+      )}
+
+      {isFeatured && !isAdmin && (
+        <div className="absolute top-3 right-3 z-10 inline-flex items-center gap-1 px-2 py-1 rounded-full bg-[#d8bf85]/90 text-slate-950 text-[10px] font-medium shadow-[0_0_14px_rgba(216,191,133,0.6)]">
+          <Star className="h-3 w-3 fill-current" /> Destaque
+        </div>
+      )}
+
     </motion.div>
   );
 }
