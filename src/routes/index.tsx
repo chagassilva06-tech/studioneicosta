@@ -15,9 +15,9 @@ import {
 
 
 import hero from "@/assets/hero.jpg";
-import artist from "@/assets/artist.png";
-import paisagem1 from "@/assets/paisagem-1.png";
-import pintura1 from "@/assets/pintura-1.png";
+import artist from "@/assets/artist.webp";
+import paisagem1 from "@/assets/paisagem-1.webp";
+import pintura1 from "@/assets/pintura-1.webp";
 import artPortrait from "@/assets/art-portrait.jpg";
 import artAnime from "@/assets/art-anime.jpg";
 import artHorse from "@/assets/art-horse.jpg";
