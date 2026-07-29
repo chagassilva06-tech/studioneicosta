@@ -10,6 +10,14 @@ import {
   Pause,
   ImageIcon,
   LogOut,
+  Search,
+  LayoutGrid,
+  Mountain,
+  User as UserIcon,
+  Palette,
+  Sparkles,
+  PawPrint,
+  BookOpen,
 } from "lucide-react";
 
 
@@ -97,7 +105,14 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const categories = ["Paisagem", "Retrato", "Anime", "Pintura", "Animais", "Estudo"];
+const categories: { name: string; icon: typeof Mountain }[] = [
+  { name: "Paisagem", icon: Mountain },
+  { name: "Retrato", icon: UserIcon },
+  { name: "Anime", icon: Sparkles },
+  { name: "Pintura", icon: Palette },
+  { name: "Animais", icon: PawPrint },
+  { name: "Estudo", icon: BookOpen },
+];
 
 
 function Index() {
@@ -124,6 +139,27 @@ function Index() {
   const [featuredHover, setFeaturedHover] = useState(false);
   const [featuredDir, setFeaturedDir] = useState(1);
   const [lightbox, setLightbox] = useState<LightboxData>(null);
+  const [counts, setCounts] = useState<Record<string, number>>({});
+  const [query, setQuery] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    supabase.from("artworks").select("categoria").then(({ data }) => {
+      if (cancelled || !data) return;
+      const c: Record<string, number> = {};
+      for (const r of data as { categoria: string }[]) {
+        c[r.categoria] = (c[r.categoria] ?? 0) + 1;
+      }
+      setCounts(c);
+    });
+    return () => { cancelled = true; };
+  }, []);
+
+  const totalCount = Object.values(counts).reduce((a, b) => a + b, 0);
+  const suggestions = query.trim()
+    ? categories.filter((c) => c.name.toLowerCase().includes(query.trim().toLowerCase()))
+    : [];
 
   const featuredTotal = featuredSlides.length;
 
@@ -196,67 +232,116 @@ function Index() {
 
   return (
     <div className="min-h-screen bg-background bg-canvas-texture text-foreground font-sans transition-colors duration-500">
-      {/* Editorial signature bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 h-6 flex items-center justify-center bg-background/85 backdrop-blur-md border-b border-[#d8bf85]/15">
-        <span className="label-luxe text-[0.58rem] tracking-[0.55em]">Arte · Pintura · Projetos Autorais</span>
+      {/* Editorial signature bar (22px) */}
+      <div className="fixed top-0 left-0 right-0 z-50 h-[22px] flex items-center justify-center bg-background/90 backdrop-blur-md border-b border-[#d8bf85]/15">
+        <span className="label-luxe text-[0.55rem] tracking-[0.55em]">Arte · Pintura · Projetos Autorais</span>
       </div>
-      {/* Header */}
-      <header className="fixed top-6 left-0 right-0 z-40 backdrop-blur-xl bg-background/70 border-b border-[#d8bf85]/20 shadow-[0_4px_24px_-8px_rgba(216,191,133,0.35)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 h-16 grid grid-cols-3 items-center gap-2 sm:gap-4">
+
+      {/* Header (sticky, layered) */}
+      <header className="fixed top-[22px] left-0 right-0 z-40 backdrop-blur-xl bg-background/80">
+        {/* Logo row — 70px */}
+        <div className="h-[70px] max-w-7xl mx-auto px-4 sm:px-6 md:px-10 grid grid-cols-[1fr_auto_1fr] items-center gap-2">
           <div />
-          <a href="#top" className="group justify-self-center flex items-center gap-2 min-w-0 transition-transform duration-300 hover:scale-[1.015]">
-            <span className="h-2 w-2 sm:h-2.5 sm:w-2.5 shrink-0 rounded-full bg-[#b89a5e] shadow-[0_0_10px_rgba(184,154,94,0.7)] group-hover:shadow-[0_0_14px_rgba(216,191,133,0.9)] transition-shadow" />
-            <span className="font-display text-xl sm:text-2xl md:text-4xl tracking-wide truncate text-foreground transition-all duration-500 group-hover:tracking-[0.06em]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-              Studio<span className="italic font-normal text-[#d8bf85] drop-shadow-[0_0_10px_rgba(216,191,133,0.45)] group-hover:drop-shadow-[0_0_14px_rgba(216,191,133,0.7)]">Nei</span>
+          <a
+            href="#top"
+            className="group justify-self-center flex items-center gap-2 min-w-0 transition-transform duration-200 hover:scale-[1.04]"
+          >
+            <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#b89a5e] shadow-[0_0_10px_rgba(184,154,94,0.7)] group-hover:shadow-[0_0_14px_rgba(216,191,133,0.9)] transition-shadow" />
+            <span
+              className="font-display text-[1.6rem] sm:text-3xl md:text-[2.4rem] leading-none tracking-wide truncate text-foreground transition-all duration-300 group-hover:tracking-[0.05em]"
+              style={{ fontFamily: "'Cormorant Garamond', serif" }}
+            >
+              Studio
+              <span className="italic font-normal text-[#d8bf85] drop-shadow-[0_0_10px_rgba(216,191,133,0.5)] group-hover:drop-shadow-[0_0_14px_rgba(216,191,133,0.75)]">
+                Nei
+              </span>
             </span>
           </a>
+          <button
+            onClick={async () => {
+              await supabase.auth.signOut();
+              navigate({ to: "/auth", replace: true });
+            }}
+            aria-label="Sair"
+            title="Sair"
+            className="justify-self-end inline-flex items-center justify-center h-9 w-9 rounded-full text-sky-300 border border-sky-400/50 bg-sky-400/[0.06] hover:bg-sky-400/15 hover:border-sky-300 hover:text-sky-100 hover:shadow-[0_0_16px_rgba(56,155,255,0.7)] transition-all duration-200"
+          >
+            <LogOut className="h-4 w-4" />
+          </button>
+        </div>
 
-          <div className="justify-self-end flex items-center gap-2 sm:gap-4">
-            <button
-              onClick={async () => {
-                await supabase.auth.signOut();
-                navigate({ to: "/auth", replace: true });
-              }}
-              className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium text-sky-400 border-2 border-sky-400/70 bg-sky-400/5 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.85)] hover:border-sky-300 hover:text-sky-300 transition-all"
-              aria-label="Sair"
+        {/* Categories pills — 60px */}
+        <div className="h-[60px] border-t border-sky-400/15 bg-background/60">
+          <div
+            className="max-w-7xl mx-auto h-full px-3 sm:px-6 md:px-10 flex items-center gap-2 sm:gap-2.5 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          >
+            <a
+              href="#gallery"
+              className="shrink-0 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-sky-400 text-slate-950 border border-sky-300 shadow-[0_0_18px_rgba(56,189,248,0.6)] hover:shadow-[0_0_26px_rgba(56,189,248,0.9)] transition-all duration-200 hover:scale-[1.05]"
             >
-              <LogOut className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-              <span className="hidden sm:inline">Sair</span>
-            </button>
+              <LayoutGrid className="h-3.5 w-3.5" />
+              Todos
+              <span className="opacity-80 text-[10px] sm:text-xs">({totalCount})</span>
+            </a>
+            {categories.map(({ name, icon: Icon }) => (
+              <Link
+                key={name}
+                to="/galeria/$categoria"
+                params={{ categoria: name }}
+                className="shrink-0 group inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium text-foreground/85 border border-sky-400/40 bg-transparent hover:bg-sky-400/10 hover:border-sky-300 hover:text-sky-100 hover:shadow-[0_0_14px_rgba(56,155,255,0.6)] transition-all duration-200 hover:scale-[1.05]"
+              >
+                <Icon className="h-3.5 w-3.5 text-sky-300/85 group-hover:text-sky-200" />
+                {name}
+                <span className="opacity-60 text-[10px] sm:text-xs">({counts[name] ?? 0})</span>
+              </Link>
+            ))}
           </div>
         </div>
-        <AnimatePresence>
-          {menuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              className="relative border-t border-sky-400/30 bg-background/95 backdrop-blur shadow-[inset_0_1px_0_rgba(186,230,255,0.35),inset_0_-1px_0_rgba(0,0,0,0.35),0_10px_28px_-10px_rgba(56,155,255,0.5)]"
-            >
-              <div className="pointer-events-none absolute inset-x-0 -top-px h-[2px] bg-[linear-gradient(90deg,transparent,rgba(56,155,255,0.8),transparent)] animate-neon-slide bg-[length:200%_100%]" />
-              <div className="max-w-7xl mx-auto px-3 sm:px-6 md:px-10 py-2.5 sm:py-4 flex flex-wrap justify-center md:justify-start gap-1.5 sm:gap-3">
-                {categories.map((c) => (
+
+        {/* Search bar */}
+        <div className="border-t border-sky-400/10 bg-background/50">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 py-2.5 relative">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-sky-300/70" />
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onFocus={() => setSearchFocused(true)}
+                onBlur={() => setTimeout(() => setSearchFocused(false), 150)}
+                placeholder="Pesquisar obras..."
+                className="w-full pl-9 pr-3 py-2 rounded-full bg-background/70 border border-sky-400/40 text-sm text-foreground placeholder:text-muted-foreground/70 outline-none focus:border-sky-300 focus:shadow-[0_0_16px_rgba(56,155,255,0.55)] transition-all"
+              />
+            </div>
+            {searchFocused && suggestions.length > 0 && (
+              <div className="absolute left-4 right-4 sm:left-6 sm:right-6 mt-1 rounded-xl border border-sky-400/40 bg-background/95 backdrop-blur-md shadow-[0_10px_30px_-10px_rgba(56,155,255,0.5)] overflow-hidden z-10 animate-fade-in">
+                {suggestions.map(({ name, icon: Icon }) => (
                   <Link
-                    key={c}
+                    key={name}
                     to="/galeria/$categoria"
-                    params={{ categoria: c }}
-                    className="group relative px-3 sm:px-6 md:px-8 py-1.5 sm:py-2.5 min-w-[72px] sm:min-w-[130px] text-center rounded-full text-[11px] sm:text-base md:text-lg font-medium tracking-wide border border-sky-400/50 bg-sky-400/[0.04] text-foreground transition-all duration-300 [text-shadow:0_0_10px_rgba(56,189,248,0.55),0_0_20px_rgba(56,155,255,0.35)] hover:text-sky-300 hover:border-sky-400/80 hover:bg-sky-400/[0.08] hover:[text-shadow:0_0_14px_rgba(56,189,248,0.95),0_0_28px_rgba(56,155,255,0.75),0_0_44px_rgba(56,155,255,0.5)] hover:-translate-y-0.5"
+                    params={{ categoria: name }}
+                    onClick={() => setQuery("")}
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-sky-400/10 hover:text-sky-100 transition-colors"
                   >
-                    <span className="relative z-10">{c}</span>
+                    <Icon className="h-3.5 w-3.5 text-sky-300/85" />
+                    {name}
+                    <span className="ml-auto text-xs text-muted-foreground">
+                      ({counts[name] ?? 0})
+                    </span>
                   </Link>
                 ))}
               </div>
+            )}
+          </div>
+        </div>
 
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-
+        {/* Neon gradient separator */}
+        <div className="h-[3px] bg-[linear-gradient(90deg,transparent,rgba(56,155,255,0.75),transparent)] shadow-[0_10px_24px_-6px_rgba(56,155,255,0.7)]" />
       </header>
 
-
       {/* Hero */}
-      <section id="top" className="relative min-h-screen flex items-center overflow-hidden pt-40 sm:pt-36 md:pt-28">
+      <section id="top" className="relative min-h-screen flex items-center overflow-hidden pt-56 sm:pt-52 md:pt-48">
+
         <div className="absolute inset-0">
           <img src={hero} alt="Galeria StudioNei" fetchPriority="high" decoding="async" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-background/55 via-background/75 to-background" />
