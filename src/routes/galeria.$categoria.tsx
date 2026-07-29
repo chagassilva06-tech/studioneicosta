@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, ImageIcon, Upload, RefreshCw, Loader2, LogIn, LogOut } from "lucide-react";
+import { ChevronLeft, ChevronRight, ImageIcon, Upload, RefreshCw, Loader2, LogIn, LogOut, Star } from "lucide-react";
 import paisagem1 from "@/assets/paisagem-1.webp";
 import pintura1 from "@/assets/pintura-1.webp";
 import type { LightboxData } from "@/components/Lightbox";
@@ -57,8 +57,9 @@ function Galeria() {
   const total = 10;
   const slots = Array.from({ length: total });
   const [lightbox, setLightbox] = useState<LightboxData>(null);
-  const [uploaded, setUploaded] = useState<Record<number, { path: string; url: string; srcSet: string }>>({});
+  const [uploaded, setUploaded] = useState<Record<number, { path: string; url: string; srcSet: string; featured: boolean }>>({});
   const [uploadingSlot, setUploadingSlot] = useState<number | null>(null);
+  const [togglingSlot, setTogglingSlot] = useState<number | null>(null);
   const fileInputs = useRef<Record<number, HTMLInputElement | null>>({});
   const desc = categoryDescriptions[nome] ?? `Obra da coleção ${nome}.`;
   const { isAdmin, userEmail } = useAdmin();
@@ -91,16 +92,16 @@ function Galeria() {
     (async () => {
       const { data, error } = await supabase
         .from("artworks")
-        .select("slot, storage_path")
+        .select("slot, storage_path, featured")
         .eq("categoria", nome);
       if (error || !data || cancelled) return;
       if (data.length === 0) return;
       const variants = await Promise.all(data.map((r) => signVariants(r.storage_path)));
       if (cancelled) return;
-      const next: Record<number, { path: string; url: string; srcSet: string }> = {};
+      const next: Record<number, { path: string; url: string; srcSet: string; featured: boolean }> = {};
       data.forEach((row, idx) => {
         const v = variants[idx];
-        if (v.url) next[row.slot] = { path: row.storage_path, url: v.url, srcSet: v.srcSet };
+        if (v.url) next[row.slot] = { path: row.storage_path, url: v.url, srcSet: v.srcSet, featured: Boolean((row as { featured?: boolean }).featured) };
       });
       setUploaded(next);
     })();
@@ -120,7 +121,6 @@ function Galeria() {
         .upload(path, file, { upsert: true, contentType: file.type });
       if (upErr) throw upErr;
 
-      // Remove previous file for this slot (if any)
       const previous = uploaded[i]?.path;
 
       const { error: dbErr } = await supabase
@@ -137,7 +137,10 @@ function Galeria() {
 
       const v = await signVariants(path);
       if (v.url) {
-        setUploaded((prev) => ({ ...prev, [i]: { path, url: v.url, srcSet: v.srcSet } }));
+        setUploaded((prev) => ({
+          ...prev,
+          [i]: { path, url: v.url, srcSet: v.srcSet, featured: prev[i]?.featured ?? false },
+        }));
       }
     } catch (e) {
       console.error("Upload failed", e);
@@ -146,6 +149,43 @@ function Galeria() {
       setUploadingSlot(null);
     }
   };
+
+  const handleToggleFeatured = async (i: number) => {
+    const current = uploaded[i];
+    if (!current) return;
+    setTogglingSlot(i);
+    try {
+      const nextValue = !current.featured;
+      if (nextValue) {
+        // Clear any other featured in this categoria first (unique index enforces one)
+        await supabase
+          .from("artworks")
+          .update({ featured: false })
+          .eq("categoria", nome)
+          .eq("featured", true);
+      }
+      const { error } = await supabase
+        .from("artworks")
+        .update({ featured: nextValue })
+        .eq("categoria", nome)
+        .eq("slot", i);
+      if (error) throw error;
+      setUploaded((prev) => {
+        const updated: typeof prev = {};
+        for (const [k, v] of Object.entries(prev)) {
+          updated[Number(k)] = { ...v, featured: false };
+        }
+        if (updated[i]) updated[i].featured = nextValue;
+        return updated;
+      });
+    } catch (e) {
+      console.error("Toggle featured failed", e);
+      alert("Falha ao marcar como destaque.");
+    } finally {
+      setTogglingSlot(null);
+    }
+  };
+
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
@@ -217,6 +257,9 @@ function Galeria() {
             const image = uploaded[i]?.url ?? baseImage;
             const srcSet = uploaded[i]?.srcSet;
             const isUploading = uploadingSlot === i;
+            const isFeatured = uploaded[i]?.featured ?? false;
+            const canToggle = Boolean(uploaded[i]);
+            const isToggling = togglingSlot === i;
             return (
               <Slot
                 key={i}
@@ -227,6 +270,10 @@ function Galeria() {
                 desc={desc}
                 isAdmin={isAdmin}
                 isUploading={isUploading}
+                isFeatured={isFeatured}
+                canToggleFeatured={canToggle}
+                isToggling={isToggling}
+                onToggleFeatured={() => handleToggleFeatured(i)}
                 registerInput={(el) => {
                   fileInputs.current[i] = el;
                 }}
@@ -253,6 +300,10 @@ type SlotProps = {
   desc: string;
   isAdmin: boolean;
   isUploading: boolean;
+  isFeatured: boolean;
+  canToggleFeatured: boolean;
+  isToggling: boolean;
+  onToggleFeatured: () => void;
   registerInput: (el: HTMLInputElement | null) => void;
   onPickFile: () => void;
   onFileChange: (f?: File | null) => void;
@@ -267,6 +318,10 @@ function Slot({
   desc,
   isAdmin,
   isUploading,
+  isFeatured,
+  canToggleFeatured,
+  isToggling,
+  onToggleFeatured,
   registerInput,
   onPickFile,
   onFileChange,
@@ -376,6 +431,36 @@ function Slot({
               </>
             )}
           </button>
+        </div>
+      )}
+
+      {isAdmin && canToggleFeatured && (
+        <div className="absolute top-3 right-3 z-10">
+          <button
+            type="button"
+            disabled={isToggling}
+            onClick={(e) => { e.stopPropagation(); onToggleFeatured(); }}
+            title={isFeatured ? "Remover destaque" : "Marcar como destaque"}
+            aria-label={isFeatured ? "Remover destaque" : "Marcar como destaque"}
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[11px] font-medium tracking-wide border-2 backdrop-blur transition-all disabled:opacity-70 ${
+              isFeatured
+                ? "border-[#d8bf85] text-slate-950 bg-[#d8bf85] shadow-[0_0_18px_rgba(216,191,133,0.75)] hover:shadow-[0_0_26px_rgba(216,191,133,0.95)]"
+                : "border-[#d8bf85]/60 text-[#d8bf85] bg-background/70 hover:bg-[#d8bf85]/15 hover:border-[#d8bf85]"
+            }`}
+          >
+            {isToggling ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <Star className={`h-3.5 w-3.5 ${isFeatured ? "fill-current" : ""}`} />
+            )}
+            <span className="hidden sm:inline">{isFeatured ? "Destaque" : "Destacar"}</span>
+          </button>
+        </div>
+      )}
+
+      {isFeatured && !isAdmin && (
+        <div className="absolute top-3 right-3 z-10 inline-flex items-center gap-1 px-2 py-1 rounded-full bg-[#d8bf85]/90 text-slate-950 text-[10px] font-medium shadow-[0_0_14px_rgba(216,191,133,0.6)]">
+          <Star className="h-3 w-3 fill-current" /> Destaque
         </div>
       )}
 

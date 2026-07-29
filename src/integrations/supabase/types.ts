@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           categoria: string
           created_at: string
+          featured: boolean
           id: string
           slot: number
           storage_path: string
@@ -26,6 +27,7 @@ export type Database = {
         Insert: {
           categoria: string
           created_at?: string
+          featured?: boolean
           id?: string
           slot: number
           storage_path: string
@@ -34,9 +36,37 @@ export type Database = {
         Update: {
           categoria?: string
           created_at?: string
+          featured?: boolean
           id?: string
           slot?: number
           storage_path?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      categories: {
+        Row: {
+          created_at: string
+          icon: string
+          id: string
+          name: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          icon?: string
+          id?: string
+          name: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          icon?: string
+          id?: string
+          name?: string
+          sort_order?: number
           updated_at?: string
         }
         Relationships: []

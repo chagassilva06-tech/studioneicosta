@@ -12,15 +12,8 @@ import {
   LogOut,
   Search,
   LayoutGrid,
-  Mountain,
-  User as UserIcon,
-  Palette,
-  Sparkles,
-  PawPrint,
-  BookOpen,
+  Settings2,
 } from "lucide-react";
-
-
 
 import hero from "@/assets/hero.jpg";
 import artist from "@/assets/artist.webp";
@@ -36,9 +29,17 @@ const Lightbox = lazy(() => import("@/components/Lightbox").then((m) => ({ defau
 const StackedCarousel = lazy(() =>
   import("@/components/StackedCarousel").then((m) => ({ default: m.StackedCarousel })),
 );
+const CategoryManager = lazy(() =>
+  import("@/components/CategoryManager").then((m) => ({ default: m.CategoryManager })),
+);
+const AllArtworksModal = lazy(() =>
+  import("@/components/AllArtworksModal").then((m) => ({ default: m.AllArtworksModal })),
+);
 import { supabase } from "@/integrations/supabase/client";
 import { useDominantColor, rgbTriplet } from "@/hooks/use-dominant-color";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useAdmin } from "@/hooks/use-admin";
+import { getIcon } from "@/lib/category-icons";
 
 const featuredSlides = [
   {
@@ -105,21 +106,19 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const categories: { name: string; icon: typeof Mountain }[] = [
-  { name: "Paisagem", icon: Mountain },
-  { name: "Retrato", icon: UserIcon },
-  { name: "Anime", icon: Sparkles },
-  { name: "Pintura", icon: Palette },
-  { name: "Animais", icon: PawPrint },
-  { name: "Estudo", icon: BookOpen },
-];
+type Cat = { id: string; name: string; icon: string; sort_order: number };
 
+const fallbackDescriptions: Record<string, string> = Object.fromEntries(
+  featuredSlides.map((s) => [s.categoria, s.description]),
+);
+const fallbackSrc: Record<string, string> = Object.fromEntries(
+  featuredSlides.map((s) => [s.categoria, s.src]),
+);
 
 function Index() {
-  const [menuOpen, setMenuOpen] = useState(true);
   const isMobile = useIsMobile();
-
   const navigate = useNavigate();
+  const { isAdmin } = useAdmin();
 
   useEffect(() => {
     let cancelled = false;
@@ -133,16 +132,32 @@ function Index() {
     };
   }, [navigate]);
 
-  const [featuredIdx, setFeaturedIdx] = useState(0);
-
-  const [featuredPlaying, setFeaturedPlaying] = useState(true);
-  const [featuredHover, setFeaturedHover] = useState(false);
-  const [featuredDir, setFeaturedDir] = useState(1);
   const [lightbox, setLightbox] = useState<LightboxData>(null);
   const [counts, setCounts] = useState<Record<string, number>>({});
   const [query, setQuery] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
+  const [categories, setCategories] = useState<Cat[]>([]);
+  const [featuredUrls, setFeaturedUrls] = useState<Record<string, string>>({});
+  const [showCategoryManager, setShowCategoryManager] = useState(false);
+  const [showAllModal, setShowAllModal] = useState(false);
+  const [refreshTick, setRefreshTick] = useState(0);
 
+  // Load categories
+  useEffect(() => {
+    let cancelled = false;
+    supabase
+      .from("categories")
+      .select("id, name, icon, sort_order")
+      .order("sort_order", { ascending: true })
+      .then(({ data }) => {
+        if (!cancelled && data) setCategories(data as Cat[]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [refreshTick]);
+
+  // Counts
   useEffect(() => {
     let cancelled = false;
     supabase.from("artworks").select("categoria").then(({ data }) => {
@@ -154,34 +169,35 @@ function Index() {
       setCounts(c);
     });
     return () => { cancelled = true; };
-  }, []);
+  }, [refreshTick]);
 
   const totalCount = Object.values(counts).reduce((a, b) => a + b, 0);
   const suggestions = query.trim()
     ? categories.filter((c) => c.name.toLowerCase().includes(query.trim().toLowerCase()))
     : [];
 
-  const featuredTotal = featuredSlides.length;
-
-  const [featuredUrls, setFeaturedUrls] = useState<Record<string, string>>({});
-
+  // Featured URLs: prefer featured=true, else lowest slot
   useEffect(() => {
     let cancelled = false;
     (async () => {
       const { data } = await supabase
         .from("artworks")
-        .select("categoria, slot, storage_path")
+        .select("categoria, slot, storage_path, featured")
         .order("slot", { ascending: true });
       if (!data || cancelled) return;
-      const firstByCat: Record<string, string> = {};
-      for (const row of data) {
-        if (!firstByCat[row.categoria]) firstByCat[row.categoria] = row.storage_path;
+      const chosen: Record<string, string> = {};
+      // First pass: featured
+      for (const row of data as { categoria: string; storage_path: string; featured: boolean }[]) {
+        if (row.featured) chosen[row.categoria] = row.storage_path;
       }
-      const entries = Object.entries(firstByCat);
+      // Second pass: fallback to first slot
+      for (const row of data as { categoria: string; storage_path: string }[]) {
+        if (!chosen[row.categoria]) chosen[row.categoria] = row.storage_path;
+      }
+      const entries = Object.entries(chosen);
       if (!entries.length) return;
-      const paths = entries.map(([, p]) => p);
       const signed = await Promise.all(
-        paths.map((p) =>
+        entries.map(([, p]) =>
           supabase.storage
             .from("artworks")
             .createSignedUrl(p, 60 * 60 * 24 * 365, {
@@ -200,35 +216,17 @@ function Index() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [refreshTick]);
 
-  const currentSlide = featuredSlides[featuredIdx];
-  const currentSrc = featuredUrls[currentSlide.categoria] ?? currentSlide.src;
-  const featuredDominant = useDominantColor(currentSrc);
-  const featuredTriplet = rgbTriplet(featuredDominant) ?? "56, 189, 248";
-  const featuredColor = featuredDominant ?? "rgb(56, 189, 248)";
+  // Build slides from categories (ordered)
+  const slides = categories.map((c) => ({
+    src: fallbackSrc[c.name] ?? paisagem1,
+    title: c.name,
+    categoria: c.name,
+    description: fallbackDescriptions[c.name] ?? `Obra da coleção ${c.name}.`,
+  }));
 
-  useEffect(() => {
-    if (!featuredPlaying || featuredHover) return;
-    const t = setInterval(() => {
-      setFeaturedDir(1);
-      setFeaturedIdx((i) => (i + 1) % featuredTotal);
-    }, 5000);
-    return () => clearInterval(t);
-  }, [featuredPlaying, featuredHover, featuredTotal]);
 
-  const nextFeatured = () => {
-    setFeaturedDir(1);
-    setFeaturedIdx((i) => (i + 1) % featuredTotal);
-  };
-  const prevFeatured = () => {
-    setFeaturedDir(-1);
-    setFeaturedIdx((i) => (i - 1 + featuredTotal) % featuredTotal);
-  };
-  const goFeatured = (i: number) => {
-    setFeaturedDir(i > featuredIdx ? 1 : -1);
-    setFeaturedIdx(i);
-  };
 
   return (
     <div className="min-h-screen bg-background bg-canvas-texture text-foreground font-sans transition-colors duration-500">
@@ -275,26 +273,41 @@ function Index() {
           <div
             className="max-w-7xl mx-auto h-full px-3 sm:px-6 md:px-10 flex items-center gap-2 sm:gap-2.5 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
           >
-            <a
-              href="#gallery"
+            <button
+              type="button"
+              onClick={() => setShowAllModal(true)}
               className="shrink-0 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-sky-400 text-slate-950 border border-sky-300 shadow-[0_0_18px_rgba(56,189,248,0.6)] hover:shadow-[0_0_26px_rgba(56,189,248,0.9)] transition-all duration-200 hover:scale-[1.05]"
             >
               <LayoutGrid className="h-3.5 w-3.5" />
               Todos
               <span className="opacity-80 text-[10px] sm:text-xs">({totalCount})</span>
-            </a>
-            {categories.map(({ name, icon: Icon }) => (
-              <Link
-                key={name}
-                to="/galeria/$categoria"
-                params={{ categoria: name }}
-                className="shrink-0 group inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium text-foreground/85 border border-sky-400/40 bg-transparent hover:bg-sky-400/10 hover:border-sky-300 hover:text-sky-100 hover:shadow-[0_0_14px_rgba(56,155,255,0.6)] transition-all duration-200 hover:scale-[1.05]"
+            </button>
+            {categories.map((c) => {
+              const Icon = getIcon(c.icon);
+              return (
+                <Link
+                  key={c.id}
+                  to="/galeria/$categoria"
+                  params={{ categoria: c.name }}
+                  className="shrink-0 group inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium text-foreground/85 border border-sky-400/40 bg-transparent hover:bg-sky-400/10 hover:border-sky-300 hover:text-sky-100 hover:shadow-[0_0_14px_rgba(56,155,255,0.6)] transition-all duration-200 hover:scale-[1.05]"
+                >
+                  <Icon className="h-3.5 w-3.5 text-sky-300/85 group-hover:text-sky-200" />
+                  {c.name}
+                  <span className="opacity-60 text-[10px] sm:text-xs">({counts[c.name] ?? 0})</span>
+                </Link>
+              );
+            })}
+            {isAdmin && (
+              <button
+                type="button"
+                onClick={() => setShowCategoryManager(true)}
+                className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-[#d8bf85] border border-[#d8bf85]/50 bg-[#d8bf85]/[0.06] hover:bg-[#d8bf85]/15 hover:border-[#d8bf85] transition-all duration-200 hover:scale-[1.05]"
+                title="Gerenciar categorias"
               >
-                <Icon className="h-3.5 w-3.5 text-sky-300/85 group-hover:text-sky-200" />
-                {name}
-                <span className="opacity-60 text-[10px] sm:text-xs">({counts[name] ?? 0})</span>
-              </Link>
-            ))}
+                <Settings2 className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline">Gerenciar</span>
+              </button>
+            )}
           </div>
         </div>
 
@@ -315,21 +328,24 @@ function Index() {
             </div>
             {searchFocused && suggestions.length > 0 && (
               <div className="absolute left-4 right-4 sm:left-6 sm:right-6 mt-1 rounded-xl border border-sky-400/40 bg-background/95 backdrop-blur-md shadow-[0_10px_30px_-10px_rgba(56,155,255,0.5)] overflow-hidden z-10 animate-fade-in">
-                {suggestions.map(({ name, icon: Icon }) => (
-                  <Link
-                    key={name}
-                    to="/galeria/$categoria"
-                    params={{ categoria: name }}
-                    onClick={() => setQuery("")}
-                    className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-sky-400/10 hover:text-sky-100 transition-colors"
-                  >
-                    <Icon className="h-3.5 w-3.5 text-sky-300/85" />
-                    {name}
-                    <span className="ml-auto text-xs text-muted-foreground">
-                      ({counts[name] ?? 0})
-                    </span>
-                  </Link>
-                ))}
+                {suggestions.map((c) => {
+                  const Icon = getIcon(c.icon);
+                  return (
+                    <Link
+                      key={c.id}
+                      to="/galeria/$categoria"
+                      params={{ categoria: c.name }}
+                      onClick={() => setQuery("")}
+                      className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-sky-400/10 hover:text-sky-100 transition-colors"
+                    >
+                      <Icon className="h-3.5 w-3.5 text-sky-300/85" />
+                      {c.name}
+                      <span className="ml-auto text-xs text-muted-foreground">
+                        ({counts[c.name] ?? 0})
+                      </span>
+                    </Link>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -377,13 +393,6 @@ function Index() {
             </div>
             <div className="mt-8 sm:mt-10 flex flex-wrap gap-3 sm:gap-4">
               <a
-                href="#gallery"
-                className="group relative inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 bg-sky-400 text-slate-950 rounded-full font-medium text-sm sm:text-base border-2 border-sky-400 shadow-[0_0_0_rgba(56,155,255,0)] hover:bg-sky-300 hover:border-sky-200 hover:shadow-[0_0_28px_rgba(56,155,255,0.85),0_0_60px_rgba(56,155,255,0.55)] transition-all duration-300"
-              >
-                Explorar Obras
-                <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </a>
-              <a
                 href="#about"
                 className="group inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 border-2 border-sky-400/40 text-foreground rounded-full text-sm sm:text-base hover:border-sky-300 hover:text-sky-200 hover:shadow-[0_0_22px_rgba(56,155,255,0.7)] hover:bg-sky-400/5 transition-all duration-300"
               >
@@ -411,7 +420,7 @@ function Index() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-6 sm:pt-8 pb-6 sm:pb-10">
         <Suspense fallback={<div className="h-[420px]" />}>
           <StackedCarousel
-            slides={featuredSlides}
+            slides={slides.length ? slides : featuredSlides}
             urls={featuredUrls}
             
             onSelect={(slide, src) =>
@@ -510,6 +519,23 @@ function Index() {
       </footer>
       <Suspense fallback={null}>
         {lightbox && <Lightbox data={lightbox} onClose={() => setLightbox(null)} />}
+        {showCategoryManager && (
+          <CategoryManager
+            open={showCategoryManager}
+            onClose={() => setShowCategoryManager(false)}
+            onChanged={() => setRefreshTick((t) => t + 1)}
+          />
+        )}
+        {showAllModal && (
+          <AllArtworksModal
+            open={showAllModal}
+            onClose={() => setShowAllModal(false)}
+            onOpenLightbox={(d) => {
+              setShowAllModal(false);
+              setLightbox(d);
+            }}
+          />
+        )}
       </Suspense>
     </div>
   );
