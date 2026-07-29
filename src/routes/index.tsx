@@ -10,6 +10,14 @@ import {
   Pause,
   ImageIcon,
   LogOut,
+  Search,
+  LayoutGrid,
+  Mountain,
+  User as UserIcon,
+  Palette,
+  Sparkles,
+  PawPrint,
+  BookOpen,
 } from "lucide-react";
 
 
