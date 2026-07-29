@@ -561,7 +561,11 @@ function Index() {
           <CategoryManager
             open={showCategoryManager}
             onClose={() => setShowCategoryManager(false)}
-            onChanged={() => setRefreshTick((t) => t + 1)}
+            onChanged={() => {
+              void queryClient.invalidateQueries({ queryKey: ["categories"] });
+              void queryClient.invalidateQueries({ queryKey: ["artwork-counts"] });
+              void queryClient.invalidateQueries({ queryKey: ["featured-urls"] });
+            }}
           />
         )}
         {showAllModal && (
