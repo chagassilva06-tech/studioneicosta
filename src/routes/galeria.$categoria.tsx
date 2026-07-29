@@ -9,6 +9,8 @@ const Lightbox = lazy(() => import("@/components/Lightbox").then((m) => ({ defau
 import { supabase } from "@/integrations/supabase/client";
 import { useAdmin } from "@/hooks/use-admin";
 import { useDominantColor, rgbTriplet } from "@/hooks/use-dominant-color";
+import { compressImage } from "@/lib/compress-image";
+
 
 
 
