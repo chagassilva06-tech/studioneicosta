@@ -102,6 +102,12 @@ function Index() {
   const isMobile = useIsMobile();
 
   const navigate = useNavigate();
+  const [animatingCategory, setAnimatingCategory] = useState<string | null>(null);
+
+  const handleCategoryClick = (c: string) => {
+    setAnimatingCategory(c);
+    setTimeout(() => setAnimatingCategory(null), 1800);
+  };
 
   useEffect(() => {
     let cancelled = false;
