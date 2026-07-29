@@ -57,7 +57,7 @@ function Galeria() {
   const total = 10;
   const slots = Array.from({ length: total });
   const [lightbox, setLightbox] = useState<LightboxData>(null);
-  const [uploaded, setUploaded] = useState<Record<number, { path: string; url: string }>>({});
+  const [uploaded, setUploaded] = useState<Record<number, { path: string; url: string; srcSet: string }>>({});
   const [uploadingSlot, setUploadingSlot] = useState<number | null>(null);
   const fileInputs = useRef<Record<number, HTMLInputElement | null>>({});
   const desc = categoryDescriptions[nome] ?? `Obra da coleção ${nome}.`;
@@ -67,6 +67,24 @@ function Galeria() {
     await supabase.auth.signOut();
   };
 
+  const signVariants = async (path: string) => {
+    const [small, large] = await Promise.all([
+      supabase.storage.from(BUCKET).createSignedUrl(path, SIGNED_TTL, {
+        transform: { width: 480, quality: 72, resize: "contain" },
+      }),
+      supabase.storage.from(BUCKET).createSignedUrl(path, SIGNED_TTL, {
+        transform: { width: 900, quality: 78, resize: "contain" },
+      }),
+    ]);
+    const url = large.data?.signedUrl ?? small.data?.signedUrl ?? "";
+    const srcSet = [
+      small.data?.signedUrl ? `${small.data.signedUrl} 480w` : null,
+      large.data?.signedUrl ? `${large.data.signedUrl} 900w` : null,
+    ]
+      .filter(Boolean)
+      .join(", ");
+    return { url, srcSet };
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -76,22 +94,13 @@ function Galeria() {
         .select("slot, storage_path")
         .eq("categoria", nome);
       if (error || !data || cancelled) return;
-      const paths = data.map((r) => r.storage_path);
-      if (paths.length === 0) return;
-      const signed = await Promise.all(
-        paths.map((p) =>
-          supabase.storage
-            .from(BUCKET)
-            .createSignedUrl(p, SIGNED_TTL, {
-              transform: { width: 800, quality: 75, resize: "contain" },
-            }),
-        ),
-      );
+      if (data.length === 0) return;
+      const variants = await Promise.all(data.map((r) => signVariants(r.storage_path)));
       if (cancelled) return;
-      const next: Record<number, { path: string; url: string }> = {};
+      const next: Record<number, { path: string; url: string; srcSet: string }> = {};
       data.forEach((row, idx) => {
-        const s = signed[idx]?.data;
-        if (s?.signedUrl) next[row.slot] = { path: row.storage_path, url: s.signedUrl };
+        const v = variants[idx];
+        if (v.url) next[row.slot] = { path: row.storage_path, url: v.url, srcSet: v.srcSet };
       });
       setUploaded(next);
     })();
