@@ -139,6 +139,27 @@ function Index() {
   const [featuredHover, setFeaturedHover] = useState(false);
   const [featuredDir, setFeaturedDir] = useState(1);
   const [lightbox, setLightbox] = useState<LightboxData>(null);
+  const [counts, setCounts] = useState<Record<string, number>>({});
+  const [query, setQuery] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    supabase.from("artworks").select("categoria").then(({ data }) => {
+      if (cancelled || !data) return;
+      const c: Record<string, number> = {};
+      for (const r of data as { categoria: string }[]) {
+        c[r.categoria] = (c[r.categoria] ?? 0) + 1;
+      }
+      setCounts(c);
+    });
+    return () => { cancelled = true; };
+  }, []);
+
+  const totalCount = Object.values(counts).reduce((a, b) => a + b, 0);
+  const suggestions = query.trim()
+    ? categories.filter((c) => c.name.toLowerCase().includes(query.trim().toLowerCase()))
+    : [];
 
   const featuredTotal = featuredSlides.length;
 
