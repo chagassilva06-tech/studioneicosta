@@ -339,15 +339,9 @@ function Index() {
         <div className="h-[3px] bg-[linear-gradient(90deg,transparent,rgba(56,155,255,0.75),transparent)] shadow-[0_10px_24px_-6px_rgba(56,155,255,0.7)]" />
       </header>
 
-
-
-
-
-      </header>
-
-
       {/* Hero */}
-      <section id="top" className="relative min-h-screen flex items-center overflow-hidden pt-40 sm:pt-36 md:pt-28">
+      <section id="top" className="relative min-h-screen flex items-center overflow-hidden pt-56 sm:pt-52 md:pt-48">
+
         <div className="absolute inset-0">
           <img src={hero} alt="Galeria StudioNei" fetchPriority="high" decoding="async" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-background/55 via-background/75 to-background" />
