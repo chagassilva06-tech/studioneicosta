@@ -324,6 +324,7 @@ function Index() {
         <StackedCarousel
           slides={featuredSlides}
           urls={featuredUrls}
+          pairMode
           onSelect={(slide, src) =>
             setLightbox({
               src,
