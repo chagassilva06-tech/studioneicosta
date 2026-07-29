@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Instagram,
@@ -139,60 +140,53 @@ function Index() {
   }, [navigate]);
 
   const [lightbox, setLightbox] = useState<LightboxData>(null);
-  const [counts, setCounts] = useState<Record<string, number>>({});
   const [query, setQuery] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
-  const [categories, setCategories] = useState<Cat[]>([]);
-  const [featuredUrls, setFeaturedUrls] = useState<Record<string, string[]>>({});
   const [showCategoryManager, setShowCategoryManager] = useState(false);
   const [showAllModal, setShowAllModal] = useState(false);
-  const [refreshTick, setRefreshTick] = useState(0);
+  const queryClient = useQueryClient();
 
-  // Load categories
-  useEffect(() => {
-    let cancelled = false;
-    supabase
-      .from("categories")
-      .select("id, name, icon, sort_order")
-      .order("sort_order", { ascending: true })
-      .then(({ data }) => {
-        if (!cancelled && data) setCategories(data as Cat[]);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [refreshTick]);
+  const categoriesQuery = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("categories")
+        .select("id, name, icon, sort_order")
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return (data ?? []) as Cat[];
+    },
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+  });
+  const categories = categoriesQuery.data ?? [];
 
-  // Counts
-  useEffect(() => {
-    let cancelled = false;
-    supabase.from("artworks").select("categoria").then(({ data }) => {
-      if (cancelled || !data) return;
+  const countsQuery = useQuery({
+    queryKey: ["artwork-counts"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("artworks").select("categoria");
+      if (error) throw error;
       const c: Record<string, number> = {};
       for (const r of data as { categoria: string }[]) {
         c[r.categoria] = (c[r.categoria] ?? 0) + 1;
       }
-      setCounts(c);
-    });
-    return () => { cancelled = true; };
-  }, [refreshTick]);
+      return c;
+    },
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+  });
+  const counts = countsQuery.data ?? {};
 
-  const totalCount = Object.values(counts).reduce((a, b) => a + b, 0);
-  const suggestions = query.trim()
-    ? categories.filter((c) => c.name.toLowerCase().includes(query.trim().toLowerCase()))
-    : [];
-
-  // Featured URLs: collect up to the 2 first images per category
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      const { data } = await supabase
+  const featuredUrlsQuery = useQuery({
+    queryKey: ["featured-urls"],
+    queryFn: async () => {
+      const { data, error } = await supabase
         .from("artworks")
         .select("categoria, slot, storage_path, featured")
         .order("slot", { ascending: true });
-      if (!data || cancelled) return;
+      if (error) throw error;
+      if (!data || data.length === 0) return {} as Record<string, string[]>;
 
-      // featured flag gets absolute priority
       const featured: Record<string, string[]> = {};
       for (const row of data as { categoria: string; storage_path: string; featured: boolean }[]) {
         if (row.featured) {
@@ -200,7 +194,6 @@ function Index() {
         }
       }
 
-      // Then fill the rest of the first 2 slots per category
       const byCat: Record<string, string[]> = {};
       for (const row of data as { categoria: string; storage_path: string }[]) {
         const arr = byCat[row.categoria] ?? (byCat[row.categoria] = []);
@@ -208,7 +201,6 @@ function Index() {
       }
       for (const cat of Object.keys(byCat)) {
         if (featured[cat]) {
-          // Merge so the featured image is first, then the next available slot
           const rest = byCat[cat].filter((p) => p !== featured[cat][0]);
           byCat[cat] = [...featured[cat], ...rest].slice(0, 2);
         }
@@ -217,7 +209,7 @@ function Index() {
       const entries = Object.entries(byCat).flatMap(([cat, paths]) =>
         paths.map((path) => [cat, path] as [string, string]),
       );
-      if (!entries.length) return;
+      if (!entries.length) return {} as Record<string, string[]>;
       const signed = await Promise.all(
         entries.map(([, p]) =>
           supabase.storage
@@ -227,7 +219,6 @@ function Index() {
             }),
         ),
       );
-      if (cancelled) return;
       const urlByCat: Record<string, string[]> = {};
       entries.forEach(([cat], i) => {
         const s = signed[i]?.data;
@@ -236,12 +227,17 @@ function Index() {
           arr.push(s.signedUrl);
         }
       });
-      setFeaturedUrls(urlByCat);
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [refreshTick]);
+      return urlByCat;
+    },
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+  });
+  const featuredUrls = featuredUrlsQuery.data ?? {};
+
+  const totalCount = Object.values(counts).reduce((a, b) => a + b, 0);
+  const suggestions = query.trim()
+    ? categories.filter((c) => c.name.toLowerCase().includes(query.trim().toLowerCase()))
+    : [];
 
   // Build slides: two per category (pos 0 and 1) using the first images available
   const slides = categories.flatMap((c) => {
@@ -565,7 +561,11 @@ function Index() {
           <CategoryManager
             open={showCategoryManager}
             onClose={() => setShowCategoryManager(false)}
-            onChanged={() => setRefreshTick((t) => t + 1)}
+            onChanged={() => {
+              void queryClient.invalidateQueries({ queryKey: ["categories"] });
+              void queryClient.invalidateQueries({ queryKey: ["artwork-counts"] });
+              void queryClient.invalidateQueries({ queryKey: ["featured-urls"] });
+            }}
           />
         )}
         {showAllModal && (
