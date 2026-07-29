@@ -92,16 +92,16 @@ function Galeria() {
     (async () => {
       const { data, error } = await supabase
         .from("artworks")
-        .select("slot, storage_path")
+        .select("slot, storage_path, featured")
         .eq("categoria", nome);
       if (error || !data || cancelled) return;
       if (data.length === 0) return;
       const variants = await Promise.all(data.map((r) => signVariants(r.storage_path)));
       if (cancelled) return;
-      const next: Record<number, { path: string; url: string; srcSet: string }> = {};
+      const next: Record<number, { path: string; url: string; srcSet: string; featured: boolean }> = {};
       data.forEach((row, idx) => {
         const v = variants[idx];
-        if (v.url) next[row.slot] = { path: row.storage_path, url: v.url, srcSet: v.srcSet };
+        if (v.url) next[row.slot] = { path: row.storage_path, url: v.url, srcSet: v.srcSet, featured: Boolean((row as { featured?: boolean }).featured) };
       });
       setUploaded(next);
     })();
@@ -121,7 +121,6 @@ function Galeria() {
         .upload(path, file, { upsert: true, contentType: file.type });
       if (upErr) throw upErr;
 
-      // Remove previous file for this slot (if any)
       const previous = uploaded[i]?.path;
 
       const { error: dbErr } = await supabase
@@ -138,7 +137,10 @@ function Galeria() {
 
       const v = await signVariants(path);
       if (v.url) {
-        setUploaded((prev) => ({ ...prev, [i]: { path, url: v.url, srcSet: v.srcSet } }));
+        setUploaded((prev) => ({
+          ...prev,
+          [i]: { path, url: v.url, srcSet: v.srcSet, featured: prev[i]?.featured ?? false },
+        }));
       }
     } catch (e) {
       console.error("Upload failed", e);
@@ -147,6 +149,43 @@ function Galeria() {
       setUploadingSlot(null);
     }
   };
+
+  const handleToggleFeatured = async (i: number) => {
+    const current = uploaded[i];
+    if (!current) return;
+    setTogglingSlot(i);
+    try {
+      const nextValue = !current.featured;
+      if (nextValue) {
+        // Clear any other featured in this categoria first (unique index enforces one)
+        await supabase
+          .from("artworks")
+          .update({ featured: false })
+          .eq("categoria", nome)
+          .eq("featured", true);
+      }
+      const { error } = await supabase
+        .from("artworks")
+        .update({ featured: nextValue })
+        .eq("categoria", nome)
+        .eq("slot", i);
+      if (error) throw error;
+      setUploaded((prev) => {
+        const updated: typeof prev = {};
+        for (const [k, v] of Object.entries(prev)) {
+          updated[Number(k)] = { ...v, featured: false };
+        }
+        if (updated[i]) updated[i].featured = nextValue;
+        return updated;
+      });
+    } catch (e) {
+      console.error("Toggle featured failed", e);
+      alert("Falha ao marcar como destaque.");
+    } finally {
+      setTogglingSlot(null);
+    }
+  };
+
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
