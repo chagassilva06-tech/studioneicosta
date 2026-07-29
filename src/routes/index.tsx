@@ -102,12 +102,6 @@ function Index() {
   const isMobile = useIsMobile();
 
   const navigate = useNavigate();
-  const [animatingCategory, setAnimatingCategory] = useState<string | null>(null);
-
-  const handleCategoryClick = (c: string) => {
-    setAnimatingCategory(c);
-    setTimeout(() => setAnimatingCategory(null), 1800);
-  };
 
   useEffect(() => {
     let cancelled = false;
@@ -243,12 +237,7 @@ function Index() {
                     key={c}
                     to="/galeria/$categoria"
                     params={{ categoria: c }}
-                    onClick={() => handleCategoryClick(c)}
-                    className={`group relative px-3 sm:px-6 md:px-8 py-1.5 sm:py-2.5 min-w-[72px] sm:min-w-[130px] text-center rounded-full text-[11px] sm:text-base md:text-lg font-medium tracking-wide border-0 text-foreground bg-transparent transition-all duration-300 ${
-                      animatingCategory === c
-                        ? "text-sky-300 animate-title-glow"
-                        : "[text-shadow:0_0_10px_rgba(56,189,248,0.55),0_0_20px_rgba(56,155,255,0.35)] hover:text-sky-300 hover:[text-shadow:0_0_14px_rgba(56,189,248,0.95),0_0_28px_rgba(56,155,255,0.75),0_0_44px_rgba(56,155,255,0.5)] hover:-translate-y-0.5"
-                    }`}
+                    className="group relative px-3 sm:px-6 md:px-8 py-1.5 sm:py-2.5 min-w-[72px] sm:min-w-[130px] text-center rounded-full text-[11px] sm:text-base md:text-lg font-medium tracking-wide border-0 text-foreground bg-transparent transition-all duration-300 [text-shadow:0_0_10px_rgba(56,189,248,0.55),0_0_20px_rgba(56,155,255,0.35)] hover:text-sky-300 hover:[text-shadow:0_0_14px_rgba(56,189,248,0.95),0_0_28px_rgba(56,155,255,0.75),0_0_44px_rgba(56,155,255,0.5)] hover:-translate-y-0.5"
                   >
                     <span className="relative z-10">{c}</span>
                   </Link>
@@ -285,7 +274,7 @@ function Index() {
             </div>
             <div className="relative">
               <div className="pointer-events-none absolute -inset-8 animate-glow-pulse rounded-3xl" />
-              <h1 className="relative font-display text-[1.6rem] xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1] font-light text-foreground drop-shadow-[0_2px_18px_rgba(0,0,0,0.65)] text-left break-words tracking-[0.005em]">
+              <h1 className="relative font-display text-[1.6rem] xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1] font-light text-foreground drop-shadow-[0_2px_18px_rgba(0,0,0,0.65)] text-left break-words tracking-[0.005em] animate-title-glow-subtle">
                 Seu talento merece{" "}
                 <span className="text-shimmer italic font-normal">uma galeria</span>.
               </h1>
@@ -321,7 +310,7 @@ function Index() {
                 <span className="label-luxe">Destaques</span>
                 <div className="rule-gold w-10 sm:w-12" />
               </div>
-              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-light tracking-[0.01em]">
+              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-light tracking-[0.01em] animate-title-glow-subtle">
                 Coleção em <span className="italic text-gold-shimmer">Destaque</span>
               </h2>
             </div>
@@ -373,7 +362,7 @@ function Index() {
               <div className="rule-gold w-12" />
               <span className="label-luxe">Sobre</span>
             </div>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-light mb-4 sm:mb-6 tracking-[0.01em]">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-light mb-4 sm:mb-6 tracking-[0.01em] animate-title-glow-subtle">
               O <span className="italic text-gold-shimmer">Artista</span>
             </h2>
             <p className="text-foreground/85 leading-relaxed text-base sm:text-lg mb-4">

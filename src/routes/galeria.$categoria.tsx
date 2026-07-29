@@ -190,7 +190,7 @@ function Galeria() {
             <div className="h-px w-12 bg-sky-400" />
             <span className="uppercase tracking-[0.4em] text-xs text-sky-400/90">Categoria</span>
           </div>
-          <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-light animate-title-glow">{nome}</h1>
+          <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-light">{nome}</h1>
           <p className="mt-4 text-muted-foreground max-w-lg">
             Esta coleção receberá fotos em breve. Volte em breve para conferir novas obras.
           </p>
