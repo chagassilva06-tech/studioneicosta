@@ -297,7 +297,7 @@ function Slot({
       transition={{ duration: 0.5, delay: (index % 6) * 0.05 }}
       style={cardHoverStyle}
       onClick={openDetails}
-      className="group relative aspect-[4/5] rounded-2xl border border-border/50 bg-card overflow-hidden cursor-zoom-in select-none"
+      className="group relative aspect-[4/5] rounded-2xl border border-border/50 bg-card overflow-hidden cursor-zoom-in select-none transition-all duration-500 hover:-translate-y-1 hover:border-sky-400/70 hover:shadow-[0_0_0_1px_rgba(56,189,248,0.35),0_18px_60px_-12px_rgba(56,189,248,0.55),0_0_38px_rgba(56,189,248,0.35)]"
     >
 
       {hasImage ? (
@@ -308,9 +308,10 @@ function Slot({
             loading="lazy"
             decoding="async"
             crossOrigin="anonymous"
-            className="absolute inset-0 h-full w-full object-contain p-3 transition-transform duration-700 ease-out group-hover:scale-[1.15]"
+            sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 22vw"
+            className="absolute inset-0 h-full w-full object-contain p-3 transition-transform duration-700 ease-out group-hover:scale-[1.22]"
           />
-          <div className="pointer-events-none absolute inset-3 rounded-xl border-2" style={frameStyle} />
+          <div className="pointer-events-none absolute inset-3 rounded-xl border-2 transition-all duration-500 group-hover:shadow-[inset_0_0_22px_rgba(56,189,248,0.55)]" style={frameStyle} />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         </>
       ) : (
