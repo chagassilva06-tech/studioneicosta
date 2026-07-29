@@ -57,8 +57,9 @@ function Galeria() {
   const total = 10;
   const slots = Array.from({ length: total });
   const [lightbox, setLightbox] = useState<LightboxData>(null);
-  const [uploaded, setUploaded] = useState<Record<number, { path: string; url: string; srcSet: string }>>({});
+  const [uploaded, setUploaded] = useState<Record<number, { path: string; url: string; srcSet: string; featured: boolean }>>({});
   const [uploadingSlot, setUploadingSlot] = useState<number | null>(null);
+  const [togglingSlot, setTogglingSlot] = useState<number | null>(null);
   const fileInputs = useRef<Record<number, HTMLInputElement | null>>({});
   const desc = categoryDescriptions[nome] ?? `Obra da coleção ${nome}.`;
   const { isAdmin, userEmail } = useAdmin();
