@@ -13,21 +13,29 @@ type Props = {
   urls: Record<string, string>;
   onSelect: (slide: Slide, src: string) => void;
   autoplayMs?: number;
+  pairMode?: boolean;
 };
 
-export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: Props) {
+export function StackedCarousel({
+  slides,
+  urls,
+  onSelect,
+  autoplayMs = 4500,
+  pairMode = false,
+}: Props) {
   const [active, setActive] = useState(0);
   const [hover, setHover] = useState(false);
   const total = slides.length;
+  const step = pairMode ? 2 : 1;
 
   useEffect(() => {
-    if (hover || total < 2) return;
+    if (hover || total < step) return;
     if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const t = setInterval(() => setActive((i) => (i + 1) % total), autoplayMs);
+    const t = setInterval(() => setActive((i) => (i + step) % total), autoplayMs);
     return () => clearInterval(t);
-  }, [hover, total, autoplayMs]);
+  }, [hover, total, autoplayMs, step]);
 
-  const go = (dir: 1 | -1) => setActive((i) => (i + dir + total) % total);
+  const go = (dir: 1 | -1) => setActive((i) => (i + dir * step + total) % total);
 
   return (
     <div
@@ -38,22 +46,37 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
     >
       <div className="absolute inset-0 flex items-center justify-center [perspective:1600px]">
         {slides.map((slide, i) => {
-          let offset = i - active;
-          // wrap so nearest side is chosen
-          if (offset > total / 2) offset -= total;
-          if (offset < -total / 2) offset += total;
+          const leftIndex = active;
+          const rightIndex = (active + 1) % total;
+          const isLeft = pairMode && i === leftIndex;
+          const isRight = pairMode && i === rightIndex;
+          const isVisiblePair = isLeft || isRight;
+
+          let offset: number;
+          if (isLeft) {
+            offset = -1;
+          } else if (isRight) {
+            offset = 1;
+          } else {
+            let d = i - active;
+            if (d > total / 2) d -= total;
+            if (d <= -total / 2) d += total;
+            if (d > 0) {
+              offset = d;
+            } else {
+              offset = d - 1;
+            }
+          }
 
           const abs = Math.abs(offset);
-          const isActive = offset === 0;
+          const spread = pairMode ? 52 : 60; // % of card width
+          const translateX = offset * spread;
+          const scale = isVisiblePair ? 1 : Math.max(0.55, 1 - abs * 0.15);
+          const opacity = isVisiblePair ? 1 : abs > 3 ? 0 : Math.max(0.35, 1 - abs * 0.25);
+          const rotateY = isVisiblePair ? 0 : offset * -5;
+          const zIndex = isVisiblePair ? 50 : 50 - abs;
+          const blur = isVisiblePair ? 0 : Math.min(2, abs * 0.6);
           const src = urls[slide.categoria] ?? slide.src;
-
-          // Visual clamps — tighter spread to avoid overlap with section title
-          const translateX = offset * 60; // % of card width
-          const scale = isActive ? 1 : Math.max(0.55, 1 - abs * 0.15);
-          const opacity = abs > 3 ? 0 : isActive ? 1 : Math.max(0.35, 1 - abs * 0.25);
-          const rotateY = offset * -5;
-          const zIndex = 50 - abs;
-          const blur = abs === 0 ? 0 : Math.min(2, abs * 0.6);
 
           return (
             <button
@@ -89,7 +112,7 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
                   {slide.title}
                 </h3>
               </div>
-              {isActive && (
+              {isVisiblePair && (
                 <div className="absolute inset-0 ring-1 ring-inset ring-sky-300/40 rounded-2xl pointer-events-none" />
               )}
             </button>
@@ -115,20 +138,25 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
       </button>
 
       <div className="absolute bottom-2 left-0 right-0 z-[60] flex justify-center gap-2">
-        {slides.map((_, i) => (
-          <button
-            key={i}
-            type="button"
-            onClick={() => setActive(i)}
-            aria-label={`Ir para destaque ${i + 1}`}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              i === active
-                ? "w-8 bg-sky-300 shadow-[0_0_10px_rgba(56,189,248,0.8)]"
-                : "w-2 bg-foreground/30 hover:bg-foreground/60"
-            }`}
-          />
-        ))}
+        {Array.from({ length: pairMode ? Math.ceil(total / step) : total }).map((_, i) => {
+          const idx = pairMode ? i * step : i;
+          const isActive = active === idx;
+          return (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setActive(idx)}
+              aria-label={`Ir para destaque ${i + 1}`}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                isActive
+                  ? "w-8 bg-sky-300 shadow-[0_0_10px_rgba(56,189,248,0.8)]"
+                  : "w-2 bg-foreground/30 hover:bg-foreground/60"
+              }`}
+            />
+          );
+        })}
       </div>
     </div>
   );
 }
+
