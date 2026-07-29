@@ -62,27 +62,36 @@ export function Lightbox({
                 filter: `drop-shadow(0 0 24px rgba(${triplet}, 0.35))`,
               }}
             >
-              <img
-                src={data.src}
-                alt={data.title}
-                draggable={false}
-                onDoubleClick={() => setZoomed((z) => !z)}
+              <div
                 className={
-                  (zoomed
-                    ? "block max-w-none w-auto h-auto rounded-2xl select-none transition-[box-shadow] duration-500"
-                    : "block max-w-[92vw] max-h-[92vh] w-auto h-auto object-contain rounded-2xl select-none transition-[box-shadow,transform] duration-500 hover:scale-[1.005]")
+                  zoomed
+                    ? "max-w-[92vw] max-h-[92vh] overflow-auto rounded-2xl lightbox-scroll"
+                    : ""
                 }
-                style={{
-                  boxShadow: glow,
-                  border: `1px solid rgba(${triplet}, 0.4)`,
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLImageElement).style.boxShadow = glowHover;
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLImageElement).style.boxShadow = glow;
-                }}
-              />
+              >
+                <img
+                  src={data.src}
+                  alt={data.title}
+                  draggable={false}
+                  onDoubleClick={() => setZoomed((z) => !z)}
+                  className={
+                    zoomed
+                      ? "block max-w-none w-auto h-auto rounded-2xl select-none transition-[box-shadow] duration-500 cursor-zoom-out"
+                      : "block max-w-[92vw] max-h-[92vh] w-auto h-auto object-contain rounded-2xl select-none transition-[box-shadow,transform] duration-500 hover:scale-[1.005] cursor-zoom-in"
+                  }
+                  style={{
+                    boxShadow: glow,
+                    border: `1px solid rgba(${triplet}, 0.4)`,
+                    ...(zoomed ? { transform: "scale(1.6)", transformOrigin: "center center" } : null),
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLImageElement).style.boxShadow = glowHover;
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLImageElement).style.boxShadow = glow;
+                  }}
+                />
+              </div>
 
               <button
                 onClick={(e) => {
