@@ -135,13 +135,9 @@ function Galeria() {
         await supabase.storage.from(BUCKET).remove([previous]);
       }
 
-      const { data: signed } = await supabase.storage
-        .from(BUCKET)
-        .createSignedUrl(path, SIGNED_TTL, {
-          transform: { width: 800, quality: 75, resize: "contain" },
-        });
-      if (signed?.signedUrl) {
-        setUploaded((prev) => ({ ...prev, [i]: { path, url: signed.signedUrl } }));
+      const v = await signVariants(path);
+      if (v.url) {
+        setUploaded((prev) => ({ ...prev, [i]: { path, url: v.url, srcSet: v.srcSet } }));
       }
     } catch (e) {
       console.error("Upload failed", e);
