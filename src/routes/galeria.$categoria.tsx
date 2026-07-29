@@ -249,6 +249,7 @@ type SlotProps = {
   index: number;
   nome: string;
   image?: string;
+  srcSet?: string;
   desc: string;
   isAdmin: boolean;
   isUploading: boolean;
@@ -262,6 +263,7 @@ function Slot({
   index,
   nome,
   image,
+  srcSet,
   desc,
   isAdmin,
   isUploading,
