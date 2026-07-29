@@ -137,7 +137,7 @@ function Index() {
   const [query, setQuery] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
   const [categories, setCategories] = useState<Cat[]>([]);
-  const [featuredUrls, setFeaturedUrls] = useState<Record<string, string>>({});
+  const [featuredUrls, setFeaturedUrls] = useState<Record<string, string[]>>({});
   const [showCategoryManager, setShowCategoryManager] = useState(false);
   const [showAllModal, setShowAllModal] = useState(false);
   const [refreshTick, setRefreshTick] = useState(0);
