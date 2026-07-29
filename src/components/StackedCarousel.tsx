@@ -69,7 +69,7 @@ export function StackedCarousel({
           }
 
           const abs = Math.abs(offset);
-          const spread = pairMode ? 52 : 60; // % of card width
+          const spread = isVisiblePair ? 52 : 75; // % of card width
           const translateX = offset * spread;
           const scale = isVisiblePair ? 1 : Math.max(0.55, 1 - abs * 0.15);
           const opacity = isVisiblePair ? 1 : abs > 3 ? 0 : Math.max(0.35, 1 - abs * 0.25);
