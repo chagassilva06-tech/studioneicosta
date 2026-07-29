@@ -328,21 +328,24 @@ function Index() {
             </div>
             {searchFocused && suggestions.length > 0 && (
               <div className="absolute left-4 right-4 sm:left-6 sm:right-6 mt-1 rounded-xl border border-sky-400/40 bg-background/95 backdrop-blur-md shadow-[0_10px_30px_-10px_rgba(56,155,255,0.5)] overflow-hidden z-10 animate-fade-in">
-                {suggestions.map(({ name, icon: Icon }) => (
-                  <Link
-                    key={name}
-                    to="/galeria/$categoria"
-                    params={{ categoria: name }}
-                    onClick={() => setQuery("")}
-                    className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-sky-400/10 hover:text-sky-100 transition-colors"
-                  >
-                    <Icon className="h-3.5 w-3.5 text-sky-300/85" />
-                    {name}
-                    <span className="ml-auto text-xs text-muted-foreground">
-                      ({counts[name] ?? 0})
-                    </span>
-                  </Link>
-                ))}
+                {suggestions.map((c) => {
+                  const Icon = getIcon(c.icon);
+                  return (
+                    <Link
+                      key={c.id}
+                      to="/galeria/$categoria"
+                      params={{ categoria: c.name }}
+                      onClick={() => setQuery("")}
+                      className="flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-sky-400/10 hover:text-sky-100 transition-colors"
+                    >
+                      <Icon className="h-3.5 w-3.5 text-sky-300/85" />
+                      {c.name}
+                      <span className="ml-auto text-xs text-muted-foreground">
+                        ({counts[c.name] ?? 0})
+                      </span>
+                    </Link>
+                  );
+                })}
               </div>
             )}
           </div>
