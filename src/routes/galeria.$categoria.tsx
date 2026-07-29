@@ -300,6 +300,10 @@ type SlotProps = {
   desc: string;
   isAdmin: boolean;
   isUploading: boolean;
+  isFeatured: boolean;
+  canToggleFeatured: boolean;
+  isToggling: boolean;
+  onToggleFeatured: () => void;
   registerInput: (el: HTMLInputElement | null) => void;
   onPickFile: () => void;
   onFileChange: (f?: File | null) => void;
@@ -314,6 +318,10 @@ function Slot({
   desc,
   isAdmin,
   isUploading,
+  isFeatured,
+  canToggleFeatured,
+  isToggling,
+  onToggleFeatured,
   registerInput,
   onPickFile,
   onFileChange,
