@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Instagram,
@@ -23,8 +23,11 @@ import artAnime from "@/assets/art-anime.jpg";
 import artHorse from "@/assets/art-horse.jpg";
 import artForest from "@/assets/art-forest.jpg";
 
-import { Lightbox, type LightboxData } from "@/components/Lightbox";
-import { StackedCarousel } from "@/components/StackedCarousel";
+import type { LightboxData } from "@/components/Lightbox";
+const Lightbox = lazy(() => import("@/components/Lightbox").then((m) => ({ default: m.Lightbox })));
+const StackedCarousel = lazy(() =>
+  import("@/components/StackedCarousel").then((m) => ({ default: m.StackedCarousel })),
+);
 import { supabase } from "@/integrations/supabase/client";
 import { useDominantColor, rgbTriplet } from "@/hooks/use-dominant-color";
 import { useIsMobile } from "@/hooks/use-mobile";
