@@ -313,6 +313,7 @@ function Slot({
         <>
           <img
             src={image}
+            srcSet={srcSet}
             alt={`${nome} — obra ${index + 1}`}
             loading="lazy"
             decoding="async"
