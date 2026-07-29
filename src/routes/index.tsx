@@ -423,7 +423,9 @@ function Index() {
           © {new Date().getFullYear()} StudioNei · Todos os direitos reservados
         </div>
       </footer>
-      <Lightbox data={lightbox} onClose={() => setLightbox(null)} />
+      <Suspense fallback={null}>
+        {lightbox && <Lightbox data={lightbox} onClose={() => setLightbox(null)} />}
+      </Suspense>
     </div>
   );
 
