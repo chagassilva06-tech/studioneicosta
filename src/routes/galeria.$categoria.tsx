@@ -57,7 +57,7 @@ function Galeria() {
   const total = 10;
   const slots = Array.from({ length: total });
   const [lightbox, setLightbox] = useState<LightboxData>(null);
-  const [uploaded, setUploaded] = useState<Record<number, { path: string; url: string }>>({});
+  const [uploaded, setUploaded] = useState<Record<number, { path: string; url: string; srcSet: string }>>({});
   const [uploadingSlot, setUploadingSlot] = useState<number | null>(null);
   const fileInputs = useRef<Record<number, HTMLInputElement | null>>({});
   const desc = categoryDescriptions[nome] ?? `Obra da coleção ${nome}.`;
@@ -67,6 +67,24 @@ function Galeria() {
     await supabase.auth.signOut();
   };
 
+  const signVariants = async (path: string) => {
+    const [small, large] = await Promise.all([
+      supabase.storage.from(BUCKET).createSignedUrl(path, SIGNED_TTL, {
+        transform: { width: 480, quality: 72, resize: "contain" },
+      }),
+      supabase.storage.from(BUCKET).createSignedUrl(path, SIGNED_TTL, {
+        transform: { width: 900, quality: 78, resize: "contain" },
+      }),
+    ]);
+    const url = large.data?.signedUrl ?? small.data?.signedUrl ?? "";
+    const srcSet = [
+      small.data?.signedUrl ? `${small.data.signedUrl} 480w` : null,
+      large.data?.signedUrl ? `${large.data.signedUrl} 900w` : null,
+    ]
+      .filter(Boolean)
+      .join(", ");
+    return { url, srcSet };
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -76,22 +94,13 @@ function Galeria() {
         .select("slot, storage_path")
         .eq("categoria", nome);
       if (error || !data || cancelled) return;
-      const paths = data.map((r) => r.storage_path);
-      if (paths.length === 0) return;
-      const signed = await Promise.all(
-        paths.map((p) =>
-          supabase.storage
-            .from(BUCKET)
-            .createSignedUrl(p, SIGNED_TTL, {
-              transform: { width: 800, quality: 75, resize: "contain" },
-            }),
-        ),
-      );
+      if (data.length === 0) return;
+      const variants = await Promise.all(data.map((r) => signVariants(r.storage_path)));
       if (cancelled) return;
-      const next: Record<number, { path: string; url: string }> = {};
+      const next: Record<number, { path: string; url: string; srcSet: string }> = {};
       data.forEach((row, idx) => {
-        const s = signed[idx]?.data;
-        if (s?.signedUrl) next[row.slot] = { path: row.storage_path, url: s.signedUrl };
+        const v = variants[idx];
+        if (v.url) next[row.slot] = { path: row.storage_path, url: v.url, srcSet: v.srcSet };
       });
       setUploaded(next);
     })();
@@ -126,13 +135,9 @@ function Galeria() {
         await supabase.storage.from(BUCKET).remove([previous]);
       }
 
-      const { data: signed } = await supabase.storage
-        .from(BUCKET)
-        .createSignedUrl(path, SIGNED_TTL, {
-          transform: { width: 800, quality: 75, resize: "contain" },
-        });
-      if (signed?.signedUrl) {
-        setUploaded((prev) => ({ ...prev, [i]: { path, url: signed.signedUrl } }));
+      const v = await signVariants(path);
+      if (v.url) {
+        setUploaded((prev) => ({ ...prev, [i]: { path, url: v.url, srcSet: v.srcSet } }));
       }
     } catch (e) {
       console.error("Upload failed", e);
@@ -210,6 +215,7 @@ function Galeria() {
           {slots.map((_, i) => {
             const baseImage = images[i];
             const image = uploaded[i]?.url ?? baseImage;
+            const srcSet = uploaded[i]?.srcSet;
             const isUploading = uploadingSlot === i;
             return (
               <Slot
@@ -217,6 +223,7 @@ function Galeria() {
                 index={i}
                 nome={nome}
                 image={image}
+                srcSet={srcSet}
                 desc={desc}
                 isAdmin={isAdmin}
                 isUploading={isUploading}
@@ -242,6 +249,7 @@ type SlotProps = {
   index: number;
   nome: string;
   image?: string;
+  srcSet?: string;
   desc: string;
   isAdmin: boolean;
   isUploading: boolean;
@@ -255,6 +263,7 @@ function Slot({
   index,
   nome,
   image,
+  srcSet,
   desc,
   isAdmin,
   isUploading,
@@ -297,20 +306,22 @@ function Slot({
       transition={{ duration: 0.5, delay: (index % 6) * 0.05 }}
       style={cardHoverStyle}
       onClick={openDetails}
-      className="group relative aspect-[4/5] rounded-2xl border border-border/50 bg-card overflow-hidden cursor-zoom-in select-none"
+      className="group relative aspect-[4/5] rounded-2xl border border-border/50 bg-card overflow-hidden cursor-zoom-in select-none transition-all duration-500 hover:-translate-y-1 hover:border-sky-400/70 hover:shadow-[0_0_0_1px_rgba(56,189,248,0.35),0_18px_60px_-12px_rgba(56,189,248,0.55),0_0_38px_rgba(56,189,248,0.35)]"
     >
 
       {hasImage ? (
         <>
           <img
             src={image}
+            srcSet={srcSet}
             alt={`${nome} — obra ${index + 1}`}
             loading="lazy"
             decoding="async"
             crossOrigin="anonymous"
-            className="absolute inset-0 h-full w-full object-contain p-3 transition-transform duration-700 ease-out group-hover:scale-[1.15]"
+            sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 22vw"
+            className="absolute inset-0 h-full w-full object-contain p-3 transition-transform duration-700 ease-out group-hover:scale-[1.22]"
           />
-          <div className="pointer-events-none absolute inset-3 rounded-xl border-2" style={frameStyle} />
+          <div className="pointer-events-none absolute inset-3 rounded-xl border-2 transition-all duration-500 group-hover:shadow-[inset_0_0_22px_rgba(56,189,248,0.55)]" style={frameStyle} />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         </>
       ) : (

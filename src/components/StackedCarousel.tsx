@@ -84,7 +84,7 @@ export function StackedCarousel({
               key={i}
               onClick={() => onSelect(slide, src)}
               aria-label={`Ver ${slide.title}`}
-              className="absolute top-1/2 left-1/2 h-[72%] w-[clamp(220px,32vw,340px)] -translate-x-1/2 -translate-y-1/2 rounded-2xl overflow-hidden border-2 border-sky-400/70 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.65),0_0_28px_rgba(56,155,255,0.35)] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform hover:border-sky-300"
+              className="group absolute top-1/2 left-1/2 h-[72%] w-[clamp(220px,32vw,340px)] -translate-x-1/2 -translate-y-1/2 rounded-2xl overflow-hidden border-2 border-sky-400/70 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.65),0_0_28px_rgba(56,155,255,0.35)] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform hover:border-sky-300 hover:shadow-[0_25px_65px_-8px_rgba(0,0,0,0.75),0_0_50px_rgba(56,189,248,0.75),0_0_0_1px_rgba(56,189,248,0.55)]"
               style={{
                 transform: `translate(-50%, -50%) translateX(${translateX}%) scale(${scale}) rotateY(${rotateY}deg)`,
                 opacity,
@@ -101,7 +101,8 @@ export function StackedCarousel({
                 loading={abs <= 1 ? "eager" : "lazy"}
                 decoding="async"
                 draggable={false}
-                className="absolute inset-0 h-full w-full object-cover object-center"
+                sizes="(max-width: 640px) 60vw, (max-width: 1024px) 32vw, 340px"
+                className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.08]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/10 to-transparent" />
               <div className="absolute bottom-3 left-4 right-4 text-left">
