@@ -519,6 +519,23 @@ function Index() {
       </footer>
       <Suspense fallback={null}>
         {lightbox && <Lightbox data={lightbox} onClose={() => setLightbox(null)} />}
+        {showCategoryManager && (
+          <CategoryManager
+            open={showCategoryManager}
+            onClose={() => setShowCategoryManager(false)}
+            onChanged={() => setRefreshTick((t) => t + 1)}
+          />
+        )}
+        {showAllModal && (
+          <AllArtworksModal
+            open={showAllModal}
+            onClose={() => setShowAllModal(false)}
+            onOpenLightbox={(d) => {
+              setShowAllModal(false);
+              setLightbox(d);
+            }}
+          />
+        )}
       </Suspense>
     </div>
   );
