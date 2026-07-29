@@ -41,9 +41,8 @@ export function Lightbox({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 backdrop-blur-xl overflow-hidden"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 backdrop-blur-xl overflow-auto lightbox-scroll p-4 sm:p-6"
           onClick={onClose}
-          onWheel={(e) => e.preventDefault()}
         >
           {data.src ? (
             <motion.div
@@ -51,7 +50,7 @@ export function Lightbox({
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="relative"
+              className="relative m-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <img
@@ -60,8 +59,8 @@ export function Lightbox({
                 draggable={false}
                 className={
                   zoomed
-                    ? "max-w-none max-h-none w-auto h-[150vh] object-contain select-none"
-                    : "max-w-[92vw] max-h-[92vh] w-auto h-auto object-contain select-none"
+                    ? "block max-w-none w-auto h-auto rounded-2xl select-none shadow-2xl"
+                    : "block max-w-[92vw] max-h-[92vh] w-auto h-auto object-contain rounded-2xl select-none shadow-2xl"
                 }
               />
 
