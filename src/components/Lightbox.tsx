@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { X, ImageIcon, ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
+import { X, ImageIcon, ZoomIn, ZoomOut, RotateCcw, Maximize2 } from "lucide-react";
 
 export type LightboxData = {
   src?: string;
@@ -83,6 +83,10 @@ export function Lightbox({
     }
   };
 
+  const openOriginal = () => {
+    if (data?.src) window.open(data.src, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <AnimatePresence>
       {data && (
@@ -91,7 +95,7 @@ export function Lightbox({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8 bg-background/90 backdrop-blur-xl"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-background/90 backdrop-blur-xl"
           onClick={onClose}
         >
           <motion.div
@@ -100,11 +104,11 @@ export function Lightbox({
             exit={{ opacity: 0, scale: 0.94, y: 20 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-5xl max-h-[92vh] overflow-hidden grid md:grid-cols-[1.4fr_1fr] gap-0 rounded-2xl border-2 border-sky-400/70 bg-card shadow-[0_0_0_1px_rgba(56,155,255,0.4),0_30px_90px_-20px_rgba(56,155,255,0.55)]"
+            className="relative w-full max-w-5xl max-h-[92vh] overflow-hidden rounded-2xl border-2 border-sky-400/70 bg-card shadow-[0_0_0_1px_rgba(56,155,255,0.4),0_30px_90px_-20px_rgba(56,155,255,0.55)]"
           >
             <div
               ref={containerRef}
-              className="relative aspect-[4/5] md:aspect-auto bg-background min-h-[280px] overflow-hidden cursor-grab active:cursor-grabbing"
+              className="relative aspect-[4/5] sm:aspect-[16/10] bg-background min-h-[280px] overflow-hidden cursor-grab active:cursor-grabbing"
               onWheel={handleWheel}
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
@@ -132,6 +136,22 @@ export function Lightbox({
                 </div>
               )}
               <div className="pointer-events-none absolute inset-3 rounded-xl border-2 border-sky-400/60 shadow-[inset_0_0_14px_rgba(56,189,248,0.5),0_0_16px_rgba(56,189,248,0.4)]" />
+
+              {/* Ver Maior button — corner of the image */}
+              {data.src && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openOriginal();
+                  }}
+                  className="absolute top-3 right-3 z-20 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-sky-100 border border-sky-400/80 bg-background/70 backdrop-blur shadow-[0_0_14px_rgba(56,155,255,0.55)] hover:bg-sky-400/20 hover:border-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] transition-all"
+                  aria-label="Ver maior"
+                >
+                  <Maximize2 className="h-3.5 w-3.5" />
+                  <span className="hidden sm:inline">Ver maior</span>
+                </button>
+              )}
 
               {/* Zoom controls */}
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2 px-3 py-2 rounded-full bg-background/70 backdrop-blur border border-sky-400/50 shadow-[0_8px_24px_-8px_rgba(0,0,0,0.5)]">
@@ -179,27 +199,10 @@ export function Lightbox({
               </div>
             </div>
 
-            <div className="relative p-6 sm:p-8 flex flex-col justify-center bg-background/95">
-              {data.categoria && (
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="h-px w-8 bg-sky-400" />
-                  <span className="uppercase tracking-[0.3em] text-[10px] text-sky-300/90">
-                    {data.categoria}
-                  </span>
-                </div>
-              )}
-              <h3 className="font-display text-3xl sm:text-4xl font-light mb-4 drop-shadow-[0_0_10px_rgba(56,155,255,0.35)]">
-                {data.title}
-              </h3>
-              <p className="text-sm sm:text-base text-foreground/85 leading-relaxed">
-                {data.description}
-              </p>
-            </div>
-
             <button
               onClick={onClose}
               aria-label="Fechar"
-              className="absolute top-3 right-3 p-2 rounded-full border-2 border-sky-400/70 bg-background/70 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] hover:border-sky-300 hover:text-sky-100 transition-all"
+              className="absolute top-3 left-3 p-2 rounded-full border-2 border-sky-400/70 bg-background/70 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] hover:border-sky-300 hover:text-sky-100 transition-all"
             >
               <X className="h-4 w-4" />
             </button>
@@ -209,3 +212,4 @@ export function Lightbox({
     </AnimatePresence>
   );
 }
+
