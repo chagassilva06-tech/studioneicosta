@@ -270,33 +270,44 @@ function Index() {
 
         {/* Categories pills — 60px */}
         <div className="h-[60px] border-t border-sky-400/15 bg-background/60">
-          <div
-            className="max-w-7xl mx-auto h-full px-3 sm:px-6 md:px-10 flex items-center gap-2 sm:gap-2.5 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-          >
+          <div className="max-w-7xl mx-auto h-full px-2 sm:px-6 md:px-10 flex items-center gap-2">
+            {/* Todos — fixed left */}
             <button
               type="button"
               onClick={() => setShowAllModal(true)}
-              className="shrink-0 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-sky-400 text-slate-950 border border-sky-300 shadow-[0_0_18px_rgba(56,189,248,0.6)] hover:shadow-[0_0_26px_rgba(56,189,248,0.9)] transition-all duration-200 hover:scale-[1.05]"
+              className="shrink-0 inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-sky-400 text-slate-950 border border-sky-300 shadow-[0_0_18px_rgba(56,189,248,0.6)] hover:shadow-[0_0_26px_rgba(56,189,248,0.9)] transition-all duration-200 hover:scale-[1.05]"
             >
               <LayoutGrid className="h-3.5 w-3.5" />
-              Todos
+              <span className="hidden sm:inline">Todos</span>
+              <span className="sm:hidden">Todos</span>
               <span className="opacity-80 text-[10px] sm:text-xs">({totalCount})</span>
             </button>
-            {categories.map((c) => {
-              const Icon = getIcon(c.icon);
-              return (
-                <Link
-                  key={c.id}
-                  to="/galeria/$categoria"
-                  params={{ categoria: c.name }}
-                  className="shrink-0 group inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium text-foreground/85 border border-sky-400/40 bg-transparent hover:bg-sky-400/10 hover:border-sky-300 hover:text-sky-100 hover:shadow-[0_0_14px_rgba(56,155,255,0.6)] transition-all duration-200 hover:scale-[1.05]"
-                >
-                  <Icon className="h-3.5 w-3.5 text-sky-300/85 group-hover:text-sky-200" />
-                  {c.name}
-                  <span className="opacity-60 text-[10px] sm:text-xs">({counts[c.name] ?? 0})</span>
-                </Link>
-              );
-            })}
+
+            {/* Categories — scrollable center */}
+            <div className="relative flex-1 min-w-0 h-full">
+              <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 sm:w-12 bg-gradient-to-l from-background/80 via-background/50 to-transparent z-10" />
+              <div className="h-full overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth snap-x snap-mandatory">
+                <div className="flex items-center gap-2 h-full px-1 pr-10">
+                  {categories.map((c) => {
+                    const Icon = getIcon(c.icon);
+                    return (
+                      <Link
+                        key={c.id}
+                        to="/galeria/$categoria"
+                        params={{ categoria: c.name }}
+                        className="shrink-0 snap-start group inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium text-foreground/85 border border-sky-400/40 bg-transparent hover:bg-sky-400/10 hover:border-sky-300 hover:text-sky-100 hover:shadow-[0_0_14px_rgba(56,155,255,0.6)] transition-all duration-200 hover:scale-[1.05]"
+                      >
+                        <Icon className="h-3.5 w-3.5 text-sky-300/85 group-hover:text-sky-200" />
+                        <span className="whitespace-nowrap">{c.name}</span>
+                        <span className="opacity-60 text-[10px] sm:text-xs">({counts[c.name] ?? 0})</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Gerenciar — fixed right */}
             {isAdmin && (
               <button
                 type="button"
