@@ -46,6 +46,7 @@ const featuredSlides = [
     src: paisagem1,
     title: "Paisagem",
     categoria: "Paisagem",
+    pos: 0,
     description:
       "Estudo de paisagem explorando luz natural, profundidade e atmosfera. Composição pensada para transmitir serenidade e a força silenciosa do ambiente retratado.",
   },
@@ -53,6 +54,7 @@ const featuredSlides = [
     src: pintura1,
     title: "Pintura",
     categoria: "Pintura",
+    pos: 0,
     description:
       "Obra em técnica mista, com camadas de cor trabalhadas para revelar textura, contraste e movimento. Cada pincelada compõe o gesto e a expressão da peça.",
   },
@@ -60,6 +62,7 @@ const featuredSlides = [
     src: artPortrait,
     title: "Retrato",
     categoria: "Retrato",
+    pos: 0,
     description:
       "Retrato realista com foco em expressão do olhar, volume da luz sobre a pele e traços humanos autênticos.",
   },
@@ -67,6 +70,7 @@ const featuredSlides = [
     src: artAnime,
     title: "Anime",
     categoria: "Anime",
+    pos: 0,
     description:
       "Ilustração de estilo anime com linhas limpas, sombreamento estilizado e paleta vibrante.",
   },
@@ -74,6 +78,7 @@ const featuredSlides = [
     src: artHorse,
     title: "Animais",
     categoria: "Animais",
+    pos: 0,
     description:
       "Estudo de anatomia animal, atenção à textura do pelo, olhar atento e postura em movimento.",
   },
@@ -81,6 +86,7 @@ const featuredSlides = [
     src: artForest,
     title: "Estudo",
     categoria: "Estudo",
+    pos: 0,
     description:
       "Estudo técnico exploratório — proporção, luz e forma. Base para obras futuras da coleção.",
   },
