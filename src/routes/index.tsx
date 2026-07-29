@@ -105,7 +105,14 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const categories = ["Paisagem", "Retrato", "Anime", "Pintura", "Animais", "Estudo"];
+const categories: { name: string; icon: typeof Mountain }[] = [
+  { name: "Paisagem", icon: Mountain },
+  { name: "Retrato", icon: UserIcon },
+  { name: "Anime", icon: Sparkles },
+  { name: "Pintura", icon: Palette },
+  { name: "Animais", icon: PawPrint },
+  { name: "Estudo", icon: BookOpen },
+];
 
 
 function Index() {
