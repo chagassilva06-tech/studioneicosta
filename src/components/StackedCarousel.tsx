@@ -62,20 +62,20 @@ export function StackedCarousel({
             if (d > total / 2) d -= total;
             if (d <= -total / 2) d += total;
             if (d > 0) {
-              offset = d;
+              offset = d + 0.35;
             } else {
-              offset = d - 1;
+              offset = d - 0.35;
             }
           }
 
           const abs = Math.abs(offset);
-          const spread = isVisiblePair ? 52 : 76; // % of card width
+          const spread = isVisiblePair ? 36 : 42; // % of card width — tighter orbit
           const translateX = offset * spread;
-          const scale = isVisiblePair ? 1 : Math.max(0.55, 1 - abs * 0.15);
-          const opacity = isVisiblePair ? 1 : abs > 3 ? 0 : Math.max(0.35, 1 - abs * 0.25);
-          const rotateY = isVisiblePair ? 0 : offset * -5;
-          const zIndex = isVisiblePair ? 50 : 50 - abs;
-          const blur = isVisiblePair ? 0 : Math.min(2, abs * 0.6);
+          const scale = isVisiblePair ? 1 : Math.max(0.72, 1 - abs * 0.06);
+          const opacity = isVisiblePair ? 1 : abs > 3 ? 0 : Math.max(0.45, 1 - abs * 0.18);
+          const rotateY = isVisiblePair ? 0 : offset * -3;
+          const zIndex = isVisiblePair ? 50 : 50 - Math.round(abs);
+          const blur = isVisiblePair ? 0 : Math.min(1.5, abs * 0.4);
           const src = urls[slide.categoria] ?? slide.src;
 
           return (
@@ -84,13 +84,13 @@ export function StackedCarousel({
               key={i}
               onClick={() => onSelect(slide, src)}
               aria-label={`Ver ${slide.title}`}
-              className="group absolute top-1/2 left-1/2 h-[72%] w-[clamp(220px,32vw,340px)] -translate-x-1/2 -translate-y-1/2 rounded-2xl overflow-hidden border-2 border-sky-400/70 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.65),0_0_28px_rgba(56,155,255,0.35)] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform hover:border-sky-300 hover:shadow-[0_25px_65px_-8px_rgba(0,0,0,0.75),0_0_50px_rgba(56,189,248,0.75),0_0_0_1px_rgba(56,189,248,0.55)]"
+              className="group absolute top-1/2 left-1/2 h-[74%] w-[clamp(240px,34vw,360px)] -translate-x-1/2 -translate-y-1/2 rounded-2xl overflow-hidden border-2 border-sky-400/70 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.65),0_0_28px_rgba(56,155,255,0.35)] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform hover:border-sky-300 hover:shadow-[0_25px_65px_-8px_rgba(0,0,0,0.75),0_0_50px_rgba(56,189,248,0.75),0_0_0_1px_rgba(56,189,248,0.55)]"
               style={{
                 transform: `translate(-50%, -50%) translateX(${translateX}%) scale(${scale}) rotateY(${rotateY}deg)`,
                 opacity,
                 zIndex,
                 filter: blur ? `blur(${blur}px)` : undefined,
-                pointerEvents: abs > 3 ? "none" : "auto",
+                pointerEvents: abs > 4 ? "none" : "auto",
                 transformStyle: "preserve-3d",
               }}
             >
