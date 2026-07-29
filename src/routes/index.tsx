@@ -12,15 +12,8 @@ import {
   LogOut,
   Search,
   LayoutGrid,
-  Mountain,
-  User as UserIcon,
-  Palette,
-  Sparkles,
-  PawPrint,
-  BookOpen,
+  Settings2,
 } from "lucide-react";
-
-
 
 import hero from "@/assets/hero.jpg";
 import artist from "@/assets/artist.webp";
@@ -36,9 +29,17 @@ const Lightbox = lazy(() => import("@/components/Lightbox").then((m) => ({ defau
 const StackedCarousel = lazy(() =>
   import("@/components/StackedCarousel").then((m) => ({ default: m.StackedCarousel })),
 );
+const CategoryManager = lazy(() =>
+  import("@/components/CategoryManager").then((m) => ({ default: m.CategoryManager })),
+);
+const AllArtworksModal = lazy(() =>
+  import("@/components/AllArtworksModal").then((m) => ({ default: m.AllArtworksModal })),
+);
 import { supabase } from "@/integrations/supabase/client";
 import { useDominantColor, rgbTriplet } from "@/hooks/use-dominant-color";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useAdmin } from "@/hooks/use-admin";
+import { getIcon } from "@/lib/category-icons";
 
 const featuredSlides = [
   {
