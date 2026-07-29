@@ -106,21 +106,19 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const categories: { name: string; icon: typeof Mountain }[] = [
-  { name: "Paisagem", icon: Mountain },
-  { name: "Retrato", icon: UserIcon },
-  { name: "Anime", icon: Sparkles },
-  { name: "Pintura", icon: Palette },
-  { name: "Animais", icon: PawPrint },
-  { name: "Estudo", icon: BookOpen },
-];
+type Cat = { id: string; name: string; icon: string; sort_order: number };
 
+const fallbackDescriptions: Record<string, string> = Object.fromEntries(
+  featuredSlides.map((s) => [s.categoria, s.description]),
+);
+const fallbackSrc: Record<string, string> = Object.fromEntries(
+  featuredSlides.map((s) => [s.categoria, s.src]),
+);
 
 function Index() {
-  const [menuOpen, setMenuOpen] = useState(true);
   const isMobile = useIsMobile();
-
   const navigate = useNavigate();
+  const { isAdmin } = useAdmin();
 
   useEffect(() => {
     let cancelled = false;
@@ -134,16 +132,32 @@ function Index() {
     };
   }, [navigate]);
 
-  const [featuredIdx, setFeaturedIdx] = useState(0);
-
-  const [featuredPlaying, setFeaturedPlaying] = useState(true);
-  const [featuredHover, setFeaturedHover] = useState(false);
-  const [featuredDir, setFeaturedDir] = useState(1);
   const [lightbox, setLightbox] = useState<LightboxData>(null);
   const [counts, setCounts] = useState<Record<string, number>>({});
   const [query, setQuery] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
+  const [categories, setCategories] = useState<Cat[]>([]);
+  const [featuredUrls, setFeaturedUrls] = useState<Record<string, string>>({});
+  const [showCategoryManager, setShowCategoryManager] = useState(false);
+  const [showAllModal, setShowAllModal] = useState(false);
+  const [refreshTick, setRefreshTick] = useState(0);
 
+  // Load categories
+  useEffect(() => {
+    let cancelled = false;
+    supabase
+      .from("categories")
+      .select("id, name, icon, sort_order")
+      .order("sort_order", { ascending: true })
+      .then(({ data }) => {
+        if (!cancelled && data) setCategories(data as Cat[]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [refreshTick]);
+
+  // Counts
   useEffect(() => {
     let cancelled = false;
     supabase.from("artworks").select("categoria").then(({ data }) => {
@@ -155,34 +169,35 @@ function Index() {
       setCounts(c);
     });
     return () => { cancelled = true; };
-  }, []);
+  }, [refreshTick]);
 
   const totalCount = Object.values(counts).reduce((a, b) => a + b, 0);
   const suggestions = query.trim()
     ? categories.filter((c) => c.name.toLowerCase().includes(query.trim().toLowerCase()))
     : [];
 
-  const featuredTotal = featuredSlides.length;
-
-  const [featuredUrls, setFeaturedUrls] = useState<Record<string, string>>({});
-
+  // Featured URLs: prefer featured=true, else lowest slot
   useEffect(() => {
     let cancelled = false;
     (async () => {
       const { data } = await supabase
         .from("artworks")
-        .select("categoria, slot, storage_path")
+        .select("categoria, slot, storage_path, featured")
         .order("slot", { ascending: true });
       if (!data || cancelled) return;
-      const firstByCat: Record<string, string> = {};
-      for (const row of data) {
-        if (!firstByCat[row.categoria]) firstByCat[row.categoria] = row.storage_path;
+      const chosen: Record<string, string> = {};
+      // First pass: featured
+      for (const row of data as { categoria: string; storage_path: string; featured: boolean }[]) {
+        if (row.featured) chosen[row.categoria] = row.storage_path;
       }
-      const entries = Object.entries(firstByCat);
+      // Second pass: fallback to first slot
+      for (const row of data as { categoria: string; storage_path: string }[]) {
+        if (!chosen[row.categoria]) chosen[row.categoria] = row.storage_path;
+      }
+      const entries = Object.entries(chosen);
       if (!entries.length) return;
-      const paths = entries.map(([, p]) => p);
       const signed = await Promise.all(
-        paths.map((p) =>
+        entries.map(([, p]) =>
           supabase.storage
             .from("artworks")
             .createSignedUrl(p, 60 * 60 * 24 * 365, {
@@ -201,35 +216,17 @@ function Index() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [refreshTick]);
 
-  const currentSlide = featuredSlides[featuredIdx];
-  const currentSrc = featuredUrls[currentSlide.categoria] ?? currentSlide.src;
-  const featuredDominant = useDominantColor(currentSrc);
-  const featuredTriplet = rgbTriplet(featuredDominant) ?? "56, 189, 248";
-  const featuredColor = featuredDominant ?? "rgb(56, 189, 248)";
+  // Build slides from categories (ordered)
+  const slides = categories.map((c) => ({
+    src: fallbackSrc[c.name] ?? paisagem1,
+    title: c.name,
+    categoria: c.name,
+    description: fallbackDescriptions[c.name] ?? `Obra da coleção ${c.name}.`,
+  }));
 
-  useEffect(() => {
-    if (!featuredPlaying || featuredHover) return;
-    const t = setInterval(() => {
-      setFeaturedDir(1);
-      setFeaturedIdx((i) => (i + 1) % featuredTotal);
-    }, 5000);
-    return () => clearInterval(t);
-  }, [featuredPlaying, featuredHover, featuredTotal]);
 
-  const nextFeatured = () => {
-    setFeaturedDir(1);
-    setFeaturedIdx((i) => (i + 1) % featuredTotal);
-  };
-  const prevFeatured = () => {
-    setFeaturedDir(-1);
-    setFeaturedIdx((i) => (i - 1 + featuredTotal) % featuredTotal);
-  };
-  const goFeatured = (i: number) => {
-    setFeaturedDir(i > featuredIdx ? 1 : -1);
-    setFeaturedIdx(i);
-  };
 
   return (
     <div className="min-h-screen bg-background bg-canvas-texture text-foreground font-sans transition-colors duration-500">
