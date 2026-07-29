@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, ImageIcon, ZoomIn, ZoomOut } from "lucide-react";
+import { useDominantColor, rgbTriplet } from "@/hooks/use-dominant-color";
 
 export type LightboxData = {
   src?: string;
@@ -17,6 +18,8 @@ export function Lightbox({
   onClose: () => void;
 }) {
   const [zoomed, setZoomed] = useState(false);
+  const dominant = useDominantColor(data?.src ?? null);
+  const triplet = rgbTriplet(dominant) ?? "56, 155, 255";
 
   useEffect(() => {
     if (!data) return;
@@ -32,6 +35,9 @@ export function Lightbox({
       document.body.style.overflow = prevOverflow;
     };
   }, [data, onClose]);
+
+  const glow = `0 0 0 1px rgba(${triplet}, 0.55), 0 0 32px rgba(${triplet}, 0.45), 0 20px 80px -10px rgba(${triplet}, 0.55), 0 30px 100px rgba(0,0,0,0.7)`;
+  const glowHover = `0 0 0 1px rgba(${triplet}, 0.8), 0 0 60px rgba(${triplet}, 0.75), 0 30px 120px -10px rgba(${triplet}, 0.7), 0 40px 140px rgba(0,0,0,0.8)`;
 
   return (
     <AnimatePresence>
@@ -50,18 +56,32 @@ export function Lightbox({
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="relative m-auto"
+              className="relative m-auto group"
               onClick={(e) => e.stopPropagation()}
+              style={{
+                filter: `drop-shadow(0 0 24px rgba(${triplet}, 0.35))`,
+              }}
             >
               <img
                 src={data.src}
                 alt={data.title}
                 draggable={false}
+                onDoubleClick={() => setZoomed((z) => !z)}
                 className={
-                  zoomed
-                    ? "block max-w-none w-auto h-auto rounded-2xl select-none shadow-2xl"
-                    : "block max-w-[92vw] max-h-[92vh] w-auto h-auto object-contain rounded-2xl select-none shadow-2xl"
+                  (zoomed
+                    ? "block max-w-none w-auto h-auto rounded-2xl select-none transition-[box-shadow] duration-500"
+                    : "block max-w-[92vw] max-h-[92vh] w-auto h-auto object-contain rounded-2xl select-none transition-[box-shadow,transform] duration-500 hover:scale-[1.005]")
                 }
+                style={{
+                  boxShadow: glow,
+                  border: `1px solid rgba(${triplet}, 0.4)`,
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLImageElement).style.boxShadow = glowHover;
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLImageElement).style.boxShadow = glow;
+                }}
               />
 
               <button
@@ -76,12 +96,13 @@ export function Lightbox({
               </button>
 
               <button
+                type="button"
                 onClick={(e) => {
                   e.stopPropagation();
                   setZoomed((z) => !z);
                 }}
                 aria-label={zoomed ? "Reduzir imagem" : "Ampliar imagem"}
-                className="absolute bottom-2 right-2 z-[110] p-2 rounded-full border-2 border-sky-400/70 bg-background/80 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] hover:border-sky-300 hover:text-sky-100 transition-all"
+                className="absolute top-2 right-14 z-[110] p-2 rounded-full border-2 border-sky-400/70 bg-background/80 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] hover:border-sky-300 hover:text-sky-100 transition-all"
               >
                 {zoomed ? (
                   <ZoomOut className="h-5 w-5" />
