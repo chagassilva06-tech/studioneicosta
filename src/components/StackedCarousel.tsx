@@ -6,11 +6,12 @@ type Slide = {
   title: string;
   categoria: string;
   description: string;
+  pos: number;
 };
 
 type Props = {
   slides: Slide[];
-  urls: Record<string, string>;
+  urls: Record<string, string[]>;
   onSelect: (slide: Slide, src: string) => void;
   autoplayMs?: number;
   pairMode?: boolean;
@@ -76,7 +77,7 @@ export function StackedCarousel({
           const rotateY = isVisiblePair ? 0 : offset * -3;
           const zIndex = isVisiblePair ? 50 : 50 - Math.round(abs);
           const blur = isVisiblePair ? 0 : Math.min(1.5, abs * 0.4);
-          const src = urls[slide.categoria] ?? slide.src;
+          const src = urls[slide.categoria]?.[slide.pos] ?? slide.src;
 
           return (
             <button
