@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import {
-  ArrowRight,
   Eye,
   EyeOff,
   Images,
@@ -127,11 +127,25 @@ function AuthPage() {
           </div>
 
           <div>
-          <h1 className="text-4xl font-bold leading-[1.12] tracking-tight sm:text-5xl">
-            <span className="bg-gradient-to-r from-sky-900 via-blue-700 to-cyan-500 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(14,165,233,0.35)]">
-              Galeria de Arte Digital
-            </span>
-          </h1>
+            <h1
+              className="text-4xl font-bold leading-[1.12] tracking-tight sm:text-5xl"
+              style={{ perspective: "1000px" }}
+            >
+              <motion.span
+                className="bg-gradient-to-r from-sky-900 via-blue-700 to-cyan-500 bg-clip-text text-transparent"
+                style={{
+                  display: "inline-block",
+                  filter:
+                    "drop-shadow(0 1px 0 rgba(59,130,246,0.9)) drop-shadow(0 2px 0 rgba(37,99,235,0.7)) drop-shadow(0 3px 0 rgba(29,78,216,0.5)) drop-shadow(0 4px 10px rgba(14,165,233,0.4))",
+                }}
+                initial={{ opacity: 0, y: 20, rotateX: 15 }}
+                animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                whileHover={{ scale: 1.02, rotateX: -3, transition: { duration: 0.4 } }}
+                transition={{ duration: 1, ease: "easeOut" }}
+              >
+                Galeria de Arte Digital
+              </motion.span>
+            </h1>
             <p className="mt-6 max-w-[22ch] text-sm leading-relaxed text-white/70 sm:text-base">
               Um lugar exclusivo para valorizar, exibir e eternizar sua criatividade.
             </p>
@@ -232,17 +246,14 @@ function AuthPage() {
           <button
             type="submit"
             disabled={loading}
-            className="group mt-5 inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-fuchsia-500 via-purple-500 to-blue-500 text-base font-semibold text-white shadow-[0_16px_45px_-12px_rgba(168,85,247,0.85)] transition hover:brightness-110 disabled:opacity-60"
+            className="group mt-5 inline-flex h-[46px] w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-800 via-blue-600 to-cyan-500 text-base font-semibold text-white shadow-[0_14px_40px_-12px_rgba(14,165,233,0.75)] transition hover:brightness-110 hover:shadow-[0_18px_50px_-12px_rgba(14,165,233,0.85)] disabled:opacity-60"
           >
             {loading ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" /> Entrando...
               </>
             ) : (
-              <>
-                <span>Entrar</span>
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </>
+              <span>Entrar</span>
             )}
           </button>
 
