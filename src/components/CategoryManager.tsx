@@ -213,9 +213,9 @@ export function CategoryManager({ open, onClose, onChanged }: Props) {
                         </>
                       ) : (
                         <>
-                          <Icon className="h-4 w-4 text-sky-300" />
-                          <span className="flex-1 text-sm font-medium">{c.name}</span>
-                          <div className="flex gap-1">
+                          <Icon className="h-4 w-4 shrink-0 text-sky-300" />
+                          <span className="min-w-0 flex-1 truncate text-sm font-medium">{c.name}</span>
+                          <div className="flex shrink-0 gap-1">
                             <button
                               onClick={() => startEdit(c)}
                               className="h-8 w-8 rounded-full inline-flex items-center justify-center text-sky-200 hover:bg-sky-400/15 border border-sky-400/30"
