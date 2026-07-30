@@ -284,7 +284,7 @@ function IconPicker({ value, onChange }: { value: IconName; onChange: (v: IconNa
     <select
       value={value}
       onChange={(e) => onChange(e.target.value as IconName)}
-      className="px-3 py-2 rounded-lg bg-background/70 border border-sky-400/40 text-sm outline-none focus:border-sky-300"
+      className="w-full max-w-full shrink-0 px-3 py-2 rounded-lg bg-background/70 border border-sky-400/40 text-sm outline-none focus:border-sky-300 sm:w-40"
     >
       {iconNames.map((n) => (
         <option key={n} value={n}>
