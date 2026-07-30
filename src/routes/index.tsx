@@ -13,6 +13,8 @@ import {
   Search,
   LayoutGrid,
   Settings2,
+  LogOut,
+  LogIn,
 } from "lucide-react";
 
 import hero from "@/assets/hero.jpg";
