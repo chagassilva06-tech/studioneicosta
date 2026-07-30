@@ -114,7 +114,7 @@ function AuthPage() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(90%_70%_at_100%_50%,rgba(124,58,237,0.35),transparent_60%)]" />
       <div className="pointer-events-none absolute -right-24 top-1/4 h-[60vh] w-[45vh] rounded-full bg-fuchsia-600/25 blur-[130px]" />
 
-      <div className="relative z-10 mx-auto grid min-h-screen w-full max-w-[1240px] grid-cols-1 items-center gap-10 px-5 py-12 sm:px-8 lg:grid-cols-[1fr_minmax(380px,440px)] lg:gap-16">
+      <div className="relative z-10 mx-auto grid min-h-screen w-full max-w-[1300px] grid-cols-1 items-center gap-10 px-5 py-12 sm:px-8 lg:grid-cols-[1fr_minmax(410px,476px)] lg:gap-16">
         {/* Left column */}
         <div className="flex flex-col justify-between gap-12 lg:min-h-[560px] lg:py-4">
           <div>
