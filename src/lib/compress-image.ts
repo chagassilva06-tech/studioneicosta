@@ -1,8 +1,12 @@
 // Comprime imagens no navegador antes do upload:
-// redimensiona para no máximo MAX_DIMENSION px (lado maior) e converte para WebP.
+// redimensiona para no máximo MAX_DIMENSION px (lado maior), converte para WebP
+// e reduz qualidade/dimensão até ficar abaixo de MAX_BYTES (~400 KB).
 
 const MAX_DIMENSION = 2000;
 const QUALITY = 0.8;
+const MIN_QUALITY = 0.45;
+const MAX_BYTES = 400 * 1024;
+const MIN_DIMENSION = 900;
 
 function supportsWebp(): boolean {
   if (typeof document === "undefined") return false;
