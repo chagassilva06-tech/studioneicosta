@@ -2,7 +2,6 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import authAbstract from "@/assets/auth-abstract.jpg";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -93,32 +92,15 @@ function AuthPage() {
       <div className="pointer-events-none absolute -left-40 top-1/3 h-[60vh] w-[60vh] rounded-full bg-fuchsia-600/25 blur-[120px]" />
       <div className="pointer-events-none absolute -right-32 -top-20 h-[55vh] w-[55vh] rounded-full bg-blue-500/30 blur-[120px]" />
 
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center gap-8 px-4 py-10 md:flex-row md:gap-4 md:px-8">
-        {/* Artwork */}
-        <div className="relative flex w-full justify-center md:w-[58%] md:justify-end">
-          <img
-            src={authAbstract}
-            alt="Escultura 3D abstrata em azul e magenta"
-            width={1280}
-            height={1024}
-            className="w-[78vw] max-w-[520px] select-none drop-shadow-[0_30px_80px_rgba(120,40,220,0.55)] md:w-full md:max-w-none md:translate-x-10"
-            style={{
-              maskImage:
-                "radial-gradient(70% 70% at 50% 50%, #000 55%, transparent 100%)",
-              WebkitMaskImage:
-                "radial-gradient(70% 70% at 50% 50%, #000 55%, transparent 100%)",
-            }}
-          />
-        </div>
-
+      <div className="relative z-10 mx-auto flex min-h-screen items-center justify-center px-4 py-10 md:px-8">
         {/* Glass card */}
-        <div className="w-full max-w-[420px] md:-ml-16">
+        <div className="w-full max-w-[420px]">
           <form
             onSubmit={submit}
             className="relative overflow-hidden rounded-2xl border border-white/25 bg-white/[0.08] p-6 shadow-[0_24px_80px_-20px_rgba(6,10,60,0.9)] backdrop-blur-xl sm:p-7"
           >
-            <div className="mb-6 flex items-start justify-between gap-3">
-              <span className="rounded-full bg-white/15 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-white/95 ring-1 ring-white/20">
+            <div className="mb-8 flex items-center justify-center">
+              <span className="rounded-full bg-white/15 px-5 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white/95 ring-1 ring-white/20">
                 Studio Nei
               </span>
             </div>
