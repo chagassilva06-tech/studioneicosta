@@ -114,7 +114,7 @@ function AuthPage() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(90%_70%_at_100%_50%,rgba(124,58,237,0.35),transparent_60%)]" />
       <div className="pointer-events-none absolute -right-24 top-1/4 h-[60vh] w-[45vh] rounded-full bg-fuchsia-600/25 blur-[130px]" />
 
-      <div className="relative z-10 mx-auto grid min-h-screen w-full max-w-[1240px] grid-cols-1 items-center gap-10 px-5 py-12 sm:px-8 lg:grid-cols-[1fr_minmax(380px,440px)] lg:gap-16">
+      <div className="relative z-10 mx-auto grid min-h-screen w-full max-w-[1300px] grid-cols-1 items-center gap-10 px-5 py-12 sm:px-8 lg:grid-cols-[1fr_minmax(410px,476px)] lg:gap-16">
         {/* Left column */}
         <div className="flex flex-col justify-between gap-12 lg:min-h-[560px] lg:py-4">
           <div>
@@ -169,103 +169,139 @@ function AuthPage() {
         {/* Card */}
         <form
           onSubmit={submit}
-          className="w-full rounded-[22px] border border-white/10 bg-[#0d0b16]/85 p-6 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.95),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-xl sm:p-8"
+          className="relative w-full overflow-hidden rounded-[26px] border border-white/10 bg-[#0d0b16]/70 p-7 shadow-[0_0_50px_rgba(0,0,0,0.25),0_40px_120px_-30px_rgba(0,0,0,0.95),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl sm:p-9"
         >
-          <div className="mb-6 flex justify-center">
-            <span className="flex h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-violet-300 shadow-[0_0_30px_-8px_rgba(139,92,246,0.9)]">
-              <Palette className="h-6 w-6" />
-            </span>
-          </div>
+          {/* Reflexo da pintura — lado esquerdo */}
+          <div className="pointer-events-none absolute -left-20 top-0 h-full w-[70%] bg-[radial-gradient(60%_60%_at_0%_35%,rgba(168,85,247,1),rgba(236,72,153,0.8)_45%,rgba(251,146,60,0.6)_75%,transparent_100%)] opacity-[0.035] blur-3xl" />
+          {/* Pincelada translúcida no rodapé */}
+          <div className="pointer-events-none absolute -bottom-6 left-1/2 h-16 w-[78%] -translate-x-1/2 rotate-[-2deg] rounded-[50%] bg-white opacity-[0.04] blur-xl" />
 
-          <h2 className="mb-8 text-center text-3xl font-bold leading-tight tracking-tight sm:text-[2rem]">
-            Entre com
-            <br />
-            sua{" "}
-            <span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
-              conta
-            </span>
-          </h2>
-
-          <label className="mb-2 block text-xs font-medium text-white/80" htmlFor="email">
-            E-mail
-          </label>
-          <div className="relative mb-5">
-            <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
-            <input
-              id="email"
-              type="email"
-              autoComplete="email"
-              placeholder="Digite seu e-mail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="h-12 w-full rounded-xl border border-white/10 bg-white/[0.04] pl-10 pr-4 text-sm text-white outline-none transition placeholder:text-white/40 focus:border-violet-400/70 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.18)]"
-            />
-          </div>
-
-          <label className="mb-2 block text-xs font-medium text-white/80" htmlFor="senha">
-            Senha
-          </label>
           <div className="relative">
-            <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
-            <input
-              id="senha"
-              type={show ? "text" : "password"}
-              autoComplete="current-password"
-              placeholder="Digite sua senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="h-12 w-full rounded-xl border border-white/10 bg-white/[0.04] pl-10 pr-11 text-sm text-white outline-none transition placeholder:text-white/40 focus:border-violet-400/70 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.18)]"
-            />
+            {/* Grupo 1 — selo */}
+            <div className="mb-7 flex justify-center">
+              <span className="flex h-[74px] w-[74px] items-center justify-center rounded-full border border-white/12 bg-white/[0.06] text-violet-300 shadow-[0_0_40px_-8px_rgba(139,92,246,0.85),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-md">
+                <Palette className="h-11 w-11" strokeWidth={1.5} />
+              </span>
+            </div>
+
+            {/* Grupo 2 — título */}
+            <div className="mb-9 text-center">
+              <p className="text-xs font-medium uppercase tracking-[0.3em] text-white/45">
+                Bem-vindo ao
+              </p>
+              <h2 className="mt-2 font-serif text-[2.1rem] italic leading-tight tracking-wide text-white sm:text-[2.35rem]">
+                Studio{" "}
+                <span className="bg-gradient-to-r from-violet-300 to-fuchsia-300 bg-clip-text text-transparent">
+                  Nei
+                </span>
+              </h2>
+              <p className="mx-auto mt-3 max-w-[26ch] text-sm leading-relaxed text-white/55">
+                Entre com sua conta para acessar sua galeria.
+              </p>
+            </div>
+
+            {/* Grupo 3 — campos */}
+            <div className="group/field mb-5">
+              <label
+                className="mb-2 block text-xs font-medium text-white/80 transition-colors group-focus-within/field:text-violet-300"
+                htmlFor="email"
+              >
+                E-mail
+              </label>
+              <div className="relative">
+                <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-white/45 transition-colors group-focus-within/field:text-violet-300" />
+                <input
+                  id="email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder="Digite seu e-mail"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="h-[52px] w-full rounded-xl border border-white/[0.14] bg-white/[0.06] pl-11 pr-4 text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] outline-none backdrop-blur-[18px] transition placeholder:text-white/55 focus:border-sky-400/70 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.22),0_0_24px_-6px_rgba(168,85,247,0.7),inset_0_1px_0_rgba(255,255,255,0.1)]"
+                />
+              </div>
+            </div>
+
+            <div className="group/field">
+              <label
+                className="mb-2 block text-xs font-medium text-white/80 transition-colors group-focus-within/field:text-violet-300"
+                htmlFor="senha"
+              >
+                Senha
+              </label>
+              <div className="relative">
+                <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-white/45 transition-colors group-focus-within/field:text-violet-300" />
+                <input
+                  id="senha"
+                  type={show ? "text" : "password"}
+                  autoComplete="current-password"
+                  placeholder="Digite sua senha"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="h-[52px] w-full rounded-xl border border-white/[0.14] bg-white/[0.06] pl-11 pr-12 text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] outline-none backdrop-blur-[18px] transition placeholder:text-white/55 focus:border-sky-400/70 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.22),0_0_24px_-6px_rgba(168,85,247,0.7),inset_0_1px_0_rgba(255,255,255,0.1)]"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShow((s) => !s)}
+                  aria-label={show ? "Ocultar senha" : "Mostrar senha"}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/50 transition hover:text-white"
+                >
+                  {show ? (
+                    <EyeOff className="h-[18px] w-[18px]" />
+                  ) : (
+                    <Eye className="h-[18px] w-[18px]" />
+                  )}
+                </button>
+              </div>
+            </div>
+
             <button
               type="button"
-              onClick={() => setShow((s) => !s)}
-              aria-label={show ? "Ocultar senha" : "Mostrar senha"}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/50 transition hover:text-white"
+              onClick={forgot}
+              className="mt-3 ml-auto block text-xs font-medium text-white/50 underline-offset-4 transition-colors hover:text-violet-300 hover:underline"
             >
-              {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              Esqueci minha senha
             </button>
-          </div>
 
-          <button
-            type="button"
-            onClick={forgot}
-            className="mt-4 ml-auto flex items-center gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.04] px-4 py-2 text-xs font-medium text-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-sm transition hover:border-violet-400/50 hover:bg-white/[0.08] hover:text-white hover:shadow-[0_0_20px_-4px_rgba(139,92,246,0.5)] active:scale-95"
-          >
-            Esqueci minha senha
-          </button>
-
-          {error && (
-            <p className="mt-4 rounded-lg border border-red-300/30 bg-red-500/15 px-3 py-2 text-sm text-red-100">
-              {error}
-            </p>
-          )}
-          {notice && (
-            <p className="mt-4 rounded-lg border border-emerald-300/30 bg-emerald-500/15 px-3 py-2 text-sm text-emerald-100">
-              {notice}
-            </p>
-          )}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="group mt-5 inline-flex h-[46px] w-full items-center justify-center gap-2 rounded-full border border-sky-400/40 bg-transparent text-base font-semibold text-foreground transition-all duration-300 hover:border-sky-300 hover:bg-sky-400/5 hover:text-sky-200 hover:shadow-[0_0_18px_rgba(56,155,255,0.6)] disabled:opacity-60"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" /> Entrando...
-              </>
-            ) : (
-              <span>Entrar</span>
+            {error && (
+              <p className="mt-5 rounded-lg border border-red-300/30 bg-red-500/15 px-3 py-2 text-sm text-red-100">
+                {error}
+              </p>
             )}
-          </button>
+            {notice && (
+              <p className="mt-5 rounded-lg border border-emerald-300/30 bg-emerald-500/15 px-3 py-2 text-sm text-emerald-100">
+                {notice}
+              </p>
+            )}
 
-          <p className="mt-6 flex items-center justify-center gap-1.5 text-[11px] text-white/45">
-            <Lock className="h-3 w-3" /> Seus dados estão protegidos
-          </p>
-          <p className="mt-3 text-center text-[11px] tracking-wide text-white/35">
-            @ Todos os direitos Sidnei Costa 2026
-          </p>
+            {/* Grupo 4 — botão */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="mt-8 inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-full bg-[linear-gradient(100deg,#7c3aed_0%,#c026d3_35%,#2563eb_70%,#7c3aed_100%)] bg-[length:220%_100%] bg-[position:0%_50%] text-base font-semibold text-white shadow-[0_0_24px_-6px_rgba(168,85,247,0.55),inset_0_1px_0_rgba(255,255,255,0.18)] transition-[background-position,box-shadow] duration-[1200ms] ease-out hover:bg-[position:100%_50%] hover:shadow-[0_0_34px_-4px_rgba(192,38,211,0.6),inset_0_1px_0_rgba(255,255,255,0.22)] disabled:opacity-60"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" /> Entrando...
+                </>
+              ) : (
+                <span>Entrar</span>
+              )}
+            </button>
+
+            {/* Grupo 5 — informações */}
+            <div className="mt-9">
+              <p className="flex items-center justify-center gap-2 text-xs font-medium text-white/70">
+                <Lock className="h-3.5 w-3.5" /> Seus dados estão protegidos
+              </p>
+              <div className="mx-auto my-4 h-px w-24 bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+              <p className="text-center text-[10px] tracking-[0.18em] text-white/25">
+                © Studio Nei 2026
+              </p>
+            </div>
+          </div>
         </form>
+
       </div>
     </div>
   );
