@@ -274,6 +274,19 @@ function Galeria() {
           </div>
         </motion.div>
 
+        {isAdmin && (
+          <div className="mb-6 flex justify-end">
+            <button
+              onClick={addSlot}
+              className="inline-flex items-center gap-2 rounded-full border border-sky-400/60 bg-sky-400/5 px-4 py-2 text-xs sm:text-sm font-medium text-sky-300 shadow-[0_0_12px_rgba(56,155,255,0.35)] transition-all hover:border-sky-300 hover:bg-sky-400/10 hover:shadow-[0_0_24px_rgba(56,155,255,0.7)]"
+            >
+              <Plus className="h-4 w-4" /> Adicionar card de foto
+            </button>
+          </div>
+        )}
+
+
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {slots.map((_, i) => {
             const baseImage = images[i];
