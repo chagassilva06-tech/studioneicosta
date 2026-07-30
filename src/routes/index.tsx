@@ -154,6 +154,7 @@ function Index() {
 
 
   const [lightbox, setLightbox] = useState<LightboxData>(null);
+  const [emailCopied, setEmailCopied] = useState(false);
   const [query, setQuery] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
   const [showCategoryManager, setShowCategoryManager] = useState(false);
