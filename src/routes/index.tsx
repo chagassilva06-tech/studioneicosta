@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
@@ -10,7 +10,6 @@ import {
   Play,
   Pause,
   ImageIcon,
-  LogOut,
   Search,
   LayoutGrid,
   Settings2,
@@ -124,20 +123,10 @@ const fallbackSrc: Record<string, string> = Object.fromEntries(
 
 function Index() {
   const isMobile = useIsMobile();
-  const navigate = useNavigate();
   const { isAdmin } = useAdmin();
 
-  useEffect(() => {
-    let cancelled = false;
-    supabase.auth.getSession().then(({ data }) => {
-      if (!cancelled && !data.session) {
-        navigate({ to: "/auth", replace: true });
-      }
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [navigate]);
+
+
 
   const [lightbox, setLightbox] = useState<LightboxData>(null);
   const [query, setQuery] = useState("");
@@ -282,17 +271,8 @@ function Index() {
               </span>
             </span>
           </a>
-          <button
-            onClick={async () => {
-              await supabase.auth.signOut();
-              navigate({ to: "/auth", replace: true });
-            }}
-            aria-label="Sair"
-            title="Sair"
-            className="justify-self-end inline-flex items-center justify-center h-9 w-9 rounded-full text-sky-300 border border-sky-400/50 bg-sky-400/[0.06] hover:bg-sky-400/15 hover:border-sky-300 hover:text-sky-100 hover:shadow-[0_0_16px_rgba(56,155,255,0.7)] transition-all duration-200"
-          >
-            <LogOut className="h-4 w-4" />
-          </button>
+          <span className="justify-self-end" />
+
         </div>
 
         {/* Categories pills — 60px */}
