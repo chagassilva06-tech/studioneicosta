@@ -248,7 +248,7 @@ function AuthPage() {
           <button
             type="submit"
             disabled={loading}
-            className="group mt-5 inline-flex h-[46px] w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-800 via-blue-600 to-cyan-500 text-base font-semibold text-white shadow-[0_14px_40px_-12px_rgba(14,165,233,0.75)] transition hover:brightness-110 hover:shadow-[0_18px_50px_-12px_rgba(14,165,233,0.85)] disabled:opacity-60"
+            className="group mt-5 inline-flex h-[46px] w-full items-center justify-center gap-2 rounded-full border border-sky-400/40 bg-transparent text-base font-semibold text-foreground transition-all duration-300 hover:border-sky-300 hover:bg-sky-400/5 hover:text-sky-200 hover:shadow-[0_0_18px_rgba(56,155,255,0.6)] disabled:opacity-60"
           >
             {loading ? (
               <>
