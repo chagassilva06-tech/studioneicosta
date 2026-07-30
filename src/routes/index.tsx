@@ -460,8 +460,9 @@ function Index() {
               </p>
 
               <p className="relative mt-6 text-base md:text-lg text-foreground/85 max-w-lg leading-relaxed drop-shadow-[0_1px_10px_rgba(0,0,0,0.55)]">
-                Organize, apresente e compartilhe seus desenhos e pinturas de forma
-                profissional. Uma coleção digital onde a obra é o foco.
+                Uma coleção em um ambiente digital onde a obra é o foco.
+                <br />
+                Uma forma organizada de apresentação do conjunto de obras.
               </p>
             </div>
             <div className="mt-8 sm:mt-10 flex flex-wrap gap-3 sm:gap-4">
