@@ -507,15 +507,26 @@ function Index() {
 
 
       {/* About */}
-      <section id="about" className="bg-muted/10">
-        <div className="max-w-5xl mx-auto px-4 sm:pl-4 sm:pr-8 md:pl-2 md:pr-10 py-10 sm:py-8 grid md:grid-cols-[220px_1fr] gap-8 md:gap-14 items-center">
+      <section id="about" className="relative overflow-hidden">
+        {/* artistic graphite / charcoal texture */}
+        <div className="pointer-events-none absolute inset-0 bg-canvas-texture opacity-40" />
+        <div className="relative max-w-5xl mx-auto px-4 sm:pl-4 sm:pr-8 md:pl-2 md:pr-10 py-10 sm:py-8 grid md:grid-cols-[220px_1fr] gap-8 md:gap-14 items-center">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.9, ease: [0.2, 0.7, 0.2, 1] }}
             className="group relative justify-self-start w-40 sm:w-48 md:w-full max-w-[220px] md:-ml-2"
           >
+            {/* charcoal smudge behind the portrait */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -inset-10 -z-10 opacity-[0.18] blur-[2px]"
+              style={{
+                background:
+                  "radial-gradient(60% 45% at 35% 30%, rgba(255,255,255,0.5), transparent 70%), radial-gradient(45% 60% at 70% 75%, rgba(216,191,133,0.45), transparent 72%)",
+              }}
+            />
             <div className="artist-portrait-premium">
               <img
                 src={artist}
@@ -528,21 +539,112 @@ function Index() {
           </motion.div>
 
           <div>
-            <div className="flex items-center gap-4 mb-4">
-              <div className="rule-gold w-12" />
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="flex items-center gap-4 mb-4"
+            >
+              <motion.div
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, delay: 0.2, ease: "easeOut" }}
+                style={{ transformOrigin: "left" }}
+                className="rule-gold w-12"
+              />
               <span className="label-luxe">Sobre</span>
-            </div>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-light mb-4 sm:mb-6 tracking-[0.01em] animate-title-glow-subtle">
+            </motion.div>
+
+            <motion.h2
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.9, delay: 0.15 }}
+              className="font-display text-3xl sm:text-4xl md:text-5xl font-light mb-2 tracking-[0.01em] animate-title-glow-subtle"
+            >
               O <span className="italic text-gold-shimmer">Artista</span>
-            </h2>
-            <p className="text-foreground/85 leading-relaxed text-base sm:text-lg mb-4">
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.25 }}
+              className="font-display italic text-base sm:text-lg text-[#d8bf85]/85 mb-5"
+            >
+              Conheça a trajetória, técnica e inspiração por trás das obras.
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.35 }}
+              className="text-foreground/85 leading-relaxed text-base sm:text-lg mb-6 max-w-[58ch]"
+            >
               StudioNei nasce do encontro entre técnica clássica e sensibilidade
               contemporânea. Cada obra é um exercício de observação — luz,
               textura e silêncio traduzidos em grafite, carvão e tinta.
-            </p>
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.45 }}
+              className="flex flex-wrap items-center gap-3"
+            >
+              <a
+                href="https://www.instagram.com/sidnei_costa1961?igsh=MWFsdWF4NTlsOTJoaA=="
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm text-foreground border border-white/15 transition-all duration-300 hover:border-[#d8bf85]/70 hover:text-[#f5e6b8] hover:shadow-[0_0_22px_rgba(216,191,133,0.55)]"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(64,93,230,0.18), rgba(193,53,132,0.18) 45%, rgba(253,175,69,0.18))",
+                }}
+              >
+                <Instagram
+                  className="h-4 w-4 transition-transform duration-300 group-hover:scale-110"
+                  style={{ color: "#E1306C" }}
+                />
+                Instagram
+              </a>
+
+              <button
+                type="button"
+                onClick={() => {
+                  void navigator.clipboard
+                    ?.writeText("costa.sidnei@gmail.com")
+                    .then(() => {
+                      setEmailCopied(true);
+                      setTimeout(() => setEmailCopied(false), 1800);
+                    });
+                }}
+                className="group inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm text-foreground border border-white/15 bg-white/[0.03] transition-all duration-300 hover:border-[#d8bf85]/70 hover:text-[#f5e6b8] hover:shadow-[0_0_22px_rgba(216,191,133,0.45)]"
+                title="Copiar e-mail"
+              >
+                {emailCopied ? (
+                  <Check className="h-4 w-4 text-[#d8bf85]" />
+                ) : (
+                  <Copy className="h-4 w-4 opacity-80" />
+                )}
+                {emailCopied ? "E-mail copiado" : "costa.sidnei@gmail.com"}
+              </button>
+            </motion.div>
           </div>
         </div>
+
+        {/* discreet signature */}
+        <div className="relative max-w-5xl mx-auto px-6 md:px-10 pb-4 text-right">
+          <span className="font-display italic text-sm text-[#d8bf85]/45 tracking-wide">
+            Sidnei Costa
+          </span>
+        </div>
       </section>
+
 
       {/* Artistic section divider */}
       <div className="artistic-divider max-w-md mx-auto my-1" />
