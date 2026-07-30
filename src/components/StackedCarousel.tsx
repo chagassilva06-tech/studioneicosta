@@ -70,13 +70,51 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
 
   // Keyboard
   const onKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      go(-1);
-    } else if (e.key === "ArrowRight") {
-      e.preventDefault();
-      go(1);
+    if (!total) return;
+    switch (e.key) {
+      case "ArrowLeft":
+        e.preventDefault();
+        go(-1);
+        break;
+      case "ArrowRight":
+        e.preventDefault();
+        go(1);
+        break;
+      case "Home":
+        e.preventDefault();
+        setActive(0);
+        break;
+      case "End":
+        e.preventDefault();
+        setActive(total - 1);
+        break;
+      case "PageUp":
+        e.preventDefault();
+        setActive((i) => (i - 2 + total * 2) % total);
+        break;
+      case "PageDown":
+        e.preventDefault();
+        setActive((i) => (i + 2) % total);
+        break;
+      case "Enter":
+      case " ":
+        e.preventDefault();
+        onSelect(slides[active], resolved[active]);
+        break;
+      default:
+        break;
     }
+  };
+
+  // Mouse wheel navigation (horizontal / shift+wheel)
+  const wheelLock = useRef(0);
+  const onWheel = (e: React.WheelEvent) => {
+    const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.shiftKey ? e.deltaY : 0;
+    if (!dx) return;
+    const now = Date.now();
+    if (now - wheelLock.current < 320) return;
+    wheelLock.current = now;
+    go(dx > 0 ? 1 : -1);
   };
 
   const onPointerDown = (e: React.PointerEvent) => {
@@ -113,6 +151,7 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
       aria-roledescription="carrossel"
       aria-label="Coleção em destaque"
       onKeyDown={onKeyDown}
+      onWheel={onWheel}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onPointerDown={onPointerDown}
@@ -120,13 +159,16 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
       onPointerUp={endDrag}
       onPointerCancel={endDrag}
       onPointerLeave={() => dragging && endDrag()}
-      className="relative mx-auto w-full max-w-6xl select-none outline-none touch-pan-y"
+      className="relative mx-auto w-full max-w-6xl select-none overflow-hidden px-2 outline-none touch-pan-y focus-visible:ring-2 focus-visible:ring-sky-400/60 focus-visible:ring-offset-0 sm:px-4"
       style={{ cursor: dragging ? "grabbing" : "grab" }}
     >
       {/* Stage */}
       <div
         className="relative mx-auto flex w-full items-center justify-center overflow-hidden"
-        style={{ height: "clamp(320px, 52vw, 540px)", perspective: "1600px" }}
+        style={{
+          height: isMobile ? "clamp(260px, 74vw, 380px)" : "clamp(320px, 52vw, 540px)",
+          perspective: isMobile ? "1100px" : "1600px",
+        }}
       >
         {slides.map((slide, i) => {
           let d = i - active;
@@ -134,9 +176,9 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
           if (d <= -total / 2) d += total;
           const offset = d + dragOffset;
           const abs = Math.abs(offset);
-          const inRange = abs <= (isMobile ? 2.6 : 3.6);
+          const inRange = abs <= (isMobile ? 2.2 : 3.6);
 
-          const spread = isMobile ? 46 : 52;
+          const spread = isMobile ? 40 : 52;
           const translateX = offset * spread;
           const scale = Math.max(0.62, 1 - abs * 0.13);
           const opacity = abs < 0.5 ? 1 : Math.max(0, 0.75 - (abs - 0.5) * 0.22);
@@ -162,7 +204,7 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
               aria-label={`Ver ${slide.title}`}
               aria-hidden={!inRange}
               tabIndex={isActive ? 0 : -1}
-              className="group absolute left-1/2 top-1/2 h-[78%] w-[clamp(210px,32vw,380px)] overflow-hidden rounded-3xl border border-[#d8bf85]/30 bg-background shadow-[0_30px_70px_-20px_rgba(0,0,0,0.85)] transition-[transform,opacity,filter] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform"
+              className="group absolute left-1/2 top-1/2 h-[76%] w-[clamp(180px,60vw,380px)] overflow-hidden rounded-2xl border border-[#d8bf85]/30 bg-background shadow-[0_30px_70px_-20px_rgba(0,0,0,0.85)] outline-none transition-[transform,opacity,filter] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform focus-visible:ring-2 focus-visible:ring-sky-300 sm:h-[78%] sm:w-[clamp(210px,32vw,380px)] sm:rounded-3xl"
               style={{
                 transform: `translate3d(-50%, -50%, 0) translateX(${translateX}%) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
                 opacity: inRange ? opacity : 0,
@@ -198,6 +240,10 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
               <div
                 className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/15 to-transparent transition-opacity duration-500"
                 style={{ opacity: isActive ? 1 : 0.85 }}
+              />
+              {/* Suave moldura azul marinho no hover */}
+              <div
+                className="pointer-events-none absolute inset-0 rounded-2xl border-2 border-[#1e3a8a] opacity-0 shadow-[inset_0_0_18px_rgba(30,58,138,0.55),0_0_22px_rgba(30,58,138,0.5)] transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 sm:rounded-3xl"
               />
               <div className="absolute inset-x-4 bottom-4 text-left sm:inset-x-5 sm:bottom-5">
                 <p className="mb-1 text-[10px] uppercase tracking-[0.35em] text-[#d8bf85]/90">
