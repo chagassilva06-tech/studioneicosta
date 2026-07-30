@@ -126,6 +126,29 @@ const fallbackSrc: Record<string, string> = Object.fromEntries(
 function Index() {
   const isMobile = useIsMobile();
   const { isAdmin } = useAdmin();
+  const navigate = useNavigate();
+  const [authChecked, setAuthChecked] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    supabase.auth.getUser().then(({ data }) => {
+      if (!active) return;
+      if (!data.user) {
+        navigate({ to: "/auth", replace: true });
+        return;
+      }
+      setAuthChecked(true);
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_OUT") navigate({ to: "/auth", replace: true });
+    });
+    return () => {
+      active = false;
+      sub.subscription.unsubscribe();
+    };
+  }, [navigate]);
+
+
 
 
 
