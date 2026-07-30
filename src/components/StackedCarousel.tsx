@@ -151,6 +151,7 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
       aria-roledescription="carrossel"
       aria-label="Coleção em destaque"
       onKeyDown={onKeyDown}
+      onWheel={onWheel}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onPointerDown={onPointerDown}
@@ -158,13 +159,16 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
       onPointerUp={endDrag}
       onPointerCancel={endDrag}
       onPointerLeave={() => dragging && endDrag()}
-      className="relative mx-auto w-full max-w-6xl select-none outline-none touch-pan-y"
+      className="relative mx-auto w-full max-w-6xl select-none overflow-hidden px-2 outline-none touch-pan-y focus-visible:ring-2 focus-visible:ring-sky-400/60 focus-visible:ring-offset-0 sm:px-4"
       style={{ cursor: dragging ? "grabbing" : "grab" }}
     >
       {/* Stage */}
       <div
         className="relative mx-auto flex w-full items-center justify-center overflow-hidden"
-        style={{ height: "clamp(320px, 52vw, 540px)", perspective: "1600px" }}
+        style={{
+          height: isMobile ? "clamp(260px, 74vw, 380px)" : "clamp(320px, 52vw, 540px)",
+          perspective: isMobile ? "1100px" : "1600px",
+        }}
       >
         {slides.map((slide, i) => {
           let d = i - active;
@@ -172,9 +176,9 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
           if (d <= -total / 2) d += total;
           const offset = d + dragOffset;
           const abs = Math.abs(offset);
-          const inRange = abs <= (isMobile ? 2.6 : 3.6);
+          const inRange = abs <= (isMobile ? 2.2 : 3.6);
 
-          const spread = isMobile ? 46 : 52;
+          const spread = isMobile ? 40 : 52;
           const translateX = offset * spread;
           const scale = Math.max(0.62, 1 - abs * 0.13);
           const opacity = abs < 0.5 ? 1 : Math.max(0, 0.75 - (abs - 0.5) * 0.22);
