@@ -236,7 +236,7 @@ function Galeria() {
                 onClick={handleSignOut}
                 title={userEmail ?? undefined}
                 aria-label="Sair"
-                className="group inline-flex items-center gap-1.5 text-xs font-medium text-sky-400 border border-sky-400/60 rounded-full px-2.5 sm:px-3 py-1.5 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 transition-all"
+                className="group inline-flex items-center gap-1.5 text-xs font-medium text-yellow-300 border border-yellow-300/70 rounded-full px-2.5 sm:px-3 py-1.5 bg-yellow-300/5 shadow-[0_0_12px_rgba(250,204,21,0.45)] hover:shadow-[0_0_26px_rgba(250,204,21,0.85)] hover:border-yellow-200 hover:text-yellow-200 transition-all"
               >
                 <LogOut className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Sair</span>
               </button>
