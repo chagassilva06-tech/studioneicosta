@@ -170,6 +170,8 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
           perspective: isMobile ? "1100px" : "1600px",
         }}
       >
+        {/* Discreet blue glow behind the central artwork */}
+        <div className="gallery-glow" />
         {slides.map((slide, i) => {
           let d = i - active;
           if (d > total / 2) d -= total;
@@ -216,7 +218,7 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
                 transformStyle: "preserve-3d",
                 backfaceVisibility: "hidden",
                 boxShadow: isActive
-                  ? "0 40px 90px -25px rgba(0,0,0,0.9), 0 0 44px rgba(56,189,248,0.35)"
+                  ? "0 40px 90px -25px rgba(0,0,0,0.9), 0 0 60px rgba(56,155,255,0.55), 0 0 120px rgba(56,155,255,0.22)"
                   : undefined,
               }}
             >
@@ -260,7 +262,7 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
           type="button"
           onClick={() => go(-1)}
           aria-label="Anterior"
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#d8bf85]/40 bg-background/60 text-[#d8bf85] backdrop-blur transition-all hover:border-[#d8bf85] hover:shadow-[0_0_18px_rgba(216,191,133,0.45)] sm:h-11 sm:w-11"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#d8bf85]/40 bg-background/60 text-[#d8bf85] backdrop-blur transition-all hover:border-[#d8bf85] hover:text-[#f5e6b8] hover:shadow-[0_0_18px_rgba(216,191,133,0.45)] sm:h-11 sm:w-11"
         >
           <ChevronLeft className="h-5 w-5" />
         </button>
@@ -275,8 +277,8 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
               aria-current={active === i}
               className={`h-1.5 rounded-full transition-all duration-300 ${
                 active === i
-                  ? "w-8 bg-sky-300 shadow-[0_0_10px_rgba(56,189,248,0.8)]"
-                  : "w-2 bg-foreground/30 hover:bg-foreground/60"
+                  ? "w-8 bg-[#d8bf85] shadow-[0_0_10px_rgba(216,191,133,0.8)]"
+                  : "w-2 bg-[#d8bf85]/30 hover:bg-[#d8bf85]/60"
               }`}
             />
           ))}
@@ -286,7 +288,7 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
           type="button"
           onClick={() => go(1)}
           aria-label="Próximo"
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#d8bf85]/40 bg-background/60 text-[#d8bf85] backdrop-blur transition-all hover:border-[#d8bf85] hover:shadow-[0_0_18px_rgba(216,191,133,0.45)] sm:h-11 sm:w-11"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#d8bf85]/40 bg-background/60 text-[#d8bf85] backdrop-blur transition-all hover:border-[#d8bf85] hover:text-[#f5e6b8] hover:shadow-[0_0_18px_rgba(216,191,133,0.45)] sm:h-11 sm:w-11"
         >
           <ChevronRight className="h-5 w-5" />
         </button>

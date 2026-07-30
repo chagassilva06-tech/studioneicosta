@@ -473,40 +473,51 @@ function Index() {
               </a>
 
             </div>
-
-            {/* Gallery title positioned below the action buttons */}
-            <div id="gallery" className="relative z-10 text-center pt-6 sm:pt-8 mt-2 sm:mt-4 pb-8 sm:pb-12">
-              <div className="flex items-center justify-center gap-3 mb-2">
-                <div className="rule-gold w-10 sm:w-12" />
-                <span className="label-luxe">Destaques</span>
-                <div className="rule-gold w-10 sm:w-12" />
-              </div>
-              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-light tracking-[0.01em] animate-title-glow-subtle">
-                Coleção em <span className="italic text-gold-shimmer">Destaque</span>
-              </h2>
-            </div>
           </motion.div>
         </div>
 
       </section>
 
       {/* Featured */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-6 sm:pt-8 pb-6 sm:pb-10">
-        <Suspense fallback={<div className="h-[420px]" />}>
-          <StackedCarousel
-            slides={slides.length ? slides : featuredSlides}
-            urls={featuredUrls}
-            
-            onSelect={(slide, src) =>
-              setLightbox({
-                src,
-                title: slide.title,
-                description: slide.description,
-                categoria: slide.categoria,
-              })
-            }
-          />
-        </Suspense>
+      <section id="gallery" className="relative overflow-hidden bg-gallery-petrol py-8 sm:py-12 md:py-16">
+        {/* soft central spotlight */}
+        <div className="absolute inset-0 gallery-spotlight" />
+        {/* edge vignette */}
+        <div className="absolute inset-0 gallery-vignette" />
+        {/* top gold divider */}
+        <div className="absolute top-0 left-0 right-0 gallery-rule-gold" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-10">
+          {/* Gallery title */}
+          <div className="relative z-10 text-center pt-2 sm:pt-4 pb-6 sm:pb-8 md:pb-10">
+            <div className="flex items-center justify-center gap-3 mb-2">
+              <div className="rule-gold w-10 sm:w-12" />
+              <span className="label-luxe">Destaques</span>
+              <div className="rule-gold w-10 sm:w-12" />
+            </div>
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-light tracking-[0.01em] animate-title-glow-subtle">
+              Coleção em <span className="italic text-gold-shimmer">Destaque</span>
+            </h2>
+          </div>
+
+          <Suspense fallback={<div className="h-[420px]" />}>
+            <StackedCarousel
+              slides={slides.length ? slides : featuredSlides}
+              urls={featuredUrls}
+              onSelect={(slide, src) =>
+                setLightbox({
+                  src,
+                  title: slide.title,
+                  description: slide.description,
+                  categoria: slide.categoria,
+                })
+              }
+            />
+          </Suspense>
+        </div>
+
+        {/* bottom gold divider */}
+        <div className="absolute bottom-0 left-0 right-0 gallery-rule-gold" />
       </section>
 
 
