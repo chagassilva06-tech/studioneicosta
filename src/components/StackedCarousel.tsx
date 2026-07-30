@@ -70,13 +70,51 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
 
   // Keyboard
   const onKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      go(-1);
-    } else if (e.key === "ArrowRight") {
-      e.preventDefault();
-      go(1);
+    if (!total) return;
+    switch (e.key) {
+      case "ArrowLeft":
+        e.preventDefault();
+        go(-1);
+        break;
+      case "ArrowRight":
+        e.preventDefault();
+        go(1);
+        break;
+      case "Home":
+        e.preventDefault();
+        setActive(0);
+        break;
+      case "End":
+        e.preventDefault();
+        setActive(total - 1);
+        break;
+      case "PageUp":
+        e.preventDefault();
+        setActive((i) => (i - 2 + total * 2) % total);
+        break;
+      case "PageDown":
+        e.preventDefault();
+        setActive((i) => (i + 2) % total);
+        break;
+      case "Enter":
+      case " ":
+        e.preventDefault();
+        onSelect(slides[active], resolved[active]);
+        break;
+      default:
+        break;
     }
+  };
+
+  // Mouse wheel navigation (horizontal / shift+wheel)
+  const wheelLock = useRef(0);
+  const onWheel = (e: React.WheelEvent) => {
+    const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.shiftKey ? e.deltaY : 0;
+    if (!dx) return;
+    const now = Date.now();
+    if (now - wheelLock.current < 320) return;
+    wheelLock.current = now;
+    go(dx > 0 ? 1 : -1);
   };
 
   const onPointerDown = (e: React.PointerEvent) => {
