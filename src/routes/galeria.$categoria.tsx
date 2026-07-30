@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, ImageIcon, Upload, RefreshCw, Loader2, LogOut, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, ImageIcon, Upload, RefreshCw, Loader2, LogOut, Star, Plus } from "lucide-react";
 import paisagem1 from "@/assets/paisagem-1.webp";
 import pintura1 from "@/assets/pintura-1.webp";
 import type { LightboxData } from "@/components/Lightbox";
@@ -56,7 +56,25 @@ function Galeria() {
   const { categoria } = useParams({ from: "/galeria/$categoria" });
   const nome = decodeURIComponent(categoria);
   const images = categoryImages[nome] ?? [];
-  const total = 10;
+  const BASE_SLOTS = 10;
+  const extraKey = `studionei:extra-slots:${nome}`;
+  const [extraSlots, setExtraSlots] = useState(0);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const saved = Number(window.localStorage.getItem(extraKey) ?? "0");
+    setExtraSlots(Number.isFinite(saved) && saved > 0 ? saved : 0);
+  }, [extraKey]);
+
+  const addSlot = () => {
+    setExtraSlots((n) => {
+      const next = n + 1;
+      if (typeof window !== "undefined") window.localStorage.setItem(extraKey, String(next));
+      return next;
+    });
+  };
+
+  const total = BASE_SLOTS + extraSlots;
   const slots = Array.from({ length: total });
   const [lightbox, setLightbox] = useState<LightboxData>(null);
   const [uploaded, setUploaded] = useState<Record<number, { path: string; url: string; srcSet: string; featured: boolean }>>({});
@@ -106,6 +124,10 @@ function Galeria() {
         if (v.url) next[row.slot] = { path: row.storage_path, url: v.url, srcSet: v.srcSet, featured: Boolean((row as { featured?: boolean }).featured) };
       });
       setUploaded(next);
+      const maxSlot = Math.max(...data.map((r) => r.slot));
+      if (maxSlot >= BASE_SLOTS) {
+        setExtraSlots((n) => Math.max(n, maxSlot - BASE_SLOTS + 1));
+      }
     })();
     return () => {
       cancelled = true;
@@ -214,7 +236,7 @@ function Galeria() {
                 onClick={handleSignOut}
                 title={userEmail ?? undefined}
                 aria-label="Sair"
-                className="group inline-flex items-center gap-1.5 text-xs font-medium text-sky-400 border border-sky-400/60 rounded-full px-2.5 sm:px-3 py-1.5 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 transition-all"
+                className="group inline-flex items-center gap-1.5 text-xs font-medium text-yellow-300 border border-yellow-300/70 rounded-full px-2.5 sm:px-3 py-1.5 bg-yellow-300/5 shadow-[0_0_12px_rgba(250,204,21,0.45)] hover:shadow-[0_0_26px_rgba(250,204,21,0.85)] hover:border-yellow-200 hover:text-yellow-200 transition-all"
               >
                 <LogOut className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Sair</span>
               </button>
@@ -251,6 +273,19 @@ function Galeria() {
             </Link>
           </div>
         </motion.div>
+
+        {isAdmin && (
+          <div className="mb-6 flex justify-end">
+            <button
+              onClick={addSlot}
+              className="inline-flex items-center gap-2 rounded-full border border-sky-400/60 bg-sky-400/5 px-4 py-2 text-xs sm:text-sm font-medium text-sky-300 shadow-[0_0_12px_rgba(56,155,255,0.35)] transition-all hover:border-sky-300 hover:bg-sky-400/10 hover:shadow-[0_0_24px_rgba(56,155,255,0.7)]"
+            >
+              <Plus className="h-4 w-4" /> Adicionar card de foto
+            </button>
+          </div>
+        )}
+
+
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {slots.map((_, i) => {
