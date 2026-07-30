@@ -99,8 +99,8 @@ function AuthPage() {
             onSubmit={submit}
             className="relative overflow-hidden rounded-2xl border border-white/25 bg-white/[0.08] p-6 shadow-[0_24px_80px_-20px_rgba(6,10,60,0.9)] backdrop-blur-xl sm:p-7"
           >
-            <div className="mb-6 flex items-start justify-between gap-3">
-              <span className="rounded-full bg-white/15 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-white/95 ring-1 ring-white/20">
+            <div className="mb-8 flex items-center justify-center">
+              <span className="rounded-full bg-white/15 px-5 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white/95 ring-1 ring-white/20">
                 Studio Nei
               </span>
             </div>
