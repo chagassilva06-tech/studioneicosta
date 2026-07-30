@@ -128,46 +128,48 @@ export function CategoryManager({ open, onClose, onChanged }: Props) {
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-2xl max-h-[70vh] overflow-hidden rounded-2xl border border-sky-400/40 bg-background/95 shadow-[0_0_60px_-10px_rgba(56,155,255,0.6)]"
+        className="relative flex w-full max-w-2xl max-h-[85vh] flex-col overflow-hidden rounded-2xl border border-sky-400/40 bg-background/95 shadow-[0_0_60px_-10px_rgba(56,155,255,0.6)]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-sky-400/20">
-          <h2 className="font-display text-2xl">
+        <div className="flex shrink-0 items-center justify-between gap-3 border-b border-sky-400/20 px-4 py-3 sm:px-6 sm:py-4">
+          <h2 className="min-w-0 truncate font-display text-xl sm:text-2xl">
             Gerenciar <span className="italic text-[#d8bf85]">Categorias</span>
           </h2>
           <button
             onClick={onClose}
-            className="h-9 w-9 rounded-full inline-flex items-center justify-center text-sky-200 hover:bg-sky-400/15 border border-sky-400/40"
+            className="h-9 w-9 shrink-0 rounded-full inline-flex items-center justify-center text-sky-200 hover:bg-sky-400/15 border border-sky-400/40"
             aria-label="Fechar"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="overflow-y-auto max-h-[calc(70vh-70px)] px-6 py-5 space-y-6">
-          {/* Create */}
-          <div className="rounded-xl border border-sky-400/30 bg-sky-400/[0.04] p-4">
+        {/* Create — fixo, sem rolagem */}
+        <div className="shrink-0 px-4 pt-4 sm:px-6 sm:pt-5">
+          <div className="rounded-xl border border-sky-400/30 bg-sky-400/[0.04] p-3 sm:p-4">
             <p className="label-luxe mb-3">Nova categoria</p>
-            <div className="flex flex-col sm:flex-row gap-2">
+            <div className="flex flex-col gap-2 sm:flex-row">
               <input
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
                 placeholder="Nome da categoria"
-                className="flex-1 px-3 py-2 rounded-lg bg-background/70 border border-sky-400/40 text-sm outline-none focus:border-sky-300"
+                className="min-w-0 flex-1 px-3 py-2 rounded-lg bg-background/70 border border-sky-400/40 text-sm outline-none focus:border-sky-300"
               />
               <IconPicker value={newIcon} onChange={setNewIcon} />
               <button
                 onClick={create}
                 disabled={saving || !newName.trim()}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-sky-400 text-slate-950 font-medium text-sm hover:bg-sky-300 disabled:opacity-60"
+                className="inline-flex shrink-0 items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-sky-400 text-slate-950 font-medium text-sm hover:bg-sky-300 disabled:opacity-60"
               >
                 {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
                 Criar
               </button>
             </div>
           </div>
+        </div>
 
-          {/* List */}
+        {/* List — única área com rolagem */}
+        <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-4 py-4 sm:px-6 sm:py-5">
           <div>
             <p className="label-luxe mb-3">Existentes</p>
             {loading ? (
