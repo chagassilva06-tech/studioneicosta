@@ -467,10 +467,11 @@ function Index() {
             <div className="mt-8 sm:mt-10 flex flex-wrap gap-3 sm:gap-4">
               <a
                 href="#about"
-                className="group inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 border-2 border-sky-400/40 text-foreground rounded-full text-sm sm:text-base hover:border-sky-300 hover:text-sky-200 hover:shadow-[0_0_22px_rgba(56,155,255,0.7)] hover:bg-sky-400/5 transition-all duration-300"
+                className="group inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 border border-sky-400/40 text-foreground rounded-full text-xs sm:text-sm hover:border-sky-300 hover:text-sky-200 hover:shadow-[0_0_18px_rgba(56,155,255,0.6)] hover:bg-sky-400/5 transition-all duration-300"
               >
                 Sobre o Artista
               </a>
+
             </div>
 
             {/* Gallery title positioned below the action buttons */}
