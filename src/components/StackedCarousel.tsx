@@ -237,10 +237,6 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
               {!ready[i] && (
                 <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-sky-950/40 via-background/50 to-background" />
               )}
-              <div
-                className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/15 to-transparent transition-opacity duration-500"
-                style={{ opacity: isActive ? 1 : 0.85 }}
-              />
               {/* Suave moldura azul marinho no hover */}
               <div
                 className="pointer-events-none absolute inset-0 rounded-2xl border-2 border-[#1e3a8a] opacity-0 shadow-[inset_0_0_18px_rgba(30,58,138,0.55),0_0_22px_rgba(30,58,138,0.5)] transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 sm:rounded-3xl"
