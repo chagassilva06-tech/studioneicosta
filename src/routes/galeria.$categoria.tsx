@@ -56,7 +56,25 @@ function Galeria() {
   const { categoria } = useParams({ from: "/galeria/$categoria" });
   const nome = decodeURIComponent(categoria);
   const images = categoryImages[nome] ?? [];
-  const total = 10;
+  const BASE_SLOTS = 10;
+  const extraKey = `studionei:extra-slots:${nome}`;
+  const [extraSlots, setExtraSlots] = useState(0);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const saved = Number(window.localStorage.getItem(extraKey) ?? "0");
+    setExtraSlots(Number.isFinite(saved) && saved > 0 ? saved : 0);
+  }, [extraKey]);
+
+  const addSlot = () => {
+    setExtraSlots((n) => {
+      const next = n + 1;
+      if (typeof window !== "undefined") window.localStorage.setItem(extraKey, String(next));
+      return next;
+    });
+  };
+
+  const total = BASE_SLOTS + extraSlots;
   const slots = Array.from({ length: total });
   const [lightbox, setLightbox] = useState<LightboxData>(null);
   const [uploaded, setUploaded] = useState<Record<number, { path: string; url: string; srcSet: string; featured: boolean }>>({});
