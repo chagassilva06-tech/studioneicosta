@@ -46,7 +46,12 @@ export function CategoryManager({ open, onClose, onChanged }: Props) {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && !confirmId && onClose();
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
   }, [open, onClose, confirmId]);
 
   if (!open) return null;
