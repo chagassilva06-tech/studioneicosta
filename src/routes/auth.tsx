@@ -97,13 +97,14 @@ function AuthPage() {
         <div className="w-full max-w-[420px]">
           <form
             onSubmit={submit}
-            className="relative overflow-hidden rounded-2xl border border-white/25 bg-white/[0.08] p-6 shadow-[0_24px_80px_-20px_rgba(6,10,60,0.9)] backdrop-blur-xl sm:p-7"
+            className="relative overflow-hidden rounded-2xl border border-white/30 bg-white/[0.08] p-6 shadow-[0_24px_80px_-20px_rgba(6,10,60,0.9),inset_0_1px_0_rgba(255,255,255,0.25),inset_0_-1px_0_rgba(0,0,0,0.35),0_0_0_1px_rgba(255,255,255,0.08)] backdrop-blur-xl sm:p-7"
           >
             <div className="mb-8 flex items-center justify-center">
-              <span className="rounded-full bg-white/15 px-5 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white/95 ring-1 ring-white/20">
+              <span className="rounded-full bg-white/15 px-5 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white/95 ring-1 ring-white/20 drop-shadow-[0_4px_14px_rgba(6,18,80,0.9)]">
                 Studio Nei
               </span>
             </div>
+
 
             <h1 className="mb-7 text-3xl font-extrabold leading-tight tracking-tight sm:text-[2rem]">
               Entre com sua conta
@@ -122,17 +123,19 @@ function AuthPage() {
             />
 
             <label className="mb-2 block text-sm text-white/90" htmlFor="senha">
-              senha
+              Senha
             </label>
             <div className="relative">
               <input
                 id="senha"
                 type={show ? "text" : "password"}
                 autoComplete="current-password"
+                placeholder="Entre com sua senha"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="h-12 w-full rounded-lg border border-white/30 bg-white/[0.10] px-4 pr-11 text-sm text-white outline-none transition placeholder:text-white/50 focus:border-white/70 focus:shadow-[0_0_0_3px_rgba(255,255,255,0.12)]"
               />
+
               <button
                 type="button"
                 onClick={() => setShow((s) => !s)}
