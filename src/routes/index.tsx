@@ -507,7 +507,7 @@ function Index() {
 
 
       {/* About */}
-      <section id="about" className="border-t border-border/40 bg-muted/20">
+      <section id="about" className="bg-muted/10">
         <div className="max-w-5xl mx-auto px-4 sm:pl-4 sm:pr-8 md:pl-2 md:pr-10 py-10 sm:py-8 grid md:grid-cols-[220px_1fr] gap-8 md:gap-14 items-center">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -516,15 +516,15 @@ function Index() {
             transition={{ duration: 0.8 }}
             className="group relative justify-self-start w-40 sm:w-48 md:w-full max-w-[220px] md:-ml-2"
           >
-
-            <div className="absolute -inset-4 rounded-3xl bg-sky-400/10 blur-2xl transition-all duration-500 group-hover:bg-sky-400/25 group-hover:-inset-6" />
-            <img
-              src={artist}
-              alt="Retrato do artista"
-              loading="lazy"
-              decoding="async"
-              className="relative rounded-full border-2 border-sky-400/40 w-full aspect-square object-cover shadow-[0_0_60px_-15px_rgba(56,155,255,0.5)] transition-all duration-500 group-hover:scale-[1.03] group-hover:border-sky-300 group-hover:shadow-[0_0_80px_-10px_rgba(56,155,255,0.85)]"
-            />
+            <div className="artist-portrait-premium">
+              <img
+                src={artist}
+                alt="Retrato do artista"
+                loading="lazy"
+                decoding="async"
+                className="relative rounded-full w-full aspect-square object-cover shadow-[0_20px_60px_-20px_rgba(0,0,0,0.6)] transition-transform duration-500 group-hover:scale-[1.03]"
+              />
+            </div>
           </motion.div>
 
           <div>
@@ -543,6 +543,10 @@ function Index() {
           </div>
         </div>
       </section>
+
+      {/* Artistic section divider */}
+      <div className="artistic-divider max-w-md mx-auto my-1" />
+
 
       {/* Footer */}
       <footer className="border-t border-sky-400/30 bg-background/80 shadow-[inset_0_1px_0_rgba(186,230,255,0.35),inset_0_-1px_0_rgba(0,0,0,0.5),0_-10px_28px_-14px_rgba(56,155,255,0.5)]">
