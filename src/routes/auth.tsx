@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Eye, EyeOff, Loader2, ArrowRight } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import authAbstract from "@/assets/auth-abstract.jpg";
 
@@ -121,9 +121,6 @@ function AuthPage() {
               <span className="rounded-full bg-white/15 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-white/95 ring-1 ring-white/20">
                 Studio Nei
               </span>
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-fuchsia-500 to-violet-600 shadow-[0_0_24px_rgba(192,60,255,0.6)]">
-                <ArrowRight className="h-5 w-5 -rotate-45 text-white" />
-              </span>
             </div>
 
             <h1 className="mb-7 text-3xl font-extrabold leading-tight tracking-tight sm:text-[2rem]">
@@ -209,12 +206,9 @@ function AuthPage() {
               <path d="M0 32 C 60 12, 120 52, 200 30 S 340 12, 400 32" stroke="currentColor" strokeWidth="1.5" opacity="0.6" />
             </svg>
 
-            <Link
-              to="/"
-              className="mt-4 block text-center text-xs text-white/60 transition hover:text-white"
-            >
-              Voltar para a galeria
-            </Link>
+            <p className="mt-5 text-center text-xs text-white/60 tracking-wide">
+              @ Todos os direitos  Sidnei Costa 2026
+            </p>
           </form>
         </div>
       </div>
