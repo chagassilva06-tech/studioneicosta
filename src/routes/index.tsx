@@ -15,6 +15,8 @@ import {
   Settings2,
   LogOut,
   LogIn,
+  Copy,
+  Check,
 } from "lucide-react";
 
 import hero from "@/assets/hero.jpg";
