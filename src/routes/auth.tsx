@@ -221,7 +221,7 @@ function AuthPage() {
           <button
             type="button"
             onClick={forgot}
-            className="mt-3 block w-full text-right text-xs text-violet-300/90 underline-offset-4 transition hover:text-violet-200 hover:underline"
+            className="mt-4 ml-auto flex items-center gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.04] px-4 py-2 text-xs font-medium text-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-sm transition hover:border-violet-400/50 hover:bg-white/[0.08] hover:text-white hover:shadow-[0_0_20px_-4px_rgba(139,92,246,0.5)] active:scale-95"
           >
             Esqueci minha senha
           </button>
