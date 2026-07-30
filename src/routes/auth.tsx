@@ -123,17 +123,19 @@ function AuthPage() {
             />
 
             <label className="mb-2 block text-sm text-white/90" htmlFor="senha">
-              senha
+              Senha
             </label>
             <div className="relative">
               <input
                 id="senha"
                 type={show ? "text" : "password"}
                 autoComplete="current-password"
+                placeholder="Entre com sua senha"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="h-12 w-full rounded-lg border border-white/30 bg-white/[0.10] px-4 pr-11 text-sm text-white outline-none transition placeholder:text-white/50 focus:border-white/70 focus:shadow-[0_0_0_3px_rgba(255,255,255,0.12)]"
               />
+
               <button
                 type="button"
                 onClick={() => setShow((s) => !s)}
