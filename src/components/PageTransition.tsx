@@ -31,7 +31,6 @@ const DEFAULTS: Required<Pick<TransitionConfig, "variant" | "duration" | "ease">
  * The longest matching prefix wins; falls back to DEFAULTS.
  */
 const ROUTE_TRANSITIONS: Array<{ match: (path: string) => boolean; config: TransitionConfig }> = [
-  { match: (p) => p === "/auth", config: { variant: "zoom-in", duration: 0.65 } },
   { match: (p) => p.startsWith("/galeria/"), config: { variant: "slide-left", duration: 0.6 } },
   { match: (p) => p === "/", config: { variant: "parallax", duration: 0.7 } },
 ];
