@@ -191,7 +191,7 @@ export function CategoryManager({ open, onClose, onChanged }: Props) {
                           <input
                             value={draftName}
                             onChange={(e) => setDraftName(e.target.value)}
-                            className="flex-1 px-2 py-1.5 rounded bg-background/70 border border-sky-400/40 text-sm outline-none focus:border-sky-300"
+                            className="min-w-0 flex-1 px-2 py-1.5 rounded bg-background/70 border border-sky-400/40 text-sm outline-none focus:border-sky-300"
                           />
                           <IconPicker value={draftIcon} onChange={setDraftIcon} />
                           <div className="flex gap-1">
