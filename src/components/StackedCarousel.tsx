@@ -218,7 +218,7 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
                 transformStyle: "preserve-3d",
                 backfaceVisibility: "hidden",
                 boxShadow: isActive
-                  ? "0 40px 90px -25px rgba(0,0,0,0.9), 0 0 44px rgba(56,189,248,0.35)"
+                  ? "0 40px 90px -25px rgba(0,0,0,0.9), 0 0 60px rgba(56,155,255,0.55), 0 0 120px rgba(56,155,255,0.22)"
                   : undefined,
               }}
             >
