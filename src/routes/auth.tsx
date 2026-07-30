@@ -132,11 +132,11 @@ function AuthPage() {
               style={{ perspective: "1000px" }}
             >
               <motion.span
-                className="bg-gradient-to-r from-sky-900 via-blue-700 to-cyan-500 bg-clip-text text-transparent"
+                className="bg-gradient-to-r from-slate-300 via-sky-300 to-cyan-300 bg-clip-text text-transparent transition-all duration-500 hover:from-sky-200 hover:via-cyan-200 hover:to-teal-200"
                 style={{
                   display: "inline-block",
                   filter:
-                    "drop-shadow(0 1px 0 rgba(59,130,246,0.9)) drop-shadow(0 2px 0 rgba(37,99,235,0.7)) drop-shadow(0 3px 0 rgba(29,78,216,0.5)) drop-shadow(0 4px 10px rgba(14,165,233,0.4))",
+                    "drop-shadow(0 1px 1px rgba(56,189,248,0.35)) drop-shadow(0 2px 6px rgba(14,165,233,0.25)) drop-shadow(0 0 18px rgba(56,189,248,0.15))",
                 }}
                 initial={{ opacity: 0, y: 20, rotateX: 15 }}
                 animate={{ opacity: 1, y: 0, rotateX: 0 }}
