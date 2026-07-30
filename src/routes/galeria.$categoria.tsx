@@ -124,6 +124,10 @@ function Galeria() {
         if (v.url) next[row.slot] = { path: row.storage_path, url: v.url, srcSet: v.srcSet, featured: Boolean((row as { featured?: boolean }).featured) };
       });
       setUploaded(next);
+      const maxSlot = Math.max(...data.map((r) => r.slot));
+      if (maxSlot >= BASE_SLOTS) {
+        setExtraSlots((n) => Math.max(n, maxSlot - BASE_SLOTS + 1));
+      }
     })();
     return () => {
       cancelled = true;
