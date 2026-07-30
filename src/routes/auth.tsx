@@ -97,13 +97,14 @@ function AuthPage() {
         <div className="w-full max-w-[420px]">
           <form
             onSubmit={submit}
-            className="relative overflow-hidden rounded-2xl border border-white/25 bg-white/[0.08] p-6 shadow-[0_24px_80px_-20px_rgba(6,10,60,0.9)] backdrop-blur-xl sm:p-7"
+            className="relative overflow-hidden rounded-2xl border border-white/30 bg-white/[0.08] p-6 shadow-[0_24px_80px_-20px_rgba(6,10,60,0.9),inset_0_1px_0_rgba(255,255,255,0.25),inset_0_-1px_0_rgba(0,0,0,0.35),0_0_0_1px_rgba(255,255,255,0.08)] backdrop-blur-xl sm:p-7"
           >
             <div className="mb-8 flex items-center justify-center">
-              <span className="rounded-full bg-white/15 px-5 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white/95 ring-1 ring-white/20">
+              <span className="rounded-full bg-white/15 px-5 py-2 text-xs font-bold uppercase tracking-[0.16em] text-white/95 ring-1 ring-white/20 drop-shadow-[0_4px_14px_rgba(6,18,80,0.9)]">
                 Studio Nei
               </span>
             </div>
+
 
             <h1 className="mb-7 text-3xl font-extrabold leading-tight tracking-tight sm:text-[2rem]">
               Entre com sua conta
