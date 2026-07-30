@@ -209,7 +209,7 @@ function Galeria() {
             </span>
           </Link>
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-            {isAdmin ? (
+            {isAdmin && (
               <button
                 onClick={handleSignOut}
                 title={userEmail ?? undefined}
@@ -218,16 +218,9 @@ function Galeria() {
               >
                 <LogOut className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Sair</span>
               </button>
-            ) : (
-              <Link
-                to="/auth"
-                aria-label="Admin"
-                className="group inline-flex items-center gap-1.5 text-xs font-medium text-sky-400 border border-sky-400/60 rounded-full px-2.5 sm:px-3 py-1.5 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 transition-all"
-              >
-                <LogIn className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Admin</span>
-              </Link>
             )}
           </div>
+
 
         </div>
       </header>
