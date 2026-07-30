@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
@@ -126,6 +126,29 @@ const fallbackSrc: Record<string, string> = Object.fromEntries(
 function Index() {
   const isMobile = useIsMobile();
   const { isAdmin } = useAdmin();
+  const navigate = useNavigate();
+  const [authChecked, setAuthChecked] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    supabase.auth.getUser().then(({ data }) => {
+      if (!active) return;
+      if (!data.user) {
+        navigate({ to: "/auth", replace: true });
+        return;
+      }
+      setAuthChecked(true);
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_OUT") navigate({ to: "/auth", replace: true });
+    });
+    return () => {
+      active = false;
+      sub.subscription.unsubscribe();
+    };
+  }, [navigate]);
+
+
 
 
 
@@ -244,9 +267,18 @@ function Index() {
     ];
   });
 
-
+  if (!authChecked) {
+    return (
+      <div className="min-h-screen bg-background bg-canvas-texture flex items-center justify-center">
+        <span className="label-luxe text-[0.6rem] tracking-[0.5em] text-[#d8bf85]/70 animate-pulse">
+          StudioNei
+        </span>
+      </div>
+    );
+  }
 
   return (
+
     <div className="min-h-screen bg-background bg-canvas-texture text-foreground font-sans transition-colors duration-500">
       {/* Editorial signature bar (22px) */}
       <div className="fixed top-0 left-0 right-0 z-50 h-[22px] flex items-center justify-center bg-background/90 backdrop-blur-md border-b border-[#d8bf85]/15">
