@@ -4,13 +4,11 @@ import {
   ArrowRight,
   Eye,
   EyeOff,
-  Heart,
   Images,
   Loader2,
   Lock,
   Mail,
   Palette,
-  ShieldCheck,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import atelier from "@/assets/auth-atelier.jpg";
@@ -45,8 +43,6 @@ const ALLOWED = [
 
 const FEATURES = [
   { icon: Images, title: "Galerias", sub: "Organizadas" },
-  { icon: Heart, title: "Favoritos", sub: "Para inspirar" },
-  { icon: ShieldCheck, title: "Privacidade", sub: "e segurança" },
 ];
 
 function AuthPage() {
