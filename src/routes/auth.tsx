@@ -132,12 +132,8 @@ function AuthPage() {
 
           <div>
           <h1 className="text-4xl font-bold leading-[1.12] tracking-tight sm:text-5xl">
-            Sua arte.
-            <br />
-            Seu espaço e Galeria de Arte
-            <br />
             <span className="bg-gradient-to-r from-fuchsia-400 via-fuchsia-500 to-violet-400 bg-clip-text text-transparent">
-              para Galeria de Arte Digital
+              Galeria de Arte Digital
             </span>
           </h1>
             <p className="mt-6 max-w-[22ch] text-sm leading-relaxed text-white/70 sm:text-base">
