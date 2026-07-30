@@ -170,6 +170,8 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
           perspective: isMobile ? "1100px" : "1600px",
         }}
       >
+        {/* Discreet blue glow behind the central artwork */}
+        <div className="gallery-glow" />
         {slides.map((slide, i) => {
           let d = i - active;
           if (d > total / 2) d -= total;
