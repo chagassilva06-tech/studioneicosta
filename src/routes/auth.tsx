@@ -146,8 +146,10 @@ function AuthPage() {
                 Galeria de Arte Digital
               </motion.span>
             </h1>
-            <p className="mt-6 max-w-[22ch] text-sm leading-relaxed text-white/70 sm:text-base">
-              Um lugar exclusivo para valorizar, exibir e eternizar sua criatividade.
+            <p className="mt-6 max-w-[28ch] text-sm leading-relaxed text-white/70 sm:text-base">
+              Uma coleção em um ambiente digital onde a obra é o foco.
+              <br />
+              Uma forma organizada de apresentação do conjunto de obras.
             </p>
           </div>
 
