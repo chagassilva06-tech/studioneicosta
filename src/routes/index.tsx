@@ -13,6 +13,8 @@ import {
   Search,
   LayoutGrid,
   Settings2,
+  LogOut,
+  LogIn,
 } from "lucide-react";
 
 import hero from "@/assets/hero.jpg";
@@ -271,7 +273,25 @@ function Index() {
               </span>
             </span>
           </a>
-          <span className="justify-self-end" />
+          <div className="justify-self-end flex items-center gap-2">
+            {isAdmin ? (
+              <button
+                type="button"
+                onClick={() => supabase.auth.signOut()}
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-yellow-300 border border-yellow-300/70 rounded-full px-2.5 sm:px-3 py-1.5 bg-yellow-300/5 shadow-[0_0_12px_rgba(250,204,21,0.45)] hover:shadow-[0_0_26px_rgba(250,204,21,0.85)] hover:border-yellow-200 hover:text-yellow-200 transition-all"
+              >
+                <LogOut className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Sair</span>
+              </button>
+            ) : (
+              <Link
+                to="/auth"
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-sky-200 border border-sky-400/50 rounded-full px-2.5 sm:px-3 py-1.5 bg-sky-400/5 hover:bg-sky-400/15 hover:border-sky-300 transition-all"
+              >
+                <LogIn className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Entrar</span>
+              </Link>
+            )}
+          </div>
+
 
         </div>
 
