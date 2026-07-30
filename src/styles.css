@@ -292,76 +292,77 @@
   height: 1px;
   background: linear-gradient(90deg, transparent 0%, rgba(216,191,133,0.55) 20%, rgba(216,191,133,0.85) 50%, rgba(216,191,133,0.55) 80%, transparent 100%);
   opacity: 0.85;
-}
 
-@utility artistic-divider::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) rotate(45deg);
-  width: 7px;
-  height: 7px;
-  background: rgba(216,191,133,0.9);
-  border: 1px solid rgba(216,191,133,0.6);
-  box-shadow: 0 0 12px rgba(216,191,133,0.45);
+  &::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 7px;
+    height: 7px;
+    background: rgba(216,191,133,0.9);
+    border: 1px solid rgba(216,191,133,0.6);
+    box-shadow: 0 0 12px rgba(216,191,133,0.45);
+  }
 }
 
 @utility artist-portrait-premium {
   position: relative;
   border-radius: 9999px;
   isolation: isolate;
-}
 
-@utility artist-portrait-premium::before {
-  content: "";
-  position: absolute;
-  inset: -14px;
-  border-radius: 9999px;
-  background: rgba(255,255,255,0.04);
-  backdrop-filter: blur(10px) saturate(120%);
-  border: 1px solid rgba(255,255,255,0.12);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.08),
-    0 20px 50px -20px rgba(0,0,0,0.55),
-    0 0 40px -20px rgba(56,155,255,0.25);
-  z-index: -2;
-  transition: all 0.5s ease;
-}
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -14px;
+    border-radius: 9999px;
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(10px) saturate(120%);
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.08),
+      0 20px 50px -20px rgba(0,0,0,0.55),
+      0 0 40px -20px rgba(56,155,255,0.25);
+    z-index: -2;
+    transition: all 0.5s ease;
+  }
 
-@utility artist-portrait-premium::after {
-  content: "";
-  position: absolute;
-  inset: -6px;
-  border-radius: 9999px;
-  border: 1px solid rgba(56,155,255,0.35);
-  box-shadow:
-    0 0 0 1px rgba(216,191,133,0.25),
-    0 0 30px rgba(56,155,255,0.35),
-    0 0 70px rgba(56,155,255,0.18);
-  z-index: -1;
-  transition: all 0.5s ease;
-}
+  &::after {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: 9999px;
+    border: 1px solid rgba(56,155,255,0.35);
+    box-shadow:
+      0 0 0 1px rgba(216,191,133,0.25),
+      0 0 30px rgba(56,155,255,0.35),
+      0 0 70px rgba(56,155,255,0.18);
+    z-index: -1;
+    transition: all 0.5s ease;
+  }
 
-@utility artist-portrait-premium:hover::before {
-  background: rgba(255,255,255,0.06);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.1),
-    0 24px 60px -24px rgba(0,0,0,0.6),
-    0 0 50px -18px rgba(56,155,255,0.35);
-}
+  &:hover::before {
+    background: rgba(255,255,255,0.06);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.1),
+      0 24px 60px -24px rgba(0,0,0,0.6),
+      0 0 50px -18px rgba(56,155,255,0.35);
+  }
 
-@utility artist-portrait-premium:hover::after {
-  border-color: rgba(56,155,255,0.55);
-  box-shadow:
-    0 0 0 1px rgba(216,191,133,0.4),
-    0 0 40px rgba(56,155,255,0.55),
-    0 0 90px rgba(56,155,255,0.3);
+  &:hover::after {
+    border-color: rgba(56,155,255,0.55);
+    box-shadow:
+      0 0 0 1px rgba(216,191,133,0.4),
+      0 0 40px rgba(56,155,255,0.55),
+      0 0 90px rgba(56,155,255,0.3);
+  }
 }
 
 @utility vignette-museum {
   box-shadow: inset 0 0 220px 40px rgba(0,0,0,0.6);
 }
+
 
 
 body {
