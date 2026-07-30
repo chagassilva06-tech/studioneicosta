@@ -155,9 +155,9 @@ function AuthPage() {
 
           <div className="flex gap-7 sm:gap-9">
             {FEATURES.map(({ icon: Icon, title, sub }) => (
-              <div key={title} className="text-left">
-                <div className="mb-2 flex h-11 w-11 items-center justify-center rounded-xl border border-fuchsia-400/40 bg-white/[0.04] text-fuchsia-300 shadow-[0_0_20px_-6px_rgba(217,70,239,0.7)]">
-                  <Icon className="h-5 w-5" />
+              <div key={title} className="group text-left">
+                <div className="mb-2 flex h-11 w-11 items-center justify-center rounded-xl border border-sky-400/40 bg-white/[0.04] text-sky-300 shadow-[0_0_20px_-6px_rgba(14,165,233,0.5)] transition-all duration-300 group-hover:border-sky-300/70 group-hover:bg-sky-400/10 group-hover:text-sky-200 group-hover:shadow-[0_0_28px_-4px_rgba(14,165,233,0.75)]">
+                  <Icon className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
                 </div>
                 <p className="text-xs font-semibold text-white sm:text-sm">{title}</p>
                 <p className="text-[11px] text-white/55">{sub}</p>
