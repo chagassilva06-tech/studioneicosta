@@ -1,8 +1,12 @@
 // Comprime imagens no navegador antes do upload:
-// redimensiona para no máximo MAX_DIMENSION px (lado maior) e converte para WebP.
+// redimensiona para no máximo MAX_DIMENSION px (lado maior), converte para WebP
+// e reduz qualidade/dimensão até ficar abaixo de MAX_BYTES (~400 KB).
 
 const MAX_DIMENSION = 2000;
 const QUALITY = 0.8;
+const MIN_QUALITY = 0.45;
+const MAX_BYTES = 400 * 1024;
+const MIN_DIMENSION = 900;
 
 function supportsWebp(): boolean {
   if (typeof document === "undefined") return false;
@@ -60,35 +64,57 @@ export async function compressImage(file: File): Promise<CompressedImage> {
     const sh = "height" in source ? source.height : 0;
     if (!sw || !sh) return fallback;
 
-    const scale = Math.min(1, MAX_DIMENSION / Math.max(sw, sh));
-    const width = Math.round(sw * scale);
-    const height = Math.round(sh * scale);
-
-    const canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return fallback;
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = "high";
-    ctx.drawImage(source as CanvasImageSource, 0, 0, width, height);
-    if ("close" in source && typeof source.close === "function") source.close();
-
     const useWebp = supportsWebp();
     const mime = useWebp ? "image/webp" : "image/jpeg";
     const ext = useWebp ? "webp" : "jpg";
 
-    const blob = await new Promise<Blob | null>((resolve) =>
-      canvas.toBlob(resolve, mime, QUALITY),
-    );
-    if (!blob) return fallback;
+    const draw = (targetW: number, targetH: number) => {
+      const canvas = document.createElement("canvas");
+      canvas.width = targetW;
+      canvas.height = targetH;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return null;
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+      ctx.drawImage(source as CanvasImageSource, 0, 0, targetW, targetH);
+      return canvas;
+    };
+
+    const encode = (canvas: HTMLCanvasElement, q: number) =>
+      new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, mime, q));
+
+    let maxSide = Math.min(MAX_DIMENSION, Math.max(sw, sh));
+    let best: Blob | null = null;
+    let scale = 1;
+
+    // Reduz qualidade primeiro; se ainda passar de 400 KB, reduz a dimensão.
+    outer: while (maxSide >= MIN_DIMENSION) {
+      scale = maxSide / Math.max(sw, sh);
+      const canvas = draw(Math.round(sw * scale), Math.round(sh * scale));
+      if (!canvas) break;
+
+      for (let q = QUALITY; q >= MIN_QUALITY - 0.001; q -= 0.1) {
+        const blob = await encode(canvas, Math.round(q * 100) / 100);
+        if (!blob) break outer;
+        if (!best || blob.size < best.size) best = blob;
+        if (blob.size <= MAX_BYTES) {
+          best = blob;
+          break outer;
+        }
+      }
+      maxSide = Math.round(maxSide * 0.8);
+    }
+
+    if ("close" in source && typeof source.close === "function") source.close();
+    if (!best) return fallback;
 
     // Se a compressão não ajudou, mantém o original.
-    if (blob.size >= file.size && scale === 1) return fallback;
+    if (best.size >= file.size && scale === 1) return fallback;
 
     const base = file.name.replace(/\.[^.]+$/, "") || "imagem";
-    const out = new File([blob], `${base}.${ext}`, { type: mime });
+    const out = new File([best], `${base}.${ext}`, { type: mime });
     return { file: out, ext, originalSize: file.size, size: out.size };
+
   } catch {
     return fallback;
   }
