@@ -181,7 +181,7 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
           const spread = isMobile ? 40 : 52;
           const translateX = offset * spread;
           const scale = Math.max(0.62, 1 - abs * 0.13);
-          const opacity = abs < 0.5 ? 1 : Math.max(0, 0.75 - (abs - 0.5) * 0.22);
+          const opacity = abs < 0.5 ? 1 : Math.max(0.15, 1 - abs * 0.18);
           const rotateY = Math.max(-26, Math.min(26, offset * -14));
           const translateZ = -abs * (isMobile ? 90 : 140);
           const zIndex = 100 - Math.round(abs * 10);
@@ -237,10 +237,6 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
               {!ready[i] && (
                 <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-sky-950/40 via-background/50 to-background" />
               )}
-              <div
-                className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/15 to-transparent transition-opacity duration-500"
-                style={{ opacity: isActive ? 1 : 0.85 }}
-              />
               {/* Suave moldura azul marinho no hover */}
               <div
                 className="pointer-events-none absolute inset-0 rounded-2xl border-2 border-[#1e3a8a] opacity-0 shadow-[inset_0_0_18px_rgba(30,58,138,0.55),0_0_22px_rgba(30,58,138,0.5)] transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100 sm:rounded-3xl"
