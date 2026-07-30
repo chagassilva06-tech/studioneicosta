@@ -128,7 +128,7 @@ function AuthPage() {
 
           <div>
           <h1 className="text-4xl font-bold leading-[1.12] tracking-tight sm:text-5xl">
-            <span className="bg-gradient-to-r from-fuchsia-400 via-fuchsia-500 to-violet-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-sky-900 via-blue-700 to-cyan-500 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(14,165,233,0.35)]">
               Galeria de Arte Digital
             </span>
           </h1>
