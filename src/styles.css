@@ -225,6 +225,10 @@
   --gold: #d8bf85;
   --gold-deep: #b89a5e;
   --gold-soft: rgba(216, 191, 133, 0.55);
+  --petrol: #071826;
+  --petrol-mid: #0d2638;
+  --petrol-glow: rgba(56, 155, 255, 0.45);
+  --petrol-glow-soft: rgba(56, 155, 255, 0.18);
 }
 
 @utility bg-canvas-texture {
