@@ -44,6 +44,7 @@ import { useDominantColor, rgbTriplet } from "@/hooks/use-dominant-color";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAdmin } from "@/hooks/use-admin";
 import { getIcon } from "@/lib/category-icons";
+import { isGuest, exitGuest } from "@/lib/guest";
 
 const featuredSlides = [
   {
