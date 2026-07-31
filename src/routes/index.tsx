@@ -130,9 +130,15 @@ function Index() {
   const { isAdmin } = useAdmin();
   const navigate = useNavigate();
   const [authChecked, setAuthChecked] = useState(false);
+  const [guest, setGuest] = useState(false);
 
   useEffect(() => {
     let active = true;
+    if (isGuest()) {
+      setGuest(true);
+      setAuthChecked(true);
+      return;
+    }
     supabase.auth.getUser().then(({ data }) => {
       if (!active) return;
       if (!data.user) {
@@ -142,7 +148,7 @@ function Index() {
       setAuthChecked(true);
     });
     const { data: sub } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "SIGNED_OUT") navigate({ to: "/auth", replace: true });
+      if (event === "SIGNED_OUT" && !isGuest()) navigate({ to: "/auth", replace: true });
     });
     return () => {
       active = false;
