@@ -9,8 +9,10 @@ import {
   Lock,
   Mail,
   Palette,
+  UserRound,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { enterGuest, exitGuest } from "@/lib/guest";
 import atelier from "@/assets/auth-atelier.jpg";
 
 export const Route = createFileRoute("/auth")({
