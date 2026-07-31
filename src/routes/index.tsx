@@ -324,6 +324,22 @@ function Index() {
               >
                 <LogOut className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Sair</span>
               </button>
+            ) : guest ? (
+              <div className="flex items-center gap-2">
+                <span className="hidden sm:inline text-[0.6rem] uppercase tracking-[0.28em] text-sky-200/70 border border-sky-400/30 rounded-full px-2.5 py-1">
+                  Visitante · leitura
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    exitGuest();
+                    navigate({ to: "/auth", replace: true });
+                  }}
+                  className="inline-flex items-center gap-1.5 text-xs font-medium text-sky-200 border border-sky-400/50 rounded-full px-2.5 sm:px-3 py-1.5 bg-sky-400/5 hover:bg-sky-400/15 hover:border-sky-300 transition-all"
+                >
+                  <LogOut className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Sair</span>
+                </button>
+              </div>
             ) : (
               <Link
                 to="/auth"
