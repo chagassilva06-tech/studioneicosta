@@ -85,6 +85,7 @@ function AuthPage() {
       setError("E-mail ou senha incorretos.");
       return;
     }
+    exitGuest();
     navigate({ to: "/" });
   };
 
