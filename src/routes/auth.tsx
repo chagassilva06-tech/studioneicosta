@@ -289,6 +289,21 @@ function AuthPage() {
               )}
             </button>
 
+            {/* Acesso somente leitura */}
+            <button
+              type="button"
+              onClick={() => {
+                enterGuest();
+                navigate({ to: "/" });
+              }}
+              className="mt-3 inline-flex h-[48px] w-full items-center justify-center gap-2 rounded-full border border-sky-400/45 bg-transparent text-sm font-medium text-sky-200 transition-all duration-300 hover:border-sky-300/80 hover:bg-sky-400/10 hover:text-sky-100 hover:shadow-[0_0_26px_-6px_rgba(56,189,248,0.7)]"
+            >
+              <UserRound className="h-4 w-4" /> Entrar como Visitante
+            </button>
+            <p className="mt-2 text-center text-[11px] text-white/40">
+              Visualização somente leitura, sem permissão de edição.
+            </p>
+
             {/* Grupo 5 — informações */}
             <div className="mt-9">
               <p className="flex items-center justify-center gap-2 text-xs font-medium text-white/70">
