@@ -178,16 +178,19 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
           if (d <= -total / 2) d += total;
           const offset = d + dragOffset;
           const abs = Math.abs(offset);
-          const inRange = abs <= (isMobile ? 2.2 : 3.6);
+          
+          // Optimization: only render slides that are close to the center
+          const inRange = abs <= (isMobile ? 2.5 : 4);
+          if (!inRange) return null;
 
-          const spread = isMobile ? 40 : 52;
+          const spread = isMobile ? 42 : 54;
           const translateX = offset * spread;
-          const scale = Math.max(0.62, 1 - abs * 0.13);
-          const opacity = abs < 0.5 ? 1 : Math.max(0.15, 1 - abs * 0.18);
-          const rotateY = Math.max(-26, Math.min(26, offset * -14));
-          const translateZ = -abs * (isMobile ? 90 : 140);
+          const scale = Math.max(0.6, 1 - abs * 0.12);
+          const opacity = abs < 0.5 ? 1 : Math.max(0.1, 1 - abs * 0.2);
+          const rotateY = Math.max(-25, Math.min(25, offset * -12));
+          const translateZ = -abs * (isMobile ? 80 : 130);
           const zIndex = 100 - Math.round(abs * 10);
-          const blur = isMobile ? 0 : Math.min(2.5, Math.max(0, abs - 0.5) * 1.2);
+          const blur = isMobile ? 0 : Math.min(2, Math.max(0, abs - 0.6) * 1.5);
           const isActive = abs < 0.5;
           const src = resolved[i];
 
@@ -204,7 +207,7 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
                 onSelect(slide, src);
               }}
               aria-label={`Ver ${slide.title}`}
-              aria-hidden={!inRange}
+              aria-hidden={!isActive}
               tabIndex={isActive ? 0 : -1}
               className="group absolute left-1/2 top-1/2 h-[76%] w-[clamp(180px,60vw,380px)] overflow-hidden rounded-2xl border border-[#d8bf85]/30 bg-background shadow-[0_30px_70px_-20px_rgba(0,0,0,0.85)] outline-none transition-[transform,opacity,filter] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform focus-visible:ring-2 focus-visible:ring-sky-300 sm:h-[78%] sm:w-[clamp(210px,32vw,380px)] sm:rounded-3xl"
               style={{
@@ -213,8 +216,9 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
                 zIndex,
                 filter: blur ? `blur(${blur}px)` : undefined,
                 transitionDuration: dragging ? "0ms" : undefined,
-                pointerEvents: inRange ? "auto" : "none",
-                visibility: inRange ? "visible" : "hidden",
+                pointerEvents: "auto",
+                visibility: "visible",
+
                 transformStyle: "preserve-3d",
                 backfaceVisibility: "hidden",
                 boxShadow: isActive
