@@ -1,6 +1,10 @@
 // Extract a vivid dominant color from an image URL.
 // Returns rgb string, or null on failure (e.g. CORS).
+const colorCache = new Map<string, string>();
+
 export async function getDominantColor(url: string): Promise<string | null> {
+  if (colorCache.has(url)) return colorCache.get(url)!;
+
   return new Promise((resolve) => {
     const img = new Image();
     img.crossOrigin = "anonymous";
@@ -51,7 +55,9 @@ export async function getDominantColor(url: string): Promise<string | null> {
             r += data[i]; g += data[i + 1]; b += data[i + 2]; c++;
           }
           if (!c) return resolve(null);
-          return resolve(`rgb(${Math.round(r / c)}, ${Math.round(g / c)}, ${Math.round(b / c)})`);
+          const color = `rgb(${Math.round(r / c)}, ${Math.round(g / c)}, ${Math.round(b / c)})`;
+          colorCache.set(url, color);
+          return resolve(color);
         }
 
         let r = Math.round(best.r / best.weight);
@@ -62,7 +68,9 @@ export async function getDominantColor(url: string): Promise<string | null> {
         const boost = (v: number) => Math.min(255, Math.round(v * 1.15 + 20));
         r = boost(r); g = boost(g); b = boost(b);
 
-        resolve(`rgb(${r}, ${g}, ${b})`);
+        const color = `rgb(${r}, ${g}, ${b})`;
+        colorCache.set(url, color);
+        resolve(color);
       } catch {
         resolve(null);
       }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { X, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { LightboxData } from "@/components/Lightbox";
@@ -21,7 +21,7 @@ type Props = {
   onOpenLightbox: (data: LightboxData) => void;
 };
 
-export function AllArtworksModal({ open, onClose, onOpenLightbox }: Props) {
+export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, onOpenLightbox }: Props) {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState<string>("Todas");
@@ -172,4 +172,5 @@ export function AllArtworksModal({ open, onClose, onOpenLightbox }: Props) {
       </div>
     </div>
   );
-}
+});
+

@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
+import { memo, lazy, Suspense, useEffect, useRef, useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, ImageIcon, Upload, RefreshCw, Loader2, LogOut, Star, Plus } from "lucide-react";
 import paisagem1 from "@/assets/paisagem-1.webp";
 import pintura1 from "@/assets/pintura-1.webp";
@@ -75,7 +75,7 @@ function Galeria() {
   };
 
   const total = BASE_SLOTS + extraSlots;
-  const slots = Array.from({ length: total });
+  const slots = useMemo(() => Array.from({ length: total }), [total]);
   const [lightbox, setLightbox] = useState<LightboxData>(null);
   const [uploaded, setUploaded] = useState<Record<number, { path: string; url: string; srcSet: string; featured: boolean }>>({});
   const [uploadingSlot, setUploadingSlot] = useState<number | null>(null);
@@ -113,7 +113,8 @@ function Galeria() {
       const { data, error } = await supabase
         .from("artworks")
         .select("slot, storage_path, featured")
-        .eq("categoria", nome);
+        .eq("categoria", nome)
+        .order("slot", { ascending: true });
       if (error || !data || cancelled) return;
       if (data.length === 0) return;
       const variants = await Promise.all(data.map((r) => signVariants(r.storage_path)));
@@ -351,7 +352,7 @@ type SlotProps = {
   onOpenLightbox: (data: LightboxData) => void;
 };
 
-function Slot({
+const Slot = memo(function Slot({
   index,
   nome,
   image,
@@ -507,4 +508,4 @@ function Slot({
 
     </motion.div>
   );
-}
+});

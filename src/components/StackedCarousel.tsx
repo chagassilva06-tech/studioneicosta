@@ -231,9 +231,10 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
                 alt={slide.title}
                 crossOrigin="anonymous"
                 loading={isActive ? "eager" : "lazy"}
-                // @ts-expect-error lowercase attr
-                fetchpriority={isActive ? "high" : "low"}
                 decoding="async"
+                // @ts-expect-error fetchpriority
+                fetchpriority={isActive ? "high" : "low"}
+
                 draggable={false}
                 sizes="(max-width: 640px) 70vw, (max-width: 1024px) 34vw, 380px"
                 onLoad={() => setReady((r) => (r[i] ? r : { ...r, [i]: true }))}

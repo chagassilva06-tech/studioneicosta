@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState, useMemo, memo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -265,7 +265,7 @@ function Index() {
     : [];
 
   // Build slides: two per category (pos 0 and 1) using the first images available
-  const slides = categories.flatMap((c) => {
+  const slides = useMemo(() => categories.flatMap((c) => {
     const base = {
       src: fallbackSrc[c.name] ?? paisagem1,
       title: c.name,
@@ -276,7 +276,7 @@ function Index() {
       { ...base, pos: 0 },
       { ...base, pos: 1 },
     ];
-  });
+  }), [categories]);
 
   if (!authChecked) {
     return (
