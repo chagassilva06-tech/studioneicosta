@@ -180,8 +180,9 @@ function Index() {
       if (error) throw error;
       return (data ?? []) as Cat[];
     },
-    staleTime: 0,
-    refetchOnWindowFocus: true,
+    staleTime: 1000 * 60 * 30, // 30 minutes
+    gcTime: 1000 * 60 * 60, // 1 hour
+    refetchOnWindowFocus: false,
   });
   const categories = categoriesQuery.data ?? [];
 
@@ -196,8 +197,8 @@ function Index() {
       }
       return c;
     },
-    staleTime: 0,
-    refetchOnWindowFocus: true,
+    staleTime: 1000 * 60 * 10, // 10 minutes
+    refetchOnWindowFocus: false,
   });
   const counts = countsQuery.data ?? {};
 
@@ -253,8 +254,8 @@ function Index() {
       });
       return urlByCat;
     },
-    staleTime: 0,
-    refetchOnWindowFocus: true,
+    staleTime: 1000 * 60 * 60, // 1 hour (signed URLs last 1 year)
+    refetchOnWindowFocus: false,
   });
   const featuredUrls = featuredUrlsQuery.data ?? {};
 
@@ -306,7 +307,7 @@ function Index() {
           >
             <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#b89a5e] shadow-[0_0_10px_rgba(184,154,94,0.7)] group-hover:shadow-[0_0_14px_rgba(216,191,133,0.9)] transition-shadow" />
             <span
-              className="font-display text-[1.6rem] sm:text-3xl md:text-[2.4rem] leading-none tracking-wide truncate text-foreground transition-all duration-300 group-hover:tracking-[0.05em]"
+              className="font-display text-[1.6rem] sm:text-3xl md:text-[2.4rem] leading-none tracking-wide truncate text-foreground transition-all duration-300 group-hover:tracking-[0.05em] will-change-transform"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               Studio
@@ -320,9 +321,9 @@ function Index() {
               <button
                 type="button"
                 onClick={() => supabase.auth.signOut()}
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-yellow-300 border border-yellow-300/70 rounded-full px-2.5 sm:px-3 py-1.5 bg-yellow-300/5 shadow-[0_0_12px_rgba(250,204,21,0.45)] hover:shadow-[0_0_26px_rgba(250,204,21,0.85)] hover:border-yellow-200 hover:text-yellow-200 transition-all"
+                className="group relative inline-flex items-center gap-1.5 text-xs font-medium text-yellow-300 border border-yellow-300/70 rounded-full px-2.5 sm:px-3 py-1.5 bg-yellow-300/5 shadow-[0_0_12px_rgba(250,204,21,0.3)] hover:shadow-[0_0_24px_rgba(250,204,21,0.65)] hover:border-yellow-200 hover:text-yellow-200 transition-all active:scale-95"
               >
-                <LogOut className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Sair</span>
+                <LogOut className="h-3.5 w-3.5 transition-transform group-hover:rotate-12" /> <span className="hidden sm:inline">Sair</span>
               </button>
             ) : guest ? (
               <div className="flex items-center gap-2">
@@ -335,17 +336,17 @@ function Index() {
                     exitGuest();
                     navigate({ to: "/auth", replace: true });
                   }}
-                  className="inline-flex items-center gap-1.5 text-xs font-medium text-sky-200 border border-sky-400/50 rounded-full px-2.5 sm:px-3 py-1.5 bg-sky-400/5 hover:bg-sky-400/15 hover:border-sky-300 transition-all"
+                  className="group relative inline-flex items-center gap-1.5 text-xs font-medium text-sky-200 border border-sky-400/50 rounded-full px-2.5 sm:px-3 py-1.5 bg-sky-400/5 shadow-[0_0_10px_rgba(56,189,248,0.2)] hover:bg-sky-400/15 hover:border-sky-300 hover:shadow-[0_0_20px_rgba(56,189,248,0.5)] transition-all active:scale-95"
                 >
-                  <LogOut className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Sair</span>
+                  <LogOut className="h-3.5 w-3.5 transition-transform group-hover:rotate-12" /> <span className="hidden sm:inline">Sair</span>
                 </button>
               </div>
             ) : (
               <Link
                 to="/auth"
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-sky-200 border border-sky-400/50 rounded-full px-2.5 sm:px-3 py-1.5 bg-sky-400/5 hover:bg-sky-400/15 hover:border-sky-300 transition-all"
+                className="group relative inline-flex items-center gap-1.5 text-xs font-medium text-sky-200 border border-sky-400/50 rounded-full px-2.5 sm:px-3 py-1.5 bg-sky-400/5 shadow-[0_0_10px_rgba(56,189,248,0.2)] hover:bg-sky-400/15 hover:border-sky-300 hover:shadow-[0_0_20px_rgba(56,189,248,0.5)] transition-all active:scale-95"
               >
-                <LogIn className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Entrar</span>
+                <LogIn className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" /> <span className="hidden sm:inline">Entrar</span>
               </Link>
             )}
           </div>
@@ -371,7 +372,7 @@ function Index() {
             {/* Categories — scrollable center */}
             <div className="relative flex-1 min-w-0 h-full">
               <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 sm:w-12 bg-gradient-to-l from-background/80 via-background/50 to-transparent z-10" />
-              <div className="h-full overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth snap-x snap-mandatory">
+              <div className="h-full overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth snap-x snap-mandatory overscroll-contain">
                 <div className="flex items-center gap-2 h-full px-1 pr-10">
                   {categories.map((c) => {
                     const Icon = getIcon(c.icon);
