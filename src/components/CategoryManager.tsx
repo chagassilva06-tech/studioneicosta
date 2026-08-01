@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { X, Plus, Pencil, Trash2, Loader2, Save } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { iconNames, getIcon, type IconName } from "@/lib/category-icons";
@@ -16,7 +16,7 @@ type Props = {
   onChanged: () => void;
 };
 
-export function CategoryManager({ open, onClose, onChanged }: Props) {
+export const CategoryManager = memo(function CategoryManager({ open, onClose, onChanged }: Props) {
   const [items, setItems] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -293,4 +293,5 @@ function IconPicker({ value, onChange }: { value: IconName; onChange: (v: IconNa
       ))}
     </select>
   );
-}
+});
+
