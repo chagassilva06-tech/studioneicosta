@@ -235,11 +235,10 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
                 crossOrigin="anonymous"
                 loading={isActive ? "eager" : "lazy"}
                 decoding="async"
-                // @ts-expect-error fetchpriority
-                fetchpriority={isActive ? "high" : "low"}
-
+                fetchPriority={isActive ? "high" : "low"}
                 draggable={false}
-                sizes="(max-width: 640px) 70vw, (max-width: 1024px) 34vw, 380px"
+                sizes="(max-width: 420px) 78vw, (max-width: 640px) 70vw, (max-width: 1024px) 34vw, 380px"
+
                 onLoad={() => setReady((r) => (r[i] ? r : { ...r, [i]: true }))}
                 className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.06]"
                 style={{ opacity: ready[i] ? 1 : 0, transition: "opacity 400ms ease" }}
