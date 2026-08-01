@@ -274,15 +274,16 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
           <ChevronLeft className="h-5 w-5" />
         </button>
 
-        <div className="flex min-w-0 flex-wrap items-center justify-center gap-2">
+        <div className="flex min-w-0 max-w-[55vw] items-center justify-start gap-2 overflow-x-auto px-1 sm:max-w-none sm:justify-center [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {slides.map((_, i) => (
             <button
               key={i}
               type="button"
+              data-no-touch-target
               onClick={() => setActive(i)}
               aria-label={`Ir para destaque ${i + 1}`}
               aria-current={active === i}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
+              className={`h-1.5 shrink-0 rounded-full transition-all duration-300 ${
                 active === i
                   ? "w-8 bg-[#d8bf85] shadow-[0_0_10px_rgba(216,191,133,0.8)]"
                   : "w-2 bg-[#d8bf85]/30 hover:bg-[#d8bf85]/60"
@@ -290,6 +291,7 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
             />
           ))}
         </div>
+
 
         <button
           type="button"
