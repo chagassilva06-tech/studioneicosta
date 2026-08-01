@@ -264,19 +264,23 @@ function Index() {
     ? categories.filter((c) => c.name.toLowerCase().includes(query.trim().toLowerCase()))
     : [];
 
-  // Build slides: two per category (pos 0 and 1) using the first images available
-  const slides = useMemo(() => categories.flatMap((c) => {
-    const base = {
-      src: fallbackSrc[c.name] ?? paisagem1,
-      title: c.name,
-      categoria: c.name,
-      description: fallbackDescriptions[c.name] ?? `Obra da coleção ${c.name}.`,
-    };
-    return [
-      { ...base, pos: 0 },
-      { ...base, pos: 1 },
-    ];
-  }), [categories]);
+  // Build slides: fetch the first two items per category for the carousel
+  const slides = useMemo(() => {
+    return categories.flatMap((c) => {
+      const urls = featuredUrls[c.name] ?? [];
+      const base = {
+        title: c.name,
+        categoria: c.name,
+        description: fallbackDescriptions[c.name] ?? `Obra da coleção ${c.name}.`,
+      };
+      
+      // Return 2 slides per category
+      return [
+        { ...base, src: urls[0] ?? fallbackSrc[c.name] ?? paisagem1, pos: 0 },
+        { ...base, src: urls[1] ?? fallbackSrc[c.name] ?? pintura1, pos: 1 },
+      ];
+    });
+  }, [categories, featuredUrls]);
 
   if (!authChecked) {
     return (

@@ -374,17 +374,17 @@ const Slot = memo(function Slot({
   const triplet = rgbTriplet(dominant);
   const frameColor = dominant ?? "rgb(56, 189, 248)";
   const frameTriplet = triplet ?? "56, 189, 248";
-  const frameStyle: React.CSSProperties = {
+  
+  const frameStyle: React.CSSProperties = useMemo(() => ({
     borderColor: frameColor,
     boxShadow: `inset 0 0 12px rgba(${frameTriplet}, 0.55), 0 0 14px rgba(${frameTriplet}, 0.5)`,
-  };
-  const cardHoverStyle: React.CSSProperties = {
-    // set as CSS vars for hover shadow tint
+  }), [frameColor, frameTriplet]);
+
+  const cardHoverStyle: React.CSSProperties = useMemo(() => ({
     ["--frame" as string]: frameColor,
     ["--frame-triplet" as string]: frameTriplet,
-  };
+  }), [frameColor, frameTriplet]);
 
-  const lastTapRef = useRef<number>(0);
   const openDetails = () =>
     onOpenLightbox({
       src: image,
@@ -403,9 +403,8 @@ const Slot = memo(function Slot({
       transition={{ duration: 0.5, delay: (index % 6) * 0.05 }}
       style={cardHoverStyle}
       onClick={openDetails}
-      className="group relative aspect-[4/5] rounded-2xl border border-border/50 bg-card overflow-hidden cursor-zoom-in select-none transition-all duration-500 hover:-translate-y-1 hover:border-sky-400/70 hover:shadow-[0_0_0_1px_rgba(56,189,248,0.35),0_18px_60px_-12px_rgba(56,189,248,0.55),0_0_38px_rgba(56,189,248,0.35)]"
+      className="group relative aspect-[4/5] rounded-2xl border border-border/50 bg-card overflow-hidden cursor-zoom-in select-none transition-all duration-500 hover:-translate-y-1 hover:border-sky-400/70 hover:shadow-[0_0_0_1px_rgba(56,189,248,0.35),0_18px_60px_-12px_rgba(56,189,248,0.55),0_0_38px_rgba(56,189,248,0.35)] will-change-transform"
     >
-
       {hasImage ? (
         <>
           <img
@@ -416,7 +415,7 @@ const Slot = memo(function Slot({
             decoding="async"
             crossOrigin="anonymous"
             sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 22vw"
-            className="absolute inset-0 h-full w-full object-contain p-3 transition-transform duration-700 ease-out group-hover:scale-[1.22]"
+            className="absolute inset-0 h-full w-full object-contain p-3 transition-transform duration-700 ease-out group-hover:scale-[1.22] will-change-transform"
           />
           <div className="pointer-events-none absolute inset-3 rounded-xl border-2 transition-all duration-500 group-hover:shadow-[inset_0_0_22px_rgba(56,189,248,0.55)]" style={frameStyle} />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
