@@ -111,7 +111,6 @@
   html, body {
     overflow-x: hidden;
     max-width: 100%;
-    overscroll-behavior-y: none;
     -webkit-overflow-scrolling: touch;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -119,7 +118,12 @@
     text-size-adjust: 100%;
   }
 
+  html {
+    overscroll-behavior-y: none;
+  }
+
   body {
+    overscroll-behavior-y: auto;
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
