@@ -303,12 +303,12 @@ function Index() {
 
     <div className="min-h-screen bg-background bg-canvas-texture text-foreground font-sans transition-colors duration-500">
       {/* Editorial signature bar (22px) */}
-      <div className="fixed top-0 left-0 right-0 z-50 h-5 sm:h-[22px] flex items-center justify-center bg-background/90 backdrop-blur-md border-b border-[#d8bf85]/15 px-2">
+      <div className="fixed top-0 left-0 right-0 z-50 h-5 sm:h-[22px] flex items-center justify-center bg-background border-b border-[#d8bf85]/15 px-2 [contain:paint]">
         <span className="label-luxe truncate text-[0.5rem] tracking-[0.32em] sm:text-[0.55rem] sm:tracking-[0.55em]">Arte · Pintura · Projetos Autorais</span>
       </div>
 
       {/* Header (sticky, layered) */}
-      <header className="fixed top-5 sm:top-[22px] left-0 right-0 z-40 backdrop-blur-xl bg-background/80">
+      <header className="fixed top-5 sm:top-[22px] left-0 right-0 z-40 bg-background/95 [contain:paint]">
         {/* Logo row */}
         <div className="h-14 sm:h-[70px] max-w-7xl mx-auto px-3 sm:px-6 md:px-10 grid grid-cols-[1fr_auto_1fr] items-center gap-1.5 sm:gap-2">
 
