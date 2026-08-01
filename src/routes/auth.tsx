@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import {
   Eye,
   EyeOff,
-  Images,
   Loader2,
   Lock,
   Mail,
@@ -43,9 +42,6 @@ const ALLOWED = [
   "chagassilva06@hotmail.com",
 ];
 
-const FEATURES = [
-  { icon: Images, title: "Galerias", sub: "Organizadas" },
-];
 
 function AuthPage() {
   const navigate = useNavigate();
@@ -156,23 +152,12 @@ function AuthPage() {
             </p>
           </div>
 
-          <div className="flex gap-7 sm:gap-9">
-            {FEATURES.map(({ icon: Icon, title, sub }) => (
-              <div key={title} className="group text-left">
-                <div className="mb-2 flex h-11 w-11 items-center justify-center rounded-xl border border-sky-400/40 bg-white/[0.04] text-sky-300 shadow-[0_0_20px_-6px_rgba(14,165,233,0.5)] transition-all duration-300 group-hover:border-sky-300/70 group-hover:bg-sky-400/10 group-hover:text-sky-200 group-hover:shadow-[0_0_28px_-4px_rgba(14,165,233,0.75)]">
-                  <Icon className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
-                </div>
-                <p className="text-xs font-semibold text-white sm:text-sm">{title}</p>
-                <p className="text-[11px] text-white/55">{sub}</p>
-              </div>
-            ))}
-          </div>
         </div>
 
         {/* Card */}
         <form
           onSubmit={submit}
-          className="relative w-full overflow-hidden rounded-[26px] border border-white/10 bg-[#0d0b16]/70 p-7 shadow-[0_0_50px_rgba(0,0,0,0.25),0_40px_120px_-30px_rgba(0,0,0,0.95),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl sm:p-9"
+          className="relative w-full overflow-hidden rounded-[26px] border border-white/20 bg-[#0d0b16]/75 p-7 shadow-[0_0_80px_rgba(124,58,237,0.2),0_45px_150px_-35px_rgba(0,0,0,1),inset_0_2px_6px_rgba(255,255,255,0.2),inset_0_-2px_6px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.12)] backdrop-blur-[28px] sm:p-9"
         >
           {/* Reflexo da pintura — lado esquerdo */}
           <div className="pointer-events-none absolute -left-20 top-0 h-full w-[70%] bg-[radial-gradient(60%_60%_at_0%_35%,rgba(168,85,247,1),rgba(236,72,153,0.8)_45%,rgba(251,146,60,0.6)_75%,transparent_100%)] opacity-[0.035] blur-3xl" />
@@ -303,9 +288,6 @@ function AuthPage() {
             >
               <UserRound className="h-4 w-4" /> Entrar como Visitante
             </button>
-            <p className="mt-2 text-center text-[11px] text-white/40">
-              Visualização somente leitura, sem permissão de edição.
-            </p>
 
             {/* Grupo 5 — informações */}
             <div className="mt-9">
