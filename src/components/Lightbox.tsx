@@ -41,9 +41,10 @@ export function Lightbox({
   const glow = `0 0 0 1px rgba(${triplet}, 0.55), 0 0 32px rgba(${triplet}, 0.45), 0 20px 80px -10px rgba(${triplet}, 0.55), 0 30px 100px rgba(0,0,0,0.7)`;
   const glowHover = `0 0 0 1px rgba(${triplet}, 0.8), 0 0 60px rgba(${triplet}, 0.75), 0 30px 120px -10px rgba(${triplet}, 0.7), 0 40px 140px rgba(0,0,0,0.8)`;
 
-  return (
+  const overlay = (
     <AnimatePresence>
       {data && (
+
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
