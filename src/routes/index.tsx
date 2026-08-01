@@ -321,9 +321,9 @@ function Index() {
               <button
                 type="button"
                 onClick={() => supabase.auth.signOut()}
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-yellow-300 border border-yellow-300/70 rounded-full px-2.5 sm:px-3 py-1.5 bg-yellow-300/5 shadow-[0_0_12px_rgba(250,204,21,0.45)] hover:shadow-[0_0_26px_rgba(250,204,21,0.85)] hover:border-yellow-200 hover:text-yellow-200 transition-all"
+                className="group relative inline-flex items-center gap-1.5 text-xs font-medium text-yellow-300 border border-yellow-300/70 rounded-full px-2.5 sm:px-3 py-1.5 bg-yellow-300/5 shadow-[0_0_12px_rgba(250,204,21,0.3)] hover:shadow-[0_0_24px_rgba(250,204,21,0.65)] hover:border-yellow-200 hover:text-yellow-200 transition-all active:scale-95"
               >
-                <LogOut className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Sair</span>
+                <LogOut className="h-3.5 w-3.5 transition-transform group-hover:rotate-12" /> <span className="hidden sm:inline">Sair</span>
               </button>
             ) : guest ? (
               <div className="flex items-center gap-2">
@@ -336,17 +336,17 @@ function Index() {
                     exitGuest();
                     navigate({ to: "/auth", replace: true });
                   }}
-                  className="inline-flex items-center gap-1.5 text-xs font-medium text-sky-200 border border-sky-400/50 rounded-full px-2.5 sm:px-3 py-1.5 bg-sky-400/5 hover:bg-sky-400/15 hover:border-sky-300 transition-all"
+                  className="group relative inline-flex items-center gap-1.5 text-xs font-medium text-sky-200 border border-sky-400/50 rounded-full px-2.5 sm:px-3 py-1.5 bg-sky-400/5 shadow-[0_0_10px_rgba(56,189,248,0.2)] hover:bg-sky-400/15 hover:border-sky-300 hover:shadow-[0_0_20px_rgba(56,189,248,0.5)] transition-all active:scale-95"
                 >
-                  <LogOut className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Sair</span>
+                  <LogOut className="h-3.5 w-3.5 transition-transform group-hover:rotate-12" /> <span className="hidden sm:inline">Sair</span>
                 </button>
               </div>
             ) : (
               <Link
                 to="/auth"
-                className="inline-flex items-center gap-1.5 text-xs font-medium text-sky-200 border border-sky-400/50 rounded-full px-2.5 sm:px-3 py-1.5 bg-sky-400/5 hover:bg-sky-400/15 hover:border-sky-300 transition-all"
+                className="group relative inline-flex items-center gap-1.5 text-xs font-medium text-sky-200 border border-sky-400/50 rounded-full px-2.5 sm:px-3 py-1.5 bg-sky-400/5 shadow-[0_0_10px_rgba(56,189,248,0.2)] hover:bg-sky-400/15 hover:border-sky-300 hover:shadow-[0_0_20px_rgba(56,189,248,0.5)] transition-all active:scale-95"
               >
-                <LogIn className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Entrar</span>
+                <LogIn className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" /> <span className="hidden sm:inline">Entrar</span>
               </Link>
             )}
           </div>
