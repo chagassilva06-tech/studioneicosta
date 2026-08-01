@@ -205,7 +205,7 @@ function AuthPage() {
                   placeholder="Digite seu e-mail"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="h-[52px] w-full rounded-xl border border-white/[0.14] bg-white/[0.06] pl-11 pr-4 text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] outline-none backdrop-blur-[18px] transition placeholder:text-white/55 focus:border-sky-400/70 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.22),0_0_24px_-6px_rgba(168,85,247,0.7),inset_0_1px_0_rgba(255,255,255,0.1)]"
+                  className="h-[52px] w-full rounded-xl border border-white/[0.14] bg-white/[0.06] pl-11 pr-4 text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] outline-none backdrop-blur-[18px] transition-all duration-300 placeholder:text-white/55 hover:border-white/30 hover:bg-white/[0.09] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_0_15px_rgba(255,255,255,0.05)] focus:border-sky-400/70 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.22),0_0_24px_-6px_rgba(168,85,247,0.7),inset_0_1px_0_rgba(255,255,255,0.1)]"
                 />
               </div>
             </div>
@@ -226,7 +226,7 @@ function AuthPage() {
                   placeholder="Digite sua senha"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="h-[52px] w-full rounded-xl border border-white/[0.14] bg-white/[0.06] pl-11 pr-12 text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] outline-none backdrop-blur-[18px] transition placeholder:text-white/55 focus:border-sky-400/70 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.22),0_0_24px_-6px_rgba(168,85,247,0.7),inset_0_1px_0_rgba(255,255,255,0.1)]"
+                  className="h-[52px] w-full rounded-xl border border-white/[0.14] bg-white/[0.06] pl-11 pr-12 text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] outline-none backdrop-blur-[18px] transition-all duration-300 placeholder:text-white/55 hover:border-white/30 hover:bg-white/[0.09] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_0_15px_rgba(255,255,255,0.05)] focus:border-sky-400/70 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.22),0_0_24px_-6px_rgba(168,85,247,0.7),inset_0_1px_0_rgba(255,255,255,0.1)]"
                 />
                 <button
                   type="button"
