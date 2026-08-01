@@ -173,5 +173,9 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
       </div>
     </div>
   );
+
+  if (typeof document === "undefined") return null;
+  return createPortal(overlay, document.body);
 });
+
 
