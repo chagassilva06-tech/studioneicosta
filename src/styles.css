@@ -60,7 +60,10 @@
 @theme {
   --font-display: "Cormorant Garamond", serif;
   --font-sans: "Inter", sans-serif;
+  --breakpoint-xs: 26rem;
+  --breakpoint-3xl: 112rem;
 }
+
 
 :root {
   --radius: 0.625rem;
@@ -113,6 +116,8 @@
     -webkit-overflow-scrolling: touch;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
@@ -124,7 +129,24 @@
     max-width: 100%;
     height: auto;
   }
+
+  /* Prevent long words / URLs from creating horizontal overflow on small screens */
+  h1, h2, h3, h4, p, span, a, li, button {
+    overflow-wrap: break-word;
+  }
+
+  /* Comfortable touch targets on coarse pointers (mobile / tablet) */
+  @media (pointer: coarse) {
+    button:not([data-no-touch-target]),
+    a[role="button"],
+    [role="button"],
+    input[type="checkbox"],
+    select {
+      min-height: 40px;
+    }
+  }
 }
+
 
 
 @keyframes glow-pulse {

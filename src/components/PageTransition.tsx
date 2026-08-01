@@ -111,7 +111,9 @@ export function PageTransition({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const prefersReducedMotion = useReducedMotion();
   const [hydrated, setHydrated] = useState(false);
+  const [animating, setAnimating] = useState(false);
   useEffect(() => setHydrated(true), []);
+
 
   const cfg = resolveConfig(pathname);
   const variants = prefersReducedMotion
@@ -135,14 +137,21 @@ export function PageTransition({ children }: { children: ReactNode }) {
         exit="exit"
         variants={variants}
         transition={{ duration: cfg.duration, ease: cfg.ease }}
-        style={{
-          willChange: "transform, opacity, filter",
-          transformStyle: "preserve-3d",
-          backfaceVisibility: "hidden",
-        }}
+        onAnimationStart={() => setAnimating(true)}
+        onAnimationComplete={() => setAnimating(false)}
+        style={
+          animating
+            ? {
+                willChange: "transform, opacity, filter",
+                transformStyle: "preserve-3d",
+                backfaceVisibility: "hidden",
+              }
+            : undefined
+        }
       >
         {children}
       </motion.div>
     </AnimatePresence>
   );
 }
+

@@ -259,24 +259,26 @@ function Galeria() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="mb-10 sm:mb-14"
+          className="mb-8 sm:mb-14"
         >
           <div className="flex items-center gap-3 mb-4">
-            <div className="h-px w-12 bg-sky-400" />
-            <span className="uppercase tracking-[0.4em] text-xs text-sky-400/90">Categoria</span>
+            <div className="h-px w-8 sm:w-12 bg-sky-400" />
+            <span className="uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[0.65rem] sm:text-xs text-sky-400/90">Categoria</span>
           </div>
-          <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-light">{nome}</h1>
-          <p className="mt-4 text-muted-foreground max-w-lg">
+          <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl md:text-7xl font-light break-words">{nome}</h1>
+          <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-foreground max-w-lg">
             Esta coleção receberá fotos em breve. Volte em breve para conferir novas obras.
           </p>
+
           <div className="mt-6">
             <Link
               to="/"
               aria-label="Voltar"
-              className="group inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-sky-400 border border-sky-400/60 rounded-full px-3 sm:px-4 py-1.5 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 hover:text-sky-300 hover:bg-sky-400/10 transition-all duration-300 animate-pulse-slow"
+              className="group inline-flex min-h-10 items-center gap-1.5 text-xs sm:text-sm font-medium text-sky-400 border border-sky-400/60 rounded-full px-4 py-2 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 hover:text-sky-300 hover:bg-sky-400/10 transition-all duration-300 animate-pulse-slow"
             >
-              <ChevronLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" /> <span className="hidden xs:inline sm:inline">Voltar</span>
+              <ChevronLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" /> <span>Voltar</span>
             </Link>
+
           </div>
         </motion.div>
 
@@ -293,7 +295,7 @@ function Galeria() {
 
 
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3 xs:gap-4 sm:gap-6">
           {slots.map((_, i) => {
             const baseImage = images[i];
             const image = uploaded[i]?.url ?? baseImage;
@@ -414,27 +416,28 @@ const Slot = memo(function Slot({
             loading="lazy"
             decoding="async"
             crossOrigin="anonymous"
-            sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 22vw"
-            className="absolute inset-0 h-full w-full object-contain p-3 transition-transform duration-700 ease-out group-hover:scale-[1.22] will-change-transform"
+            sizes="(max-width: 420px) 92vw, (max-width: 640px) 46vw, (max-width: 1024px) 45vw, (max-width: 1536px) 30vw, 22vw"
+            className="absolute inset-0 h-full w-full object-contain p-2 sm:p-3 transition-transform duration-700 ease-out group-hover:scale-[1.22] will-change-transform"
           />
-          <div className="pointer-events-none absolute inset-3 rounded-xl border-2 transition-all duration-500 group-hover:shadow-[inset_0_0_22px_rgba(56,189,248,0.55)]" style={frameStyle} />
+          <div className="pointer-events-none absolute inset-2 sm:inset-3 rounded-xl border-2 transition-all duration-500 group-hover:shadow-[inset_0_0_22px_rgba(56,189,248,0.55)]" style={frameStyle} />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         </>
       ) : (
         <>
           <div className="absolute inset-0 animate-glow-pulse bg-white/[0.03]" />
-          <div className="pointer-events-none absolute inset-3 rounded-xl border-2" style={frameStyle} />
-          <div className="relative h-full w-full flex flex-col items-center justify-center gap-4 text-center px-6">
-            <div className="p-4 rounded-full bg-sky-400/10 border border-sky-400/20">
-              <ImageIcon className="h-6 w-6 text-sky-400/80" />
+          <div className="pointer-events-none absolute inset-2 sm:inset-3 rounded-xl border-2" style={frameStyle} />
+          <div className="relative h-full w-full flex flex-col items-center justify-center gap-3 sm:gap-4 text-center px-4 sm:px-6">
+            <div className="p-3 sm:p-4 rounded-full bg-sky-400/10 border border-sky-400/20">
+              <ImageIcon className="h-5 w-5 sm:h-6 sm:w-6 text-sky-400/80" />
             </div>
             <div>
-              <p className="font-display text-xl">Em breve</p>
-              <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mt-2">
+              <p className="font-display text-lg sm:text-xl">Em breve</p>
+              <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] text-muted-foreground mt-2">
                 Receberá fotos em breve
               </p>
             </div>
           </div>
+
         </>
       )}
 
@@ -451,48 +454,54 @@ const Slot = memo(function Slot({
       />
 
       {isAdmin && (
-        <div className="absolute top-3 left-3 z-10 opacity-100 translate-y-0 lg:opacity-0 lg:-translate-y-2 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
+        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 max-w-[calc(100%-1rem)] opacity-100 translate-y-0 lg:opacity-0 lg:-translate-y-2 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
           <button
             type="button"
             disabled={isUploading}
+            title={hasImage ? "Substituir imagem" : "Carregar imagem"}
+            aria-label={hasImage ? "Substituir imagem" : "Carregar imagem"}
             onClick={(e) => { e.stopPropagation(); onPickFile(); }}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium tracking-wide border-2 border-sky-400/80 text-sky-100 bg-background/70 backdrop-blur shadow-[0_0_14px_rgba(56,155,255,0.55)] hover:bg-sky-400/20 hover:border-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] transition-all disabled:opacity-70"
+            className="inline-flex min-h-9 max-w-full items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-full text-[11px] font-medium tracking-wide border-2 border-sky-400/80 text-sky-100 bg-background/70 backdrop-blur shadow-[0_0_14px_rgba(56,155,255,0.55)] hover:bg-sky-400/20 hover:border-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] transition-all disabled:opacity-70"
           >
             {isUploading ? (
               <>
-                <Loader2 className="h-3.5 w-3.5 animate-spin" /> Enviando…
+                <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin" />
+                <span className="truncate">Enviando…</span>
               </>
             ) : hasImage ? (
               <>
-                <RefreshCw className="h-3.5 w-3.5" /> Substituir imagem
+                <RefreshCw className="h-3.5 w-3.5 shrink-0" />
+                <span className="hidden truncate sm:inline">Substituir imagem</span>
               </>
             ) : (
               <>
-                <Upload className="h-3.5 w-3.5" /> Carregar imagem
+                <Upload className="h-3.5 w-3.5 shrink-0" />
+                <span className="hidden truncate sm:inline">Carregar imagem</span>
               </>
             )}
           </button>
         </div>
       )}
 
+
       {isAdmin && canToggleFeatured && (
-        <div className="absolute top-3 right-3 z-10">
+        <div className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10">
           <button
             type="button"
             disabled={isToggling}
             onClick={(e) => { e.stopPropagation(); onToggleFeatured(); }}
             title={isFeatured ? "Remover destaque" : "Marcar como destaque"}
             aria-label={isFeatured ? "Remover destaque" : "Marcar como destaque"}
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[11px] font-medium tracking-wide border-2 backdrop-blur transition-all disabled:opacity-70 ${
+            className={`inline-flex min-h-9 items-center gap-1.5 px-2.5 py-2 rounded-full text-[11px] font-medium tracking-wide border-2 backdrop-blur transition-all disabled:opacity-70 ${
               isFeatured
                 ? "border-[#d8bf85] text-slate-950 bg-[#d8bf85] shadow-[0_0_18px_rgba(216,191,133,0.75)] hover:shadow-[0_0_26px_rgba(216,191,133,0.95)]"
                 : "border-[#d8bf85]/60 text-[#d8bf85] bg-background/70 hover:bg-[#d8bf85]/15 hover:border-[#d8bf85]"
             }`}
           >
             {isToggling ? (
-              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin" />
             ) : (
-              <Star className={`h-3.5 w-3.5 ${isFeatured ? "fill-current" : ""}`} />
+              <Star className={`h-3.5 w-3.5 shrink-0 ${isFeatured ? "fill-current" : ""}`} />
             )}
             <span className="hidden sm:inline">{isFeatured ? "Destaque" : "Destacar"}</span>
           </button>
@@ -500,10 +509,11 @@ const Slot = memo(function Slot({
       )}
 
       {isFeatured && !isAdmin && (
-        <div className="absolute top-3 right-3 z-10 inline-flex items-center gap-1 px-2 py-1 rounded-full bg-[#d8bf85]/90 text-slate-950 text-[10px] font-medium shadow-[0_0_14px_rgba(216,191,133,0.6)]">
-          <Star className="h-3 w-3 fill-current" /> Destaque
+        <div className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10 inline-flex items-center gap-1 px-2 py-1 rounded-full bg-[#d8bf85]/90 text-slate-950 text-[10px] font-medium shadow-[0_0_14px_rgba(216,191,133,0.6)]">
+          <Star className="h-3 w-3 shrink-0 fill-current" /> <span className="hidden xs:inline">Destaque</span>
         </div>
       )}
+
 
     </motion.div>
   );

@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, ImageIcon, ZoomIn, ZoomOut } from "lucide-react";
 import { useDominantColor, rgbTriplet } from "@/hooks/use-dominant-color";
+
 
 export type LightboxData = {
   src?: string;
@@ -39,15 +41,16 @@ export function Lightbox({
   const glow = `0 0 0 1px rgba(${triplet}, 0.55), 0 0 32px rgba(${triplet}, 0.45), 0 20px 80px -10px rgba(${triplet}, 0.55), 0 30px 100px rgba(0,0,0,0.7)`;
   const glowHover = `0 0 0 1px rgba(${triplet}, 0.8), 0 0 60px rgba(${triplet}, 0.75), 0 30px 120px -10px rgba(${triplet}, 0.7), 0 40px 140px rgba(0,0,0,0.8)`;
 
-  return (
+  const overlay = (
     <AnimatePresence>
       {data && (
+
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 backdrop-blur-xl overflow-auto lightbox-scroll p-4 sm:p-6"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 backdrop-blur-xl overflow-auto lightbox-scroll p-3 sm:p-6 overscroll-contain"
           onClick={onClose}
         >
           {data.src ? (
@@ -65,7 +68,7 @@ export function Lightbox({
               <div
                 className={
                   zoomed
-                    ? "max-w-[92vw] max-h-[92vh] overflow-auto rounded-2xl lightbox-scroll"
+                    ? "max-w-[94vw] max-h-[88dvh] overflow-auto rounded-2xl lightbox-scroll overscroll-contain"
                     : ""
                 }
               >
@@ -77,7 +80,7 @@ export function Lightbox({
                   className={
                     zoomed
                       ? "block max-w-none w-auto h-auto rounded-2xl select-none transition-[box-shadow] duration-500 cursor-zoom-out"
-                      : "block max-w-[92vw] max-h-[92vh] w-auto h-auto object-contain rounded-2xl select-none transition-[box-shadow,transform] duration-500 hover:scale-[1.005] cursor-zoom-in"
+                      : "block max-w-[94vw] max-h-[86dvh] w-auto h-auto object-contain rounded-2xl select-none transition-[box-shadow,transform] duration-500 hover:scale-[1.005] cursor-zoom-in"
                   }
                   style={{
                     boxShadow: glow,
@@ -99,7 +102,7 @@ export function Lightbox({
                   onClose();
                 }}
                 aria-label="Fechar"
-                className="absolute top-2 right-2 z-[110] p-2 rounded-full border-2 border-sky-400/70 bg-background/80 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] hover:border-sky-300 hover:text-sky-100 transition-all"
+                className="absolute top-2 right-2 z-[110] inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-sky-400/70 bg-background/80 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] hover:border-sky-300 hover:text-sky-100 transition-all"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -111,7 +114,7 @@ export function Lightbox({
                   setZoomed((z) => !z);
                 }}
                 aria-label={zoomed ? "Reduzir imagem" : "Ampliar imagem"}
-                className="absolute top-2 right-14 z-[110] p-2 rounded-full border-2 border-sky-400/70 bg-background/80 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] hover:border-sky-300 hover:text-sky-100 transition-all"
+                className="absolute top-2 right-[3.75rem] z-[110] inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-sky-400/70 bg-background/80 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] hover:border-sky-300 hover:text-sky-100 transition-all"
               >
                 {zoomed ? (
                   <ZoomOut className="h-5 w-5" />
@@ -119,6 +122,7 @@ export function Lightbox({
                   <ZoomIn className="h-5 w-5" />
                 )}
               </button>
+
             </motion.div>
           ) : (
             <div
@@ -135,4 +139,8 @@ export function Lightbox({
       )}
     </AnimatePresence>
   );
+
+  if (typeof document === "undefined") return null;
+  return createPortal(overlay, document.body);
 }
+
