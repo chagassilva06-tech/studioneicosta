@@ -180,8 +180,9 @@ function Index() {
       if (error) throw error;
       return (data ?? []) as Cat[];
     },
-    staleTime: 0,
-    refetchOnWindowFocus: true,
+    staleTime: 1000 * 60 * 30, // 30 minutes
+    gcTime: 1000 * 60 * 60, // 1 hour
+    refetchOnWindowFocus: false,
   });
   const categories = categoriesQuery.data ?? [];
 
@@ -196,8 +197,8 @@ function Index() {
       }
       return c;
     },
-    staleTime: 0,
-    refetchOnWindowFocus: true,
+    staleTime: 1000 * 60 * 10, // 10 minutes
+    refetchOnWindowFocus: false,
   });
   const counts = countsQuery.data ?? {};
 
@@ -253,8 +254,8 @@ function Index() {
       });
       return urlByCat;
     },
-    staleTime: 0,
-    refetchOnWindowFocus: true,
+    staleTime: 1000 * 60 * 60, // 1 hour (signed URLs last 1 year)
+    refetchOnWindowFocus: false,
   });
   const featuredUrls = featuredUrlsQuery.data ?? {};
 
@@ -306,7 +307,7 @@ function Index() {
           >
             <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#b89a5e] shadow-[0_0_10px_rgba(184,154,94,0.7)] group-hover:shadow-[0_0_14px_rgba(216,191,133,0.9)] transition-shadow" />
             <span
-              className="font-display text-[1.6rem] sm:text-3xl md:text-[2.4rem] leading-none tracking-wide truncate text-foreground transition-all duration-300 group-hover:tracking-[0.05em]"
+              className="font-display text-[1.6rem] sm:text-3xl md:text-[2.4rem] leading-none tracking-wide truncate text-foreground transition-all duration-300 group-hover:tracking-[0.05em] will-change-transform"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               Studio
@@ -371,7 +372,7 @@ function Index() {
             {/* Categories — scrollable center */}
             <div className="relative flex-1 min-w-0 h-full">
               <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 sm:w-12 bg-gradient-to-l from-background/80 via-background/50 to-transparent z-10" />
-              <div className="h-full overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth snap-x snap-mandatory">
+              <div className="h-full overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth snap-x snap-mandatory overscroll-contain">
                 <div className="flex items-center gap-2 h-full px-1 pr-10">
                   {categories.map((c) => {
                     const Icon = getIcon(c.icon);
