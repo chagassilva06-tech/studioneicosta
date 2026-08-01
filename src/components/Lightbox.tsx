@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, ImageIcon, ZoomIn, ZoomOut } from "lucide-react";
 import { useDominantColor, rgbTriplet } from "@/hooks/use-dominant-color";
+
 
 export type LightboxData = {
   src?: string;
