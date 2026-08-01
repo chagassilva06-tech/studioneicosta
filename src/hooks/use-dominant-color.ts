@@ -9,7 +9,8 @@ export function useDominantColor(url?: string | null) {
       return;
     }
     let alive = true;
-    getDominantColor(url).then((c) => {
+    const request = getDominantColor(url);
+    request.then((c) => {
       if (alive) setColor(c);
     });
     return () => {

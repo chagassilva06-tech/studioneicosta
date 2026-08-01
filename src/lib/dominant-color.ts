@@ -1,6 +1,10 @@
 // Extract a vivid dominant color from an image URL.
 // Returns rgb string, or null on failure (e.g. CORS).
+const colorCache = new Map<string, string>();
+
 export async function getDominantColor(url: string): Promise<string | null> {
+  if (colorCache.has(url)) return colorCache.get(url)!;
+
   return new Promise((resolve) => {
     const img = new Image();
     img.crossOrigin = "anonymous";
