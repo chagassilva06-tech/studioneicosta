@@ -157,7 +157,7 @@ function AuthPage() {
         {/* Card */}
         <form
           onSubmit={submit}
-          className="relative w-full overflow-hidden rounded-[26px] border border-white/20 bg-[#0d0b16]/75 p-7 shadow-[0_0_60px_rgba(124,58,237,0.15),0_40px_140px_-30px_rgba(0,0,0,0.98),inset_0_2px_4px_rgba(255,255,255,0.15),0_0_0_1px_rgba(255,255,255,0.05)] backdrop-blur-[24px] sm:p-9"
+          className="relative w-full overflow-hidden rounded-[26px] border border-white/20 bg-[#0d0b16]/75 p-7 shadow-[0_0_80px_rgba(124,58,237,0.2),0_45px_150px_-35px_rgba(0,0,0,1),inset_0_2px_6px_rgba(255,255,255,0.2),inset_0_-2px_6px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.12)] backdrop-blur-[28px] sm:p-9"
         >
           {/* Reflexo da pintura — lado esquerdo */}
           <div className="pointer-events-none absolute -left-20 top-0 h-full w-[70%] bg-[radial-gradient(60%_60%_at_0%_35%,rgba(168,85,247,1),rgba(236,72,153,0.8)_45%,rgba(251,146,60,0.6)_75%,transparent_100%)] opacity-[0.035] blur-3xl" />
