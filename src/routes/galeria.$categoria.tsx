@@ -453,29 +453,35 @@ const Slot = memo(function Slot({
       />
 
       {isAdmin && (
-        <div className="absolute top-3 left-3 z-10 opacity-100 translate-y-0 lg:opacity-0 lg:-translate-y-2 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
+        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 max-w-[calc(100%-1rem)] opacity-100 translate-y-0 lg:opacity-0 lg:-translate-y-2 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
           <button
             type="button"
             disabled={isUploading}
+            title={hasImage ? "Substituir imagem" : "Carregar imagem"}
+            aria-label={hasImage ? "Substituir imagem" : "Carregar imagem"}
             onClick={(e) => { e.stopPropagation(); onPickFile(); }}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium tracking-wide border-2 border-sky-400/80 text-sky-100 bg-background/70 backdrop-blur shadow-[0_0_14px_rgba(56,155,255,0.55)] hover:bg-sky-400/20 hover:border-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] transition-all disabled:opacity-70"
+            className="inline-flex min-h-9 max-w-full items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-full text-[11px] font-medium tracking-wide border-2 border-sky-400/80 text-sky-100 bg-background/70 backdrop-blur shadow-[0_0_14px_rgba(56,155,255,0.55)] hover:bg-sky-400/20 hover:border-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] transition-all disabled:opacity-70"
           >
             {isUploading ? (
               <>
-                <Loader2 className="h-3.5 w-3.5 animate-spin" /> Enviando…
+                <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin" />
+                <span className="truncate">Enviando…</span>
               </>
             ) : hasImage ? (
               <>
-                <RefreshCw className="h-3.5 w-3.5" /> Substituir imagem
+                <RefreshCw className="h-3.5 w-3.5 shrink-0" />
+                <span className="hidden truncate sm:inline">Substituir imagem</span>
               </>
             ) : (
               <>
-                <Upload className="h-3.5 w-3.5" /> Carregar imagem
+                <Upload className="h-3.5 w-3.5 shrink-0" />
+                <span className="hidden truncate sm:inline">Carregar imagem</span>
               </>
             )}
           </button>
         </div>
       )}
+
 
       {isAdmin && canToggleFeatured && (
         <div className="absolute top-3 right-3 z-10">
