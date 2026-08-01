@@ -22,8 +22,9 @@ export type TransitionConfig = {
 
 const DEFAULTS: Required<Pick<TransitionConfig, "variant" | "duration" | "ease">> = {
   variant: "fade",
-  duration: 0.55,
-  ease: [0.22, 1, 0.36, 1],
+  duration: 0.45,
+  ease: [0.25, 0.1, 0.25, 1],
+
 };
 
 /**

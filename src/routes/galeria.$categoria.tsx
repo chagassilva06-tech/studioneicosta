@@ -113,7 +113,8 @@ function Galeria() {
       const { data, error } = await supabase
         .from("artworks")
         .select("slot, storage_path, featured")
-        .eq("categoria", nome);
+        .eq("categoria", nome)
+        .order("slot", { ascending: true });
       if (error || !data || cancelled) return;
       if (data.length === 0) return;
       const variants = await Promise.all(data.map((r) => signVariants(r.storage_path)));
