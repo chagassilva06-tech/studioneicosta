@@ -113,9 +113,9 @@ function AuthPage() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(90%_70%_at_100%_50%,rgba(124,58,237,0.35),transparent_60%)]" />
       <div className="pointer-events-none absolute -right-24 top-1/4 h-[60vh] w-[45vh] rounded-full bg-fuchsia-600/25 blur-[130px]" />
 
-      <div className="relative z-10 mx-auto grid min-h-screen w-full max-w-[1300px] grid-cols-1 items-center gap-10 px-5 py-12 sm:px-8 lg:grid-cols-[1fr_minmax(410px,476px)] lg:gap-16">
+      <div className="relative z-10 mx-auto grid min-h-[100svh] w-full max-w-[1300px] grid-cols-1 items-center gap-8 px-4 py-8 sm:gap-10 sm:py-12 sm:px-8 lg:grid-cols-[1fr_minmax(400px,476px)] lg:gap-16">
         {/* Left column */}
-        <div className="flex flex-col justify-between gap-12 lg:min-h-[560px] lg:py-4 will-change-transform">
+        <div className="flex flex-col justify-between gap-8 sm:gap-12 lg:min-h-[560px] lg:py-4 will-change-transform">
           <div>
             <h2 className="font-serif text-3xl italic tracking-wide text-white sm:text-4xl">
               Studio Nei
@@ -157,7 +157,7 @@ function AuthPage() {
         {/* Card */}
         <form
           onSubmit={submit}
-          className="relative w-full overflow-hidden rounded-[26px] border border-white/20 bg-[#0d0b16]/75 p-7 shadow-[0_0_80px_rgba(124,58,237,0.2),0_45px_150px_-35px_rgba(0,0,0,1),inset_0_2px_6px_rgba(255,255,255,0.2),inset_0_-2px_6px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.12)] backdrop-blur-[28px] sm:p-9"
+          className="relative w-full overflow-hidden rounded-[22px] sm:rounded-[26px] border border-white/20 bg-[#0d0b16]/75 p-5 xs:p-6 shadow-[0_0_80px_rgba(124,58,237,0.2),0_45px_150px_-35px_rgba(0,0,0,1),inset_0_2px_6px_rgba(255,255,255,0.2),inset_0_-2px_6px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.12)] backdrop-blur-[28px] sm:p-9"
         >
           {/* Reflexo da pintura — lado esquerdo */}
           <div className="pointer-events-none absolute -left-20 top-0 h-full w-[70%] bg-[radial-gradient(60%_60%_at_0%_35%,rgba(168,85,247,1),rgba(236,72,153,0.8)_45%,rgba(251,146,60,0.6)_75%,transparent_100%)] opacity-[0.035] blur-3xl" />
@@ -167,8 +167,8 @@ function AuthPage() {
           <div className="relative">
             {/* Grupo 1 — selo */}
             <div className="mb-7 flex justify-center">
-              <span className="flex h-[74px] w-[74px] items-center justify-center rounded-full border border-white/12 bg-white/[0.06] text-violet-300 shadow-[0_0_40px_-8px_rgba(139,92,246,0.85),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-md">
-                <Palette className="h-11 w-11" strokeWidth={1.5} />
+              <span className="flex h-[62px] w-[62px] sm:h-[74px] sm:w-[74px] items-center justify-center rounded-full border border-white/12 bg-white/[0.06] text-violet-300 shadow-[0_0_40px_-8px_rgba(139,92,246,0.85),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-md">
+                <Palette className="h-9 w-9 sm:h-11 sm:w-11" strokeWidth={1.5} />
               </span>
             </div>
 
@@ -177,7 +177,7 @@ function AuthPage() {
               <p className="text-xs font-medium uppercase tracking-[0.3em] text-white/45">
                 Bem-vindo ao
               </p>
-              <h2 className="mt-2 font-serif text-[2.1rem] italic leading-tight tracking-wide text-white sm:text-[2.35rem]">
+              <h2 className="mt-2 font-serif text-[1.7rem] xs:text-[2.1rem] italic leading-tight tracking-wide text-white sm:text-[2.35rem]">
                 Studio{" "}
                 <span className="bg-gradient-to-r from-violet-300 to-fuchsia-300 bg-clip-text text-transparent">
                   Nei
@@ -205,7 +205,7 @@ function AuthPage() {
                   placeholder="Digite seu e-mail"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="h-[52px] w-full rounded-xl border border-white/[0.14] bg-white/[0.06] pl-11 pr-4 text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] outline-none backdrop-blur-[18px] transition-all duration-300 placeholder:text-white/55 hover:border-white/30 hover:bg-white/[0.09] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_0_15px_rgba(255,255,255,0.05)] focus:border-sky-400/70 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.22),0_0_24px_-6px_rgba(168,85,247,0.7),inset_0_1px_0_rgba(255,255,255,0.1)]"
+                  className="h-[52px] w-full rounded-xl border border-white/[0.14] bg-white/[0.06] pl-11 pr-4 text-base sm:text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] outline-none backdrop-blur-[18px] transition-all duration-300 placeholder:text-white/55 hover:border-white/30 hover:bg-white/[0.09] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_0_15px_rgba(255,255,255,0.05)] focus:border-sky-400/70 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.22),0_0_24px_-6px_rgba(168,85,247,0.7),inset_0_1px_0_rgba(255,255,255,0.1)]"
                 />
               </div>
             </div>
@@ -226,7 +226,7 @@ function AuthPage() {
                   placeholder="Digite sua senha"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="h-[52px] w-full rounded-xl border border-white/[0.14] bg-white/[0.06] pl-11 pr-12 text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] outline-none backdrop-blur-[18px] transition-all duration-300 placeholder:text-white/55 hover:border-white/30 hover:bg-white/[0.09] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_0_15px_rgba(255,255,255,0.05)] focus:border-sky-400/70 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.22),0_0_24px_-6px_rgba(168,85,247,0.7),inset_0_1px_0_rgba(255,255,255,0.1)]"
+                  className="h-[52px] w-full rounded-xl border border-white/[0.14] bg-white/[0.06] pl-11 pr-12 text-base sm:text-sm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] outline-none backdrop-blur-[18px] transition-all duration-300 placeholder:text-white/55 hover:border-white/30 hover:bg-white/[0.09] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_0_15px_rgba(255,255,255,0.05)] focus:border-sky-400/70 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.22),0_0_24px_-6px_rgba(168,85,247,0.7),inset_0_1px_0_rgba(255,255,255,0.1)]"
                 />
                 <button
                   type="button"
