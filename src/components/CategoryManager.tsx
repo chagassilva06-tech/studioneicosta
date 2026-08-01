@@ -278,7 +278,11 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
       </div>
     </div>
   );
+
+  if (typeof document === "undefined") return null;
+  return createPortal(overlay, document.body);
 });
+
 
 const IconPicker = memo(function IconPicker({ value, onChange }: { value: IconName; onChange: (v: IconName) => void }) {
   return (
