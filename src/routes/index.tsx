@@ -371,7 +371,7 @@ function Index() {
             {/* Todos — fixed left */}
             <button
               type="button"
-              onClick={() => setShowAllModal(true)}
+              onClick={openAllModal}
               className="shrink-0 inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-sky-400 text-slate-950 border border-sky-300 shadow-[0_0_18px_rgba(56,189,248,0.6)] hover:shadow-[0_0_26px_rgba(56,189,248,0.9)] transition-all duration-200 hover:scale-[1.05]"
             >
               <LayoutGrid className="h-3.5 w-3.5" />
@@ -408,7 +408,7 @@ function Index() {
             {isAdmin && (
               <button
                 type="button"
-                onClick={() => setShowCategoryManager(true)}
+                onClick={openCategoryManager}
                 className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-[#d8bf85] border border-[#d8bf85]/50 bg-[#d8bf85]/[0.06] hover:bg-[#d8bf85]/15 hover:border-[#d8bf85] transition-all duration-200 hover:scale-[1.05]"
                 title="Gerenciar categorias"
               >
@@ -745,11 +745,11 @@ function Index() {
         </div>
       </footer>
       <Suspense fallback={null}>
-        {lightbox && <Lightbox data={lightbox} onClose={() => setLightbox(null)} />}
+        {lightbox && <Lightbox data={lightbox} onClose={closeLightbox} />}
         {showCategoryManager && (
           <CategoryManager
             open={showCategoryManager}
-            onClose={() => setShowCategoryManager(false)}
+            onClose={closeCategoryManager}
             onChanged={() => {
               void queryClient.invalidateQueries({ queryKey: ["categories"] });
               void queryClient.invalidateQueries({ queryKey: ["artwork-counts"] });
@@ -760,7 +760,7 @@ function Index() {
         {showAllModal && (
           <AllArtworksModal
             open={showAllModal}
-            onClose={() => setShowAllModal(false)}
+            onClose={closeAllModal}
             onOpenLightbox={(d) => {
               setShowAllModal(false);
               setLightbox(d);
