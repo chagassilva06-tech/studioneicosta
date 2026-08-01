@@ -111,7 +111,9 @@ export function PageTransition({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const prefersReducedMotion = useReducedMotion();
   const [hydrated, setHydrated] = useState(false);
+  const [animating, setAnimating] = useState(false);
   useEffect(() => setHydrated(true), []);
+
 
   const cfg = resolveConfig(pathname);
   const variants = prefersReducedMotion
