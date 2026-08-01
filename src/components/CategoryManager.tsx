@@ -277,9 +277,9 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
       </div>
     </div>
   );
-}
+});
 
-function IconPicker({ value, onChange }: { value: IconName; onChange: (v: IconName) => void }) {
+const IconPicker = memo(function IconPicker({ value, onChange }: { value: IconName; onChange: (v: IconName) => void }) {
   return (
     <select
       value={value}

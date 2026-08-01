@@ -75,7 +75,7 @@ function Galeria() {
   };
 
   const total = BASE_SLOTS + extraSlots;
-  const slots = Array.from({ length: total });
+  const slots = useMemo(() => Array.from({ length: total }), [total]);
   const [lightbox, setLightbox] = useState<LightboxData>(null);
   const [uploaded, setUploaded] = useState<Record<number, { path: string; url: string; srcSet: string; featured: boolean }>>({});
   const [uploadingSlot, setUploadingSlot] = useState<number | null>(null);
