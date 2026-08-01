@@ -1,4 +1,5 @@
 import { memo, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { X, Plus, Pencil, Trash2, Loader2, Save } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { iconNames, getIcon, type IconName } from "@/lib/category-icons";
@@ -122,7 +123,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
     onChanged();
   };
 
-  return (
+  const overlay = (
     <div
       className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
       onClick={onClose}

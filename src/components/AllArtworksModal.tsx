@@ -1,4 +1,5 @@
 import { memo, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { X, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { LightboxData } from "@/components/Lightbox";
@@ -85,7 +86,7 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
   const categorias = Array.from(new Set(items.map((i) => i.categoria))).sort();
   const filtered = filter === "Todas" ? items : items.filter((i) => i.categoria === filter);
 
-  return (
+  const overlay = (
     <div
       className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex flex-col"
       onClick={onClose}
