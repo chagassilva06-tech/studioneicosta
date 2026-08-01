@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { lazy, Suspense, useEffect, useState, useMemo, memo } from "react";
+import { lazy, Suspense, useEffect, useState, useMemo, memo, useCallback } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -170,6 +170,13 @@ function Index() {
   const [showAllModal, setShowAllModal] = useState(false);
   const queryClient = useQueryClient();
 
+  const openLightbox = useCallback((data: LightboxData) => setLightbox(data), []);
+  const closeLightbox = useCallback(() => setLightbox(null), []);
+  const openCategoryManager = useCallback(() => setShowCategoryManager(true), []);
+  const closeCategoryManager = useCallback(() => setShowCategoryManager(false), []);
+  const openAllModal = useCallback(() => setShowAllModal(true), []);
+  const closeAllModal = useCallback(() => setShowAllModal(false), []);
+
   const categoriesQuery = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
@@ -264,19 +271,23 @@ function Index() {
     ? categories.filter((c) => c.name.toLowerCase().includes(query.trim().toLowerCase()))
     : [];
 
-  // Build slides: two per category (pos 0 and 1) using the first images available
-  const slides = useMemo(() => categories.flatMap((c) => {
-    const base = {
-      src: fallbackSrc[c.name] ?? paisagem1,
-      title: c.name,
-      categoria: c.name,
-      description: fallbackDescriptions[c.name] ?? `Obra da coleção ${c.name}.`,
-    };
-    return [
-      { ...base, pos: 0 },
-      { ...base, pos: 1 },
-    ];
-  }), [categories]);
+  // Build slides: fetch the first two items per category for the carousel
+  const slides = useMemo(() => {
+    return categories.flatMap((c) => {
+      const urls = featuredUrls[c.name] ?? [];
+      const base = {
+        title: c.name,
+        categoria: c.name,
+        description: fallbackDescriptions[c.name] ?? `Obra da coleção ${c.name}.`,
+      };
+      
+      // Return 2 slides per category
+      return [
+        { ...base, src: urls[0] ?? fallbackSrc[c.name] ?? paisagem1, pos: 0 },
+        { ...base, src: urls[1] ?? fallbackSrc[c.name] ?? pintura1, pos: 1 },
+      ];
+    });
+  }, [categories, featuredUrls]);
 
   if (!authChecked) {
     return (
@@ -360,7 +371,7 @@ function Index() {
             {/* Todos — fixed left */}
             <button
               type="button"
-              onClick={() => setShowAllModal(true)}
+              onClick={openAllModal}
               className="shrink-0 inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-sky-400 text-slate-950 border border-sky-300 shadow-[0_0_18px_rgba(56,189,248,0.6)] hover:shadow-[0_0_26px_rgba(56,189,248,0.9)] transition-all duration-200 hover:scale-[1.05]"
             >
               <LayoutGrid className="h-3.5 w-3.5" />
@@ -397,7 +408,7 @@ function Index() {
             {isAdmin && (
               <button
                 type="button"
-                onClick={() => setShowCategoryManager(true)}
+                onClick={openCategoryManager}
                 className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-[#d8bf85] border border-[#d8bf85]/50 bg-[#d8bf85]/[0.06] hover:bg-[#d8bf85]/15 hover:border-[#d8bf85] transition-all duration-200 hover:scale-[1.05]"
                 title="Gerenciar categorias"
               >
@@ -734,11 +745,11 @@ function Index() {
         </div>
       </footer>
       <Suspense fallback={null}>
-        {lightbox && <Lightbox data={lightbox} onClose={() => setLightbox(null)} />}
+        {lightbox && <Lightbox data={lightbox} onClose={closeLightbox} />}
         {showCategoryManager && (
           <CategoryManager
             open={showCategoryManager}
-            onClose={() => setShowCategoryManager(false)}
+            onClose={closeCategoryManager}
             onChanged={() => {
               void queryClient.invalidateQueries({ queryKey: ["categories"] });
               void queryClient.invalidateQueries({ queryKey: ["artwork-counts"] });
@@ -749,7 +760,7 @@ function Index() {
         {showAllModal && (
           <AllArtworksModal
             open={showAllModal}
-            onClose={() => setShowAllModal(false)}
+            onClose={closeAllModal}
             onOpenLightbox={(d) => {
               setShowAllModal(false);
               setLightbox(d);

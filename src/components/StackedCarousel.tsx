@@ -109,10 +109,13 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
   // Mouse wheel navigation (horizontal / shift+wheel)
   const wheelLock = useRef(0);
   const onWheel = (e: React.WheelEvent) => {
+    // Only respond to horizontal scrolling or shift+vertical scrolling for sliding
+    // Standard vertical scrolling should allow normal page navigation
     const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.shiftKey ? e.deltaY : 0;
-    if (!dx) return;
+    if (Math.abs(dx) < 10) return; // ignore jitter
+    
     const now = Date.now();
-    if (now - wheelLock.current < 320) return;
+    if (now - wheelLock.current < 450) return;
     wheelLock.current = now;
     go(dx > 0 ? 1 : -1);
   };
