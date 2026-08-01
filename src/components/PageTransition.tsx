@@ -135,14 +135,21 @@ export function PageTransition({ children }: { children: ReactNode }) {
         exit="exit"
         variants={variants}
         transition={{ duration: cfg.duration, ease: cfg.ease }}
-        style={{
-          willChange: "transform, opacity, filter",
-          transformStyle: "preserve-3d",
-          backfaceVisibility: "hidden",
-        }}
+        onAnimationStart={() => setAnimating(true)}
+        onAnimationComplete={() => setAnimating(false)}
+        style={
+          animating
+            ? {
+                willChange: "transform, opacity, filter",
+                transformStyle: "preserve-3d",
+                backfaceVisibility: "hidden",
+              }
+            : undefined
+        }
       >
         {children}
       </motion.div>
     </AnimatePresence>
   );
 }
+
