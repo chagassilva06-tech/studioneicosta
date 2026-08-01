@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { lazy, Suspense, useEffect, useState, useMemo, memo } from "react";
+import { lazy, Suspense, useEffect, useState, useMemo, memo, useCallback } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -169,6 +169,13 @@ function Index() {
   const [showCategoryManager, setShowCategoryManager] = useState(false);
   const [showAllModal, setShowAllModal] = useState(false);
   const queryClient = useQueryClient();
+
+  const openLightbox = useCallback((data: LightboxData) => setLightbox(data), []);
+  const closeLightbox = useCallback(() => setLightbox(null), []);
+  const openCategoryManager = useCallback(() => setShowCategoryManager(true), []);
+  const closeCategoryManager = useCallback(() => setShowCategoryManager(false), []);
+  const openAllModal = useCallback(() => setShowAllModal(true), []);
+  const closeAllModal = useCallback(() => setShowAllModal(false), []);
 
   const categoriesQuery = useQuery({
     queryKey: ["categories"],
