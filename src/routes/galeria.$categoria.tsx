@@ -416,27 +416,28 @@ const Slot = memo(function Slot({
             loading="lazy"
             decoding="async"
             crossOrigin="anonymous"
-            sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 22vw"
-            className="absolute inset-0 h-full w-full object-contain p-3 transition-transform duration-700 ease-out group-hover:scale-[1.22] will-change-transform"
+            sizes="(max-width: 420px) 92vw, (max-width: 640px) 46vw, (max-width: 1024px) 45vw, (max-width: 1536px) 30vw, 22vw"
+            className="absolute inset-0 h-full w-full object-contain p-2 sm:p-3 transition-transform duration-700 ease-out group-hover:scale-[1.22] will-change-transform"
           />
-          <div className="pointer-events-none absolute inset-3 rounded-xl border-2 transition-all duration-500 group-hover:shadow-[inset_0_0_22px_rgba(56,189,248,0.55)]" style={frameStyle} />
+          <div className="pointer-events-none absolute inset-2 sm:inset-3 rounded-xl border-2 transition-all duration-500 group-hover:shadow-[inset_0_0_22px_rgba(56,189,248,0.55)]" style={frameStyle} />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         </>
       ) : (
         <>
           <div className="absolute inset-0 animate-glow-pulse bg-white/[0.03]" />
-          <div className="pointer-events-none absolute inset-3 rounded-xl border-2" style={frameStyle} />
-          <div className="relative h-full w-full flex flex-col items-center justify-center gap-4 text-center px-6">
-            <div className="p-4 rounded-full bg-sky-400/10 border border-sky-400/20">
-              <ImageIcon className="h-6 w-6 text-sky-400/80" />
+          <div className="pointer-events-none absolute inset-2 sm:inset-3 rounded-xl border-2" style={frameStyle} />
+          <div className="relative h-full w-full flex flex-col items-center justify-center gap-3 sm:gap-4 text-center px-4 sm:px-6">
+            <div className="p-3 sm:p-4 rounded-full bg-sky-400/10 border border-sky-400/20">
+              <ImageIcon className="h-5 w-5 sm:h-6 sm:w-6 text-sky-400/80" />
             </div>
             <div>
-              <p className="font-display text-xl">Em breve</p>
-              <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mt-2">
+              <p className="font-display text-lg sm:text-xl">Em breve</p>
+              <p className="text-[0.65rem] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] text-muted-foreground mt-2">
                 Receberá fotos em breve
               </p>
             </div>
           </div>
+
         </>
       )}
 
