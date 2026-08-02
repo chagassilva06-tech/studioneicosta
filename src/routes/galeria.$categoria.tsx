@@ -80,6 +80,7 @@ function Galeria() {
   const [uploaded, setUploaded] = useState<Record<number, { path: string; url: string; srcSet: string; featured: boolean }>>({});
   const [uploadingSlot, setUploadingSlot] = useState<number | null>(null);
   const [togglingSlot, setTogglingSlot] = useState<number | null>(null);
+  const [deletingSlot, setDeletingSlot] = useState<number | null>(null);
   const fileInputs = useRef<Record<number, HTMLInputElement | null>>({});
   const desc = categoryDescriptions[nome] ?? `Obra da coleção ${nome}.`;
   const { isAdmin, userEmail } = useAdmin();
