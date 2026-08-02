@@ -380,6 +380,9 @@ type SlotProps = {
   canToggleFeatured: boolean;
   isToggling: boolean;
   onToggleFeatured: () => void;
+  canDelete: boolean;
+  isDeleting: boolean;
+  onDelete: () => void;
   registerInput: (el: HTMLInputElement | null) => void;
   onPickFile: () => void;
   onFileChange: (f?: File | null) => void;
@@ -398,11 +401,15 @@ const Slot = memo(function Slot({
   canToggleFeatured,
   isToggling,
   onToggleFeatured,
+  canDelete,
+  isDeleting,
+  onDelete,
   registerInput,
   onPickFile,
   onFileChange,
   onOpenLightbox,
 }: SlotProps) {
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const hasImage = Boolean(image);
   const dominant = useDominantColor(hasImage ? image : null);
   const triplet = rgbTriplet(dominant);
