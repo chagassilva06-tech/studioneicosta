@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { memo, lazy, Suspense, useEffect, useRef, useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, ImageIcon, Upload, RefreshCw, Loader2, LogOut, Star, Plus } from "lucide-react";
+import { ChevronLeft, ChevronRight, ImageIcon, Upload, RefreshCw, Loader2, LogOut, Star, Plus, Trash2 } from "lucide-react";
 import paisagem1 from "@/assets/paisagem-1.webp";
 import pintura1 from "@/assets/pintura-1.webp";
 import type { LightboxData } from "@/components/Lightbox";
