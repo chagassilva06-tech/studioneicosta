@@ -347,6 +347,9 @@ function Galeria() {
                 canToggleFeatured={canToggle}
                 isToggling={isToggling}
                 onToggleFeatured={() => handleToggleFeatured(i)}
+                canDelete={Boolean(uploaded[i])}
+                isDeleting={deletingSlot === i}
+                onDelete={() => handleDelete(i)}
                 registerInput={(el) => {
                   fileInputs.current[i] = el;
                 }}
