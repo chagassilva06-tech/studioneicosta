@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { memo, lazy, Suspense, useEffect, useRef, useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, ImageIcon, Upload, RefreshCw, Loader2, LogOut, Star, Plus } from "lucide-react";
+import { ChevronLeft, ChevronRight, ImageIcon, Upload, RefreshCw, Loader2, LogOut, Star, Plus, Trash2 } from "lucide-react";
 import paisagem1 from "@/assets/paisagem-1.webp";
 import pintura1 from "@/assets/pintura-1.webp";
 import type { LightboxData } from "@/components/Lightbox";
@@ -80,6 +80,7 @@ function Galeria() {
   const [uploaded, setUploaded] = useState<Record<number, { path: string; url: string; srcSet: string; featured: boolean }>>({});
   const [uploadingSlot, setUploadingSlot] = useState<number | null>(null);
   const [togglingSlot, setTogglingSlot] = useState<number | null>(null);
+  const [deletingSlot, setDeletingSlot] = useState<number | null>(null);
   const fileInputs = useRef<Record<number, HTMLInputElement | null>>({});
   const desc = categoryDescriptions[nome] ?? `Obra da coleção ${nome}.`;
   const { isAdmin, userEmail } = useAdmin();
@@ -217,6 +218,34 @@ function Galeria() {
     }
   };
 
+  const handleDelete = async (i: number) => {
+    const current = uploaded[i];
+    if (!current) return;
+    setDeletingSlot(i);
+    try {
+      const { error } = await supabase
+        .from("artworks")
+        .delete()
+        .eq("categoria", nome)
+        .eq("slot", i);
+      if (error) throw error;
+      if (current.path) {
+        await supabase.storage.from(BUCKET).remove([current.path]);
+      }
+      setUploaded((prev) => {
+        const next = { ...prev };
+        delete next[i];
+        return next;
+      });
+    } catch (e) {
+      console.error("Delete failed", e);
+      alert("Falha ao apagar imagem.");
+    } finally {
+      setDeletingSlot(null);
+    }
+  };
+
+
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
@@ -318,6 +347,9 @@ function Galeria() {
                 canToggleFeatured={canToggle}
                 isToggling={isToggling}
                 onToggleFeatured={() => handleToggleFeatured(i)}
+                canDelete={Boolean(uploaded[i])}
+                isDeleting={deletingSlot === i}
+                onDelete={() => handleDelete(i)}
                 registerInput={(el) => {
                   fileInputs.current[i] = el;
                 }}
@@ -348,6 +380,9 @@ type SlotProps = {
   canToggleFeatured: boolean;
   isToggling: boolean;
   onToggleFeatured: () => void;
+  canDelete: boolean;
+  isDeleting: boolean;
+  onDelete: () => void;
   registerInput: (el: HTMLInputElement | null) => void;
   onPickFile: () => void;
   onFileChange: (f?: File | null) => void;
@@ -366,11 +401,15 @@ const Slot = memo(function Slot({
   canToggleFeatured,
   isToggling,
   onToggleFeatured,
+  canDelete,
+  isDeleting,
+  onDelete,
   registerInput,
   onPickFile,
   onFileChange,
   onOpenLightbox,
 }: SlotProps) {
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const hasImage = Boolean(image);
   const dominant = useDominantColor(hasImage ? image : null);
   const triplet = rgbTriplet(dominant);
@@ -454,59 +493,109 @@ const Slot = memo(function Slot({
       />
 
       {isAdmin && (
-        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 max-w-[calc(100%-1rem)] opacity-100 translate-y-0 transition-all duration-500">
+        <div className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 z-10 flex max-w-[calc(100%-0.75rem)] items-center gap-1">
           <button
             type="button"
             disabled={isUploading}
             title={hasImage ? "Substituir imagem" : "Carregar imagem"}
             aria-label={hasImage ? "Substituir imagem" : "Carregar imagem"}
             onClick={(e) => { e.stopPropagation(); onPickFile(); }}
-            className="inline-flex min-h-9 max-w-full items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-full text-[11px] font-medium tracking-wide border-2 border-sky-400/80 text-sky-100 bg-background/70 backdrop-blur shadow-[0_0_14px_rgba(56,155,255,0.55)] hover:bg-sky-400/20 hover:border-sky-300 hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] transition-all disabled:opacity-70"
+            className="inline-flex max-w-full items-center gap-1 px-2 py-1 rounded-full text-[9px] font-medium tracking-wide border border-sky-400/80 text-sky-100 bg-background/70 backdrop-blur shadow-[0_0_8px_rgba(56,155,255,0.45)] hover:bg-sky-400/20 hover:border-sky-300 transition-all disabled:opacity-70"
           >
             {isUploading ? (
               <>
-                <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin" />
+                <Loader2 className="h-2.5 w-2.5 shrink-0 animate-spin" />
                 <span className="truncate">Enviando…</span>
               </>
             ) : hasImage ? (
               <>
-                <RefreshCw className="h-3.5 w-3.5 shrink-0" />
-                <span className="truncate">Substituir imagem</span>
+                <RefreshCw className="h-2.5 w-2.5 shrink-0" />
+                <span className="truncate">Substituir</span>
               </>
             ) : (
               <>
-                <Upload className="h-3.5 w-3.5 shrink-0" />
-                <span className="truncate">Carregar imagem</span>
+                <Upload className="h-2.5 w-2.5 shrink-0" />
+                <span className="truncate">Carregar</span>
               </>
             )}
           </button>
+
+          {canDelete && (
+            <button
+              type="button"
+              disabled={isDeleting}
+              title="Apagar imagem"
+              aria-label="Apagar imagem"
+              onClick={(e) => { e.stopPropagation(); setConfirmDelete(true); }}
+              className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[9px] font-medium tracking-wide border border-rose-400/70 text-rose-200 bg-background/70 backdrop-blur shadow-[0_0_8px_rgba(244,63,94,0.4)] hover:bg-rose-500/20 hover:border-rose-300 transition-all disabled:opacity-70"
+            >
+              {isDeleting ? (
+                <Loader2 className="h-2.5 w-2.5 shrink-0 animate-spin" />
+              ) : (
+                <Trash2 className="h-2.5 w-2.5 shrink-0" />
+              )}
+              <span className="truncate">Apagar</span>
+            </button>
+          )}
         </div>
       )}
 
+      {isAdmin && confirmDelete && (
+        <div
+          className="absolute inset-0 z-20 flex items-center justify-center bg-black/75 backdrop-blur-sm p-3"
+          onClick={(e) => { e.stopPropagation(); setConfirmDelete(false); }}
+        >
+          <div
+            className="w-full max-w-[15rem] rounded-xl border border-rose-400/40 bg-background/95 p-4 text-center shadow-[0_0_30px_-8px_rgba(244,63,94,0.6)]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className="text-xs text-muted-foreground mb-1">Apagar esta imagem?</p>
+            <p className="text-[10px] text-muted-foreground mb-4">O card ficará vazio.</p>
+            <div className="flex items-center justify-center gap-2">
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); setConfirmDelete(false); }}
+                className="px-3 py-1.5 rounded-lg border border-sky-400/40 text-[11px] font-medium hover:bg-sky-400/15 transition-colors"
+              >
+                Não
+              </button>
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={(e) => { e.stopPropagation(); setConfirmDelete(false); onDelete(); }}
+                className="px-3 py-1.5 rounded-lg bg-rose-500 text-white text-[11px] font-medium hover:bg-rose-400 transition-colors disabled:opacity-60"
+              >
+                Sim
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {isAdmin && canToggleFeatured && (
-        <div className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10">
+        <div className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 z-10">
           <button
             type="button"
             disabled={isToggling}
             onClick={(e) => { e.stopPropagation(); onToggleFeatured(); }}
             title={isFeatured ? "Remover destaque" : "Marcar como destaque"}
             aria-label={isFeatured ? "Remover destaque" : "Marcar como destaque"}
-            className={`inline-flex min-h-9 items-center gap-1.5 px-2.5 py-2 rounded-full text-[11px] font-medium tracking-wide border-2 backdrop-blur transition-all disabled:opacity-70 ${
+            className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-[9px] font-medium tracking-wide border backdrop-blur transition-all disabled:opacity-70 ${
               isFeatured
-                ? "border-[#d8bf85] text-slate-950 bg-[#d8bf85] shadow-[0_0_18px_rgba(216,191,133,0.75)] hover:shadow-[0_0_26px_rgba(216,191,133,0.95)]"
+                ? "border-[#d8bf85] text-slate-950 bg-[#d8bf85] shadow-[0_0_12px_rgba(216,191,133,0.7)]"
                 : "border-[#d8bf85]/60 text-[#d8bf85] bg-background/70 hover:bg-[#d8bf85]/15 hover:border-[#d8bf85]"
             }`}
           >
             {isToggling ? (
-              <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin" />
+              <Loader2 className="h-2.5 w-2.5 shrink-0 animate-spin" />
             ) : (
-              <Star className={`h-3.5 w-3.5 shrink-0 ${isFeatured ? "fill-current" : ""}`} />
+              <Star className={`h-2.5 w-2.5 shrink-0 ${isFeatured ? "fill-current" : ""}`} />
             )}
             <span className="hidden sm:inline">{isFeatured ? "Destaque" : "Destacar"}</span>
           </button>
         </div>
       )}
+
 
       {isFeatured && !isAdmin && (
         <div className="absolute top-2 right-2 sm:top-3 sm:right-3 z-10 inline-flex items-center gap-1 px-2 py-1 rounded-full bg-[#d8bf85]/90 text-slate-950 text-[10px] font-medium shadow-[0_0_14px_rgba(216,191,133,0.6)]">
