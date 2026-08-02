@@ -471,12 +471,12 @@ const Slot = memo(function Slot({
             ) : hasImage ? (
               <>
                 <RefreshCw className="h-3.5 w-3.5 shrink-0" />
-                <span className="hidden truncate sm:inline">Substituir imagem</span>
+                <span className="truncate">Substituir imagem</span>
               </>
             ) : (
               <>
                 <Upload className="h-3.5 w-3.5 shrink-0" />
-                <span className="hidden truncate sm:inline">Carregar imagem</span>
+                <span className="truncate">Carregar imagem</span>
               </>
             )}
           </button>
