@@ -218,6 +218,34 @@ function Galeria() {
     }
   };
 
+  const handleDelete = async (i: number) => {
+    const current = uploaded[i];
+    if (!current) return;
+    setDeletingSlot(i);
+    try {
+      const { error } = await supabase
+        .from("artworks")
+        .delete()
+        .eq("categoria", nome)
+        .eq("slot", i);
+      if (error) throw error;
+      if (current.path) {
+        await supabase.storage.from(BUCKET).remove([current.path]);
+      }
+      setUploaded((prev) => {
+        const next = { ...prev };
+        delete next[i];
+        return next;
+      });
+    } catch (e) {
+      console.error("Delete failed", e);
+      alert("Falha ao apagar imagem.");
+    } finally {
+      setDeletingSlot(null);
+    }
+  };
+
+
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
