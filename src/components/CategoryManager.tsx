@@ -1,6 +1,6 @@
 import { memo, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { X, Plus, Pencil, Trash2, Loader2, Save } from "lucide-react";
+import { X, Plus, Pencil, Trash2, Loader2, Save, ImageOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { iconNames, getIcon, type IconName } from "@/lib/category-icons";
 
@@ -8,6 +8,7 @@ export type Category = {
   id: string;
   name: string;
   icon: string;
+  description: string;
   sort_order: number;
 };
 
@@ -17,6 +18,8 @@ type Props = {
   onChanged: () => void;
 };
 
+const BUCKET = "artworks";
+
 export const CategoryManager = memo(function CategoryManager({ open, onClose, onChanged }: Props) {
   const [items, setItems] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
@@ -24,16 +27,20 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
   const [editingId, setEditingId] = useState<string | null>(null);
   const [draftName, setDraftName] = useState("");
   const [draftIcon, setDraftIcon] = useState<IconName>("Palette");
+  const [draftDesc, setDraftDesc] = useState("");
   const [newName, setNewName] = useState("");
   const [newIcon, setNewIcon] = useState<IconName>("Palette");
+  const [newDesc, setNewDesc] = useState("");
   const [confirmId, setConfirmId] = useState<string | null>(null);
   const [confirmName, setConfirmName] = useState<string>("");
+  const [purgeName, setPurgeName] = useState<string | null>(null);
+  const [purging, setPurging] = useState(false);
 
   const load = async () => {
     setLoading(true);
     const { data } = await supabase
       .from("categories")
-      .select("id, name, icon, sort_order")
+      .select("id, name, icon, description, sort_order")
       .order("sort_order", { ascending: true });
     setItems((data as Category[]) ?? []);
     setLoading(false);
@@ -45,7 +52,8 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && !confirmId && onClose();
+    const onKey = (e: KeyboardEvent) =>
+      e.key === "Escape" && !confirmId && !purgeName && onClose();
     window.addEventListener("keydown", onKey);
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -53,7 +61,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = prev;
     };
-  }, [open, onClose, confirmId]);
+  }, [open, onClose, confirmId, purgeName]);
 
   if (!open) return null;
 
@@ -61,15 +69,23 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
     setEditingId(c.id);
     setDraftName(c.name);
     setDraftIcon((c.icon as IconName) || "Palette");
+    setDraftDesc(c.description ?? "");
   };
 
   const saveEdit = async () => {
     if (!editingId || !draftName.trim()) return;
+    const current = items.find((c) => c.id === editingId);
     setSaving(true);
+    const nextName = draftName.trim();
     const { error } = await supabase
       .from("categories")
-      .update({ name: draftName.trim(), icon: draftIcon })
+      .update({ name: nextName, icon: draftIcon, description: draftDesc.trim() })
       .eq("id", editingId);
+
+    // Keep artworks linked when the category is renamed
+    if (!error && current && current.name !== nextName) {
+      await supabase.from("artworks").update({ categoria: nextName }).eq("categoria", current.name);
+    }
     setSaving(false);
     if (error) {
       alert("Falha ao salvar: " + error.message);
@@ -103,6 +119,30 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
     setConfirmName("");
   };
 
+  const confirmPurgePhotos = async () => {
+    if (!purgeName) return;
+    setPurging(true);
+    try {
+      const { data, error } = await supabase
+        .from("artworks")
+        .select("storage_path")
+        .eq("categoria", purgeName);
+      if (error) throw error;
+      const paths = (data ?? []).map((r) => r.storage_path).filter(Boolean);
+      if (paths.length > 0) {
+        await supabase.storage.from(BUCKET).remove(paths);
+      }
+      const { error: delErr } = await supabase.from("artworks").delete().eq("categoria", purgeName);
+      if (delErr) throw delErr;
+      setPurgeName(null);
+      onChanged();
+    } catch (e) {
+      alert("Falha ao remover fotos: " + (e as Error).message);
+    } finally {
+      setPurging(false);
+    }
+  };
+
   const create = async () => {
     if (!newName.trim()) return;
     setSaving(true);
@@ -110,6 +150,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
     const { error } = await supabase.from("categories").insert({
       name: newName.trim(),
       icon: newIcon,
+      description: newDesc.trim(),
       sort_order: nextOrder,
     });
     setSaving(false);
@@ -119,6 +160,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
     }
     setNewName("");
     setNewIcon("Palette");
+    setNewDesc("");
     await load();
     onChanged();
   };
@@ -166,6 +208,13 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                 Criar
               </button>
             </div>
+            <textarea
+              value={newDesc}
+              onChange={(e) => setNewDesc(e.target.value)}
+              placeholder="Informações da categoria (opcional)"
+              rows={2}
+              className="mt-2 w-full resize-none rounded-lg border border-sky-400/40 bg-background/70 px-3 py-2 text-sm outline-none focus:border-sky-300"
+            />
           </div>
         </div>
 
@@ -185,16 +234,26 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                   return (
                     <li
                       key={c.id}
-                      className="flex flex-col sm:flex-row sm:items-center gap-2 rounded-lg border border-border/50 bg-card/40 px-3 py-2"
+                      className="rounded-lg border border-border/50 bg-card/40 px-3 py-2"
                     >
                       {editing ? (
-                        <>
-                          <input
-                            value={draftName}
-                            onChange={(e) => setDraftName(e.target.value)}
-                            className="min-w-0 flex-1 px-2 py-1.5 rounded bg-background/70 border border-sky-400/40 text-sm outline-none focus:border-sky-300"
+                        <div className="flex flex-col gap-2">
+                          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                            <input
+                              value={draftName}
+                              onChange={(e) => setDraftName(e.target.value)}
+                              placeholder="Nome"
+                              className="min-w-0 flex-1 px-2 py-1.5 rounded bg-background/70 border border-sky-400/40 text-sm outline-none focus:border-sky-300"
+                            />
+                            <IconPicker value={draftIcon} onChange={setDraftIcon} />
+                          </div>
+                          <textarea
+                            value={draftDesc}
+                            onChange={(e) => setDraftDesc(e.target.value)}
+                            placeholder="Informações (deixe vazio para retirar)"
+                            rows={3}
+                            className="w-full resize-none rounded border border-sky-400/40 bg-background/70 px-2 py-1.5 text-sm outline-none focus:border-sky-300"
                           />
-                          <IconPicker value={draftIcon} onChange={setDraftIcon} />
                           <div className="flex gap-1">
                             <button
                               onClick={saveEdit}
@@ -211,30 +270,43 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                               Cancelar
                             </button>
                           </div>
-                        </>
+                        </div>
                       ) : (
-                        <>
-                          <Icon className="h-4 w-4 shrink-0 text-sky-300" />
-                          <span className="min-w-0 flex-1 truncate text-sm font-medium">{c.name}</span>
-                          <div className="flex shrink-0 gap-1">
-                            <button
-                              onClick={() => startEdit(c)}
-                              className="h-8 w-8 rounded-full inline-flex items-center justify-center text-sky-200 hover:bg-sky-400/15 border border-sky-400/30"
-                              aria-label="Editar"
-                              title="Editar"
-                            >
-                              <Pencil className="h-3.5 w-3.5" />
-                            </button>
-                            <button
-                              onClick={() => askRemove(c.id, c.name)}
-                              className="h-8 w-8 rounded-full inline-flex items-center justify-center text-rose-300 hover:bg-rose-400/15 border border-rose-400/30"
-                              aria-label="Excluir"
-                              title="Excluir"
-                            >
-                              <Trash2 className="h-3.5 w-3.5" />
-                            </button>
+                        <div className="flex flex-col gap-1">
+                          <div className="flex items-center gap-2">
+                            <Icon className="h-4 w-4 shrink-0 text-sky-300" />
+                            <span className="min-w-0 flex-1 truncate text-sm font-medium">{c.name}</span>
+                            <div className="flex shrink-0 gap-1">
+                              <button
+                                onClick={() => startEdit(c)}
+                                className="h-8 w-8 rounded-full inline-flex items-center justify-center text-sky-200 hover:bg-sky-400/15 border border-sky-400/30"
+                                aria-label="Editar"
+                                title="Editar"
+                              >
+                                <Pencil className="h-3.5 w-3.5" />
+                              </button>
+                              <button
+                                onClick={() => setPurgeName(c.name)}
+                                className="h-8 w-8 rounded-full inline-flex items-center justify-center text-amber-300 hover:bg-amber-400/15 border border-amber-400/40"
+                                aria-label="Remover todas as fotos"
+                                title="Remover todas as fotos (mantém os cards vazios)"
+                              >
+                                <ImageOff className="h-3.5 w-3.5" />
+                              </button>
+                              <button
+                                onClick={() => askRemove(c.id, c.name)}
+                                className="h-8 w-8 rounded-full inline-flex items-center justify-center text-rose-300 hover:bg-rose-400/15 border border-rose-400/30"
+                                aria-label="Excluir"
+                                title="Excluir"
+                              >
+                                <Trash2 className="h-3.5 w-3.5" />
+                              </button>
+                            </div>
                           </div>
-                        </>
+                          {c.description ? (
+                            <p className="pl-6 text-xs text-muted-foreground">{c.description}</p>
+                          ) : null}
+                        </div>
                       )}
                     </li>
                   );
@@ -275,6 +347,35 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
             </div>
           </div>
         )}
+
+        {/* Confirmação de remoção de fotos */}
+        {purgeName && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+            <div className="w-full max-w-sm rounded-2xl border border-amber-400/40 bg-background/95 p-6 shadow-[0_0_40px_-10px_rgba(251,191,36,0.5)] text-center">
+              <p className="text-sm text-muted-foreground mb-1">Remover todas as fotos de</p>
+              <p className="text-lg font-medium mb-5">"{purgeName}"?</p>
+              <p className="text-xs text-muted-foreground mb-6">
+                A categoria e os cards permanecem — apenas as imagens são apagadas.
+              </p>
+              <div className="flex items-center justify-center gap-3">
+                <button
+                  onClick={() => setPurgeName(null)}
+                  disabled={purging}
+                  className="px-5 py-2 rounded-lg border border-sky-400/40 text-sm font-medium hover:bg-sky-400/15 transition-colors disabled:opacity-60"
+                >
+                  Não
+                </button>
+                <button
+                  onClick={confirmPurgePhotos}
+                  disabled={purging}
+                  className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-amber-500 text-slate-950 text-sm font-medium hover:bg-amber-400 shadow-[0_0_20px_-4px_rgba(251,191,36,0.6)] transition-colors disabled:opacity-60"
+                >
+                  {purging && <Loader2 className="h-3.5 w-3.5 animate-spin" />} Sim
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -299,4 +400,3 @@ const IconPicker = memo(function IconPicker({ value, onChange }: { value: IconNa
     </select>
   );
 });
-

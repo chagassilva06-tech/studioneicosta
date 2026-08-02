@@ -454,7 +454,7 @@ const Slot = memo(function Slot({
       />
 
       {isAdmin && (
-        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 max-w-[calc(100%-1rem)] opacity-100 translate-y-0 lg:opacity-0 lg:-translate-y-2 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 transition-all duration-500">
+        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 max-w-[calc(100%-1rem)] opacity-100 translate-y-0 transition-all duration-500">
           <button
             type="button"
             disabled={isUploading}
@@ -471,12 +471,12 @@ const Slot = memo(function Slot({
             ) : hasImage ? (
               <>
                 <RefreshCw className="h-3.5 w-3.5 shrink-0" />
-                <span className="hidden truncate sm:inline">Substituir imagem</span>
+                <span className="truncate">Substituir imagem</span>
               </>
             ) : (
               <>
                 <Upload className="h-3.5 w-3.5 shrink-0" />
-                <span className="hidden truncate sm:inline">Carregar imagem</span>
+                <span className="truncate">Carregar imagem</span>
               </>
             )}
           </button>
