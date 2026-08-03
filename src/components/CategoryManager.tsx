@@ -248,7 +248,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                               placeholder="Nome"
                               className="min-w-0 flex-1 px-2 py-1.5 rounded bg-background/70 border border-sky-400/40 text-sm outline-none focus:border-sky-300"
                             />
-                            <IconPicker value={draftIcon} onChange={setDraftIcon} />
+                            <IconPicker value={draftIcon} onChange={setDraftIcon} label="Selecionar" />
                           </div>
                           <textarea
                             value={draftDesc}
