@@ -198,7 +198,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                 placeholder="Nome da categoria"
                 className="min-w-0 flex-1 px-3 py-2 rounded-lg bg-background/70 border border-sky-400/40 text-sm outline-none focus:border-sky-300"
               />
-              <IconPicker value={newIcon} onChange={setNewIcon} />
+              <IconPicker value={newIcon} onChange={setNewIcon} label="Selecionar" />
               <button
                 onClick={create}
                 disabled={saving || !newName.trim()}
@@ -221,7 +221,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
         {/* List — única área com rolagem */}
         <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-4 py-4 sm:px-6 sm:py-5">
           <div>
-            <p className="label-luxe mb-3">Suas Categorias existentes abaixo</p>
+            <p className="label-luxe mb-3">Selecione uma categoria existente abaixo para editar/alterar</p>
             {loading ? (
               <div className="flex items-center justify-center py-8 text-sky-300/70">
                 <Loader2 className="h-5 w-5 animate-spin" />
@@ -248,7 +248,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                               placeholder="Nome"
                               className="min-w-0 flex-1 px-2 py-1.5 rounded bg-background/70 border border-sky-400/40 text-sm outline-none focus:border-sky-300"
                             />
-                            <IconPicker value={draftIcon} onChange={setDraftIcon} />
+                            <IconPicker value={draftIcon} onChange={setDraftIcon} label="Selecionar" />
                           </div>
                           <textarea
                             value={draftDesc}
@@ -388,18 +388,21 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
 });
 
 
-const IconPicker = memo(function IconPicker({ value, onChange }: { value: IconName; onChange: (v: IconName) => void }) {
+const IconPicker = memo(function IconPicker({ value, onChange, label }: { value: IconName; onChange: (v: IconName) => void; label?: string }) {
   return (
-    <select
-      value={value}
-      onChange={(e) => onChange(e.target.value as IconName)}
-      className="w-full max-w-full shrink-0 px-3 py-2 rounded-lg bg-background/70 border border-sky-400/40 text-sm outline-none focus:border-sky-300 sm:w-40"
-    >
-      {iconNames.map((n) => (
-        <option key={n} value={n}>
-          {iconMap[n].label}
-        </option>
-      ))}
-    </select>
+    <div className="flex flex-col gap-1 w-full sm:w-40">
+      {label && <label className="text-[10px] uppercase tracking-wider text-sky-400/60 ml-1">{label}</label>}
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value as IconName)}
+        className="w-full px-3 py-2 rounded-lg bg-background/70 border border-sky-400/40 text-sm outline-none focus:border-sky-300"
+      >
+        {iconNames.map((n) => (
+          <option key={n} value={n}>
+            {iconMap[n].label}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 });
