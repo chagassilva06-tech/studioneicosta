@@ -246,6 +246,53 @@ function Galeria() {
       setDeletingSlot(null);
     }
   };
+  
+  const handleMove = async (i: number, targetCategoria: string) => {
+    const current = uploaded[i];
+    if (!current || !targetCategoria || targetCategoria === nome) return;
+    setMovingSlot(i);
+    try {
+      // Find the first empty slot in the target category
+      const { data: targetArtworks } = await supabase
+        .from("artworks")
+        .select("slot")
+        .eq("categoria", targetCategoria)
+        .order("slot", { ascending: true });
+      
+      const takenSlots = new Set((targetArtworks ?? []).map(a => a.slot));
+      let nextSlot = 0;
+      while (takenSlots.has(nextSlot)) {
+        nextSlot++;
+      }
+
+      const { error } = await supabase
+        .from("artworks")
+        .update({ categoria: targetCategoria, slot: nextSlot, featured: false })
+        .eq("categoria", nome)
+        .eq("slot", i);
+      
+      if (error) throw error;
+
+      setUploaded((prev) => {
+        const next = { ...prev };
+        delete next[i];
+        return next;
+      });
+      alert(`Imagem movida para ${targetCategoria}.`);
+    } catch (e) {
+      console.error("Move failed", e);
+      alert("Falha ao mover imagem.");
+    } finally {
+      setMovingSlot(null);
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase.from("categories").select("id, name").order("sort_order", { ascending: true });
+      if (data) setCategories(data);
+    })();
+  }, []);
 
 
 
@@ -352,6 +399,10 @@ function Galeria() {
                 canDelete={Boolean(uploaded[i])}
                 isDeleting={deletingSlot === i}
                 onDelete={() => handleDelete(i)}
+                canMove={Boolean(uploaded[i])}
+                isMoving={movingSlot === i}
+                categories={categories.filter(c => c.name !== nome)}
+                onMove={(target) => handleMove(i, target)}
                 registerInput={(el) => {
                   fileInputs.current[i] = el;
                 }}
@@ -385,6 +436,10 @@ type SlotProps = {
   canDelete: boolean;
   isDeleting: boolean;
   onDelete: () => void;
+  canMove: boolean;
+  isMoving: boolean;
+  categories: { id: string; name: string }[];
+  onMove: (target: string) => void;
   registerInput: (el: HTMLInputElement | null) => void;
   onPickFile: () => void;
   onFileChange: (f?: File | null) => void;
@@ -406,12 +461,17 @@ const Slot = memo(function Slot({
   canDelete,
   isDeleting,
   onDelete,
+  canMove,
+  isMoving,
+  categories,
+  onMove,
   registerInput,
   onPickFile,
   onFileChange,
   onOpenLightbox,
 }: SlotProps) {
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [showMoveMenu, setShowMoveMenu] = useState(false);
   const hasImage = Boolean(image);
   const dominant = useDominantColor(hasImage ? image : null);
   const triplet = rgbTriplet(dominant);
@@ -538,6 +598,47 @@ const Slot = memo(function Slot({
               )}
               <span className="truncate">Apagar</span>
             </button>
+          )}
+          
+          {canMove && (
+            <div className="relative">
+              <button
+                type="button"
+                disabled={isMoving}
+                title="Mover imagem para outra categoria"
+                aria-label="Mover imagem para outra categoria"
+                onClick={(e) => { e.stopPropagation(); setShowMoveMenu(!showMoveMenu); }}
+                className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[9px] font-medium tracking-wide border border-sky-400/70 text-sky-200 bg-background/70 backdrop-blur shadow-[0_0_8px_rgba(56,155,255,0.4)] hover:bg-sky-500/20 hover:border-sky-300 transition-all disabled:opacity-70"
+              >
+                {isMoving ? (
+                  <Loader2 className="h-2.5 w-2.5 shrink-0 animate-spin" />
+                ) : (
+                  <MoveHorizontal className="h-2.5 w-2.5 shrink-0" />
+                )}
+                <span className="truncate">Mover</span>
+              </button>
+              
+              {showMoveMenu && (
+                <div 
+                  className="absolute top-full left-0 mt-1 w-32 max-h-40 overflow-y-auto z-[30] rounded-lg border border-sky-400/40 bg-background/95 backdrop-blur-md shadow-xl py-1"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <p className="px-2 py-1 text-[8px] uppercase tracking-wider text-sky-400/60 border-b border-sky-400/20 mb-1">Para:</p>
+                  {categories.map((cat) => (
+                    <button
+                      key={cat.id}
+                      onClick={() => { setShowMoveMenu(false); onMove(cat.name); }}
+                      className="w-full text-left px-2 py-1.5 text-[10px] text-foreground hover:bg-sky-400/20 hover:text-sky-200 transition-colors truncate"
+                    >
+                      {cat.name}
+                    </button>
+                  ))}
+                  {categories.length === 0 && (
+                    <p className="px-2 py-2 text-[9px] text-muted-foreground italic">Nenhuma opção</p>
+                  )}
+                </div>
+              )}
+            </div>
           )}
         </div>
       )}
