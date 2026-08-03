@@ -19,7 +19,7 @@ type Props = {
   onChanged: () => void;
 };
 
-const BUCKET = "artworks";
+
 
 export const CategoryManager = memo(function CategoryManager({ open, onClose, onChanged }: Props) {
   const [items, setItems] = useState<Category[]>([]);
