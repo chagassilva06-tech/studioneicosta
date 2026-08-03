@@ -509,6 +509,8 @@ function Galeria() {
                 canDelete={Boolean(uploaded[i])}
                 isDeleting={deletingSlot === i}
                 onDelete={() => askDelete(i)}
+                hasNext={hasNext}
+                hasPrev={hasPrev}
                 canMove={Boolean(uploaded[i])}
                 isMoving={movingSlot === i}
                 categories={categories.filter(c => c.name !== nome)}
@@ -582,6 +584,8 @@ type SlotProps = {
   canDelete: boolean;
   isDeleting: boolean;
   onDelete: () => void;
+  hasNext: boolean;
+  hasPrev: boolean;
   canMove: boolean;
   isMoving: boolean;
   categories: { id: string; name: string }[];
@@ -607,6 +611,8 @@ const Slot = memo(function Slot({
   canDelete,
   isDeleting,
   onDelete,
+  hasNext,
+  hasPrev,
   canMove,
   isMoving,
   categories,
@@ -837,6 +843,21 @@ const Slot = memo(function Slot({
         </div>
       )}
 
+      {isAdmin && hasImage && (
+        <div className="absolute inset-0 z-10 flex items-center justify-between px-4 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          {hasPrev && (
+            <div className="pointer-events-auto">
+              <span className="hidden group-hover:block absolute -top-8 left-0 whitespace-nowrap bg-background/80 px-2 py-1 rounded text-[10px] text-sky-200 border border-sky-400/30">Foto anterior</span>
+            </div>
+          )}
+          {hasNext && (
+            <div className="pointer-events-auto ml-auto">
+              <span className="hidden group-hover:block absolute -top-8 right-0 whitespace-nowrap bg-background/80 px-2 py-1 rounded text-[10px] text-sky-200 border border-sky-400/30">Próxima foto da galeria</span>
+            </div>
+          )}
+        </div>
+      )}
+
       {isAdmin && canToggleFeatured && (
         <div className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 z-10">
           <button
@@ -855,8 +876,7 @@ const Slot = memo(function Slot({
               <Loader2 className="h-2.5 w-2.5 shrink-0 animate-spin" />
             ) : (
               <Star className={`h-2.5 w-2.5 shrink-0 ${isFeatured ? "fill-current" : ""}`} />
-            )}
-            <span className="hidden sm:inline">{isFeatured ? "Destaque" : "Destacar"}</span>
+            ) || <span>{isFeatured ? "Destaque" : "Destacar"}</span>}
           </button>
         </div>
       )}
