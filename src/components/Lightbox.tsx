@@ -15,6 +15,10 @@ export type LightboxData = {
 export function Lightbox({
   data,
   onClose,
+  onNext,
+  onPrev,
+  hasPrev,
+  hasNext,
 }: {
   data: LightboxData;
   onClose: () => void;
