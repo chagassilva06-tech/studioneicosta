@@ -388,18 +388,21 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
 });
 
 
-const IconPicker = memo(function IconPicker({ value, onChange }: { value: IconName; onChange: (v: IconName) => void }) {
+const IconPicker = memo(function IconPicker({ value, onChange, label }: { value: IconName; onChange: (v: IconName) => void; label?: string }) {
   return (
-    <select
-      value={value}
-      onChange={(e) => onChange(e.target.value as IconName)}
-      className="w-full max-w-full shrink-0 px-3 py-2 rounded-lg bg-background/70 border border-sky-400/40 text-sm outline-none focus:border-sky-300 sm:w-40"
-    >
-      {iconNames.map((n) => (
-        <option key={n} value={n}>
-          {iconMap[n].label}
-        </option>
-      ))}
-    </select>
+    <div className="flex flex-col gap-1 w-full sm:w-40">
+      {label && <label className="text-[10px] uppercase tracking-wider text-sky-400/60 ml-1">{label}</label>}
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value as IconName)}
+        className="w-full px-3 py-2 rounded-lg bg-background/70 border border-sky-400/40 text-sm outline-none focus:border-sky-300"
+      >
+        {iconNames.map((n) => (
+          <option key={n} value={n}>
+            {iconMap[n].label}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 });
