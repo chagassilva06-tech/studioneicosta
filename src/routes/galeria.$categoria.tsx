@@ -221,10 +221,19 @@ function Galeria() {
     }
   };
 
-  const handleDelete = async (i: number) => {
-    const current = uploaded[i];
-    if (!current) return;
+  const askDelete = (i: number) => {
     setDeletingSlot(i);
+  };
+
+  const confirmDelete = async () => {
+    if (deletingSlot === null) return;
+    const i = deletingSlot;
+    const current = uploaded[i];
+    if (!current) {
+      setDeletingSlot(null);
+      return;
+    }
+    
     try {
       const { error } = await supabase
         .from("artworks")
@@ -240,6 +249,7 @@ function Galeria() {
         delete next[i];
         return next;
       });
+      toast.success("Imagem apagada com sucesso");
     } catch (e) {
       console.error("Delete failed", e);
       toast.error("Falha ao apagar imagem.");

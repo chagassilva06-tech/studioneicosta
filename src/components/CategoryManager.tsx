@@ -106,14 +106,29 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
 
   const confirmRemove = async () => {
     if (!confirmId) return;
-    const { error } = await supabase.from("categories").delete().eq("id", confirmId);
-    setConfirmId(null);
-    setConfirmName("");
-    if (error) {
-      toast.error("Falha ao excluir: " + error.message);
+    
+    // First, delete all artworks associated with this category from the DB
+    const { error: artworksError } = await supabase
+      .from("artworks")
+      .delete()
+      .eq("categoria", confirmName);
+
+    if (artworksError) {
+      toast.error("Falha ao excluir obras da categoria: " + artworksError.message);
       return;
     }
-    toast.success("Categoria excluída");
+
+    // Note: Orphaned storage files are not cleaned up here to keep the DB deletion fast, 
+    // but in a production app, we'd ideally trigger a background job to delete files from Storage.
+
+    const { error: categoryError } = await supabase.from("categories").delete().eq("id", confirmId);
+    setConfirmId(null);
+    setConfirmName("");
+    if (categoryError) {
+      toast.error("Falha ao excluir categoria: " + categoryError.message);
+      return;
+    }
+    toast.success("Categoria e fotos vinculadas excluídas");
     await load();
     onChanged();
   };
@@ -334,7 +349,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
               <p className="text-sm text-muted-foreground mb-1">Excluir categoria?</p>
               <p className="text-lg font-medium mb-5">"{confirmName}"</p>
               <p className="text-xs text-muted-foreground mb-6">
-                As obras existentes desta categoria permanecerão no banco.
+                A categoria e TODAS as fotos vinculadas a ela serão apagadas permanentemente.
               </p>
               <div className="flex items-center justify-center gap-3">
                 <button
