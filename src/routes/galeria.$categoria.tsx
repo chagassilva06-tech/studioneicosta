@@ -349,6 +349,53 @@ function Galeria() {
 
 
 
+  const navigateTo = (direction: 'next' | 'prev') => {
+    if (!lightbox) return;
+    const currentIndex = slots.findIndex((_, i) => {
+      const baseImage = images[i];
+      const image = uploaded[i]?.url ?? baseImage;
+      return image === lightbox.src;
+    });
+    
+    if (currentIndex === -1) return;
+    
+    let nextIndex = direction === 'next' ? currentIndex + 1 : currentIndex - 1;
+    
+    // Find next/prev slot with an image
+    while (nextIndex >= 0 && nextIndex < slots.length) {
+      const baseImg = images[nextIndex];
+      const img = uploaded[nextIndex]?.url ?? baseImg;
+      if (img) {
+        setLightbox({
+          src: img,
+          title: `${nome} — obra ${nextIndex + 1}`,
+          description: desc,
+          categoria: nome,
+        });
+        return;
+      }
+      nextIndex = direction === 'next' ? nextIndex + 1 : nextIndex - 1;
+    }
+  };
+
+  const hasNext = useMemo(() => {
+    if (!lightbox) return false;
+    const currentIndex = slots.findIndex((_, i) => (uploaded[i]?.url ?? images[i]) === lightbox.src);
+    for (let i = currentIndex + 1; i < slots.length; i++) {
+      if (uploaded[i]?.url ?? images[i]) return true;
+    }
+    return false;
+  }, [lightbox, slots, uploaded, images]);
+
+  const hasPrev = useMemo(() => {
+    if (!lightbox) return false;
+    const currentIndex = slots.findIndex((_, i) => (uploaded[i]?.url ?? images[i]) === lightbox.src);
+    for (let i = currentIndex - 1; i >= 0; i--) {
+      if (uploaded[i]?.url ?? images[i]) return true;
+    }
+    return false;
+  }, [lightbox, slots, uploaded, images]);
+
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
       <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/40">
@@ -468,7 +515,16 @@ function Galeria() {
         </div>
       </section>
       <Suspense fallback={null}>
-        {lightbox && <Lightbox data={lightbox} onClose={() => setLightbox(null)} />}
+        {lightbox && (
+          <Lightbox 
+            data={lightbox} 
+            onClose={() => setLightbox(null)} 
+            onNext={() => navigateTo('next')}
+            onPrev={() => navigateTo('prev')}
+            hasNext={hasNext}
+            hasPrev={hasPrev}
+          />
+        )}
       </Suspense>
     </div>
   );
