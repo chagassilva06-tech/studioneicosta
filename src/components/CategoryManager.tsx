@@ -198,7 +198,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                 placeholder="Nome da categoria"
                 className="min-w-0 flex-1 px-3 py-2 rounded-lg bg-background/70 border border-sky-400/40 text-sm outline-none focus:border-sky-300"
               />
-              <IconPicker value={newIcon} onChange={setNewIcon} />
+              <IconPicker value={newIcon} onChange={setNewIcon} label="Selecionar" />
               <button
                 onClick={create}
                 disabled={saving || !newName.trim()}
