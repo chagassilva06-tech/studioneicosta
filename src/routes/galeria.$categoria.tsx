@@ -221,10 +221,19 @@ function Galeria() {
     }
   };
 
-  const handleDelete = async (i: number) => {
-    const current = uploaded[i];
-    if (!current) return;
+  const askDelete = (i: number) => {
     setDeletingSlot(i);
+  };
+
+  const confirmDelete = async () => {
+    if (deletingSlot === null) return;
+    const i = deletingSlot;
+    const current = uploaded[i];
+    if (!current) {
+      setDeletingSlot(null);
+      return;
+    }
+    
     try {
       const { error } = await supabase
         .from("artworks")
@@ -240,6 +249,7 @@ function Galeria() {
         delete next[i];
         return next;
       });
+      toast.success("Imagem apagada com sucesso");
     } catch (e) {
       console.error("Delete failed", e);
       toast.error("Falha ao apagar imagem.");
@@ -498,7 +508,9 @@ function Galeria() {
                 onToggleFeatured={() => handleToggleFeatured(i)}
                 canDelete={Boolean(uploaded[i])}
                 isDeleting={deletingSlot === i}
-                onDelete={() => handleDelete(i)}
+                onDelete={() => askDelete(i)}
+                hasNext={hasNext}
+                hasPrev={hasPrev}
                 canMove={Boolean(uploaded[i])}
                 isMoving={movingSlot === i}
                 categories={categories.filter(c => c.name !== nome)}
@@ -526,6 +538,33 @@ function Galeria() {
           />
         )}
       </Suspense>
+
+      {/* Confirmação de exclusão de foto */}
+      {deletingSlot !== null && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+          <div className="w-full max-w-sm rounded-2xl border border-rose-400/40 bg-background/95 p-6 shadow-[0_0_40px_-10px_rgba(244,63,94,0.5)] text-center animate-in zoom-in-95 duration-200">
+            <Trash2 className="h-10 w-10 text-rose-400 mx-auto mb-4" />
+            <p className="text-lg font-medium mb-2">Excluir imagem?</p>
+            <p className="text-xs text-muted-foreground mb-6">
+              Esta ação não pode ser desfeita. A imagem será removida permanentemente desta galeria.
+            </p>
+            <div className="flex items-center justify-center gap-3">
+              <button
+                onClick={() => setDeletingSlot(null)}
+                className="px-5 py-2 rounded-lg border border-sky-400/40 text-sm font-medium hover:bg-sky-400/15 transition-colors"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="px-5 py-2 rounded-lg bg-rose-500 text-white text-sm font-medium hover:bg-rose-400 shadow-[0_0_20px_-4px_rgba(244,63,94,0.6)] transition-colors"
+              >
+                Confirmar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -545,6 +584,8 @@ type SlotProps = {
   canDelete: boolean;
   isDeleting: boolean;
   onDelete: () => void;
+  hasNext: boolean;
+  hasPrev: boolean;
   canMove: boolean;
   isMoving: boolean;
   categories: { id: string; name: string }[];
@@ -570,6 +611,8 @@ const Slot = memo(function Slot({
   canDelete,
   isDeleting,
   onDelete,
+  hasNext,
+  hasPrev,
   canMove,
   isMoving,
   categories,
@@ -781,6 +824,37 @@ const Slot = memo(function Slot({
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Lightbox Trigger Arrows Overlay (visible on hover when lightbox is open) */}
+      {isAdmin && hasImage && (
+        <div className="absolute inset-0 z-10 flex items-center justify-between px-4 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          {hasPrev && (
+            <div className="pointer-events-auto">
+              <span className="hidden group-hover:block absolute -top-8 left-0 whitespace-nowrap bg-background/80 px-2 py-1 rounded text-[10px] text-sky-200 border border-sky-400/30">Foto anterior</span>
+            </div>
+          )}
+          {hasNext && (
+            <div className="pointer-events-auto ml-auto">
+              <span className="hidden group-hover:block absolute -top-8 right-0 whitespace-nowrap bg-background/80 px-2 py-1 rounded text-[10px] text-sky-200 border border-sky-400/30">Próxima foto da galeria</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {isAdmin && hasImage && (
+        <div className="absolute inset-0 z-10 flex items-center justify-between px-4 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          {hasPrev && (
+            <div className="pointer-events-auto">
+              <span className="hidden group-hover:block absolute -top-8 left-0 whitespace-nowrap bg-background/80 px-2 py-1 rounded text-[10px] text-sky-200 border border-sky-400/30">Foto anterior</span>
+            </div>
+          )}
+          {hasNext && (
+            <div className="pointer-events-auto ml-auto">
+              <span className="hidden group-hover:block absolute -top-8 right-0 whitespace-nowrap bg-background/80 px-2 py-1 rounded text-[10px] text-sky-200 border border-sky-400/30">Próxima foto da galeria</span>
+            </div>
+          )}
         </div>
       )}
 
