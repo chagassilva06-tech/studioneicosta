@@ -168,7 +168,6 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
   const overlay = (
     <div
       className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
-      onClick={onClose}
     >
       <div
         className="relative flex w-full max-w-2xl max-h-[85vh] flex-col overflow-hidden rounded-2xl border border-sky-400/40 bg-background/95 shadow-[0_0_60px_-10px_rgba(56,155,255,0.6)]"
@@ -182,6 +181,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
             onClick={onClose}
             className="h-9 w-9 shrink-0 rounded-full inline-flex items-center justify-center text-sky-200 hover:bg-sky-400/15 border border-sky-400/40"
             aria-label="Fechar"
+            title="Fechar?"
           >
             <X className="h-4 w-4" />
           </button>
@@ -211,7 +211,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
             <textarea
               value={newDesc}
               onChange={(e) => setNewDesc(e.target.value)}
-              placeholder="Informações da categoria (opcional)"
+              placeholder="Descreva aqui sobre a categoria (opcional)"
               rows={2}
               className="mt-2 w-full resize-none rounded-lg border border-sky-400/40 bg-background/70 px-3 py-2 text-sm outline-none focus:border-sky-300"
             />
@@ -221,7 +221,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
         {/* List — única área com rolagem */}
         <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-4 py-4 sm:px-6 sm:py-5">
           <div>
-            <p className="label-luxe mb-3">Existentes</p>
+            <p className="label-luxe mb-3">Suas Categorias existentes abaixo</p>
             {loading ? (
               <div className="flex items-center justify-center py-8 text-sky-300/70">
                 <Loader2 className="h-5 w-5 animate-spin" />
@@ -238,6 +238,9 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                     >
                       {editing ? (
                         <div className="flex flex-col gap-2">
+                          <p className="text-xs font-medium text-sky-300 mb-1">
+                            Editar categoria? "{draftName}"
+                          </p>
                           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                             <input
                               value={draftName}
