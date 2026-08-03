@@ -876,7 +876,8 @@ const Slot = memo(function Slot({
               <Loader2 className="h-2.5 w-2.5 shrink-0 animate-spin" />
             ) : (
               <Star className={`h-2.5 w-2.5 shrink-0 ${isFeatured ? "fill-current" : ""}`} />
-            ) || <span>{isFeatured ? "Destaque" : "Destacar"}</span>}
+            )}
+            <span className="hidden sm:inline">{isFeatured ? "Destaque" : "Destacar"}</span>
           </button>
         </div>
       )}
