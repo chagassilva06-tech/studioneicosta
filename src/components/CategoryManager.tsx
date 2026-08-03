@@ -221,7 +221,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
         {/* List — única área com rolagem */}
         <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-4 py-4 sm:px-6 sm:py-5">
           <div>
-            <p className="label-luxe mb-3">Suas Categorias existentes abaixo</p>
+            <p className="label-luxe mb-3">Selecione uma categoria existente abaixo para editar/alterar</p>
             {loading ? (
               <div className="flex items-center justify-center py-8 text-sky-300/70">
                 <Loader2 className="h-5 w-5 animate-spin" />
