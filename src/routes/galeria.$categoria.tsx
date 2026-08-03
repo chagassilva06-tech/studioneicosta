@@ -179,7 +179,7 @@ function Galeria() {
       }
     } catch (e) {
       console.error("Upload failed", e);
-      alert("Falha ao enviar imagem. Tente novamente.");
+      toast.error("Falha ao enviar imagem. Tente novamente.");
     } finally {
       setUploadingSlot(null);
     }
@@ -215,7 +215,7 @@ function Galeria() {
       });
     } catch (e) {
       console.error("Toggle featured failed", e);
-      alert("Falha ao marcar como destaque.");
+      toast.error("Falha ao marcar como destaque.");
     } finally {
       setTogglingSlot(null);
     }
@@ -242,7 +242,7 @@ function Galeria() {
       });
     } catch (e) {
       console.error("Delete failed", e);
-      alert("Falha ao apagar imagem.");
+      toast.error("Falha ao apagar imagem.");
     } finally {
       setDeletingSlot(null);
     }
