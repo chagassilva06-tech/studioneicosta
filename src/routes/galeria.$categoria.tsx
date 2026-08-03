@@ -508,7 +508,7 @@ function Galeria() {
                 onToggleFeatured={() => handleToggleFeatured(i)}
                 canDelete={Boolean(uploaded[i])}
                 isDeleting={deletingSlot === i}
-                onDelete={() => handleDelete(i)}
+                onDelete={() => askDelete(i)}
                 canMove={Boolean(uploaded[i])}
                 isMoving={movingSlot === i}
                 categories={categories.filter(c => c.name !== nome)}
@@ -536,6 +536,33 @@ function Galeria() {
           />
         )}
       </Suspense>
+
+      {/* Confirmação de exclusão de foto */}
+      {deletingSlot !== null && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+          <div className="w-full max-w-sm rounded-2xl border border-rose-400/40 bg-background/95 p-6 shadow-[0_0_40px_-10px_rgba(244,63,94,0.5)] text-center animate-in zoom-in-95 duration-200">
+            <Trash2 className="h-10 w-10 text-rose-400 mx-auto mb-4" />
+            <p className="text-lg font-medium mb-2">Excluir imagem?</p>
+            <p className="text-xs text-muted-foreground mb-6">
+              Esta ação não pode ser desfeita. A imagem será removida permanentemente desta galeria.
+            </p>
+            <div className="flex items-center justify-center gap-3">
+              <button
+                onClick={() => setDeletingSlot(null)}
+                className="px-5 py-2 rounded-lg border border-sky-400/40 text-sm font-medium hover:bg-sky-400/15 transition-colors"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="px-5 py-2 rounded-lg bg-rose-500 text-white text-sm font-medium hover:bg-rose-400 shadow-[0_0_20px_-4px_rgba(244,63,94,0.6)] transition-colors"
+              >
+                Confirmar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
