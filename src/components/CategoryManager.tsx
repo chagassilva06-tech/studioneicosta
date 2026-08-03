@@ -1,8 +1,9 @@
 import { memo, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { X, Plus, Pencil, Trash2, Loader2, Save, ImageOff } from "lucide-react";
+import { X, Plus, Pencil, Trash2, Loader2, Save, MoreVertical } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { iconNames, getIcon, iconMap, type IconName } from "@/lib/category-icons";
+import { toast } from "sonner";
 
 export type Category = {
   id: string;
@@ -18,7 +19,7 @@ type Props = {
   onChanged: () => void;
 };
 
-const BUCKET = "artworks";
+
 
 export const CategoryManager = memo(function CategoryManager({ open, onClose, onChanged }: Props) {
   const [items, setItems] = useState<Category[]>([]);
@@ -35,6 +36,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
   const [confirmName, setConfirmName] = useState<string>("");
   const [purgeName, setPurgeName] = useState<string | null>(null);
   const [purging, setPurging] = useState(false);
+  const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
 
   const load = async () => {
     setLoading(true);
@@ -88,9 +90,10 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
     }
     setSaving(false);
     if (error) {
-      alert("Falha ao salvar: " + error.message);
+      toast.error("Falha ao salvar: " + error.message);
       return;
     }
+    toast.success("Categoria atualizada com sucesso");
     setEditingId(null);
     await load();
     onChanged();
@@ -107,9 +110,10 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
     setConfirmId(null);
     setConfirmName("");
     if (error) {
-      alert("Falha ao excluir: " + error.message);
+      toast.error("Falha ao excluir: " + error.message);
       return;
     }
+    toast.success("Categoria excluída");
     await load();
     onChanged();
   };
@@ -119,29 +123,6 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
     setConfirmName("");
   };
 
-  const confirmPurgePhotos = async () => {
-    if (!purgeName) return;
-    setPurging(true);
-    try {
-      const { data, error } = await supabase
-        .from("artworks")
-        .select("storage_path")
-        .eq("categoria", purgeName);
-      if (error) throw error;
-      const paths = (data ?? []).map((r) => r.storage_path).filter(Boolean);
-      if (paths.length > 0) {
-        await supabase.storage.from(BUCKET).remove(paths);
-      }
-      const { error: delErr } = await supabase.from("artworks").delete().eq("categoria", purgeName);
-      if (delErr) throw delErr;
-      setPurgeName(null);
-      onChanged();
-    } catch (e) {
-      alert("Falha ao remover fotos: " + (e as Error).message);
-    } finally {
-      setPurging(false);
-    }
-  };
 
   const create = async () => {
     if (!newName.trim()) return;
@@ -155,9 +136,10 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
     });
     setSaving(false);
     if (error) {
-      alert("Falha ao criar: " + error.message);
+      toast.error("Falha ao criar: " + error.message);
       return;
     }
+    toast.success("Categoria criada!");
     setNewName("");
     setNewIcon("Palette");
     setNewDesc("");
@@ -227,17 +209,19 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                 <Loader2 className="h-5 w-5 animate-spin" />
               </div>
             ) : (
-              <ul className="space-y-2">
+              <ul className="space-y-3">
                 {items.map((c) => {
                   const Icon = getIcon(c.icon);
                   const editing = editingId === c.id;
+                  const menuOpen = menuOpenId === c.id;
+                  
                   return (
                     <li
                       key={c.id}
-                      className="rounded-lg border border-border/50 bg-card/40 px-3 py-2"
+                      className="group relative rounded-lg border border-border/50 bg-card/40 px-3 py-3 transition-all hover:border-sky-400/30"
                     >
                       {editing ? (
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-2 animate-in fade-in slide-in-from-top-1 duration-200">
                           <p className="text-xs font-medium text-sky-300 mb-1">
                             Editar categoria? "{draftName}"
                           </p>
@@ -253,69 +237,88 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                           <textarea
                             value={draftDesc}
                             onChange={(e) => setDraftDesc(e.target.value)}
-                            placeholder="Informações (deixe vazio para retirar)"
+                            placeholder="Descreva aqui sobre a categoria (opcional)"
                             rows={3}
                             className="w-full resize-none rounded border border-sky-400/40 bg-background/70 px-2 py-1.5 text-sm outline-none focus:border-sky-300"
                           />
-                          <div className="flex gap-1">
+                          <div className="flex gap-1 pt-1">
                             <button
                               onClick={saveEdit}
                               disabled={saving}
-                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded bg-sky-400 text-slate-950 text-xs font-medium hover:bg-sky-300 disabled:opacity-60"
+                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded bg-sky-400 text-slate-950 text-xs font-medium hover:bg-sky-300 disabled:opacity-60 transition-colors"
                             >
                               {saving ? <Loader2 className="h-3 w-3 animate-spin" /> : <Save className="h-3 w-3" />}
                               Salvar
                             </button>
                             <button
                               onClick={() => setEditingId(null)}
-                              className="px-3 py-1.5 rounded border border-border/60 text-xs hover:bg-muted/40"
+                              className="px-3 py-1.5 rounded border border-border/60 text-xs hover:bg-muted/40 transition-colors"
                             >
                               Cancelar
                             </button>
                           </div>
                         </div>
                       ) : (
-                        <div className="flex flex-col gap-1">
-                          <div className="flex items-center gap-2">
-                            <Icon className="h-4 w-4 shrink-0 text-sky-300" />
-                            <span className="min-w-0 flex-1 truncate text-sm font-medium">{c.name}</span>
-                            <div className="flex shrink-0 gap-1">
-                              <button
-                                onClick={() => startEdit(c)}
-                                className="h-8 w-8 rounded-full inline-flex items-center justify-center text-sky-200 hover:bg-sky-400/15 border border-sky-400/30"
-                                aria-label="Editar"
-                                title="Editar"
-                              >
-                                <Pencil className="h-3.5 w-3.5" />
-                              </button>
-                              <button
-                                onClick={() => setPurgeName(c.name)}
-                                className="h-8 w-8 rounded-full inline-flex items-center justify-center text-amber-300 hover:bg-amber-400/15 border border-amber-400/40"
-                                aria-label="Remover todas as fotos"
-                                title="Remover todas as fotos (mantém os cards vazios)"
-                              >
-                                <ImageOff className="h-3.5 w-3.5" />
-                              </button>
-                              <button
-                                onClick={() => askRemove(c.id, c.name)}
-                                className="h-8 w-8 rounded-full inline-flex items-center justify-center text-rose-300 hover:bg-rose-400/15 border border-rose-400/30"
-                                aria-label="Excluir"
-                                title="Excluir"
-                              >
-                                <Trash2 className="h-3.5 w-3.5" />
-                              </button>
-                            </div>
+                        <div className="flex items-center gap-3">
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-400/10 border border-sky-400/20 text-sky-300">
+                            <Icon className="h-5 w-5" />
                           </div>
-                          {c.description ? (
-                            <p className="pl-6 text-xs text-muted-foreground">{c.description}</p>
-                          ) : null}
+                          <div className="min-w-0 flex-1">
+                            <span className="block truncate text-sm font-medium text-foreground">{c.name}</span>
+                            {c.description ? (
+                              <p className="line-clamp-1 text-xs text-muted-foreground">{c.description}</p>
+                            ) : (
+                              <p className="text-[10px] italic text-muted-foreground/50">Sem descrição</p>
+                            )}
+                          </div>
+                          
+                          <div className="relative shrink-0">
+                            <button
+                              onClick={() => setMenuOpenId(menuOpen ? null : c.id)}
+                              className="h-9 w-9 rounded-full inline-flex items-center justify-center text-muted-foreground hover:text-sky-300 hover:bg-sky-400/10 transition-colors"
+                              aria-label="Menu de ações"
+                            >
+                              <MoreVertical className="h-5 w-5" />
+                            </button>
+
+                            {menuOpen && (
+                              <>
+                                <div 
+                                  className="fixed inset-0 z-10" 
+                                  onClick={() => setMenuOpenId(null)} 
+                                />
+                                <div className="absolute right-0 top-full z-20 mt-1 w-48 origin-top-right overflow-hidden rounded-xl border border-sky-400/30 bg-background/95 shadow-xl backdrop-blur-md animate-in fade-in zoom-in-95 duration-150">
+                                  <button
+                                    onClick={() => {
+                                      startEdit(c);
+                                      setMenuOpenId(null);
+                                    }}
+                                    className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm hover:bg-sky-400/10 transition-colors"
+                                  >
+                                    <Pencil className="h-4 w-4 text-sky-300" />
+                                    Editar categoria
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      askRemove(c.id, c.name);
+                                      setMenuOpenId(null);
+                                    }}
+                                    className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-rose-400 hover:bg-rose-400/10 transition-colors"
+                                  >
+                                    <Trash2 className="h-4 w-4" />
+                                    Excluir categoria
+                                  </button>
+                                </div>
+                              </>
+                            )}
+                          </div>
                         </div>
                       )}
                     </li>
                   );
                 })}
                 {items.length === 0 && (
-                  <li className="text-sm text-muted-foreground py-4 text-center">
+                  <li className="text-sm text-muted-foreground py-8 text-center border border-dashed border-border/50 rounded-lg">
                     Nenhuma categoria cadastrada.
                   </li>
                 )}
@@ -351,34 +354,6 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
           </div>
         )}
 
-        {/* Confirmação de remoção de fotos */}
-        {purgeName && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-            <div className="w-full max-w-sm rounded-2xl border border-amber-400/40 bg-background/95 p-6 shadow-[0_0_40px_-10px_rgba(251,191,36,0.5)] text-center">
-              <p className="text-sm text-muted-foreground mb-1">Remover todas as fotos de</p>
-              <p className="text-lg font-medium mb-5">"{purgeName}"?</p>
-              <p className="text-xs text-muted-foreground mb-6">
-                A categoria e os cards permanecem — apenas as imagens são apagadas.
-              </p>
-              <div className="flex items-center justify-center gap-3">
-                <button
-                  onClick={() => setPurgeName(null)}
-                  disabled={purging}
-                  className="px-5 py-2 rounded-lg border border-sky-400/40 text-sm font-medium hover:bg-sky-400/15 transition-colors disabled:opacity-60"
-                >
-                  Não
-                </button>
-                <button
-                  onClick={confirmPurgePhotos}
-                  disabled={purging}
-                  className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-amber-500 text-slate-950 text-sm font-medium hover:bg-amber-400 shadow-[0_0_20px_-4px_rgba(251,191,36,0.6)] transition-colors disabled:opacity-60"
-                >
-                  {purging && <Loader2 className="h-3.5 w-3.5 animate-spin" />} Sim
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
