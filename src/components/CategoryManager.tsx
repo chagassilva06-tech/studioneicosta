@@ -1,8 +1,9 @@
 import { memo, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { X, Plus, Pencil, Trash2, Loader2, Save, ImageOff, MoreVertical } from "lucide-react";
+import { X, Plus, Pencil, Trash2, Loader2, Save, MoreVertical } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { iconNames, getIcon, iconMap, type IconName } from "@/lib/category-icons";
+import { toast } from "sonner";
 
 export type Category = {
   id: string;
@@ -89,9 +90,10 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
     }
     setSaving(false);
     if (error) {
-      alert("Falha ao salvar: " + error.message);
+      toast.error("Falha ao salvar: " + error.message);
       return;
     }
+    toast.success("Categoria atualizada com sucesso");
     setEditingId(null);
     await load();
     onChanged();
@@ -108,9 +110,10 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
     setConfirmId(null);
     setConfirmName("");
     if (error) {
-      alert("Falha ao excluir: " + error.message);
+      toast.error("Falha ao excluir: " + error.message);
       return;
     }
+    toast.success("Categoria excluída");
     await load();
     onChanged();
   };
@@ -120,29 +123,6 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
     setConfirmName("");
   };
 
-  const confirmPurgePhotos = async () => {
-    if (!purgeName) return;
-    setPurging(true);
-    try {
-      const { data, error } = await supabase
-        .from("artworks")
-        .select("storage_path")
-        .eq("categoria", purgeName);
-      if (error) throw error;
-      const paths = (data ?? []).map((r) => r.storage_path).filter(Boolean);
-      if (paths.length > 0) {
-        await supabase.storage.from(BUCKET).remove(paths);
-      }
-      const { error: delErr } = await supabase.from("artworks").delete().eq("categoria", purgeName);
-      if (delErr) throw delErr;
-      setPurgeName(null);
-      onChanged();
-    } catch (e) {
-      alert("Falha ao remover fotos: " + (e as Error).message);
-    } finally {
-      setPurging(false);
-    }
-  };
 
   const create = async () => {
     if (!newName.trim()) return;
@@ -156,9 +136,10 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
     });
     setSaving(false);
     if (error) {
-      alert("Falha ao criar: " + error.message);
+      toast.error("Falha ao criar: " + error.message);
       return;
     }
+    toast.success("Categoria criada!");
     setNewName("");
     setNewIcon("Palette");
     setNewDesc("");
@@ -373,34 +354,6 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
           </div>
         )}
 
-        {/* Confirmação de remoção de fotos */}
-        {purgeName && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-            <div className="w-full max-w-sm rounded-2xl border border-amber-400/40 bg-background/95 p-6 shadow-[0_0_40px_-10px_rgba(251,191,36,0.5)] text-center">
-              <p className="text-sm text-muted-foreground mb-1">Remover todas as fotos de</p>
-              <p className="text-lg font-medium mb-5">"{purgeName}"?</p>
-              <p className="text-xs text-muted-foreground mb-6">
-                A categoria e os cards permanecem — apenas as imagens são apagadas.
-              </p>
-              <div className="flex items-center justify-center gap-3">
-                <button
-                  onClick={() => setPurgeName(null)}
-                  disabled={purging}
-                  className="px-5 py-2 rounded-lg border border-sky-400/40 text-sm font-medium hover:bg-sky-400/15 transition-colors disabled:opacity-60"
-                >
-                  Não
-                </button>
-                <button
-                  onClick={confirmPurgePhotos}
-                  disabled={purging}
-                  className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-amber-500 text-slate-950 text-sm font-medium hover:bg-amber-400 shadow-[0_0_20px_-4px_rgba(251,191,36,0.6)] transition-colors disabled:opacity-60"
-                >
-                  {purging && <Loader2 className="h-3.5 w-3.5 animate-spin" />} Sim
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
