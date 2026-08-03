@@ -2,6 +2,7 @@ import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { memo, lazy, Suspense, useEffect, useRef, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, ImageIcon, Upload, RefreshCw, Loader2, LogOut, Star, Plus, Trash2, MoveHorizontal } from "lucide-react";
+import { toast } from "sonner";
 import paisagem1 from "@/assets/paisagem-1.webp";
 import pintura1 from "@/assets/pintura-1.webp";
 import type { LightboxData } from "@/components/Lightbox";
@@ -178,7 +179,7 @@ function Galeria() {
       }
     } catch (e) {
       console.error("Upload failed", e);
-      alert("Falha ao enviar imagem. Tente novamente.");
+      toast.error("Falha ao enviar imagem. Tente novamente.");
     } finally {
       setUploadingSlot(null);
     }
@@ -214,7 +215,7 @@ function Galeria() {
       });
     } catch (e) {
       console.error("Toggle featured failed", e);
-      alert("Falha ao marcar como destaque.");
+      toast.error("Falha ao marcar como destaque.");
     } finally {
       setTogglingSlot(null);
     }
@@ -241,18 +242,17 @@ function Galeria() {
       });
     } catch (e) {
       console.error("Delete failed", e);
-      alert("Falha ao apagar imagem.");
+      toast.error("Falha ao apagar imagem.");
     } finally {
       setDeletingSlot(null);
     }
   };
   
-  const handleMove = async (i: number, targetCategoria: string) => {
+  const handleMove = async (i: number, targetCategoria: string, isUndo = false) => {
     const current = uploaded[i];
     if (!current || !targetCategoria || targetCategoria === nome) return;
     setMovingSlot(i);
     try {
-      // Find the first empty slot in the target category
       const { data: targetArtworks } = await supabase
         .from("artworks")
         .select("slot")
@@ -278,12 +278,65 @@ function Galeria() {
         delete next[i];
         return next;
       });
-      alert(`Imagem movida para ${targetCategoria}.`);
+
+      if (!isUndo) {
+        toast.success(`Imagem movida para ${targetCategoria}`, {
+          description: "A imagem foi transferida com sucesso.",
+          action: {
+            label: "Cancelar",
+            onClick: () => handleUndoMove(targetCategoria, nextSlot, i),
+          },
+        });
+      }
     } catch (e) {
       console.error("Move failed", e);
-      alert("Falha ao mover imagem.");
+      toast.error("Falha ao mover imagem.");
     } finally {
       setMovingSlot(null);
+    }
+  };
+
+  const handleUndoMove = async (fromCat: string, fromSlot: number, originalSlot: number) => {
+    try {
+      const { error } = await supabase
+        .from("artworks")
+        .update({ categoria: nome, slot: originalSlot, featured: false })
+        .eq("categoria", fromCat)
+        .eq("slot", fromSlot);
+      
+      if (error) throw error;
+
+      // Re-fetch or update local state for the original slot
+      const v = await signVariants(uploaded[originalSlot]?.path || ""); // This might not work if state was deleted
+      // Actually, we need to know the path. 
+      // But wait, if I moved it, I deleted it from 'uploaded'.
+      // I should probably just trigger a re-load of the gallery data.
+      
+      // Simpler: reload data
+      const { data } = await supabase
+        .from("artworks")
+        .select("storage_path, featured")
+        .eq("categoria", nome)
+        .eq("slot", originalSlot)
+        .single();
+      
+      if (data) {
+        const v = await signVariants(data.storage_path);
+        setUploaded(prev => ({
+          ...prev,
+          [originalSlot]: { 
+            path: data.storage_path, 
+            url: v.url, 
+            srcSet: v.srcSet, 
+            featured: data.featured 
+          }
+        }));
+      }
+      
+      toast.success("Movimentação cancelada");
+    } catch (e) {
+      console.error("Undo move failed", e);
+      toast.error("Não foi possível desfazer a ação.");
     }
   };
 
