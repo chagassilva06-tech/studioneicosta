@@ -88,11 +88,11 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
 
   const overlay = (
     <div
-      className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex flex-col"
+      className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-3xl flex flex-col animate-in fade-in duration-300"
       onClick={onClose}
     >
       <div
-        className="flex items-center justify-between px-4 sm:px-8 py-4 border-b border-sky-400/20 bg-background/80"
+        className="flex items-center justify-between px-6 sm:px-12 py-5 sm:py-6 border-b border-white/5 bg-background/50 backdrop-blur-md"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center gap-3 min-w-0">
@@ -111,7 +111,7 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
       </div>
 
       <div
-        className="flex gap-2 overflow-x-auto px-4 sm:px-8 py-3 border-b border-sky-400/10 bg-background/70 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex gap-3 overflow-x-auto px-6 sm:px-12 py-4 border-b border-white/5 bg-background/30 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {["Todas", ...categorias].map((c) => (

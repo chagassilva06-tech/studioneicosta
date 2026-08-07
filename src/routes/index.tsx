@@ -707,13 +707,13 @@ function Index() {
 
 
       {/* Footer */}
-      <footer className="border-t border-sky-400/30 bg-background/80 shadow-[inset_0_1px_0_rgba(186,230,255,0.35),inset_0_-1px_0_rgba(0,0,0,0.5),0_-10px_28px_-14px_rgba(56,155,255,0.5)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-10 grid md:grid-cols-2 gap-8 md:gap-10">
+      <footer className="border-t border-white/5 bg-[#0a0910] shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 py-16 grid md:grid-cols-2 gap-12 sm:gap-16">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#b89a5e] shadow-[0_0_10px_rgba(184,154,94,0.7)]" />
+              <div className="h-px w-8 bg-[#d8bf85] mb-4" />
               <span className="font-display text-3xl md:text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-                Studio<span className="italic font-normal text-[#d8bf85] drop-shadow-[0_0_10px_rgba(216,191,133,0.5)]">Nei</span>
+                Studio<span className="italic font-normal text-[#d8bf85] ml-1 drop-shadow-[0_0_10px_rgba(216,191,133,0.4)]">Nei</span>
               </span>
             </div>
             <p className="text-sm text-foreground/75 max-w-xs leading-relaxed">
@@ -745,8 +745,10 @@ function Index() {
             </ul>
           </div>
         </div>
-        <div className="border-t border-sky-400/20 py-6 text-center text-xs text-foreground/70 shadow-[inset_0_1px_0_rgba(186,230,255,0.2)]">
-          © {new Date().getFullYear()} StudioNei · Todos os direitos reservados
+        <div className="border-t border-white/5 py-8 text-center">
+          <p className="text-[10px] sm:text-xs uppercase tracking-[0.4em] text-white/30">
+            © {new Date().getFullYear()} StudioNei · Todos os direitos reservados
+          </p>
         </div>
       </footer>
       <Suspense fallback={null}>
