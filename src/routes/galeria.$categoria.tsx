@@ -408,8 +408,8 @@ function Galeria() {
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
-      <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/40">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 md:px-10 h-16 flex items-center justify-between gap-2 sm:gap-3">
+      <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-2xl bg-background/80 border-b border-white/5 shadow-2xl">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 h-16 sm:h-20 flex items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2 group min-w-0 shrink">
             <span className="h-2 w-2 shrink-0 rounded-full bg-[#b89a5e] shadow-[0_0_10px_rgba(184,154,94,0.7)]" />
             <span
@@ -449,9 +449,9 @@ function Galeria() {
           transition={{ duration: 0.7 }}
           className="mb-8 sm:mb-14"
         >
-          <div className="flex items-center gap-3 mb-4">
-            <div className="h-px w-8 sm:w-12 bg-sky-400" />
-            <span className="uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[0.65rem] sm:text-xs text-sky-400/90">Categoria</span>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="h-[2px] w-12 sm:w-16 bg-gradient-to-r from-sky-400 to-transparent" />
+            <span className="uppercase tracking-[0.5em] text-[0.7rem] sm:text-xs text-sky-400 font-medium">Categoria</span>
           </div>
           <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl md:text-7xl font-light break-words">{nome}</h1>
           <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-foreground max-w-lg">
@@ -462,7 +462,7 @@ function Galeria() {
             <Link
               to="/"
               aria-label="Voltar"
-              className="group inline-flex min-h-10 items-center gap-1.5 text-xs sm:text-sm font-medium text-sky-400 border border-sky-400/60 rounded-full px-4 py-2 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 hover:text-sky-300 hover:bg-sky-400/10 transition-all duration-300 animate-pulse-slow"
+              className="group inline-flex min-h-[42px] items-center gap-2 text-xs sm:text-sm font-bold text-sky-400 border border-sky-400/30 rounded-xl px-5 py-2.5 bg-sky-400/5 shadow-[0_10px_20px_-5px_rgba(56,189,248,0.2)] hover:shadow-[0_15px_30px_-8px_rgba(56,189,248,0.4)] hover:border-sky-300 hover:text-sky-300 transition-all duration-300 active:scale-[0.97]"
             >
               <ChevronLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" /> <span>Voltar</span>
             </Link>
@@ -474,7 +474,7 @@ function Galeria() {
           <div className="mb-6 flex justify-end">
             <button
               onClick={addSlot}
-              className="inline-flex items-center gap-2 rounded-full border border-sky-400/60 bg-sky-400/5 px-4 py-2 text-xs sm:text-sm font-medium text-sky-300 shadow-[0_0_12px_rgba(56,155,255,0.35)] transition-all hover:border-sky-300 hover:bg-sky-400/10 hover:shadow-[0_0_24px_rgba(56,155,255,0.7)]"
+              className="inline-flex items-center gap-2 rounded-xl bg-white text-slate-950 px-5 py-2.5 text-xs sm:text-sm font-bold shadow-[0_15px_30px_-8px_rgba(255,255,255,0.2)] transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]"
             >
               <Plus className="h-4 w-4" /> Adicionar card de foto
             </button>

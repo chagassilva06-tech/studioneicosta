@@ -88,11 +88,11 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
 
   const overlay = (
     <div
-      className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex flex-col"
+      className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-3xl flex flex-col animate-in fade-in duration-300"
       onClick={onClose}
     >
       <div
-        className="flex items-center justify-between px-4 sm:px-8 py-4 border-b border-sky-400/20 bg-background/80"
+        className="flex items-center justify-between px-6 sm:px-12 py-5 sm:py-6 border-b border-white/5 bg-background/50 backdrop-blur-md"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center gap-3 min-w-0">
@@ -111,17 +111,17 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
       </div>
 
       <div
-        className="flex gap-2 overflow-x-auto px-4 sm:px-8 py-3 border-b border-sky-400/10 bg-background/70 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex gap-3 overflow-x-auto px-6 sm:px-12 py-4 border-b border-white/5 bg-background/30 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {["Todas", ...categorias].map((c) => (
           <button
             key={c}
             onClick={() => setFilter(c)}
-            className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+            className={`shrink-0 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border transition-all duration-300 ${
               filter === c
-                ? "bg-sky-400 text-slate-950 border-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.6)]"
-                : "text-foreground/80 border-sky-400/30 hover:border-sky-300 hover:bg-sky-400/10"
+                ? "bg-white text-slate-950 border-white shadow-[0_10px_20px_-5px_rgba(255,255,255,0.2)]"
+                : "text-foreground/60 border-white/10 hover:border-white/20 hover:bg-white/5"
             }`}
           >
             {c}
@@ -152,7 +152,7 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
                     categoria: it.categoria,
                   })
                 }
-                className="group relative aspect-[4/5] rounded-xl overflow-hidden border border-sky-400/40 bg-card/50 shadow-[0_0_14px_rgba(56,155,255,0.25)] hover:shadow-[0_0_28px_rgba(56,155,255,0.7)] hover:border-sky-300 transition-all"
+                className="group relative aspect-[4/5] rounded-2xl overflow-hidden border border-white/5 bg-white/[0.02] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] hover:shadow-[0_25px_50px_-8px_rgba(56,189,248,0.2)] hover:border-sky-400/40 transition-all duration-500"
               >
                 <img
                   src={it.url}
@@ -163,7 +163,7 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
                   decoding="async"
                   className="absolute inset-0 h-full w-full object-contain p-2 transition-transform duration-500 group-hover:scale-[1.08]"
                 />
-                <div className="absolute bottom-0 inset-x-0 px-2 py-1.5 bg-gradient-to-t from-background/90 to-transparent text-[10px] uppercase tracking-[0.25em] text-sky-200/90 text-left">
+                <div className="absolute bottom-0 inset-x-0 px-3 py-2.5 bg-gradient-to-t from-background/95 to-transparent text-[9px] uppercase tracking-[0.4em] text-white/50 text-left">
                   {it.categoria}
                 </div>
               </button>

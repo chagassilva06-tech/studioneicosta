@@ -303,12 +303,12 @@ function Index() {
 
     <div className="min-h-screen bg-background bg-canvas-texture text-foreground font-sans transition-colors duration-500">
       {/* Editorial signature bar (22px) */}
-      <div className="fixed top-0 left-0 right-0 z-50 h-5 sm:h-[22px] flex items-center justify-center bg-background border-b border-[#d8bf85]/15 px-2 [contain:paint]">
-        <span className="label-luxe truncate text-[0.5rem] tracking-[0.32em] sm:text-[0.55rem] sm:tracking-[0.55em]">Arte · Pintura · Projetos Autorais</span>
+      <div className="fixed top-0 left-0 right-0 z-50 h-6 sm:h-[26px] flex items-center justify-center bg-background border-b border-white/5 px-2 [contain:paint]">
+        <span className="label-luxe truncate text-[0.55rem] tracking-[0.4em] sm:text-[0.62rem] sm:tracking-[0.6em] font-light opacity-80">Arte · Pintura · Projetos Autorais</span>
       </div>
 
       {/* Header (sticky, layered) */}
-      <header className="fixed top-5 sm:top-[22px] left-0 right-0 z-40 bg-background/95 [contain:paint]">
+      <header className="fixed top-6 sm:top-[26px] left-0 right-0 z-40 bg-background/90 backdrop-blur-2xl border-b border-white/5 shadow-2xl [contain:paint]">
         {/* Logo row */}
         <div className="h-14 sm:h-[70px] max-w-7xl mx-auto px-3 sm:px-6 md:px-10 grid grid-cols-[1fr_auto_1fr] items-center gap-1.5 sm:gap-2">
 
@@ -317,13 +317,13 @@ function Index() {
             href="#top"
             className="group justify-self-center flex items-center gap-2 min-w-0 transition-transform duration-200 hover:scale-[1.04]"
           >
-            <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#b89a5e] shadow-[0_0_10px_rgba(184,154,94,0.7)] group-hover:shadow-[0_0_14px_rgba(216,191,133,0.9)] transition-shadow" />
+            <span className="label-luxe shrink-0 hidden sm:block">·</span>
             <span
-              className="font-display text-[1.6rem] sm:text-3xl md:text-[2.4rem] leading-none tracking-wide truncate text-foreground transition-all duration-300 group-hover:tracking-[0.05em] will-change-transform"
+              className="font-display text-[1.8rem] sm:text-3xl md:text-[2.6rem] leading-none tracking-tight truncate text-foreground transition-all duration-500 group-hover:tracking-[0.02em]"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               Studio
-              <span className="italic font-normal text-[#d8bf85] drop-shadow-[0_0_10px_rgba(216,191,133,0.5)] group-hover:drop-shadow-[0_0_14px_rgba(216,191,133,0.75)]">
+              <span className="italic font-normal text-[#d8bf85] ml-1 drop-shadow-[0_0_15px_rgba(216,191,133,0.4)]">
                 Nei
               </span>
             </span>
@@ -333,7 +333,7 @@ function Index() {
               <button
                 type="button"
                 onClick={() => supabase.auth.signOut()}
-                className="group relative inline-flex items-center gap-1.5 text-xs font-medium text-yellow-300 border border-yellow-300/70 rounded-full px-2.5 sm:px-3 py-1.5 bg-yellow-300/5 shadow-[0_0_12px_rgba(250,204,21,0.3)] hover:shadow-[0_0_24px_rgba(250,204,21,0.65)] hover:border-yellow-200 hover:text-yellow-200 transition-all active:scale-95"
+                className="group relative inline-flex items-center gap-2 text-xs font-bold text-yellow-400 border border-yellow-400/40 rounded-xl px-4 py-2 bg-yellow-400/5 shadow-[0_10px_20px_-5px_rgba(250,204,21,0.2)] hover:shadow-[0_15px_30px_-8px_rgba(250,204,21,0.4)] hover:border-yellow-300 hover:bg-yellow-400/10 transition-all active:scale-[0.97]"
               >
                 <LogOut className="h-3.5 w-3.5 transition-transform group-hover:rotate-12" /> <span className="hidden sm:inline">Sair</span>
               </button>
@@ -348,7 +348,8 @@ function Index() {
                     exitGuest();
                     navigate({ to: "/auth", replace: true });
                   }}
-                  className="group relative inline-flex items-center gap-1.5 text-xs font-medium text-sky-200 border border-sky-400/50 rounded-full px-2.5 sm:px-3 py-1.5 bg-sky-400/5 shadow-[0_0_10px_rgba(56,189,248,0.2)] hover:bg-sky-400/15 hover:border-sky-300 hover:shadow-[0_0_20px_rgba(56,189,248,0.5)] transition-all active:scale-95"
+                  className="group relative inline-flex items-center gap-2 text-xs font-bold text-sky-400 border border-sky-400/40 rounded-xl px-4 py-2 bg-sky-400/5 shadow-[0_10px_20px_-5px_rgba(56,189,248,0.2)] hover:shadow-[0_15px_30px_-8px_rgba(56,189,248,0.4)] hover:bg-sky-400/10 hover:border-sky-300 transition-all active:scale-[0.97]"
+
                 >
                   <LogOut className="h-3.5 w-3.5 transition-transform group-hover:rotate-12" /> <span className="hidden sm:inline">Sair</span>
                 </button>
@@ -356,7 +357,7 @@ function Index() {
             ) : (
               <Link
                 to="/auth"
-                className="group relative inline-flex items-center gap-1.5 text-xs font-medium text-sky-200 border border-sky-400/50 rounded-full px-2.5 sm:px-3 py-1.5 bg-sky-400/5 shadow-[0_0_10px_rgba(56,189,248,0.2)] hover:bg-sky-400/15 hover:border-sky-300 hover:shadow-[0_0_20px_rgba(56,189,248,0.5)] transition-all active:scale-95"
+                className="group relative inline-flex items-center gap-2 text-xs font-bold text-sky-400 border border-sky-400/40 rounded-xl px-4 py-2 bg-sky-400/5 shadow-[0_10px_20px_-5px_rgba(56,189,248,0.2)] hover:shadow-[0_15px_30px_-8px_rgba(56,189,248,0.4)] hover:bg-sky-400/10 hover:border-sky-300 transition-all active:scale-[0.97]"
               >
                 <LogIn className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" /> <span className="hidden sm:inline">Entrar</span>
               </Link>
@@ -367,17 +368,17 @@ function Index() {
         </div>
 
         {/* Categories pills */}
-        <div className="h-[52px] sm:h-[60px] border-t border-sky-400/15 bg-background/60">
-          <div className="max-w-7xl mx-auto h-full px-2 sm:px-6 md:px-10 flex items-center gap-2">
+        <div className="h-[52px] sm:h-[64px] border-t border-white/5 bg-background/40 backdrop-blur-3xl">
+          <div className="max-w-7xl mx-auto h-full px-4 sm:px-8 md:px-12 flex items-center gap-3">
             {/* Todos — fixed left */}
             <button
               type="button"
               onClick={openAllModal}
-              className="shrink-0 inline-flex min-h-9 items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-sky-400 text-slate-950 border border-sky-300 shadow-[0_0_18px_rgba(56,189,248,0.6)] hover:shadow-[0_0_26px_rgba(56,189,248,0.9)] transition-all duration-200 hover:scale-[1.05]"
+              className="shrink-0 inline-flex min-h-[38px] items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-slate-950 shadow-[0_10px_20px_-5px_rgba(255,255,255,0.2)] hover:shadow-[0_15px_30px_-8px_rgba(255,255,255,0.4)] transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]"
             >
-              <LayoutGrid className="h-3.5 w-3.5 shrink-0" />
+              <LayoutGrid className="h-4 w-4 shrink-0" />
               <span>Todos</span>
-              <span className="opacity-80 text-[10px] sm:text-xs">({totalCount})</span>
+              <span className="opacity-60 font-medium tabular-nums text-[10px] sm:text-xs">({totalCount})</span>
             </button>
 
 
@@ -393,9 +394,9 @@ function Index() {
                         key={c.id}
                         to="/galeria/$categoria"
                         params={{ categoria: c.name }}
-                        className="shrink-0 snap-start group inline-flex min-h-9 items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium text-foreground/85 border border-sky-400/40 bg-transparent hover:bg-sky-400/10 hover:border-sky-300 hover:text-sky-100 hover:shadow-[0_0_14px_rgba(56,155,255,0.6)] transition-all duration-200 hover:scale-[1.05]"
+                        className="shrink-0 snap-start group inline-flex min-h-[38px] items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-foreground/80 border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] hover:border-white/20 hover:text-white transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]"
                       >
-                        <Icon className="h-3.5 w-3.5 shrink-0 text-sky-300/85 group-hover:text-sky-200" />
+                        <Icon className="h-4 w-4 shrink-0 text-sky-400 group-hover:text-sky-300 transition-colors" />
                         <span className="whitespace-nowrap">{c.name}</span>
                         <span className="opacity-60 text-[10px] sm:text-xs">({counts[c.name] ?? 0})</span>
                       </Link>
@@ -410,7 +411,7 @@ function Index() {
               <button
                 type="button"
                 onClick={openCategoryManager}
-                className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-[#d8bf85] border border-[#d8bf85]/50 bg-[#d8bf85]/[0.06] hover:bg-[#d8bf85]/15 hover:border-[#d8bf85] transition-all duration-200 hover:scale-[1.05]"
+                className="shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-[#d8bf85] border border-[#d8bf85]/30 bg-[#d8bf85]/[0.05] hover:bg-[#d8bf85]/15 hover:border-[#d8bf85]/60 transition-all duration-300 hover:scale-[1.03]"
                 title="Gerenciar categorias"
               >
                 <Settings2 className="h-3.5 w-3.5" />
@@ -421,8 +422,9 @@ function Index() {
         </div>
 
         {/* Search bar */}
-        <div className="border-t border-sky-400/10 bg-background/50">
-          <div className="max-w-3xl mx-auto px-3 sm:px-6 py-2 sm:py-2.5 relative">
+        <div className="border-t border-white/5 bg-background/30 backdrop-blur-xl">
+          <div className="max-w-4xl mx-auto px-4 sm:px-8 py-2.5 sm:py-3 relative">
+
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-sky-300/70" />
               <input
@@ -432,7 +434,7 @@ function Index() {
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setTimeout(() => setSearchFocused(false), 150)}
                 placeholder="Pesquisar obras..."
-                className="w-full min-h-10 pl-9 pr-3 py-2 rounded-full bg-background/70 border border-sky-400/40 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/70 outline-none focus:border-sky-300 focus:shadow-[0_0_16px_rgba(56,155,255,0.55)] transition-all"
+                className="w-full min-h-[44px] pl-10 pr-4 py-2.5 rounded-2xl bg-white/[0.04] border border-white/10 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-sky-400/60 focus:bg-white/[0.06] focus:shadow-[0_0_20px_rgba(56,189,248,0.3)] transition-all duration-300"
               />
             </div>
 
@@ -462,7 +464,7 @@ function Index() {
         </div>
 
         {/* Neon gradient separator */}
-        <div className="h-[3px] bg-[linear-gradient(90deg,transparent,rgba(56,155,255,0.75),transparent)] shadow-[0_10px_24px_-6px_rgba(56,155,255,0.7)]" />
+        <div className="h-[1px] bg-[linear-gradient(90deg,transparent,rgba(56,189,248,0.4),transparent)] opacity-50" />
       </header>
 
       {/* Hero */}
@@ -502,12 +504,13 @@ function Index() {
                 Uma forma organizada de apresentação do conjunto de obras.
               </p>
             </div>
-            <div className="mt-8 sm:mt-10 flex flex-wrap gap-3 sm:gap-4">
+            <div className="mt-10 sm:mt-12 flex flex-wrap gap-4 sm:gap-6">
               <a
                 href="#about"
-                className="group inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 border border-sky-400/40 text-foreground rounded-full text-xs sm:text-sm hover:border-sky-300 hover:text-sky-200 hover:shadow-[0_0_18px_rgba(56,155,255,0.6)] hover:bg-sky-400/5 transition-all duration-300"
+                className="group relative inline-flex items-center gap-2 px-6 py-3 overflow-hidden rounded-full bg-sky-400 text-slate-950 text-sm font-bold shadow-[0_20px_40px_-10px_rgba(56,189,248,0.5)] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_25px_50px_-8px_rgba(56,189,248,0.7)] active:scale-[0.98]"
               >
-                Sobre o Artista
+                <div className="absolute inset-0 bg-white/20 translate-y-full transition-transform duration-300 group-hover:translate-y-0" />
+                <span className="relative">Sobre o Artista</span>
               </a>
 
             </div>
@@ -704,13 +707,13 @@ function Index() {
 
 
       {/* Footer */}
-      <footer className="border-t border-sky-400/30 bg-background/80 shadow-[inset_0_1px_0_rgba(186,230,255,0.35),inset_0_-1px_0_rgba(0,0,0,0.5),0_-10px_28px_-14px_rgba(56,155,255,0.5)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-10 grid md:grid-cols-2 gap-8 md:gap-10">
+      <footer className="border-t border-white/5 bg-[#0a0910] shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 py-16 grid md:grid-cols-2 gap-12 sm:gap-16">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#b89a5e] shadow-[0_0_10px_rgba(184,154,94,0.7)]" />
+              <div className="h-px w-8 bg-[#d8bf85] mb-4" />
               <span className="font-display text-3xl md:text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-                Studio<span className="italic font-normal text-[#d8bf85] drop-shadow-[0_0_10px_rgba(216,191,133,0.5)]">Nei</span>
+                Studio<span className="italic font-normal text-[#d8bf85] ml-1 drop-shadow-[0_0_10px_rgba(216,191,133,0.4)]">Nei</span>
               </span>
             </div>
             <p className="text-sm text-foreground/75 max-w-xs leading-relaxed">
@@ -742,8 +745,10 @@ function Index() {
             </ul>
           </div>
         </div>
-        <div className="border-t border-sky-400/20 py-6 text-center text-xs text-foreground/70 shadow-[inset_0_1px_0_rgba(186,230,255,0.2)]">
-          © {new Date().getFullYear()} StudioNei · Todos os direitos reservados
+        <div className="border-t border-white/5 py-8 text-center">
+          <p className="text-[10px] sm:text-xs uppercase tracking-[0.4em] text-white/30">
+            © {new Date().getFullYear()} StudioNei · Todos os direitos reservados
+          </p>
         </div>
       </footer>
       <Suspense fallback={null}>

@@ -167,13 +167,16 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
       className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
     >
       <div
-        className="relative flex w-full max-w-2xl max-h-[85vh] flex-col overflow-hidden rounded-2xl border border-sky-400/40 bg-background/95 shadow-[0_0_60px_-10px_rgba(56,155,255,0.6)]"
+        className="relative flex w-full max-w-2xl max-h-[85vh] flex-col overflow-hidden rounded-3xl border border-sky-400/20 bg-background/95 shadow-[0_40px_100px_-20px_rgba(0,0,0,1),0_0_80px_-10px_rgba(56,155,255,0.25)] backdrop-blur-3xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex shrink-0 items-center justify-between gap-3 border-b border-sky-400/20 px-4 py-3 sm:px-6 sm:py-4">
-          <h2 className="min-w-0 truncate font-display text-xl sm:text-2xl">
-            Gerenciar <span className="italic text-[#d8bf85]">Categorias</span>
-          </h2>
+        <div className="flex shrink-0 items-center justify-between gap-4 border-b border-sky-400/10 px-6 py-5 sm:px-8">
+          <div className="flex items-center gap-3">
+            <div className="h-2 w-2 rounded-full bg-[#d8bf85] shadow-[0_0_10px_rgba(216,191,133,0.6)]" />
+            <h2 className="min-w-0 truncate font-display text-2xl sm:text-3xl font-light">
+              Gerenciar <span className="italic text-[#d8bf85]">Categorias</span>
+            </h2>
+          </div>
           <button
             onClick={onClose}
             className="h-9 w-9 shrink-0 rounded-full inline-flex items-center justify-center text-sky-200 hover:bg-sky-400/15 border border-sky-400/40"
@@ -185,9 +188,12 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
         </div>
 
         {/* Create — fixo, sem rolagem */}
-        <div className="shrink-0 px-4 pt-4 sm:px-6 sm:pt-5">
-          <div className="rounded-xl border border-sky-400/30 bg-sky-400/[0.04] p-3 sm:p-4">
-            <p className="label-luxe mb-3">Nova categoria</p>
+        <div className="shrink-0 px-6 pt-6 sm:px-8 sm:pt-8">
+          <div className="rounded-2xl border border-sky-400/15 bg-sky-400/[0.03] p-5 sm:p-6 shadow-inner">
+            <p className="label-luxe mb-4 flex items-center gap-2">
+              <Plus className="h-3 w-3" />
+              Nova categoria
+            </p>
             <div className="flex flex-col gap-2 sm:flex-row">
               <input
                 value={newName}

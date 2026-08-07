@@ -111,7 +111,7 @@ export function Lightbox({
                   onClose();
                 }}
                 aria-label="Fechar"
-                className="absolute top-2 right-2 z-[110] inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-sky-400/70 bg-background/80 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] hover:border-sky-300 hover:text-sky-100 transition-all"
+                className="absolute top-4 right-4 z-[110] inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-background/80 backdrop-blur-xl text-white shadow-2xl hover:bg-white hover:text-slate-950 transition-all duration-300"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -123,7 +123,7 @@ export function Lightbox({
                   setZoomed((z) => !z);
                 }}
                 aria-label={zoomed ? "Reduzir imagem" : "Ampliar imagem"}
-                className="absolute top-2 right-[3.75rem] z-[110] inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-sky-400/70 bg-background/80 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.5)] hover:shadow-[0_0_22px_rgba(56,155,255,0.9)] hover:border-sky-300 hover:text-sky-100 transition-all"
+                className="absolute top-4 right-20 z-[110] inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-background/80 backdrop-blur-xl text-white shadow-2xl hover:bg-white hover:text-slate-950 transition-all duration-300"
               >
                 {zoomed ? (
                   <ZoomOut className="h-5 w-5" />
