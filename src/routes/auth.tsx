@@ -186,8 +186,8 @@ function AuthPage() {
           <div className="relative">
             {/* Grupo 1 — selo */}
             <div className="mb-7 flex justify-center">
-              <span className="flex h-[62px] w-[62px] sm:h-[74px] sm:w-[74px] items-center justify-center rounded-full border border-white/12 bg-white/[0.06] text-violet-300 shadow-[0_0_40px_-8px_rgba(139,92,246,0.85),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-md">
-                <Palette className="h-9 w-9 sm:h-11 sm:w-11" strokeWidth={1.5} />
+              <span className="flex h-[70px] w-[70px] sm:h-[84px] sm:w-[84px] items-center justify-center rounded-3xl border border-white/10 bg-white/[0.04] text-violet-300 shadow-[0_20px_50px_-12px_rgba(139,92,246,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-xl rotate-3 transition-transform hover:rotate-0 duration-500">
+                <Palette className="h-10 w-10 sm:h-12 sm:w-12" strokeWidth={1.2} />
               </span>
             </div>
 
@@ -285,7 +285,7 @@ function AuthPage() {
             <button
               type="submit"
               disabled={loading}
-              className="mt-8 inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-full bg-[linear-gradient(100deg,#7c3aed_0%,#c026d3_35%,#2563eb_70%,#7c3aed_100%)] bg-[length:220%_100%] bg-[position:0%_50%] text-base font-semibold text-white shadow-[0_0_24px_-6px_rgba(168,85,247,0.55),inset_0_1px_0_rgba(255,255,255,0.18)] transition-[background-position,box-shadow] duration-[1200ms] ease-out hover:bg-[position:100%_50%] hover:shadow-[0_0_34px_-4px_rgba(192,38,211,0.6),inset_0_1px_0_rgba(255,255,255,0.22)] disabled:opacity-60"
+              className="mt-8 inline-flex h-[56px] w-full items-center justify-center gap-3 rounded-2xl bg-[linear-gradient(135deg,#7c3aed_0%,#c026d3_50%,#2563eb_100%)] bg-[length:200%_100%] bg-[position:0%_50%] text-lg font-bold text-white shadow-[0_20px_40px_-10px_rgba(124,58,237,0.4),inset_0_1px_0_rgba(255,255,255,0.25)] transition-all duration-700 ease-out hover:bg-[position:100%_50%] hover:shadow-[0_25px_50px_-8px_rgba(192,38,211,0.5),inset_0_1px_0_rgba(255,255,255,0.3)] hover:scale-[1.01] active:scale-[0.98] disabled:opacity-60"
             >
               {loading ? (
                 <>
