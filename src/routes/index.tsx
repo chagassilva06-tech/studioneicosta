@@ -333,7 +333,7 @@ function Index() {
               <button
                 type="button"
                 onClick={() => supabase.auth.signOut()}
-                className="group relative inline-flex items-center gap-1.5 text-xs font-medium text-yellow-300 border border-yellow-300/70 rounded-full px-2.5 sm:px-3 py-1.5 bg-yellow-300/5 shadow-[0_0_12px_rgba(250,204,21,0.3)] hover:shadow-[0_0_24px_rgba(250,204,21,0.65)] hover:border-yellow-200 hover:text-yellow-200 transition-all active:scale-95"
+                className="group relative inline-flex items-center gap-2 text-xs font-bold text-yellow-400 border border-yellow-400/40 rounded-xl px-4 py-2 bg-yellow-400/5 shadow-[0_10px_20px_-5px_rgba(250,204,21,0.2)] hover:shadow-[0_15px_30px_-8px_rgba(250,204,21,0.4)] hover:border-yellow-300 hover:bg-yellow-400/10 transition-all active:scale-[0.97]"
               >
                 <LogOut className="h-3.5 w-3.5 transition-transform group-hover:rotate-12" /> <span className="hidden sm:inline">Sair</span>
               </button>
@@ -348,7 +348,8 @@ function Index() {
                     exitGuest();
                     navigate({ to: "/auth", replace: true });
                   }}
-                  className="group relative inline-flex items-center gap-1.5 text-xs font-medium text-sky-200 border border-sky-400/50 rounded-full px-2.5 sm:px-3 py-1.5 bg-sky-400/5 shadow-[0_0_10px_rgba(56,189,248,0.2)] hover:bg-sky-400/15 hover:border-sky-300 hover:shadow-[0_0_20px_rgba(56,189,248,0.5)] transition-all active:scale-95"
+                  className="group relative inline-flex items-center gap-2 text-xs font-bold text-sky-400 border border-sky-400/40 rounded-xl px-4 py-2 bg-sky-400/5 shadow-[0_10px_20px_-5px_rgba(56,189,248,0.2)] hover:shadow-[0_15px_30px_-8px_rgba(56,189,248,0.4)] hover:bg-sky-400/10 hover:border-sky-300 transition-all active:scale-[0.97]"
+
                 >
                   <LogOut className="h-3.5 w-3.5 transition-transform group-hover:rotate-12" /> <span className="hidden sm:inline">Sair</span>
                 </button>
@@ -356,7 +357,7 @@ function Index() {
             ) : (
               <Link
                 to="/auth"
-                className="group relative inline-flex items-center gap-1.5 text-xs font-medium text-sky-200 border border-sky-400/50 rounded-full px-2.5 sm:px-3 py-1.5 bg-sky-400/5 shadow-[0_0_10px_rgba(56,189,248,0.2)] hover:bg-sky-400/15 hover:border-sky-300 hover:shadow-[0_0_20px_rgba(56,189,248,0.5)] transition-all active:scale-95"
+                className="group relative inline-flex items-center gap-2 text-xs font-bold text-sky-400 border border-sky-400/40 rounded-xl px-4 py-2 bg-sky-400/5 shadow-[0_10px_20px_-5px_rgba(56,189,248,0.2)] hover:shadow-[0_15px_30px_-8px_rgba(56,189,248,0.4)] hover:bg-sky-400/10 hover:border-sky-300 transition-all active:scale-[0.97]"
               >
                 <LogIn className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" /> <span className="hidden sm:inline">Entrar</span>
               </Link>
@@ -373,11 +374,11 @@ function Index() {
             <button
               type="button"
               onClick={openAllModal}
-              className="shrink-0 inline-flex min-h-9 items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-sky-400 text-slate-950 border border-sky-300 shadow-[0_0_18px_rgba(56,189,248,0.6)] hover:shadow-[0_0_26px_rgba(56,189,248,0.9)] transition-all duration-200 hover:scale-[1.05]"
+              className="shrink-0 inline-flex min-h-[38px] items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-slate-950 shadow-[0_10px_20px_-5px_rgba(255,255,255,0.2)] hover:shadow-[0_15px_30px_-8px_rgba(255,255,255,0.4)] transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]"
             >
-              <LayoutGrid className="h-3.5 w-3.5 shrink-0" />
+              <LayoutGrid className="h-4 w-4 shrink-0" />
               <span>Todos</span>
-              <span className="opacity-80 text-[10px] sm:text-xs">({totalCount})</span>
+              <span className="opacity-60 font-medium tabular-nums text-[10px] sm:text-xs">({totalCount})</span>
             </button>
 
 
@@ -393,9 +394,9 @@ function Index() {
                         key={c.id}
                         to="/galeria/$categoria"
                         params={{ categoria: c.name }}
-                        className="shrink-0 snap-start group inline-flex min-h-9 items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium text-foreground/85 border border-sky-400/40 bg-transparent hover:bg-sky-400/10 hover:border-sky-300 hover:text-sky-100 hover:shadow-[0_0_14px_rgba(56,155,255,0.6)] transition-all duration-200 hover:scale-[1.05]"
+                        className="shrink-0 snap-start group inline-flex min-h-[38px] items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-foreground/80 border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] hover:border-white/20 hover:text-white transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]"
                       >
-                        <Icon className="h-3.5 w-3.5 shrink-0 text-sky-300/85 group-hover:text-sky-200" />
+                        <Icon className="h-4 w-4 shrink-0 text-sky-400 group-hover:text-sky-300 transition-colors" />
                         <span className="whitespace-nowrap">{c.name}</span>
                         <span className="opacity-60 text-[10px] sm:text-xs">({counts[c.name] ?? 0})</span>
                       </Link>
@@ -410,7 +411,7 @@ function Index() {
               <button
                 type="button"
                 onClick={openCategoryManager}
-                className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-[#d8bf85] border border-[#d8bf85]/50 bg-[#d8bf85]/[0.06] hover:bg-[#d8bf85]/15 hover:border-[#d8bf85] transition-all duration-200 hover:scale-[1.05]"
+                className="shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-[#d8bf85] border border-[#d8bf85]/30 bg-[#d8bf85]/[0.05] hover:bg-[#d8bf85]/15 hover:border-[#d8bf85]/60 transition-all duration-300 hover:scale-[1.03]"
                 title="Gerenciar categorias"
               >
                 <Settings2 className="h-3.5 w-3.5" />
