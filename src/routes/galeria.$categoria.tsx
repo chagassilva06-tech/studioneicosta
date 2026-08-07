@@ -449,9 +449,9 @@ function Galeria() {
           transition={{ duration: 0.7 }}
           className="mb-8 sm:mb-14"
         >
-          <div className="flex items-center gap-3 mb-4">
-            <div className="h-px w-8 sm:w-12 bg-sky-400" />
-            <span className="uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[0.65rem] sm:text-xs text-sky-400/90">Categoria</span>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="h-[2px] w-12 sm:w-16 bg-gradient-to-r from-sky-400 to-transparent" />
+            <span className="uppercase tracking-[0.5em] text-[0.7rem] sm:text-xs text-sky-400 font-medium">Categoria</span>
           </div>
           <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl md:text-7xl font-light break-words">{nome}</h1>
           <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-foreground max-w-lg">
