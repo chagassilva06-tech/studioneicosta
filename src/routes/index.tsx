@@ -317,13 +317,13 @@ function Index() {
             href="#top"
             className="group justify-self-center flex items-center gap-2 min-w-0 transition-transform duration-200 hover:scale-[1.04]"
           >
-            <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#b89a5e] shadow-[0_0_10px_rgba(184,154,94,0.7)] group-hover:shadow-[0_0_14px_rgba(216,191,133,0.9)] transition-shadow" />
+            <span className="label-luxe shrink-0 hidden sm:block">·</span>
             <span
-              className="font-display text-[1.6rem] sm:text-3xl md:text-[2.4rem] leading-none tracking-wide truncate text-foreground transition-all duration-300 group-hover:tracking-[0.05em] will-change-transform"
+              className="font-display text-[1.8rem] sm:text-3xl md:text-[2.6rem] leading-none tracking-tight truncate text-foreground transition-all duration-500 group-hover:tracking-[0.02em]"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               Studio
-              <span className="italic font-normal text-[#d8bf85] drop-shadow-[0_0_10px_rgba(216,191,133,0.5)] group-hover:drop-shadow-[0_0_14px_rgba(216,191,133,0.75)]">
+              <span className="italic font-normal text-[#d8bf85] ml-1 drop-shadow-[0_0_15px_rgba(216,191,133,0.4)]">
                 Nei
               </span>
             </span>

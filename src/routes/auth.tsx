@@ -113,51 +113,70 @@ function AuthPage() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(90%_70%_at_100%_50%,rgba(124,58,237,0.35),transparent_60%)]" />
       <div className="pointer-events-none absolute -right-24 top-1/4 h-[60vh] w-[45vh] rounded-full bg-fuchsia-600/25 blur-[130px]" />
 
-      <div className="relative z-10 mx-auto grid min-h-[100svh] w-full max-w-[1300px] grid-cols-1 items-center gap-8 px-4 py-8 sm:gap-10 sm:py-12 sm:px-8 lg:grid-cols-[1fr_minmax(400px,476px)] lg:gap-16">
+      <div className="relative z-10 mx-auto grid min-h-[100svh] w-full max-w-[1300px] grid-cols-1 items-center gap-12 px-6 py-10 sm:px-12 lg:grid-cols-[1.1fr_minmax(420px,520px)] lg:gap-20">
         {/* Left column */}
-        <div className="flex flex-col justify-between gap-8 sm:gap-12 lg:min-h-[560px] lg:py-4 will-change-transform">
-          <div>
-            <h2 className="font-serif text-3xl italic tracking-wide text-white sm:text-4xl">
+        <div className="flex flex-col justify-between gap-12 lg:min-h-[600px] lg:py-6">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <h2 className="font-serif text-3xl italic tracking-wide text-white sm:text-5xl lg:text-6xl">
               Studio Nei
             </h2>
-            <p className="mt-1 text-[10px] uppercase tracking-[0.42em] text-white/70">
-              Galeria de Arte
-            </p>
-          </div>
+            <div className="mt-3 flex items-center gap-3">
+              <div className="h-px w-10 bg-[#d8bf85]" />
+              <p className="text-[11px] uppercase tracking-[0.5em] text-white/80">
+                Arte · Pintura · Projetos Autorais
+              </p>
+            </div>
+          </motion.div>
 
-          <div>
+          <div className="space-y-8">
             <h1
-              className="text-4xl font-bold leading-[1.12] tracking-tight sm:text-5xl"
-              style={{ perspective: "1000px" }}
+              className="text-5xl font-bold leading-[1.05] tracking-tight sm:text-7xl lg:text-8xl"
+              style={{ perspective: "1200px" }}
             >
               <motion.span
-                className="bg-gradient-to-r from-slate-300 via-sky-300 to-cyan-300 bg-clip-text text-transparent transition-all duration-500 hover:from-sky-200 hover:via-cyan-200 hover:to-teal-200"
+                className="bg-gradient-to-r from-slate-200 via-sky-200 to-cyan-200 bg-clip-text text-transparent"
                 style={{
                   display: "inline-block",
                   filter:
-                    "drop-shadow(0 1px 1px rgba(56,189,248,0.35)) drop-shadow(0 2px 6px rgba(14,165,233,0.25)) drop-shadow(0 0 18px rgba(56,189,248,0.15))",
+                    "drop-shadow(0 2px 4px rgba(56,189,248,0.4)) drop-shadow(0 4px 12px rgba(14,165,233,0.3))",
                 }}
-                initial={{ opacity: 0, y: 20, rotateX: 15 }}
+                initial={{ opacity: 0, y: 30, rotateX: 20 }}
                 animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                whileHover={{ scale: 1.02, rotateX: -3, transition: { duration: 0.4 } }}
-                transition={{ duration: 1, ease: "easeOut" }}
+                whileHover={{ scale: 1.03, rotateX: -4, transition: { duration: 0.5 } }}
+                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
               >
-                Galeria de Arte Digital
+                Galeria de<br />Arte Digital
               </motion.span>
             </h1>
-            <p className="mt-6 max-w-[28ch] text-sm leading-relaxed text-white/70 sm:text-base">
-              Uma coleção em um ambiente digital onde a obra é o foco.
-              <br />
-              Uma forma organizada de apresentação do conjunto de obras.
-            </p>
+            <motion.div 
+              className="space-y-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 1 }}
+            >
+              <p className="max-w-[32ch] text-base font-light leading-relaxed text-white/80 sm:text-lg">
+                Sua arte. Seu espaço. Onde cada obra encontra o seu lugar de destaque.
+              </p>
+              <div className="flex items-center gap-4 text-white/60">
+                <div className="flex -space-x-2">
+                  {[1, 2, 3].map(i => (
+                    <div key={i} className="h-8 w-8 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm" />
+                  ))}
+                </div>
+                <p className="text-xs tracking-wider uppercase">Coleções Curadas</p>
+              </div>
+            </motion.div>
           </div>
-
         </div>
 
         {/* Card */}
         <form
           onSubmit={submit}
-          className="relative w-full overflow-hidden rounded-[22px] sm:rounded-[26px] border border-white/20 bg-[#0d0b16]/75 p-5 xs:p-6 shadow-[0_0_80px_rgba(124,58,237,0.2),0_45px_150px_-35px_rgba(0,0,0,1),inset_0_2px_6px_rgba(255,255,255,0.2),inset_0_-2px_6px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.12)] backdrop-blur-[28px] sm:p-9"
+          className="relative w-full overflow-hidden rounded-[28px] border border-white/10 bg-[#0a0910]/80 p-6 shadow-[0_0_100px_rgba(124,58,237,0.15),0_50px_160px_-40px_rgba(0,0,0,1),inset_0_1px_0_rgba(255,255,255,0.15)] backdrop-blur-[32px] sm:p-10 lg:h-[600px] flex flex-col justify-center"
         >
           {/* Reflexo da pintura — lado esquerdo */}
           <div className="pointer-events-none absolute -left-20 top-0 h-full w-[70%] bg-[radial-gradient(60%_60%_at_0%_35%,rgba(168,85,247,1),rgba(236,72,153,0.8)_45%,rgba(251,146,60,0.6)_75%,transparent_100%)] opacity-[0.035] blur-3xl" />
