@@ -462,7 +462,7 @@ function Galeria() {
             <Link
               to="/"
               aria-label="Voltar"
-              className="group inline-flex min-h-10 items-center gap-1.5 text-xs sm:text-sm font-medium text-sky-400 border border-sky-400/60 rounded-full px-4 py-2 bg-sky-400/5 shadow-[0_0_12px_rgba(56,155,255,0.35)] hover:shadow-[0_0_24px_rgba(56,155,255,0.7)] hover:border-sky-300 hover:text-sky-300 hover:bg-sky-400/10 transition-all duration-300 animate-pulse-slow"
+              className="group inline-flex min-h-[42px] items-center gap-2 text-xs sm:text-sm font-bold text-sky-400 border border-sky-400/30 rounded-xl px-5 py-2.5 bg-sky-400/5 shadow-[0_10px_20px_-5px_rgba(56,189,248,0.2)] hover:shadow-[0_15px_30px_-8px_rgba(56,189,248,0.4)] hover:border-sky-300 hover:text-sky-300 transition-all duration-300 active:scale-[0.97]"
             >
               <ChevronLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" /> <span>Voltar</span>
             </Link>
@@ -474,7 +474,7 @@ function Galeria() {
           <div className="mb-6 flex justify-end">
             <button
               onClick={addSlot}
-              className="inline-flex items-center gap-2 rounded-full border border-sky-400/60 bg-sky-400/5 px-4 py-2 text-xs sm:text-sm font-medium text-sky-300 shadow-[0_0_12px_rgba(56,155,255,0.35)] transition-all hover:border-sky-300 hover:bg-sky-400/10 hover:shadow-[0_0_24px_rgba(56,155,255,0.7)]"
+              className="inline-flex items-center gap-2 rounded-xl bg-white text-slate-950 px-5 py-2.5 text-xs sm:text-sm font-bold shadow-[0_15px_30px_-8px_rgba(255,255,255,0.2)] transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]"
             >
               <Plus className="h-4 w-4" /> Adicionar card de foto
             </button>
