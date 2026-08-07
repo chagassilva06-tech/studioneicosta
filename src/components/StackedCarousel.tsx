@@ -212,7 +212,7 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
               aria-label={`Ver ${slide.title}`}
               aria-hidden={!isActive}
               tabIndex={isActive ? 0 : -1}
-              className="group absolute left-1/2 top-1/2 h-[76%] w-[clamp(180px,60vw,380px)] overflow-hidden rounded-2xl border border-[#d8bf85]/30 bg-background shadow-[0_30px_70px_-20px_rgba(0,0,0,0.85)] outline-none transition-[transform,opacity,filter] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform focus-visible:ring-2 focus-visible:ring-sky-300 sm:h-[78%] sm:w-[clamp(210px,32vw,380px)] sm:rounded-3xl"
+              className="group absolute left-1/2 top-1/2 h-[76%] w-[clamp(180px,60vw,380px)] overflow-hidden rounded-2xl border border-white/10 bg-background shadow-[0_40px_90px_-20px_rgba(0,0,0,0.95)] outline-none transition-[transform,opacity,filter] duration-[800ms] cubic-bezier(0.2, 0.8, 0.2, 1) will-change-transform focus-visible:ring-2 focus-visible:ring-sky-400/50 sm:h-[78%] sm:w-[clamp(210px,32vw,380px)] sm:rounded-3xl"
               style={{
                 transform: `translate3d(-50%, -50%, 0) translateX(${translateX}%) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
                 opacity: inRange ? opacity : 0,
@@ -225,7 +225,7 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
                 transformStyle: "preserve-3d",
                 backfaceVisibility: "hidden",
                 boxShadow: isActive
-                  ? "0 40px 90px -25px rgba(0,0,0,0.9), 0 0 60px rgba(56,155,255,0.55), 0 0 120px rgba(56,155,255,0.22)"
+                  ? `0 50px 100px -25px rgba(0,0,0,1), 0 0 60px rgba(56,155,255,0.4), 0 0 140px rgba(56,155,255,0.15)`
                   : undefined,
               }}
             >

@@ -408,8 +408,8 @@ function Galeria() {
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
-      <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/40">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 md:px-10 h-16 flex items-center justify-between gap-2 sm:gap-3">
+      <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-2xl bg-background/80 border-b border-white/5 shadow-2xl">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 h-16 sm:h-20 flex items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2 group min-w-0 shrink">
             <span className="h-2 w-2 shrink-0 rounded-full bg-[#b89a5e] shadow-[0_0_10px_rgba(184,154,94,0.7)]" />
             <span
