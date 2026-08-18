@@ -158,7 +158,8 @@ const CategoryScroll = memo(({ categories, counts }: { categories: Cat[], counts
 
   const scroll = (dir: 1 | -1) => {
     if (!scrollRef.current) return;
-    scrollRef.current.scrollBy({ left: dir * 240, behavior: "smooth" });
+    const scrollAmount = window.innerWidth < 640 ? 180 : 300;
+    scrollRef.current.scrollBy({ left: dir * scrollAmount, behavior: "smooth" });
   };
 
   const getCategoryColor = (index: number) => {
