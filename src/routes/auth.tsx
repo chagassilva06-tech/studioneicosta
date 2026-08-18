@@ -113,7 +113,7 @@ function AuthPage() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(90%_70%_at_100%_50%,rgba(124,58,237,0.35),transparent_60%)]" />
       <div className="pointer-events-none absolute -right-24 top-1/4 h-[60vh] w-[45vh] rounded-full bg-fuchsia-600/25 blur-[130px]" />
 
-      <div className="relative z-10 mx-auto grid min-h-[100svh] w-full max-w-[1300px] grid-cols-1 items-center gap-12 px-6 py-10 sm:px-12 lg:grid-cols-[1.1fr_minmax(420px,520px)] lg:gap-20">
+      <div className="relative z-10 mx-auto grid min-h-[100svh] w-full max-w-[1300px] grid-cols-1 items-center gap-12 px-4 sm:px-12 py-10 lg:grid-cols-[1.1fr_minmax(420px,520px)] lg:gap-20">
         {/* Left column */}
         <div className="flex flex-col justify-between gap-12 lg:min-h-[600px] lg:py-6">
           <motion.div 
@@ -134,7 +134,8 @@ function AuthPage() {
 
           <div className="space-y-8">
             <h1
-              className="text-5xl font-bold leading-[1.05] tracking-tight sm:text-7xl lg:text-8xl"
+              className="text-4xl xs:text-5xl font-bold leading-[1.05] tracking-tight sm:text-7xl lg:text-8xl"
+
               style={{ perspective: "1200px" }}
             >
               <motion.span
@@ -176,7 +177,7 @@ function AuthPage() {
         {/* Card */}
         <form
           onSubmit={submit}
-          className="relative w-full overflow-hidden rounded-[28px] border border-white/10 bg-[#0a0910]/80 p-6 shadow-[0_0_100px_rgba(124,58,237,0.15),0_50px_160px_-40px_rgba(0,0,0,1),inset_0_1px_0_rgba(255,255,255,0.15)] backdrop-blur-[32px] sm:p-10 lg:h-[600px] flex flex-col justify-center"
+          className="relative w-full overflow-hidden rounded-[28px] border border-white/10 bg-[#0a0910]/80 p-5 sm:p-10 lg:h-[600px] flex flex-col justify-center"
         >
           {/* Reflexo da pintura — lado esquerdo */}
           <div className="pointer-events-none absolute -left-20 top-0 h-full w-[70%] bg-[radial-gradient(60%_60%_at_0%_35%,rgba(168,85,247,1),rgba(236,72,153,0.8)_45%,rgba(251,146,60,0.6)_75%,transparent_100%)] opacity-[0.035] blur-3xl" />
@@ -186,7 +187,7 @@ function AuthPage() {
           <div className="relative">
             {/* Grupo 1 — selo */}
             <div className="mb-7 flex justify-center">
-              <span className="flex h-[70px] w-[70px] sm:h-[84px] sm:w-[84px] items-center justify-center rounded-3xl border border-white/10 bg-white/[0.04] text-violet-300 shadow-[0_20px_50px_-12px_rgba(139,92,246,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-xl rotate-3 transition-transform hover:rotate-0 duration-500">
+              <span className="flex h-14 w-14 sm:h-[84px] sm:w-[84px] items-center justify-center rounded-3xl border border-white/10 bg-white/[0.04] text-violet-300 shadow-[0_20px_50px_-12px_rgba(139,92,246,0.5),inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-xl rotate-3 transition-transform hover:rotate-0 duration-500">
                 <Palette className="h-10 w-10 sm:h-12 sm:w-12" strokeWidth={1.2} />
               </span>
             </div>

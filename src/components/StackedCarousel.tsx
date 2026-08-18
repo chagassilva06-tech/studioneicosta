@@ -188,12 +188,13 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
 
           const spread = isMobile ? 42 : 54;
           const translateX = offset * spread;
-          const scale = Math.max(0.6, 1 - abs * 0.12);
-          const opacity = abs < 0.5 ? 1 : Math.max(0.1, 1 - abs * 0.2);
+          const scale = Math.max(0.5, 1 - abs * (isMobile ? 0.18 : 0.12));
+          const opacity = abs < 0.5 ? 1 : Math.max(0, 1 - abs * (isMobile ? 0.4 : 0.2));
           const rotateY = Math.max(-25, Math.min(25, offset * -12));
-          const translateZ = -abs * (isMobile ? 80 : 130);
+          const translateZ = -abs * (isMobile ? 120 : 130);
           const zIndex = 100 - Math.round(abs * 10);
           const blur = isMobile ? 0 : Math.min(2, Math.max(0, abs - 0.6) * 1.5);
+
           const isActive = abs < 0.5;
           const src = resolved[i];
 

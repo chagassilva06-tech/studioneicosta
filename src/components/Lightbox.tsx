@@ -59,9 +59,10 @@ export function Lightbox({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 backdrop-blur-xl overflow-auto lightbox-scroll p-3 sm:p-6 overscroll-contain"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 backdrop-blur-xl overflow-auto lightbox-scroll p-2 sm:p-6 overscroll-contain"
           onClick={onClose}
         >
+
           {data.src ? (
             <motion.div
               initial={{ opacity: 0, scale: 0.96 }}
@@ -111,7 +112,7 @@ export function Lightbox({
                   onClose();
                 }}
                 aria-label="Fechar"
-                className="absolute top-4 right-4 z-[110] inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-background/80 backdrop-blur-xl text-white shadow-2xl hover:bg-white hover:text-slate-950 transition-all duration-300"
+                className="absolute top-4 right-4 z-[110] inline-flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl border border-white/10 bg-background/80 backdrop-blur-xl text-white shadow-2xl hover:bg-white hover:text-slate-950 transition-all duration-300"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -123,7 +124,7 @@ export function Lightbox({
                   setZoomed((z) => !z);
                 }}
                 aria-label={zoomed ? "Reduzir imagem" : "Ampliar imagem"}
-                className="absolute top-4 right-20 z-[110] inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-background/80 backdrop-blur-xl text-white shadow-2xl hover:bg-white hover:text-slate-950 transition-all duration-300"
+                className="absolute top-4 right-16 sm:right-20 z-[110] inline-flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl border border-white/10 bg-background/80 backdrop-blur-xl text-white shadow-2xl hover:bg-white hover:text-slate-950 transition-all duration-300"
               >
                 {zoomed ? (
                   <ZoomOut className="h-5 w-5" />

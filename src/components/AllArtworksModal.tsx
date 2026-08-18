@@ -146,15 +146,16 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
       onClick={onClose}
     >
       <div
-        className="flex items-center justify-between px-6 sm:px-12 py-5 sm:py-6 border-b border-white/5 bg-background/50 backdrop-blur-md"
+        className="flex items-center justify-between px-4 sm:px-12 py-4 sm:py-6 border-b border-white/5 bg-background/50 backdrop-blur-md"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center gap-3 min-w-0">
-          <h2 className="font-display text-xl sm:text-2xl truncate">
+          <h2 className="font-display text-lg sm:text-2xl truncate">
             Todas as <span className="italic text-[#d8bf85]">Obras</span>
-            <span className="ml-2 text-sm text-muted-foreground">({filtered.length})</span>
+            <span className="ml-2 text-xs sm:text-sm text-muted-foreground">({filtered.length})</span>
           </h2>
         </div>
+
         <button
           onClick={onClose}
           aria-label="Fechar"
@@ -265,7 +266,7 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
         ) : filtered.length === 0 ? (
           <p className="text-center text-muted-foreground py-16">Nenhuma obra encontrada.</p>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 pb-12">
             {filtered.map((it) => (
               <button
                 key={it.id}

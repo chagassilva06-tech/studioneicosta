@@ -434,23 +434,26 @@ function Index() {
 
     <div className="min-h-screen bg-background bg-canvas-texture text-foreground font-sans transition-colors duration-500">
       {/* Editorial signature bar (22px) */}
-      <div className="fixed top-0 left-0 right-0 z-50 h-6 sm:h-[26px] flex items-center justify-center bg-background border-b border-white/5 px-2 [contain:paint]">
-        <span className="label-luxe truncate text-[0.55rem] tracking-[0.4em] sm:text-[0.62rem] sm:tracking-[0.6em] font-light opacity-80">Arte · Pintura · Projetos Autorais</span>
+      <div className="fixed top-0 left-0 right-0 z-50 h-6 sm:h-[26px] flex items-center justify-center bg-background border-b border-white/5 px-4 [contain:paint]">
+        <span className="label-luxe truncate text-[0.5rem] tracking-[0.25em] xs:text-[0.55rem] xs:tracking-[0.4em] sm:text-[0.62rem] sm:tracking-[0.6em] font-light opacity-80">
+          Arte · Pintura · Projetos Autorais
+        </span>
       </div>
 
       {/* Header (sticky, layered) */}
       <header className="fixed top-6 sm:top-[26px] left-0 right-0 z-40 bg-background/90 backdrop-blur-2xl border-b border-white/5 shadow-2xl [contain:paint]">
         {/* Logo row */}
-        <div className="h-14 sm:h-[70px] max-w-7xl mx-auto px-3 sm:px-6 md:px-10 grid grid-cols-[1fr_auto_1fr] items-center gap-1.5 sm:gap-2">
-
-          <div />
+        <div className="h-14 sm:h-[70px] max-w-7xl mx-auto px-3 sm:px-6 md:px-10 flex items-center justify-between sm:grid sm:grid-cols-[1fr_auto_1fr] gap-1.5 sm:gap-2">
+          
+          <div className="sm:block hidden" />
+          
           <a
             href="#top"
-            className="group justify-self-center flex items-center gap-2 min-w-0 transition-transform duration-200 hover:scale-[1.04]"
+            className="group flex items-center gap-2 min-w-0 transition-transform duration-200 hover:scale-[1.04] sm:justify-self-center"
           >
             <span className="label-luxe shrink-0 hidden sm:block">·</span>
             <span
-              className="font-display text-[1.8rem] sm:text-3xl md:text-[2.6rem] leading-none tracking-tight truncate text-foreground transition-all duration-500 group-hover:tracking-[0.02em]"
+              className="font-display text-[1.5rem] xs:text-[1.8rem] sm:text-3xl md:text-[2.6rem] leading-none tracking-tight truncate text-foreground transition-all duration-500 group-hover:tracking-[0.02em]"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               Studio
@@ -459,7 +462,9 @@ function Index() {
               </span>
             </span>
           </a>
-          <div className="justify-self-end flex items-center gap-2">
+
+          <div className="flex items-center gap-1.5 sm:gap-2 sm:justify-self-end">
+
             {isAdmin ? (
               <button
                 type="button"
@@ -553,6 +558,7 @@ function Index() {
                 placeholder="Pesquisar categorias..."
                 className="w-full min-h-[44px] pl-10 pr-10 py-2.5 rounded-2xl bg-white/[0.04] border border-white/10 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-[#d8bf85]/40 focus:bg-white/[0.06] transition-all duration-300"
               />
+
               {query && (
                 <button
                   onClick={() => setQuery("")}
@@ -636,21 +642,21 @@ function Index() {
             </div>
             <div className="relative">
               <div className="pointer-events-none absolute -inset-8 animate-glow-pulse rounded-3xl" />
-              <h1 className="relative font-display text-[1.6rem] xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1] font-light text-foreground drop-shadow-[0_2px_18px_rgba(0,0,0,0.65)] text-left break-words tracking-[0.005em] animate-title-glow-subtle">
+              <h1 className="relative font-display text-[2rem] xs:text-[2.6rem] sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1] font-light text-foreground drop-shadow-[0_2px_18px_rgba(0,0,0,0.65)] text-center sm:text-left break-words tracking-[0.005em] animate-title-glow-subtle w-full">
                 O talento apresentado em{" "}
                 <span className="text-shimmer italic font-normal">galeria</span>.
               </h1>
-              <p className="relative mt-4 font-display italic text-lg md:text-xl text-[#d8bf85]/85 drop-shadow-[0_0_14px_rgba(216,191,133,0.35)]">
+              <p className="relative mt-4 font-display italic text-lg md:text-xl text-[#d8bf85]/85 drop-shadow-[0_0_14px_rgba(216,191,133,0.35)] text-center sm:text-left">
                 "Onde cada parede se transforma em arte."
               </p>
 
-              <p className="relative mt-6 text-base md:text-lg text-foreground/85 max-w-lg leading-relaxed drop-shadow-[0_1px_10px_rgba(0,0,0,0.55)]">
+              <p className="relative mt-6 text-base md:text-lg text-foreground/85 max-w-lg leading-relaxed drop-shadow-[0_1px_10px_rgba(0,0,0,0.55)] text-center sm:text-left mx-auto sm:mx-0">
                 Uma coleção em um ambiente digital onde a obra é o foco.
                 <br />
                 Uma forma organizada de apresentação do conjunto de obras.
               </p>
             </div>
-            <div className="mt-10 sm:mt-12 flex flex-wrap gap-4 sm:gap-6">
+            <div className="mt-10 sm:mt-12 flex flex-wrap justify-center sm:justify-start gap-4 sm:gap-6">
               <a
                 href="#about"
                 className="group relative inline-flex items-center gap-2 px-6 py-3 overflow-hidden rounded-full bg-sky-400 text-slate-950 text-sm font-bold shadow-[0_20px_40px_-10px_rgba(56,189,248,0.5)] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_25px_50px_-8px_rgba(56,189,248,0.7)] active:scale-[0.98]"
@@ -712,13 +718,13 @@ function Index() {
       <section id="about" className="relative overflow-hidden">
         {/* artistic graphite / charcoal texture */}
         <div className="pointer-events-none absolute inset-0 bg-canvas-texture opacity-40" />
-        <div className="relative max-w-5xl mx-auto px-4 sm:pl-4 sm:pr-8 md:pl-2 md:pr-10 py-10 sm:py-8 grid md:grid-cols-[220px_1fr] gap-8 md:gap-14 items-center">
+        <div className="relative max-w-5xl mx-auto px-6 sm:pl-4 sm:pr-8 md:pl-2 md:pr-10 py-16 sm:py-24 grid md:grid-cols-[220px_1fr] gap-10 md:gap-14 items-center">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.9, ease: [0.2, 0.7, 0.2, 1] }}
-            className="group relative justify-self-start w-40 sm:w-48 md:w-full max-w-[220px] md:-ml-2"
+            className="group relative justify-self-center md:justify-self-start w-48 sm:w-56 md:w-full max-w-[220px] md:-ml-2"
           >
             {/* charcoal smudge behind the portrait */}
             <div
@@ -740,14 +746,16 @@ function Index() {
             </div>
           </motion.div>
 
-          <div>
+          <div className="text-center md:text-left flex flex-col items-center md:items-start">
+
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="flex items-center gap-4 mb-4"
+              className="flex items-center justify-center md:justify-start gap-4 mb-4"
             >
+
               <motion.div
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
@@ -784,7 +792,7 @@ function Index() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.35 }}
-              className="text-foreground/85 leading-relaxed text-base sm:text-lg mb-6 max-w-[58ch]"
+              className="text-foreground/85 leading-relaxed text-base sm:text-lg mb-6 max-w-[58ch] mx-auto md:mx-0"
             >
               StudioNei nasce do encontro entre técnica clássica e sensibilidade
               contemporânea. Cada obra é um exercício de observação — luz,
@@ -796,7 +804,7 @@ function Index() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.45 }}
-              className="flex flex-wrap items-center gap-3"
+              className="flex flex-wrap items-center justify-center md:justify-start gap-3"
             >
               <a
                 href="https://www.instagram.com/sidnei_costa1961?igsh=MWFsdWF4NTlsOTJoaA=="
@@ -840,11 +848,12 @@ function Index() {
         </div>
 
         {/* discreet signature */}
-        <div className="relative max-w-5xl mx-auto px-6 md:px-10 pb-4 text-right">
+        <div className="relative max-w-5xl mx-auto px-6 md:px-10 pb-8 text-center md:text-right">
           <span className="font-display italic text-sm text-[#d8bf85]/45 tracking-wide">
             Sidnei Costa
           </span>
         </div>
+
       </section>
 
 
@@ -854,22 +863,22 @@ function Index() {
 
       {/* Footer */}
       <footer className="border-t border-white/5 bg-[#0a0910] shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 py-16 grid md:grid-cols-2 gap-12 sm:gap-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 py-16 grid grid-cols-1 md:grid-cols-2 gap-12 sm:gap-16 text-center md:text-left">
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="h-px w-8 bg-[#d8bf85] mb-4" />
+            <div className="flex flex-col md:flex-row items-center gap-2 mb-4">
+              <div className="h-px w-8 bg-[#d8bf85] mb-2 md:mb-4" />
               <span className="font-display text-3xl md:text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                 Studio<span className="italic font-normal text-[#d8bf85] ml-1 drop-shadow-[0_0_10px_rgba(216,191,133,0.4)]">Nei</span>
               </span>
             </div>
-            <p className="text-sm text-foreground/75 max-w-xs leading-relaxed">
+            <p className="text-sm text-foreground/75 max-w-xs leading-relaxed mx-auto md:mx-0">
               Galeria digital de desenhos e pinturas. Uma coleção minimalista onde
               a obra é o foco principal.
             </p>
           </div>
           <div>
             <p className="label-luxe mb-4">Redes</p>
-            <ul className="space-y-3 text-sm">
+            <ul className="space-y-3 text-sm flex flex-col items-center md:items-start">
               <li>
                 <a
                   href="https://www.instagram.com/sidnei_costa1961?igsh=MWFsdWF4NTlsOTJoaA=="
