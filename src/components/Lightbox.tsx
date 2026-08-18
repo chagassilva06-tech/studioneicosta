@@ -141,7 +141,7 @@ export function Lightbox({
                   }}
                   title="Foto anterior"
                   aria-label="Foto anterior"
-                  className="absolute left-4 top-1/2 -translate-y-1/2 z-[110] inline-flex h-12 w-12 items-center justify-center rounded-full border-2 border-sky-400/70 bg-background/60 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.4)] hover:shadow-[0_0_22px_rgba(56,155,255,0.8)] hover:border-sky-300 hover:text-sky-100 transition-all opacity-0 group-hover:opacity-100"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-[110] inline-flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#fde047]/70 bg-background/60 backdrop-blur text-[#fde047] shadow-[0_0_14px_rgba(253,224,71,0.4)] hover:shadow-[0_0_22px_rgba(253,224,71,0.8)] hover:border-[#fde047] hover:text-[#fefce8] transition-all opacity-0 group-hover:opacity-100"
                 >
                   <ChevronLeft className="h-6 w-6" />
                 </button>
@@ -156,7 +156,7 @@ export function Lightbox({
                   }}
                   title="Próxima foto da galeria"
                   aria-label="Próxima foto da galeria"
-                  className="absolute right-4 top-1/2 -translate-y-1/2 z-[110] inline-flex h-12 w-12 items-center justify-center rounded-full border-2 border-sky-400/70 bg-background/60 backdrop-blur text-sky-300 shadow-[0_0_14px_rgba(56,155,255,0.4)] hover:shadow-[0_0_22px_rgba(56,155,255,0.8)] hover:border-sky-300 hover:text-sky-100 transition-all opacity-0 group-hover:opacity-100"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-[110] inline-flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#fde047]/70 bg-background/60 backdrop-blur text-[#fde047] shadow-[0_0_14px_rgba(253,224,71,0.4)] hover:shadow-[0_0_22px_rgba(253,224,71,0.8)] hover:border-[#fde047] hover:text-[#fefce8] transition-all opacity-0 group-hover:opacity-100"
                 >
                   <ChevronRight className="h-6 w-6" />
                 </button>
