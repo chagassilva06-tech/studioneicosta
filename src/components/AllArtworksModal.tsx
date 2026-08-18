@@ -1,6 +1,7 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useState, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
-import { X, Loader2, Search } from "lucide-react";
+import { X, Loader2, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import type { LightboxData } from "@/components/Lightbox";
 
