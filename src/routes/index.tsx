@@ -163,16 +163,7 @@ const CategoryScroll = memo(({ categories, counts }: { categories: Cat[], counts
   };
 
   const getCategoryColor = (index: number) => {
-    const colors = [
-      "#0ea5e9", // ciano (sky)
-      "#3b82f6", // azul
-      "#8b5cf6", // roxo
-      "#d8bf85", // dourado
-      "#10b981", // verde
-      "#f43f5e", // coral (rose)
-      "#ec4899", // rosa
-      "#a855f7", // lilás
-    ];
+    const colors = ["#0ea5e9", "#3b82f6", "#8b5cf6", "#d8bf85", "#10b981", "#f43f5e", "#ec4899", "#a855f7"];
     return colors[index % colors.length];
   };
 
