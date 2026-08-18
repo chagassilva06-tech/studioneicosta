@@ -363,20 +363,23 @@ function Index() {
 
   // Build slides: fetch the first two items per category for the carousel
   const slides = useMemo(() => {
-    return categories.flatMap((c) => {
-      const urls = featuredUrls[c.name] ?? [];
-      const base = {
-        title: c.name,
-        categoria: c.name,
-        description: fallbackDescriptions[c.name] ?? `Obra da coleção ${c.name}.`,
-      };
-      
-      // Return 2 slides per category
-      return [
-        { ...base, src: urls[0] ?? fallbackSrc[c.name] ?? paisagem1, pos: 0 },
-        { ...base, src: urls[1] ?? fallbackSrc[c.name] ?? pintura1, pos: 1 },
-      ];
-    });
+    return categories
+      .filter(c => (counts[c.name] ?? 0) > 0)
+      .flatMap((c) => {
+        const urls = featuredUrls[c.name] ?? [];
+        const base = {
+          title: c.name,
+          categoria: c.name,
+          description: fallbackDescriptions[c.name] ?? `Obra da coleção ${c.name}.`,
+        };
+        
+        // Return 2 slides per category if they have images
+        return [
+          { ...base, src: urls[0] ?? fallbackSrc[c.name] ?? paisagem1, pos: 0 },
+          { ...base, src: urls[1] ?? fallbackSrc[c.name] ?? pintura1, pos: 1 },
+        ];
+      });
+
   }, [categories, featuredUrls]);
 
   if (!authChecked) {
