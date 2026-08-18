@@ -155,15 +155,35 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
         className="flex flex-col gap-4 px-6 sm:px-12 py-4 border-b border-white/5 bg-background/30"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center gap-4">
-          <div className="relative flex-1 min-w-0">
+        <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
+          <div className="relative flex-1 min-w-0 w-full">
             {/* Horizontal scroll with navigation arrows, similar to index page */}
             <div className="relative group/modal-scroll flex items-center">
-              <div className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full py-1">
+              <AnimatePresence>
+                {showLeft && (
+                  <motion.button
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -10 }}
+                    onClick={() => scroll(-1)}
+                    className="absolute left-0 z-20 h-7 w-7 rounded-full flex items-center justify-center bg-background/80 border border-[#fde047]/40 text-[#fde047] shadow-[0_0_10px_rgba(253,224,71,0.2)] hover:shadow-[0_0_15px_rgba(253,224,71,0.4)] backdrop-blur-sm transition-all"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </motion.button>
+                )}
+              </AnimatePresence>
+
+              <div 
+                ref={scrollRef}
+                className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full py-1 px-1 scroll-smooth"
+              >
                 {["Todas", ...categorias].map((c) => (
                   <button
                     key={c}
-                    onClick={() => setFilter(c)}
+                    onClick={() => {
+                      setFilter(c);
+                      setTimeout(checkScroll, 50);
+                    }}
                     className={`shrink-0 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border transition-all duration-300 ${
                       filter === c
                         ? "bg-white text-slate-950 border-white shadow-[0_8px_15px_-5px_rgba(255,255,255,0.3)]"
@@ -174,10 +194,24 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
                   </button>
                 ))}
               </div>
+
+              <AnimatePresence>
+                {showRight && (
+                  <motion.button
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 10 }}
+                    onClick={() => scroll(1)}
+                    className="absolute right-0 z-20 h-7 w-7 rounded-full flex items-center justify-center bg-background/80 border border-[#fde047]/40 text-[#fde047] shadow-[0_0_10px_rgba(253,224,71,0.2)] hover:shadow-[0_0_15px_rgba(253,224,71,0.4)] backdrop-blur-sm transition-all"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </motion.button>
+                )}
+              </AnimatePresence>
             </div>
           </div>
 
-          <div className="relative w-full sm:w-64">
+          <div className="relative w-full sm:w-64 shrink-0">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#fde047]/60" />
             <input
               type="text"
