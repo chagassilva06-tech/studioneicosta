@@ -28,6 +28,22 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState<string>("Todas");
   const [searchQuery, setSearchQuery] = useState("");
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [showLeft, setShowLeft] = useState(false);
+  const [showRight, setShowRight] = useState(false);
+
+  const checkScroll = useCallback(() => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+    setShowLeft(scrollLeft > 10);
+    setShowRight(scrollLeft < scrollWidth - clientWidth - 10);
+  }, []);
+
+  const scroll = (dir: 1 | -1) => {
+    if (!scrollRef.current) return;
+    const scrollAmount = 200;
+    scrollRef.current.scrollBy({ left: dir * scrollAmount, behavior: "smooth" });
+  };
 
   useEffect(() => {
     if (!open) return;
