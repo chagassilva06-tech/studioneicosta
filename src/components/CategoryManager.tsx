@@ -24,6 +24,7 @@ type Props = {
 
 export const CategoryManager = memo(function CategoryManager({ open, onClose, onChanged }: Props) {
   const [items, setItems] = useState<Category[]>([]);
+  const [unregistered, setUnregistered] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
