@@ -218,7 +218,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
               onChange={(e) => setNewDesc(e.target.value)}
               placeholder="Descreva aqui sobre a categoria (opcional)"
               rows={2}
-              className="mt-2 w-full resize-none rounded-lg border border-sky-400/40 bg-background/70 px-3 py-2 text-sm outline-none focus:border-sky-300"
+              className="mt-2 w-full resize-none rounded-lg border border-white/10 bg-background/70 px-3 py-2 text-sm outline-none focus:border-[#d8bf85]/50 focus:bg-background transition-all"
             />
           </div>
         </div>
