@@ -281,7 +281,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                     >
                       {editing ? (
                         <div className="flex flex-col gap-2 animate-in fade-in slide-in-from-top-1 duration-200">
-                          <p className="text-xs font-medium text-sky-300 mb-1">
+                          <p className="text-xs font-medium text-[#fde047] mb-1">
                             Editar categoria: "{draftName}"
                           </p>
                           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
@@ -289,7 +289,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                               value={draftName}
                               onChange={(e) => setDraftName(e.target.value)}
                               placeholder="Nome"
-                              className="min-w-0 flex-1 px-2 py-1.5 rounded bg-background/70 border border-sky-400/40 text-sm outline-none focus:border-sky-300"
+                              className="min-w-0 flex-1 px-2 py-1.5 rounded bg-background/70 border border-[#fde047]/40 text-sm outline-none focus:border-[#fde047]"
                             />
                             <IconPicker value={draftIcon} onChange={setDraftIcon} label="Selecionar" />
                           </div>
@@ -298,13 +298,13 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                             onChange={(e) => setDraftDesc(e.target.value)}
                             placeholder="Descreva aqui sobre a categoria (opcional)"
                             rows={3}
-                            className="w-full resize-none rounded border border-sky-400/40 bg-background/70 px-2 py-1.5 text-sm outline-none focus:border-sky-300"
+                            className="w-full resize-none rounded border border-[#fde047]/40 bg-background/70 px-2 py-1.5 text-sm outline-none focus:border-[#fde047]"
                           />
                           <div className="flex gap-1 pt-1">
                             <button
                               onClick={saveEdit}
                               disabled={saving}
-                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded bg-sky-400 text-slate-950 text-xs font-medium hover:bg-sky-300 disabled:opacity-60 transition-colors"
+                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded bg-[#fde047] text-slate-950 text-xs font-medium hover:bg-[#fefce8] disabled:opacity-60 transition-colors"
                             >
                               {saving ? <Loader2 className="h-3 w-3 animate-spin" /> : <Save className="h-3 w-3" />}
                               Salvar
