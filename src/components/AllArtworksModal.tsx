@@ -26,6 +26,7 @@ type Props = {
 export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, onOpenLightbox }: Props) {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(false);
+  const [allCategories, setAllCategories] = useState<string[]>([]);
   const [filter, setFilter] = useState<string>("Todas");
   const [searchQuery, setSearchQuery] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
