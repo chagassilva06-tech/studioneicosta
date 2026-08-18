@@ -1,4 +1,5 @@
 import { memo, useEffect, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { createPortal } from "react-dom";
 import { X, Plus, Pencil, Trash2, Loader2, Save, MoreVertical } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -196,6 +197,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
             </p>
             <div className="flex flex-col gap-2 sm:flex-row">
               <input
+                id="new-category-name"
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
                 placeholder="Nome da categoria"
@@ -224,7 +226,20 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
         {/* List — única área com rolagem */}
         <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-4 py-4 sm:px-6 sm:py-5">
           <div>
-            <p className="label-luxe mb-3">Selecione uma categoria existente abaixo para editar/alterar</p>
+            <div className="flex items-center justify-between mb-3">
+              <p className="label-luxe">Selecione uma categoria existente abaixo para editar/alterar</p>
+              <button
+                onClick={() => {
+                  const createEl = document.getElementById('new-category-name');
+                  createEl?.focus();
+                  createEl?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-sky-400/40 text-[10px] uppercase tracking-wider font-bold text-sky-400 hover:bg-sky-400/10 hover:border-sky-300 transition-all active:scale-[0.97]"
+              >
+                <Plus className="h-3 w-3" />
+                Adicionar
+              </button>
+            </div>
             {loading ? (
               <div className="flex items-center justify-center py-8 text-sky-300/70">
                 <Loader2 className="h-5 w-5 animate-spin" />
@@ -319,6 +334,14 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                                     <Pencil className="h-4 w-4 text-sky-300" />
                                     Editar categoria
                                   </button>
+                                  <Link
+                                    to="/galeria/$categoria"
+                                    params={{ categoria: c.name }}
+                                    className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm hover:bg-sky-400/10 transition-colors"
+                                  >
+                                    <Plus className="h-4 w-4 text-sky-300" />
+                                    Adicionar imagem
+                                  </Link>
                                   <button
                                     onClick={() => {
                                       askRemove(c.id, c.name);
