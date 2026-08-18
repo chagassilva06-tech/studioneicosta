@@ -133,6 +133,11 @@ const CategoryScroll = memo(({ categories, counts }: { categories: Cat[], counts
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(false);
 
+  // Filter categories that have artworks
+  const activeCategories = useMemo(() => {
+    return categories.filter(c => (counts[c.name] ?? 0) > 0);
+  }, [categories, counts]);
+
   const checkScroll = useCallback(() => {
     if (!scrollRef.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
@@ -150,7 +155,7 @@ const CategoryScroll = memo(({ categories, counts }: { categories: Cat[], counts
       el.removeEventListener("scroll", checkScroll);
       window.removeEventListener("resize", checkScroll);
     };
-  }, [checkScroll, categories]);
+  }, [checkScroll, activeCategories]);
 
   const scroll = (dir: 1 | -1) => {
     if (!scrollRef.current) return;
@@ -189,7 +194,7 @@ const CategoryScroll = memo(({ categories, counts }: { categories: Cat[], counts
         className="h-full overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth snap-x snap-mandatory overscroll-contain"
       >
         <div className="flex items-center gap-2 h-full px-1 pr-10">
-          {categories.map((c) => {
+          {activeCategories.map((c) => {
             const Icon = getIcon(c.icon);
             return (
               <Link
