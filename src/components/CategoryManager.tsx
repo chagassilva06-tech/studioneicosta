@@ -244,7 +244,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                       {editing ? (
                         <div className="flex flex-col gap-2 animate-in fade-in slide-in-from-top-1 duration-200">
                           <p className="text-xs font-medium text-sky-300 mb-1">
-                            Editar categoria? "{draftName}"
+                            Editar categoria: "{draftName}"
                           </p>
                           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                             <input
