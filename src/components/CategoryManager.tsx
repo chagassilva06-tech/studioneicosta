@@ -42,11 +42,24 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
 
   const load = async () => {
     setLoading(true);
-    const { data } = await supabase
+    // 1. Fetch registered categories
+    const { data: cats } = await supabase
       .from("categories")
       .select("id, name, icon, description, sort_order")
       .order("sort_order", { ascending: true });
-    setItems((data as Category[]) ?? []);
+    
+    const registeredItems = (cats as Category[]) ?? [];
+    setItems(registeredItems);
+
+    // 2. Fetch distinct categories from artworks to find unregistered ones
+    const { data: arts } = await supabase.from("artworks").select("categoria");
+    if (arts) {
+      const distinct = Array.from(new Set(arts.map(a => a.categoria)));
+      const registeredNames = new Set(registeredItems.map(c => c.name));
+      const missing = distinct.filter(name => !registeredNames.has(name)).sort();
+      setUnregistered(missing);
+    }
+
     setLoading(false);
   };
 
