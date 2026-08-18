@@ -168,10 +168,42 @@ const CategoryScroll = memo(({ categories, counts }: { categories: Cat[], counts
   };
 
   return (
-    <div className="relative h-full flex items-center">
+    <div className="relative h-full flex items-center group/scroll">
+      {/* Left Arrow */}
+      <AnimatePresence>
+        {showLeft && (
+          <motion.button
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -10 }}
+            onClick={() => scroll(-1)}
+            className="absolute left-1 z-20 h-8 w-8 rounded-full flex items-center justify-center bg-background/80 border border-white/10 text-white/70 hover:text-white hover:bg-background shadow-lg backdrop-blur-sm transition-all"
+            aria-label="Anterior"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+
       {/* Fade indicators */}
       <div className={`absolute left-0 top-0 bottom-0 w-12 z-10 pointer-events-none transition-opacity duration-300 bg-gradient-to-r from-[#050912] to-transparent ${showLeft ? 'opacity-100' : 'opacity-0'}`} />
       <div className={`absolute right-0 top-0 bottom-0 w-12 z-10 pointer-events-none transition-opacity duration-300 bg-gradient-to-l from-[#050912] to-transparent ${showRight ? 'opacity-100' : 'opacity-0'}`} />
+
+      {/* Right Arrow */}
+      <AnimatePresence>
+        {showRight && (
+          <motion.button
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 10 }}
+            onClick={() => scroll(1)}
+            className="absolute right-1 z-20 h-8 w-8 rounded-full flex items-center justify-center bg-background/80 border border-white/10 text-white/70 hover:text-white hover:bg-background shadow-lg backdrop-blur-sm transition-all"
+            aria-label="Próximo"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       <div
         ref={scrollRef}
@@ -519,7 +551,7 @@ function Index() {
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setTimeout(() => setSearchFocused(false), 150)}
                 placeholder="Pesquisar categorias..."
-                className="w-full min-h-[44px] pl-10 pr-10 py-2.5 rounded-2xl bg-white/[0.04] border border-white/10 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-sky-400/60 focus:bg-white/[0.06] focus:shadow-[0_0_20px_rgba(56,189,248,0.3)] transition-all duration-300"
+                className="w-full min-h-[44px] pl-10 pr-10 py-2.5 rounded-2xl bg-white/[0.04] border border-white/10 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-sky-400/60 focus:bg-white/[0.06] transition-all duration-300"
               />
               {query && (
                 <button

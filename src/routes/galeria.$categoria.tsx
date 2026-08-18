@@ -427,7 +427,7 @@ function Galeria() {
             </span>
           </Link>
 
-          <div className="flex-1 flex justify-center px-4 overflow-hidden">
+          <div className="hidden lg:flex flex-1 justify-center px-4 overflow-hidden">
              <div className="flex items-center gap-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 {categories.map((c, idx) => {
                   const isActive = c.name === nome;
