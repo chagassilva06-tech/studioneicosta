@@ -190,7 +190,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
 
         {/* Create — fixo, sem rolagem */}
         <div className="shrink-0 px-6 pt-6 sm:px-8 sm:pt-8">
-          <div className="rounded-2xl border border-sky-400/15 bg-sky-400/[0.03] p-5 sm:p-6 shadow-inner">
+          <div className="rounded-2xl border border-[#d8bf85]/15 bg-[#d8bf85]/[0.03] p-5 sm:p-6 shadow-inner">
             <p className="label-luxe mb-4 flex items-center gap-2">
               <Plus className="h-3 w-3" />
               Nova categoria
