@@ -181,7 +181,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
             onClick={onClose}
             className="h-9 w-9 shrink-0 rounded-full inline-flex items-center justify-center text-sky-200 hover:bg-sky-400/15 border border-sky-400/40"
             aria-label="Fechar"
-            title="Fechar?"
+            title="Fechar"
           >
             <X className="h-4 w-4" />
           </button>
