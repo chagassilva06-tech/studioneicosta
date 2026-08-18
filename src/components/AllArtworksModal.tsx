@@ -26,6 +26,7 @@ type Props = {
 export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, onOpenLightbox }: Props) {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(false);
+  const [allCategories, setAllCategories] = useState<string[]>([]);
   const [filter, setFilter] = useState<string>("Todas");
   const [searchQuery, setSearchQuery] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -50,12 +51,24 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
     let cancelled = false;
     (async () => {
       setLoading(true);
-      const { data } = await supabase
-        .from("artworks")
-        .select("id, categoria, slot, storage_path")
-        .order("categoria", { ascending: true })
-        .order("slot", { ascending: true });
-      if (!data || cancelled) {
+      // Fetch both artworks and all defined categories
+      const [artworksRes, categoriesRes] = await Promise.all([
+        supabase
+          .from("artworks")
+          .select("id, categoria, slot, storage_path")
+          .order("categoria", { ascending: true })
+          .order("slot", { ascending: true }),
+        supabase.from("categories").select("name").order("sort_order", { ascending: true })
+      ]);
+
+      if (cancelled) return;
+
+      if (categoriesRes.data) {
+        setAllCategories(categoriesRes.data.map(c => c.name));
+      }
+
+      const { data } = artworksRes;
+      if (!data) {
         setLoading(false);
         return;
       }
@@ -118,7 +131,7 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
 
   if (!open) return null;
 
-  const categorias = Array.from(new Set(items.map((i) => i.categoria))).sort();
+  const categorias = Array.from(new Set([...allCategories, ...items.map((i) => i.categoria)])).sort();
   const filtered = items.filter((i) => {
     const matchesCategory = filter === "Todas" || i.categoria === filter;
     const matchesSearch = searchQuery.trim() === "" || 

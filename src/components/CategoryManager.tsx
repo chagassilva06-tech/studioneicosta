@@ -24,6 +24,7 @@ type Props = {
 
 export const CategoryManager = memo(function CategoryManager({ open, onClose, onChanged }: Props) {
   const [items, setItems] = useState<Category[]>([]);
+  const [unregistered, setUnregistered] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -41,11 +42,24 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
 
   const load = async () => {
     setLoading(true);
-    const { data } = await supabase
+    // 1. Fetch registered categories
+    const { data: cats } = await supabase
       .from("categories")
       .select("id, name, icon, description, sort_order")
       .order("sort_order", { ascending: true });
-    setItems((data as Category[]) ?? []);
+    
+    const registeredItems = (cats as Category[]) ?? [];
+    setItems(registeredItems);
+
+    // 2. Fetch distinct categories from artworks to find unregistered ones
+    const { data: arts } = await supabase.from("artworks").select("categoria");
+    if (arts) {
+      const distinct = Array.from(new Set(arts.map(a => a.categoria)));
+      const registeredNames = new Set(registeredItems.map(c => c.name));
+      const missing = distinct.filter(name => !registeredNames.has(name)).sort();
+      setUnregistered(missing);
+    }
+
     setLoading(false);
   };
 
@@ -159,6 +173,25 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
     setNewName("");
     setNewIcon("Palette");
     setNewDesc("");
+    await load();
+    onChanged();
+  };
+
+  const registerCategory = async (name: string) => {
+    setSaving(true);
+    const nextOrder = (items[items.length - 1]?.sort_order ?? 0) + 1;
+    const { error } = await supabase.from("categories").insert({
+      name: name,
+      icon: "Palette",
+      description: "Categoria importada de obras existentes",
+      sort_order: nextOrder,
+    });
+    setSaving(false);
+    if (error) {
+      toast.error("Falha ao registrar: " + error.message);
+      return;
+    }
+    toast.success(`Categoria "${name}" registrada!`);
     await load();
     onChanged();
   };
@@ -373,12 +406,42 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                     </li>
                   );
                 })}
-                {items.length === 0 && (
+                {items.length === 0 && unregistered.length === 0 && (
                   <li className="text-sm text-muted-foreground py-8 text-center border border-dashed border-border/50 rounded-lg">
                     Nenhuma categoria cadastrada.
                   </li>
                 )}
               </ul>
+            )}
+
+            {unregistered.length > 0 && (
+              <div className="mt-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
+                <p className="label-luxe mb-3 text-[#fde047]/80">Categorias encontradas em obras (não cadastradas)</p>
+                <ul className="space-y-3">
+                  {unregistered.map((name) => (
+                    <li
+                      key={name}
+                      className="group flex items-center gap-3 rounded-lg border border-yellow-500/20 bg-yellow-500/5 px-3 py-3 transition-all hover:border-yellow-500/40 hover:bg-yellow-500/10"
+                    >
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/[0.03] border border-white/10 text-yellow-500/70">
+                        <Plus className="h-5 w-5" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <span className="block truncate text-sm font-medium text-foreground">{name}</span>
+                        <p className="text-[10px] text-yellow-500/60 uppercase tracking-tighter font-bold">Pendente de registro</p>
+                      </div>
+                      <button
+                        onClick={() => registerCategory(name)}
+                        disabled={saving}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-yellow-500 text-slate-950 font-bold text-[10px] uppercase tracking-wider hover:bg-yellow-400 transition-all shadow-[0_5px_15px_-5px_rgba(250,204,21,0.4)] active:scale-95 disabled:opacity-50"
+                      >
+                        {saving ? <Loader2 className="h-3 w-3 animate-spin" /> : <Save className="h-3 w-3" />}
+                        Registrar
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )}
           </div>
         </div>
