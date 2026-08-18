@@ -505,11 +505,6 @@ function Galeria() {
               ))}
             </div>
           </div>
-            >
-              <ChevronLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" /> <span>Voltar</span>
-            </Link>
-
-          </div>
         </motion.div>
 
         {isAdmin && (
