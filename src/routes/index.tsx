@@ -434,23 +434,26 @@ function Index() {
 
     <div className="min-h-screen bg-background bg-canvas-texture text-foreground font-sans transition-colors duration-500">
       {/* Editorial signature bar (22px) */}
-      <div className="fixed top-0 left-0 right-0 z-50 h-6 sm:h-[26px] flex items-center justify-center bg-background border-b border-white/5 px-2 [contain:paint]">
-        <span className="label-luxe truncate text-[0.55rem] tracking-[0.4em] sm:text-[0.62rem] sm:tracking-[0.6em] font-light opacity-80">Arte · Pintura · Projetos Autorais</span>
+      <div className="fixed top-0 left-0 right-0 z-50 h-6 sm:h-[26px] flex items-center justify-center bg-background border-b border-white/5 px-4 [contain:paint]">
+        <span className="label-luxe truncate text-[0.5rem] tracking-[0.25em] xs:text-[0.55rem] xs:tracking-[0.4em] sm:text-[0.62rem] sm:tracking-[0.6em] font-light opacity-80">
+          Arte · Pintura · Projetos Autorais
+        </span>
       </div>
 
       {/* Header (sticky, layered) */}
       <header className="fixed top-6 sm:top-[26px] left-0 right-0 z-40 bg-background/90 backdrop-blur-2xl border-b border-white/5 shadow-2xl [contain:paint]">
         {/* Logo row */}
-        <div className="h-14 sm:h-[70px] max-w-7xl mx-auto px-3 sm:px-6 md:px-10 grid grid-cols-[1fr_auto_1fr] items-center gap-1.5 sm:gap-2">
-
-          <div />
+        <div className="h-14 sm:h-[70px] max-w-7xl mx-auto px-3 sm:px-6 md:px-10 flex items-center justify-between sm:grid sm:grid-cols-[1fr_auto_1fr] gap-1.5 sm:gap-2">
+          
+          <div className="sm:block hidden" />
+          
           <a
             href="#top"
-            className="group justify-self-center flex items-center gap-2 min-w-0 transition-transform duration-200 hover:scale-[1.04]"
+            className="group flex items-center gap-2 min-w-0 transition-transform duration-200 hover:scale-[1.04] sm:justify-self-center"
           >
             <span className="label-luxe shrink-0 hidden sm:block">·</span>
             <span
-              className="font-display text-[1.8rem] sm:text-3xl md:text-[2.6rem] leading-none tracking-tight truncate text-foreground transition-all duration-500 group-hover:tracking-[0.02em]"
+              className="font-display text-[1.5rem] xs:text-[1.8rem] sm:text-3xl md:text-[2.6rem] leading-none tracking-tight truncate text-foreground transition-all duration-500 group-hover:tracking-[0.02em]"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               Studio
@@ -459,7 +462,9 @@ function Index() {
               </span>
             </span>
           </a>
-          <div className="justify-self-end flex items-center gap-2">
+
+          <div className="flex items-center gap-1.5 sm:gap-2 sm:justify-self-end">
+
             {isAdmin ? (
               <button
                 type="button"
