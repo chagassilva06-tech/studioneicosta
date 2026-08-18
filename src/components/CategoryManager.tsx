@@ -331,7 +331,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                           <div className="relative shrink-0">
                             <button
                               onClick={() => setMenuOpenId(menuOpen ? null : c.id)}
-                              className="h-9 w-9 rounded-full inline-flex items-center justify-center text-muted-foreground hover:text-sky-300 hover:bg-sky-400/10 transition-colors"
+                              className="h-9 w-9 rounded-full inline-flex items-center justify-center text-muted-foreground hover:text-[#d8bf85] hover:bg-[#d8bf85]/10 transition-colors"
                               aria-label="Menu de ações"
                             >
                               <MoreVertical className="h-5 w-5" />
