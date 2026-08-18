@@ -17,7 +17,9 @@ import {
   LogIn,
   Copy,
   Check,
+  X,
 } from "lucide-react";
+
 
 import hero from "@/assets/hero.jpg";
 import artist from "@/assets/artist.webp";
