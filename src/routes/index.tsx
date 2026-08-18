@@ -863,22 +863,22 @@ function Index() {
 
       {/* Footer */}
       <footer className="border-t border-white/5 bg-[#0a0910] shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 py-16 grid md:grid-cols-2 gap-12 sm:gap-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 py-16 grid grid-cols-1 md:grid-cols-2 gap-12 sm:gap-16 text-center md:text-left">
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="h-px w-8 bg-[#d8bf85] mb-4" />
+            <div className="flex flex-col md:flex-row items-center gap-2 mb-4">
+              <div className="h-px w-8 bg-[#d8bf85] mb-2 md:mb-4" />
               <span className="font-display text-3xl md:text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                 Studio<span className="italic font-normal text-[#d8bf85] ml-1 drop-shadow-[0_0_10px_rgba(216,191,133,0.4)]">Nei</span>
               </span>
             </div>
-            <p className="text-sm text-foreground/75 max-w-xs leading-relaxed">
+            <p className="text-sm text-foreground/75 max-w-xs leading-relaxed mx-auto md:mx-0">
               Galeria digital de desenhos e pinturas. Uma coleção minimalista onde
               a obra é o foco principal.
             </p>
           </div>
           <div>
             <p className="label-luxe mb-4">Redes</p>
-            <ul className="space-y-3 text-sm">
+            <ul className="space-y-3 text-sm flex flex-col items-center md:items-start">
               <li>
                 <a
                   href="https://www.instagram.com/sidnei_costa1961?igsh=MWFsdWF4NTlsOTJoaA=="
