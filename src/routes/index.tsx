@@ -558,6 +558,7 @@ function Index() {
                 placeholder="Pesquisar categorias..."
                 className="w-full min-h-[44px] pl-10 pr-10 py-2.5 rounded-2xl bg-white/[0.04] border border-white/10 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-[#d8bf85]/40 focus:bg-white/[0.06] transition-all duration-300"
               />
+
               {query && (
                 <button
                   onClick={() => setQuery("")}
@@ -752,8 +753,9 @@ function Index() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="flex items-center gap-4 mb-4"
+              className="flex items-center justify-center md:justify-start gap-4 mb-4"
             >
+
               <motion.div
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
