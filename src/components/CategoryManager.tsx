@@ -168,10 +168,10 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
       className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
     >
       <div
-        className="relative flex w-full max-w-2xl max-h-[85vh] flex-col overflow-hidden rounded-3xl border border-sky-400/20 bg-background/95 shadow-[0_40px_100px_-20px_rgba(0,0,0,1),0_0_80px_-10px_rgba(56,155,255,0.25)] backdrop-blur-3xl"
+        className="relative flex w-full max-w-2xl max-h-[85vh] flex-col overflow-hidden rounded-3xl border border-[#d8bf85]/20 bg-[#050912]/95 shadow-[0_40px_100px_-20px_rgba(0,0,0,1),0_0_80px_-10px_rgba(216,191,133,0.15)] backdrop-blur-3xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex shrink-0 items-center justify-between gap-4 border-b border-sky-400/10 px-6 py-5 sm:px-8">
+        <div className="flex shrink-0 items-center justify-between gap-4 border-b border-white/5 px-6 py-5 sm:px-8">
           <div className="flex items-center gap-3">
             <div className="h-2 w-2 rounded-full bg-[#d8bf85] shadow-[0_0_10px_rgba(216,191,133,0.6)]" />
             <h2 className="min-w-0 truncate font-display text-2xl sm:text-3xl font-light">
