@@ -745,7 +745,7 @@ const Slot = memo(function Slot({
             title={hasImage ? "Substituir imagem" : "Carregar imagem"}
             aria-label={hasImage ? "Substituir imagem" : "Carregar imagem"}
             onClick={(e) => { e.stopPropagation(); onPickFile(); }}
-            className="inline-flex max-w-full items-center gap-1 px-2 py-1 rounded-full text-[9px] font-medium tracking-wide border border-[#fde047]/60 text-[#fde047] bg-background/70 backdrop-blur shadow-[0_0_8px_rgba(253,224,71,0.3)] hover:bg-[#fde047]/15 hover:border-[#fde047] transition-all disabled:opacity-70"
+            className="inline-flex max-w-full items-center gap-1.5 px-3 py-2 sm:px-2 sm:py-1 rounded-lg bg-[#fde047] text-slate-950 hover:bg-[#fde047]/90 transition-all text-xs sm:text-[10px] font-bold shadow-lg"
           >
             {isUploading ? (
               <>
@@ -821,13 +821,13 @@ const Slot = memo(function Slot({
                   {categories.length === 0 && (
                     <p className="px-2 py-2 text-[9px] text-muted-foreground italic">Nenhuma opção</p>
                   )}
-          </div>
-        )}
-      </div>
-
+                </div>
+              )}
+            </div>
           )}
         </div>
       )}
+
 
       {isAdmin && confirmDelete && (
         <div
