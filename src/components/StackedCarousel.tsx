@@ -269,7 +269,7 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
           type="button"
           onClick={() => go(-1)}
           aria-label="Anterior"
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#d8bf85]/40 bg-background/60 text-[#d8bf85] backdrop-blur transition-all hover:border-[#d8bf85] hover:text-[#f5e6b8] hover:shadow-[0_0_18px_rgba(216,191,133,0.45)] sm:h-11 sm:w-11"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#fde047]/60 bg-background/60 text-[#fde047] backdrop-blur transition-all hover:border-[#fde047] hover:text-[#fde047] hover:shadow-[0_0_18px_rgba(253,224,71,0.5)] sm:h-11 sm:w-11"
         >
           <ChevronLeft className="h-5 w-5" />
         </button>
@@ -297,7 +297,7 @@ export function StackedCarousel({ slides, urls, onSelect, autoplayMs = 4500 }: P
           type="button"
           onClick={() => go(1)}
           aria-label="Próximo"
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#d8bf85]/40 bg-background/60 text-[#d8bf85] backdrop-blur transition-all hover:border-[#d8bf85] hover:text-[#f5e6b8] hover:shadow-[0_0_18px_rgba(216,191,133,0.45)] sm:h-11 sm:w-11"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#fde047]/60 bg-background/60 text-[#fde047] backdrop-blur transition-all hover:border-[#fde047] hover:text-[#fde047] hover:shadow-[0_0_18px_rgba(253,224,71,0.5)] sm:h-11 sm:w-11"
         >
           <ChevronRight className="h-5 w-5" />
         </button>
