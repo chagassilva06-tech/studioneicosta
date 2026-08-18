@@ -228,17 +228,6 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
           <div>
             <div className="flex items-center justify-between mb-3">
               <p className="label-luxe">Selecione uma categoria existente abaixo para editar/alterar</p>
-              <button
-                onClick={() => {
-                  const createEl = document.getElementById('new-category-name');
-                  createEl?.focus();
-                  createEl?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#d8bf85]/40 text-[10px] uppercase tracking-wider font-bold text-[#d8bf85] hover:bg-[#d8bf85]/10 hover:border-[#d8bf85]/60 transition-all active:scale-[0.97]"
-              >
-                <Plus className="h-3 w-3" />
-                Adicionar
-              </button>
             </div>
             {loading ? (
               <div className="flex items-center justify-center py-8 text-[#d8bf85]/70">
