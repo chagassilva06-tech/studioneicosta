@@ -427,37 +427,8 @@ function Galeria() {
             </span>
           </Link>
 
-          <div className="hidden lg:flex flex-1 justify-center px-4 overflow-hidden">
-             <div className="flex items-center gap-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {categories.map((c, idx) => {
-                  const isActive = c.name === nome;
-                  const catColor = [
-                    "#0ea5e9", "#3b82f6", "#8b5cf6", "#d8bf85", 
-                    "#10b981", "#f43f5e", "#ec4899", "#a855f7"
-                  ][idx % 8];
-
-                  return (
-                    <Link
-                      key={c.id}
-                      to="/galeria/$categoria"
-                      params={{ categoria: c.name }}
-                      className={`shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-full text-[12px] font-medium transition-all duration-300 border ${
-                        isActive 
-                        ? "bg-[#d8bf85]/10 border-[#d8bf85]/40 text-[#d8bf85] shadow-[0_0_15px_rgba(216,191,133,0.15)]" 
-                        : "bg-white/[0.03] border-white/5 text-foreground/60 hover:text-white hover:border-white/20"
-                      }`}
-                      style={isActive ? { "--cat-color": catColor } as any : {}}
-                    >
-                      <span 
-                        className="w-1.5 h-1.5 rounded-full" 
-                        style={{ backgroundColor: isActive ? "#d8bf85" : catColor }}
-                      />
-                      <span className="whitespace-nowrap">{c.name}</span>
-                    </Link>
-                  );
-                })}
-             </div>
-          </div>
+          {/* Category links removed to avoid duplication as per user request */}
+          <div className="hidden lg:flex flex-1" />
 
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             {isAdmin ? (
