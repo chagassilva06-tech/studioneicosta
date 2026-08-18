@@ -473,7 +473,7 @@ function Index() {
             <button
               type="button"
               onClick={openAllModal}
-              className="shrink-0 group relative flex h-[40px] items-center gap-2.5 px-5 rounded-full text-[13px] font-bold bg-[#d8bf85]/10 border border-[#d8bf85]/30 text-[#d8bf85] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] hover:bg-[#d8bf85]/20"
+              className="shrink-0 group relative flex h-[38px] items-center gap-2.5 px-5 rounded-full text-[13px] font-bold bg-[#d8bf85]/10 border border-[#d8bf85]/30 text-[#d8bf85] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] hover:bg-[#d8bf85]/20"
             >
               <LayoutGrid className="h-4 w-4 shrink-0" />
               <span>Todos</span>
