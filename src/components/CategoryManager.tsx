@@ -316,8 +316,8 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                         </div>
                       ) : (
                         <div className="flex items-center gap-3">
-                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-400/10 border border-sky-400/20 text-sky-300">
-                            <Icon className="h-5 w-5" />
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/[0.03] border border-white/10 group-hover:border-[var(--btn-glow)] transition-colors">
+                            <Icon className="h-5 w-5" style={{ color: "var(--btn-glow-solid)" }} />
                           </div>
                           <div className="min-w-0 flex-1">
                             <span className="block truncate text-sm font-medium text-foreground">{c.name}</span>
