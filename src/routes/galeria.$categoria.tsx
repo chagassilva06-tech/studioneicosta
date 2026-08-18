@@ -803,7 +803,7 @@ const Slot = memo(function Slot({
               
               {showMoveMenu && (
                 <div 
-                  className="absolute top-full left-0 mt-1 w-32 max-h-40 overflow-y-auto z-[30] rounded-lg border border-[#fde047]/40 bg-background/95 backdrop-blur-md shadow-xl py-1"
+                  className="absolute top-full left-0 mt-1 w-32 sm:w-40 max-h-40 overflow-y-auto z-[30] rounded-lg border border-[#fde047]/40 bg-background/95 backdrop-blur-md shadow-xl py-1"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <p className="px-2 py-1 text-[8px] uppercase tracking-wider text-[#fde047]/60 border-b border-[#fde047]/20 mb-1">Para:</p>
@@ -811,7 +811,7 @@ const Slot = memo(function Slot({
                     <button
                       key={cat.id}
                       onClick={() => { setShowMoveMenu(false); onMove(cat.name); }}
-                      className="w-full text-left px-2 py-1.5 text-[10px] text-foreground hover:bg-[#fde047]/15 hover:text-[#fde047] transition-colors truncate"
+                      className="w-full text-left px-3 py-2 sm:px-2 sm:py-1.5 text-xs sm:text-[10px] text-foreground hover:bg-[#fde047]/15 hover:text-[#fde047] transition-colors truncate"
                     >
                       {cat.name}
                     </button>
@@ -819,29 +819,31 @@ const Slot = memo(function Slot({
                   {categories.length === 0 && (
                     <p className="px-2 py-2 text-[9px] text-muted-foreground italic">Nenhuma opção</p>
                   )}
-                </div>
-              )}
-            </div>
+          </div>
+        )}
+      </div>
+
           )}
         </div>
       )}
 
       {isAdmin && confirmDelete && (
         <div
-          className="absolute inset-0 z-20 flex items-center justify-center bg-black/75 backdrop-blur-sm p-3"
+          className="fixed inset-0 sm:absolute sm:inset-0 z-[100] sm:z-20 flex items-center justify-center bg-black/85 sm:bg-black/75 backdrop-blur-md sm:backdrop-blur-sm p-4 sm:p-3"
           onClick={(e) => { e.stopPropagation(); setConfirmDelete(false); }}
         >
           <div
-            className="w-full max-w-[15rem] rounded-xl border border-rose-400/40 bg-background/95 p-4 text-center shadow-[0_0_30px_-8px_rgba(244,63,94,0.6)]"
+            className="w-full max-w-xs sm:max-w-[15rem] rounded-xl border border-rose-400/40 bg-background/95 p-6 sm:p-4 text-center shadow-[0_0_40px_-10px_rgba(244,63,94,0.6)]"
             onClick={(e) => e.stopPropagation()}
           >
-            <p className="text-xs text-muted-foreground mb-1">Apagar esta imagem?</p>
-            <p className="text-[10px] text-muted-foreground mb-4">O card ficará vazio.</p>
-            <div className="flex items-center justify-center gap-2">
+            <p className="text-sm sm:text-xs text-muted-foreground mb-1">Apagar esta imagem?</p>
+            <p className="text-xs sm:text-[10px] text-muted-foreground mb-6 sm:mb-4">O card ficará vazio.</p>
+            <div className="flex items-center justify-center gap-3 sm:gap-2">
+
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); setConfirmDelete(false); }}
-                className="px-3 py-1.5 rounded-lg border border-[#fde047]/40 text-[11px] font-medium hover:bg-[#fde047]/15 transition-colors"
+                className="px-4 py-2 sm:px-3 sm:py-1.5 rounded-lg border border-[#fde047]/40 text-sm sm:text-[11px] font-medium hover:bg-[#fde047]/15 transition-colors"
               >
                 Não
               </button>
@@ -849,7 +851,7 @@ const Slot = memo(function Slot({
                 type="button"
                 disabled={isDeleting}
                 onClick={(e) => { e.stopPropagation(); setConfirmDelete(false); onDelete(); }}
-                className="px-3 py-1.5 rounded-lg bg-rose-500 text-white text-[11px] font-medium hover:bg-rose-400 transition-colors disabled:opacity-60"
+                className="px-4 py-2 sm:px-3 sm:py-1.5 rounded-lg bg-rose-500 text-white text-sm sm:text-[11px] font-medium hover:bg-rose-400 transition-colors disabled:opacity-60"
               >
                 Sim
               </button>
