@@ -497,11 +497,11 @@ function Galeria() {
           </p>
 
 
-          <div className="mt-6 flex flex-wrap items-center gap-3">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <Link
               to="/"
               aria-label="Voltar"
-              className="group inline-flex min-h-[42px] items-center gap-2 text-xs sm:text-sm font-bold text-sky-400 border border-sky-400/30 rounded-xl px-5 py-2.5 bg-sky-400/5 shadow-[0_10px_20px_-5px_rgba(56,189,248,0.2)] hover:shadow-[0_15px_30px_-8px_rgba(56,189,248,0.4)] hover:border-sky-300 hover:text-sky-300 transition-all duration-300 active:scale-[0.97]"
+              className="group inline-flex min-h-[42px] items-center gap-2 text-xs sm:text-sm font-bold text-[#d8bf85] border border-[#d8bf85]/30 rounded-full px-6 py-2.5 bg-[#d8bf85]/5 shadow-[0_10px_20px_-5px_rgba(216,191,133,0.15)] hover:shadow-[0_15px_30px_-8px_rgba(216,191,133,0.3)] hover:border-[#d8bf85] hover:text-[#d8bf85] transition-all duration-300 active:scale-[0.97]"
             >
               <ChevronLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
               Voltar
