@@ -406,12 +406,42 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                     </li>
                   );
                 })}
-                {items.length === 0 && (
+                {items.length === 0 && unregistered.length === 0 && (
                   <li className="text-sm text-muted-foreground py-8 text-center border border-dashed border-border/50 rounded-lg">
                     Nenhuma categoria cadastrada.
                   </li>
                 )}
               </ul>
+            )}
+
+            {unregistered.length > 0 && (
+              <div className="mt-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
+                <p className="label-luxe mb-3 text-[#fde047]/80">Categorias encontradas em obras (não cadastradas)</p>
+                <ul className="space-y-3">
+                  {unregistered.map((name) => (
+                    <li
+                      key={name}
+                      className="group flex items-center gap-3 rounded-lg border border-yellow-500/20 bg-yellow-500/5 px-3 py-3 transition-all hover:border-yellow-500/40 hover:bg-yellow-500/10"
+                    >
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/[0.03] border border-white/10 text-yellow-500/70">
+                        <Plus className="h-5 w-5" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <span className="block truncate text-sm font-medium text-foreground">{name}</span>
+                        <p className="text-[10px] text-yellow-500/60 uppercase tracking-tighter font-bold">Pendente de registro</p>
+                      </div>
+                      <button
+                        onClick={() => registerCategory(name)}
+                        disabled={saving}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-yellow-500 text-slate-950 font-bold text-[10px] uppercase tracking-wider hover:bg-yellow-400 transition-all shadow-[0_5px_15px_-5px_rgba(250,204,21,0.4)] active:scale-95 disabled:opacity-50"
+                      >
+                        {saving ? <Loader2 className="h-3 w-3 animate-spin" /> : <Save className="h-3 w-3" />}
+                        Registrar
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )}
           </div>
         </div>
