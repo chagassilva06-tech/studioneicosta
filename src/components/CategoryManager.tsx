@@ -437,7 +437,7 @@ const IconPicker = memo(function IconPicker({ value, onChange, label }: { value:
       <select
         value={value}
         onChange={(e) => onChange(e.target.value as IconName)}
-        className="w-full px-3 py-2 rounded-lg bg-background/70 border border-sky-400/40 text-sm outline-none focus:border-sky-300"
+        className="w-full px-3 py-2 rounded-lg bg-background/70 border border-white/10 text-sm outline-none focus:border-[#d8bf85]/50 focus:bg-background transition-all"
       >
         {iconNames.map((n) => (
           <option key={n} value={n}>
