@@ -84,8 +84,10 @@ function Galeria() {
   const [deletingSlot, setDeletingSlot] = useState<number | null>(null);
   const [movingSlot, setMovingSlot] = useState<number | null>(null);
   const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
+  const [catDescription, setCatDescription] = useState<string | null>(null);
+
   const fileInputs = useRef<Record<number, HTMLInputElement | null>>({});
-  const desc = categoryDescriptions[nome] ?? `Obra da coleção ${nome}.`;
+  const desc = catDescription || categoryDescriptions[nome] || `Obra da coleção ${nome}.`;
   const { isAdmin, userEmail } = useAdmin();
 
   const handleSignOut = async () => {
@@ -352,10 +354,15 @@ function Galeria() {
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase.from("categories").select("id, name").order("sort_order", { ascending: true });
-      if (data) setCategories(data);
+      const { data } = await supabase.from("categories").select("id, name, description").order("sort_order", { ascending: true });
+      if (data) {
+        setCategories(data);
+        const current = data.find(c => c.name === nome);
+        if (current?.description) setCatDescription(current.description);
+      }
     })();
-  }, []);
+  }, [nome]);
+
 
 
 
