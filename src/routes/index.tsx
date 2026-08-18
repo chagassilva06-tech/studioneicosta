@@ -543,7 +543,7 @@ function Index() {
           <div className="max-w-4xl mx-auto px-4 sm:px-8 py-2.5 sm:py-3 relative">
 
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-sky-300/70" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#d8bf85]/70" />
               <input
                 type="text"
                 value={query}
@@ -551,7 +551,7 @@ function Index() {
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setTimeout(() => setSearchFocused(false), 150)}
                 placeholder="Pesquisar categorias..."
-                className="w-full min-h-[44px] pl-10 pr-10 py-2.5 rounded-2xl bg-white/[0.04] border border-white/10 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-sky-400/60 focus:bg-white/[0.06] transition-all duration-300"
+                className="w-full min-h-[44px] pl-10 pr-10 py-2.5 rounded-2xl bg-white/[0.04] border border-white/10 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-[#d8bf85]/40 focus:bg-white/[0.06] transition-all duration-300"
               />
               {query && (
                 <button
