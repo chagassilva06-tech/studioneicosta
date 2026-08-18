@@ -358,8 +358,12 @@ function Index() {
 
   const totalCount = Object.values(counts).reduce((a, b) => a + b, 0);
   const suggestions = query.trim()
-    ? categories.filter((c) => c.name.toLowerCase().includes(query.trim().toLowerCase()))
+    ? categories.filter((c) => 
+        c.name.toLowerCase().includes(query.trim().toLowerCase()) && 
+        (counts[c.name] ?? 0) > 0
+      )
     : [];
+
 
   // Build slides: fetch the first two items per category for the carousel
   const slides = useMemo(() => {
