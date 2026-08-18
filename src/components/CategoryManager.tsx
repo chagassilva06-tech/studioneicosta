@@ -254,7 +254,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                   return (
                     <li
                       key={c.id}
-                      className="group relative rounded-lg border border-border/50 px-3 py-3 transition-all hover:border-sky-400/30 hover:shadow-[0_0_15px_-5px_var(--btn-glow)]"
+                      className="group relative rounded-lg border border-white/5 px-3 py-3 transition-all hover:border-white/20 hover:shadow-[0_0_15px_-5px_var(--btn-glow)]"
                       style={{
                         background: `linear-gradient(135deg, var(--btn-grad-from) 0%, var(--btn-grad-to) 100%)`,
                         "--btn-grad-from": [
