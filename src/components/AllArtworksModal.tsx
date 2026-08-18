@@ -121,21 +121,26 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
         className="flex flex-col gap-4 px-6 sm:px-12 py-4 border-b border-white/5 bg-background/30"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-          <div className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full sm:w-auto">
-            {["Todas", ...categorias].map((c) => (
-              <button
-                key={c}
-                onClick={() => setFilter(c)}
-                className={`shrink-0 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border transition-all duration-300 ${
-                  filter === c
-                    ? "bg-white text-slate-950 border-white shadow-[0_10px_20px_-5px_rgba(255,255,255,0.2)]"
-                    : "text-foreground/60 border-white/10 hover:border-white/20 hover:bg-white/5"
-                }`}
-              >
-                {c}
-              </button>
-            ))}
+        <div className="flex items-center gap-4">
+          <div className="relative flex-1 min-w-0">
+            {/* Horizontal scroll with navigation arrows, similar to index page */}
+            <div className="relative group/modal-scroll flex items-center">
+              <div className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full py-1">
+                {["Todas", ...categorias].map((c) => (
+                  <button
+                    key={c}
+                    onClick={() => setFilter(c)}
+                    className={`shrink-0 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border transition-all duration-300 ${
+                      filter === c
+                        ? "bg-white text-slate-950 border-white shadow-[0_8px_15px_-5px_rgba(255,255,255,0.3)]"
+                        : "text-foreground/60 border-white/10 hover:border-white/20 hover:bg-white/5"
+                    }`}
+                  >
+                    {c}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
 
           <div className="relative w-full sm:w-64">
