@@ -234,7 +234,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                   createEl?.focus();
                   createEl?.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-sky-400/40 text-[10px] uppercase tracking-wider font-bold text-sky-400 hover:bg-sky-400/10 hover:border-sky-300 transition-all active:scale-[0.97]"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#d8bf85]/40 text-[10px] uppercase tracking-wider font-bold text-[#d8bf85] hover:bg-[#d8bf85]/10 hover:border-[#d8bf85]/60 transition-all active:scale-[0.97]"
               >
                 <Plus className="h-3 w-3" />
                 Adicionar
