@@ -484,51 +484,43 @@ function Galeria() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="mb-8 sm:mb-14"
+          className="mb-8 sm:mb-14 flex flex-col items-center text-center"
         >
-          <div className="flex items-center gap-3 mb-6">
-            <div className="h-[2px] w-12 sm:w-16 bg-gradient-to-r from-sky-400 to-transparent" />
-            <span className="uppercase tracking-[0.5em] text-[0.7rem] sm:text-xs text-sky-400 font-medium">Categoria</span>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="rule-gold w-10 sm:w-12" />
+            <span className="label-luxe">Galeria</span>
+            <div className="rule-gold w-10 sm:w-12" />
           </div>
-          <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl md:text-7xl font-light break-words">{nome}</h1>
-          <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-foreground max-w-lg">
+          <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl md:text-7xl font-light break-words animate-title-glow-subtle">{nome}</h1>
+          <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-foreground max-w-lg italic">
             {desc}
           </p>
 
 
-          <div className="mt-6 flex flex-wrap items-center gap-3">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <Link
               to="/"
               aria-label="Voltar"
-              className="group inline-flex min-h-[42px] items-center gap-2 text-xs sm:text-sm font-bold text-sky-400 border border-sky-400/30 rounded-xl px-5 py-2.5 bg-sky-400/5 shadow-[0_10px_20px_-5px_rgba(56,189,248,0.2)] hover:shadow-[0_15px_30px_-8px_rgba(56,189,248,0.4)] hover:border-sky-300 hover:text-sky-300 transition-all duration-300 active:scale-[0.97]"
+              className="group inline-flex min-h-[42px] items-center gap-2 text-xs sm:text-sm font-bold text-[#d8bf85] border border-[#d8bf85]/30 rounded-full px-6 py-2.5 bg-[#d8bf85]/5 shadow-[0_10px_20px_-5px_rgba(216,191,133,0.15)] hover:shadow-[0_15px_30px_-8px_rgba(216,191,133,0.3)] hover:border-[#d8bf85] hover:text-[#d8bf85] transition-all duration-300 active:scale-[0.97]"
             >
               <ChevronLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
               Voltar
             </Link>
 
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center justify-center gap-2">
               {categories.map((c, idx) => (
                 <Link
                   key={c.id}
                   to="/galeria/$categoria"
                   params={{ categoria: c.name }}
-                  className={`px-4 py-2 rounded-xl text-xs font-medium border transition-all duration-300 hover:scale-[1.05] active:scale-[0.95] ${
+                  className={`px-4 py-2 rounded-full text-xs font-medium border transition-all duration-300 hover:scale-[1.05] active:scale-[0.95] ${
                     c.name === nome
-                      ? "border-sky-400 text-white shadow-[0_0_15px_rgba(56,189,248,0.4)] bg-sky-400/10"
+                      ? "border-[#d8bf85] text-[#d8bf85] shadow-[0_0_15px_rgba(216,191,133,0.3)] bg-[#d8bf85]/10"
                       : "border-white/10 text-foreground/70 hover:text-white hover:border-white/20"
                   }`}
                   style={{
-                    background: c.name === nome ? undefined : `linear-gradient(135deg, var(--btn-grad-from) 0%, var(--btn-grad-to) 100%)`,
-                    "--btn-grad-from": [
-                      "rgba(14,165,233,0.12)",
-                      "rgba(139,92,246,0.12)",
-                      "rgba(20,184,166,0.12)",
-                      "rgba(244,63,94,0.12)",
-                      "rgba(234,179,8,0.12)",
-                      "rgba(16,185,129,0.12)",
-                    ][idx % 6],
-                    "--btn-grad-to": "rgba(255,255,255,0.01)",
-                  } as any}
+                    background: c.name === nome ? 'rgba(216, 191, 133, 0.1)' : 'rgba(255, 255, 255, 0.03)',
+                  }}
                 >
                   {c.name}
                 </Link>

@@ -543,7 +543,7 @@ function Index() {
           <div className="max-w-4xl mx-auto px-4 sm:px-8 py-2.5 sm:py-3 relative">
 
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-sky-300/70" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#d8bf85]/70" />
               <input
                 type="text"
                 value={query}
@@ -551,7 +551,7 @@ function Index() {
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setTimeout(() => setSearchFocused(false), 150)}
                 placeholder="Pesquisar categorias..."
-                className="w-full min-h-[44px] pl-10 pr-10 py-2.5 rounded-2xl bg-white/[0.04] border border-white/10 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-sky-400/60 focus:bg-white/[0.06] transition-all duration-300"
+                className="w-full min-h-[44px] pl-10 pr-10 py-2.5 rounded-2xl bg-white/[0.04] border border-white/10 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-[#d8bf85]/40 focus:bg-white/[0.06] transition-all duration-300"
               />
               {query && (
                 <button
@@ -566,11 +566,11 @@ function Index() {
 
 
             {searchFocused && (
-              <div className="absolute left-3 right-3 sm:left-6 sm:right-6 mt-1 max-h-[50vh] overflow-y-auto rounded-xl border border-sky-400/40 bg-background/95 backdrop-blur-md shadow-[0_10px_30px_-10px_rgba(56,155,255,0.5)] z-10 animate-fade-in">
+              <div className="absolute left-3 right-3 sm:left-6 sm:right-6 mt-1 max-h-[50vh] overflow-y-auto rounded-xl border border-[#d8bf85]/30 bg-background/95 backdrop-blur-md shadow-[0_10px_30px_-10px_rgba(216,191,133,0.3)] z-10 animate-fade-in">
                 {query.trim() !== "" && (
                   <button
                     onClick={() => setQuery("")}
-                    className="flex w-full items-center gap-2 px-3 py-2 text-[10px] uppercase tracking-widest text-sky-400/70 hover:bg-sky-400/10 transition-colors border-b border-sky-400/10"
+                    className="flex w-full items-center gap-2 px-3 py-2 text-[10px] uppercase tracking-widest text-[#d8bf85]/70 hover:bg-[#d8bf85]/10 transition-colors border-b border-white/5"
                   >
                     <X className="h-3 w-3" /> Limpar busca
                   </button>
@@ -584,9 +584,9 @@ function Index() {
                         to="/galeria/$categoria"
                         params={{ categoria: c.name }}
                         onClick={() => setQuery("")}
-                        className="flex min-h-11 items-center gap-2 px-3 py-2.5 text-sm text-foreground hover:bg-sky-400/10 hover:text-sky-100 transition-colors"
+                        className="flex min-h-11 items-center gap-2 px-3 py-2.5 text-sm text-foreground hover:bg-[#d8bf85]/10 hover:text-[#f5e6b8] transition-colors"
                       >
-                        <Icon className="h-3.5 w-3.5 text-sky-300/85" />
+                        <Icon className="h-3.5 w-3.5 text-[#d8bf85]/80" />
                         {c.name}
                         <span className="ml-auto text-xs text-muted-foreground">
                           ({counts[c.name] ?? 0})
