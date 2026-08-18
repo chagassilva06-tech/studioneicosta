@@ -168,10 +168,10 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
       className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
     >
       <div
-        className="relative flex w-full max-w-2xl max-h-[85vh] flex-col overflow-hidden rounded-3xl border border-sky-400/20 bg-background/95 shadow-[0_40px_100px_-20px_rgba(0,0,0,1),0_0_80px_-10px_rgba(56,155,255,0.25)] backdrop-blur-3xl"
+        className="relative flex w-full max-w-2xl max-h-[85vh] flex-col overflow-hidden rounded-3xl border border-[#d8bf85]/20 bg-[#050912]/95 shadow-[0_40px_100px_-20px_rgba(0,0,0,1),0_0_80px_-10px_rgba(216,191,133,0.15)] backdrop-blur-3xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex shrink-0 items-center justify-between gap-4 border-b border-sky-400/10 px-6 py-5 sm:px-8">
+        <div className="flex shrink-0 items-center justify-between gap-4 border-b border-white/5 px-6 py-5 sm:px-8">
           <div className="flex items-center gap-3">
             <div className="h-2 w-2 rounded-full bg-[#d8bf85] shadow-[0_0_10px_rgba(216,191,133,0.6)]" />
             <h2 className="min-w-0 truncate font-display text-2xl sm:text-3xl font-light">
@@ -180,7 +180,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
           </div>
           <button
             onClick={onClose}
-            className="h-9 w-9 shrink-0 rounded-full inline-flex items-center justify-center text-sky-200 hover:bg-sky-400/15 border border-sky-400/40"
+            className="h-9 w-9 shrink-0 rounded-full inline-flex items-center justify-center text-[#d8bf85] hover:bg-[#d8bf85]/10 border border-[#d8bf85]/20 transition-colors"
             aria-label="Fechar"
             title="Fechar"
           >
@@ -190,7 +190,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
 
         {/* Create — fixo, sem rolagem */}
         <div className="shrink-0 px-6 pt-6 sm:px-8 sm:pt-8">
-          <div className="rounded-2xl border border-sky-400/15 bg-sky-400/[0.03] p-5 sm:p-6 shadow-inner">
+          <div className="rounded-2xl border border-[#d8bf85]/15 bg-[#d8bf85]/[0.03] p-5 sm:p-6 shadow-inner">
             <p className="label-luxe mb-4 flex items-center gap-2">
               <Plus className="h-3 w-3" />
               Nova categoria
@@ -201,13 +201,13 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
                 placeholder="Nome da categoria"
-                className="min-w-0 flex-1 px-3 py-2 rounded-lg bg-background/70 border border-sky-400/40 text-sm outline-none focus:border-sky-300"
+                className="min-w-0 flex-1 px-3 py-2 rounded-lg bg-background/70 border border-white/10 text-sm outline-none focus:border-[#d8bf85]/50 focus:bg-background transition-all"
               />
               <IconPicker value={newIcon} onChange={setNewIcon} label="Selecionar" />
               <button
                 onClick={create}
                 disabled={saving || !newName.trim()}
-                className="inline-flex shrink-0 items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-sky-400 text-slate-950 font-medium text-sm hover:bg-sky-300 disabled:opacity-60"
+                className="inline-flex shrink-0 items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-[#d8bf85] text-slate-950 font-medium text-sm hover:bg-[#f5e6b8] disabled:opacity-60 transition-colors shadow-[0_0_15px_rgba(216,191,133,0.3)]"
               >
                 {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
                 Criar
@@ -218,7 +218,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
               onChange={(e) => setNewDesc(e.target.value)}
               placeholder="Descreva aqui sobre a categoria (opcional)"
               rows={2}
-              className="mt-2 w-full resize-none rounded-lg border border-sky-400/40 bg-background/70 px-3 py-2 text-sm outline-none focus:border-sky-300"
+              className="mt-2 w-full resize-none rounded-lg border border-white/10 bg-background/70 px-3 py-2 text-sm outline-none focus:border-[#d8bf85]/50 focus:bg-background transition-all"
             />
           </div>
         </div>
@@ -234,14 +234,14 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                   createEl?.focus();
                   createEl?.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-sky-400/40 text-[10px] uppercase tracking-wider font-bold text-sky-400 hover:bg-sky-400/10 hover:border-sky-300 transition-all active:scale-[0.97]"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#d8bf85]/40 text-[10px] uppercase tracking-wider font-bold text-[#d8bf85] hover:bg-[#d8bf85]/10 hover:border-[#d8bf85]/60 transition-all active:scale-[0.97]"
               >
                 <Plus className="h-3 w-3" />
                 Adicionar
               </button>
             </div>
             {loading ? (
-              <div className="flex items-center justify-center py-8 text-sky-300/70">
+              <div className="flex items-center justify-center py-8 text-[#d8bf85]/70">
                 <Loader2 className="h-5 w-5 animate-spin" />
               </div>
             ) : (
@@ -254,25 +254,28 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                   return (
                     <li
                       key={c.id}
-                      className="group relative rounded-lg border border-border/50 px-3 py-3 transition-all hover:border-sky-400/30 hover:shadow-[0_0_15px_-5px_var(--btn-glow)]"
+                      className="group relative rounded-lg border border-white/5 px-3 py-3 transition-all hover:border-white/20 hover:shadow-[0_0_15px_-5px_var(--btn-glow)]"
                       style={{
                         background: `linear-gradient(135deg, var(--btn-grad-from) 0%, var(--btn-grad-to) 100%)`,
                         "--btn-grad-from": [
-                          "rgba(14,165,233,0.08)",
-                          "rgba(139,92,246,0.08)",
-                          "rgba(20,184,166,0.08)",
-                          "rgba(244,63,94,0.08)",
-                          "rgba(234,179,8,0.08)",
-                          "rgba(16,185,129,0.08)",
+                          "rgba(14,165,233,0.06)", // Sky
+                          "rgba(59,130,246,0.06)", // Blue
+                          "rgba(139,92,246,0.06)", // Violet
+                          "rgba(216,191,133,0.06)", // Gold
+                          "rgba(16,185,129,0.06)", // Emerald
+                          "rgba(244,63,94,0.06)",  // Rose
                         ][items.indexOf(c) % 6],
                         "--btn-grad-to": "rgba(255,255,255,0.01)",
                         "--btn-glow": [
                           "rgba(14,165,233,0.2)",
+                          "rgba(59,130,246,0.2)",
                           "rgba(139,92,246,0.2)",
-                          "rgba(20,184,166,0.2)",
-                          "rgba(244,63,94,0.2)",
-                          "rgba(234,179,8,0.2)",
+                          "rgba(216,191,133,0.2)",
                           "rgba(16,185,129,0.2)",
+                          "rgba(244,63,94,0.2)",
+                        ][items.indexOf(c) % 6],
+                        "--btn-glow-solid": [
+                          "#0ea5e9", "#3b82f6", "#8b5cf6", "#d8bf85", "#10b981", "#f43f5e"
                         ][items.indexOf(c) % 6]
                       } as any}
                     >
@@ -316,8 +319,8 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                         </div>
                       ) : (
                         <div className="flex items-center gap-3">
-                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-400/10 border border-sky-400/20 text-sky-300">
-                            <Icon className="h-5 w-5" />
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/[0.03] border border-white/10 group-hover:border-[var(--btn-glow)] transition-colors">
+                            <Icon className="h-5 w-5" style={{ color: "var(--btn-glow-solid)" }} />
                           </div>
                           <div className="min-w-0 flex-1">
                             <span className="block truncate text-sm font-medium text-foreground">{c.name}</span>
@@ -331,7 +334,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                           <div className="relative shrink-0">
                             <button
                               onClick={() => setMenuOpenId(menuOpen ? null : c.id)}
-                              className="h-9 w-9 rounded-full inline-flex items-center justify-center text-muted-foreground hover:text-sky-300 hover:bg-sky-400/10 transition-colors"
+                              className="h-9 w-9 rounded-full inline-flex items-center justify-center text-muted-foreground hover:text-[#d8bf85] hover:bg-[#d8bf85]/10 transition-colors"
                               aria-label="Menu de ações"
                             >
                               <MoreVertical className="h-5 w-5" />
@@ -343,23 +346,23 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                                   className="fixed inset-0 z-10" 
                                   onClick={() => setMenuOpenId(null)} 
                                 />
-                                <div className="absolute right-0 top-full z-20 mt-1 w-48 origin-top-right overflow-hidden rounded-xl border border-sky-400/30 bg-background/95 shadow-xl backdrop-blur-md animate-in fade-in zoom-in-95 duration-150">
+                                <div className="absolute right-0 top-full z-20 mt-1 w-48 origin-top-right overflow-hidden rounded-xl border border-white/10 bg-[#050912]/95 shadow-2xl backdrop-blur-md animate-in fade-in zoom-in-95 duration-150">
                                   <button
                                     onClick={() => {
                                       startEdit(c);
                                       setMenuOpenId(null);
                                     }}
-                                    className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm hover:bg-sky-400/10 transition-colors"
+                                    className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm hover:bg-white/[0.05] transition-colors"
                                   >
-                                    <Pencil className="h-4 w-4 text-sky-300" />
+                                    <Pencil className="h-4 w-4 text-[#d8bf85]" />
                                     Editar categoria
                                   </button>
                                   <Link
                                     to="/galeria/$categoria"
                                     params={{ categoria: c.name }}
-                                    className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm hover:bg-sky-400/10 transition-colors"
+                                    className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm hover:bg-white/[0.05] transition-colors"
                                   >
-                                    <Plus className="h-4 w-4 text-sky-300" />
+                                    <Plus className="h-4 w-4 text-[#d8bf85]" />
                                     Adicionar imagem
                                   </Link>
                                   <button
@@ -393,7 +396,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
 
         {/* Confirmação de exclusão */}
         {confirmId && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
             <div className="w-full max-w-sm rounded-2xl border border-rose-400/40 bg-background/95 p-6 shadow-[0_0_40px_-10px_rgba(244,63,94,0.5)] text-center">
               <p className="text-sm text-muted-foreground mb-1">Excluir categoria</p>
               <p className="text-lg font-medium mb-5">"{confirmName}"</p>
@@ -403,7 +406,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
               <div className="flex items-center justify-center gap-3">
                 <button
                   onClick={cancelRemove}
-                  className="px-5 py-2 rounded-lg border border-sky-400/40 text-sm font-medium hover:bg-sky-400/15 transition-colors"
+                  className="px-5 py-2 rounded-lg border border-[#d8bf85]/40 text-sm font-medium hover:bg-[#d8bf85]/15 transition-colors"
                 >
                   Não
                 </button>
@@ -430,11 +433,11 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
 const IconPicker = memo(function IconPicker({ value, onChange, label }: { value: IconName; onChange: (v: IconName) => void; label?: string }) {
   return (
     <div className="flex flex-col gap-1 w-full sm:w-40">
-      {label && <label className="text-[10px] uppercase tracking-wider text-sky-400/60 ml-1">{label}</label>}
+      {label && <label className="text-[10px] uppercase tracking-wider text-[#d8bf85]/60 ml-1">{label}</label>}
       <select
         value={value}
         onChange={(e) => onChange(e.target.value as IconName)}
-        className="w-full px-3 py-2 rounded-lg bg-background/70 border border-sky-400/40 text-sm outline-none focus:border-sky-300"
+        className="w-full px-3 py-2 rounded-lg bg-background/70 border border-white/10 text-sm outline-none focus:border-[#d8bf85]/50 focus:bg-background transition-all"
       >
         {iconNames.map((n) => (
           <option key={n} value={n}>

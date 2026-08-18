@@ -133,7 +133,6 @@ const CategoryScroll = memo(({ categories, counts }: { categories: Cat[], counts
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(false);
 
-  // Filter categories that have artworks
   const activeCategories = useMemo(() => {
     return categories.filter(c => (counts[c.name] ?? 0) > 0);
   }, [categories, counts]);
@@ -159,87 +158,62 @@ const CategoryScroll = memo(({ categories, counts }: { categories: Cat[], counts
 
   const scroll = (dir: 1 | -1) => {
     if (!scrollRef.current) return;
-    scrollRef.current.scrollBy({ left: dir * 240, behavior: "smooth" });
+    const scrollAmount = window.innerWidth < 640 ? 180 : 300;
+    scrollRef.current.scrollBy({ left: dir * scrollAmount, behavior: "smooth" });
+  };
+
+  const getCategoryColor = (index: number) => {
+    const colors = ["#0ea5e9", "#3b82f6", "#8b5cf6", "#d8bf85", "#10b981", "#f43f5e", "#ec4899", "#a855f7"];
+    return colors[index % colors.length];
   };
 
   return (
-    <>
-      <AnimatePresence>
-        {showLeft && (
-          <motion.button
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -10 }}
-            onClick={() => scroll(-1)}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 h-8 w-8 items-center justify-center rounded-full bg-background/80 border border-white/10 text-[#d8bf85] backdrop-blur hidden sm:flex hover:bg-white hover:text-slate-950 transition-colors"
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </motion.button>
-        )}
-        {showRight && (
-          <motion.button
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 10 }}
-            onClick={() => scroll(1)}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 h-8 w-8 items-center justify-center rounded-full bg-background/80 border border-white/10 text-[#d8bf85] backdrop-blur hidden sm:flex hover:bg-white hover:text-slate-950 transition-colors"
-          >
-            <ChevronRight className="h-4 w-4" />
-          </motion.button>
-        )}
-      </AnimatePresence>
+    <div className="relative h-full flex items-center">
+      {/* Fade indicators */}
+      <div className={`absolute left-0 top-0 bottom-0 w-12 z-10 pointer-events-none transition-opacity duration-300 bg-gradient-to-r from-[#050912] to-transparent ${showLeft ? 'opacity-100' : 'opacity-0'}`} />
+      <div className={`absolute right-0 top-0 bottom-0 w-12 z-10 pointer-events-none transition-opacity duration-300 bg-gradient-to-l from-[#050912] to-transparent ${showRight ? 'opacity-100' : 'opacity-0'}`} />
 
       <div
         ref={scrollRef}
-        className="h-full overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth snap-x snap-mandatory overscroll-contain"
+        className="h-full overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth snap-x snap-mandatory overscroll-contain flex items-center"
       >
-        <div className="flex items-center gap-2 h-full px-1 pr-10">
-          {activeCategories.map((c) => {
+        <div className="flex items-center gap-4 h-full px-6 min-w-full">
+          {activeCategories.map((c, idx) => {
             const Icon = getIcon(c.icon);
+            const catColor = getCategoryColor(idx);
+            
             return (
               <Link
                 key={c.id}
                 to="/galeria/$categoria"
                 params={{ categoria: c.name }}
-                className="shrink-0 snap-start group inline-flex min-h-[38px] items-center gap-2 px-5 py-2 rounded-xl text-xs sm:text-sm font-medium text-foreground/90 border border-white/10 bg-white/[0.03] hover:text-white transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] hover:shadow-[0_0_20px_-5px_var(--btn-glow)]"
+                className="shrink-0 snap-start group relative flex h-[38px] items-center gap-2.5 px-4 rounded-full text-[13px] font-medium text-foreground/70 border border-white/5 bg-white/[0.03] transition-all duration-250 hover:bg-white/[0.06] hover:text-white hover:-translate-y-[1px]"
                 style={{
-                  background: `linear-gradient(135deg, var(--btn-grad-from) 0%, var(--btn-grad-to) 100%)`,
-                  borderColor: `rgba(255,255,255,0.1)`,
-                  "--btn-grad-from": [
-                    "rgba(14,165,233,0.15)", // Sky
-                    "rgba(139,92,246,0.15)", // Violet
-                    "rgba(20,184,166,0.15)", // Teal
-                    "rgba(244,63,94,0.15)",  // Rose
-                    "rgba(234,179,8,0.15)",  // Yellow
-                    "rgba(16,185,129,0.15)", // Emerald
-                  ][categories.indexOf(c) % 6],
-                  "--btn-grad-to": [
-                    "rgba(14,165,233,0.02)",
-                    "rgba(139,92,246,0.02)",
-                    "rgba(20,184,166,0.02)",
-                    "rgba(244,63,94,0.02)",
-                    "rgba(234,179,8,0.02)",
-                    "rgba(16,185,129,0.02)",
-                  ][categories.indexOf(c) % 6],
-                  "--btn-glow": [
-                    "rgba(14,165,233,0.3)",
-                    "rgba(139,92,246,0.3)",
-                    "rgba(20,184,166,0.3)",
-                    "rgba(244,63,94,0.3)",
-                    "rgba(234,179,8,0.3)",
-                    "rgba(16,185,129,0.3)",
-                  ][categories.indexOf(c) % 6]
+                  "--hover-glow": `${catColor}33`,
+                  "--cat-color": catColor,
+                  background: 'rgba(255, 255, 255, 0.03)',
                 } as any}
               >
-                <Icon className="h-4 w-4 shrink-0 text-sky-400 group-hover:text-sky-300 transition-colors" />
+                {/* Subtle border glow on hover */}
+                <div className="absolute inset-0 rounded-full border border-transparent group-hover:border-[var(--cat-color)] opacity-20 transition-colors" />
+                
+                <Icon 
+                  className="h-3.5 w-3.5 shrink-0 transition-colors" 
+                  style={{ color: catColor }} 
+                />
                 <span className="whitespace-nowrap">{c.name}</span>
-                <span className="opacity-60 text-[10px] sm:text-xs">({counts[c.name] ?? 0})</span>
+                <span className="text-[11px] opacity-55 ml-1.5 tabular-nums">
+                  {counts[c.name] ?? 0}
+                </span>
+
+                {/* Hover Glow */}
+                <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity blur-md bg-[var(--hover-glow)] -z-10" />
               </Link>
             );
           })}
         </div>
       </div>
-    </>
+    </div>
   );
 });
 
@@ -493,37 +467,41 @@ function Index() {
         </div>
 
         {/* Categories pills */}
-        <div className="h-[52px] sm:h-[64px] border-t border-white/5 bg-background/40 backdrop-blur-3xl">
-          <div className="max-w-7xl mx-auto h-full px-4 sm:px-8 md:px-12 flex items-center gap-3">
+        <div className="h-[64px] border-y border-white/[0.03] bg-[#050912]">
+          <div className="max-w-7xl mx-auto h-full px-4 sm:px-8 md:px-12 flex items-center gap-6">
             {/* Todos — fixed left */}
             <button
               type="button"
               onClick={openAllModal}
-              className="shrink-0 inline-flex min-h-[38px] items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-slate-950 shadow-[0_10px_20px_-5px_rgba(255,255,255,0.2)] hover:shadow-[0_15px_30px_-8px_rgba(255,255,255,0.4)] transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]"
+              className="shrink-0 group relative flex h-[38px] items-center gap-2.5 px-5 rounded-full text-[13px] font-bold bg-[#d8bf85]/10 border border-[#d8bf85]/30 text-[#d8bf85] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] hover:bg-[#d8bf85]/20"
             >
               <LayoutGrid className="h-4 w-4 shrink-0" />
               <span>Todos</span>
-              <span className="opacity-60 font-medium tabular-nums text-[10px] sm:text-xs">({totalCount})</span>
+              <span className="opacity-55 font-medium tabular-nums text-[11px] ml-1.5">{totalCount}</span>
+              
+              {/* Premium Glow */}
+              <div className="absolute inset-0 rounded-full blur-md bg-[#d8bf85]/10 opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
             </button>
 
-            {/* Categories — scrollable center with arrows */}
-            <div className="relative flex-1 min-w-0 h-full group/nav">
+            {/* Categories — scrollable center */}
+            <div className="relative flex-1 min-w-0 h-full">
               <CategoryScroll categories={categories} counts={counts} />
             </div>
 
-            {/* Gerenciar — fixed right */}
-
-            {/* Gerenciar — fixed right */}
+            {/* Gerenciar — fixed right with separation */}
             {isAdmin && (
-              <button
-                type="button"
-                onClick={openCategoryManager}
-                className="shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-[#d8bf85] border border-[#d8bf85]/30 bg-[#d8bf85]/[0.05] hover:bg-[#d8bf85]/15 hover:border-[#d8bf85]/60 transition-all duration-300 hover:scale-[1.03]"
-                title="Gerenciar categorias"
-              >
-                <Settings2 className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">Gerenciar</span>
-              </button>
+              <div className="flex items-center">
+                <div className="w-[1px] h-8 bg-white/5 mr-6" />
+                <button
+                  type="button"
+                  onClick={openCategoryManager}
+                  className="shrink-0 flex h-[38px] items-center gap-2 px-4 rounded-full text-[13px] font-medium text-[#d8bf85] border border-[#d8bf85]/20 bg-transparent transition-all duration-300 hover:bg-[#d8bf85]/[0.08] hover:border-[#d8bf85]/40"
+                  title="Gerenciar categorias"
+                >
+                  <Settings2 className="h-3.5 w-3.5" />
+                  <span className="hidden sm:inline">Gerenciar</span>
+                </button>
+              </div>
             )}
           </div>
         </div>

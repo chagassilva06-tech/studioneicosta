@@ -415,10 +415,10 @@ function Galeria() {
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
-      <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-2xl bg-background/80 border-b border-white/5 shadow-2xl">
+      <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-3xl bg-background/70 border-b border-white/5 shadow-2xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 h-16 sm:h-20 flex items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2 group min-w-0 shrink">
-            <span className="h-2 w-2 shrink-0 rounded-full bg-[#b89a5e] shadow-[0_0_10px_rgba(184,154,94,0.7)]" />
+            <span className="h-2 w-2 shrink-0 rounded-full bg-[#d8bf85] shadow-[0_0_12px_rgba(216,191,133,0.7)]" />
             <span
               className="text-xl sm:text-2xl md:text-3xl tracking-wide text-foreground truncate transition-all duration-500 group-hover:tracking-[0.06em]"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
@@ -426,25 +426,55 @@ function Galeria() {
               Studio<span className="italic text-[#d8bf85]">Nei</span>
             </span>
           </Link>
+
+          <div className="flex-1 flex justify-center px-4 overflow-hidden">
+             <div className="flex items-center gap-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {categories.map((c, idx) => {
+                  const isActive = c.name === nome;
+                  const catColor = [
+                    "#0ea5e9", "#3b82f6", "#8b5cf6", "#d8bf85", 
+                    "#10b981", "#f43f5e", "#ec4899", "#a855f7"
+                  ][idx % 8];
+
+                  return (
+                    <Link
+                      key={c.id}
+                      to="/galeria/$categoria"
+                      params={{ categoria: c.name }}
+                      className={`shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-full text-[12px] font-medium transition-all duration-300 border ${
+                        isActive 
+                        ? "bg-[#d8bf85]/10 border-[#d8bf85]/40 text-[#d8bf85] shadow-[0_0_15px_rgba(216,191,133,0.15)]" 
+                        : "bg-white/[0.03] border-white/5 text-foreground/60 hover:text-white hover:border-white/20"
+                      }`}
+                      style={isActive ? { "--cat-color": catColor } as any : {}}
+                    >
+                      <span 
+                        className="w-1.5 h-1.5 rounded-full" 
+                        style={{ backgroundColor: isActive ? "#d8bf85" : catColor }}
+                      />
+                      <span className="whitespace-nowrap">{c.name}</span>
+                    </Link>
+                  );
+                })}
+             </div>
+          </div>
+
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             {isAdmin ? (
               <button
                 onClick={handleSignOut}
                 title={userEmail ?? undefined}
                 aria-label="Sair"
-                className="group inline-flex items-center gap-1.5 text-xs font-medium text-yellow-300 border border-yellow-300/70 rounded-full px-2.5 sm:px-3 py-1.5 bg-yellow-300/5 shadow-[0_0_12px_rgba(250,204,21,0.45)] hover:shadow-[0_0_26px_rgba(250,204,21,0.85)] hover:border-yellow-200 hover:text-yellow-200 transition-all"
+                className="group inline-flex items-center gap-2 text-xs font-bold text-[#d8bf85] border border-[#d8bf85]/30 rounded-full px-4 py-2 bg-[#d8bf85]/5 shadow-[0_0_15px_rgba(216,191,133,0.2)] hover:shadow-[0_0_25px_rgba(216,191,133,0.4)] hover:bg-[#d8bf85]/10 hover:border-[#d8bf85]/60 transition-all active:scale-[0.97]"
               >
-                <LogOut className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Sair</span>
+                <LogOut className="h-3.5 w-3.5 transition-transform group-hover:rotate-12" /> <span className="hidden sm:inline text-[#d8bf85]">Sair</span>
               </button>
             ) : (
               <span className="inline-flex items-center gap-1.5 text-[0.6rem] uppercase tracking-[0.28em] text-sky-200/70 border border-sky-400/30 rounded-full px-2.5 py-1">
                 Visitante · leitura
               </span>
             )}
-
           </div>
-
-
         </div>
       </header>
 
