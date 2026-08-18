@@ -357,9 +357,9 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                                   <Link
                                     to="/galeria/$categoria"
                                     params={{ categoria: c.name }}
-                                    className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm hover:bg-sky-400/10 transition-colors"
+                                    className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm hover:bg-white/[0.05] transition-colors"
                                   >
-                                    <Plus className="h-4 w-4 text-sky-300" />
+                                    <Plus className="h-4 w-4 text-[#d8bf85]" />
                                     Adicionar imagem
                                   </Link>
                                   <button
