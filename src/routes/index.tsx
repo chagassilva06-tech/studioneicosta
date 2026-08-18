@@ -199,6 +199,7 @@ const CategoryScroll = memo(({ categories, counts }: { categories: Cat[], counts
                 style={{
                   "--hover-glow": `${catColor}33`,
                   "--cat-color": catColor,
+                  background: 'rgba(255, 255, 255, 0.03)',
                 } as any}
               >
                 {/* Subtle border glow on hover */}
