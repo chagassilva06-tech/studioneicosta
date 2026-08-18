@@ -484,14 +484,15 @@ function Galeria() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="mb-8 sm:mb-14"
+          className="mb-8 sm:mb-14 flex flex-col items-center text-center"
         >
-          <div className="flex items-center gap-3 mb-6">
-            <div className="h-[2px] w-12 sm:w-16 bg-gradient-to-r from-sky-400 to-transparent" />
-            <span className="uppercase tracking-[0.5em] text-[0.7rem] sm:text-xs text-sky-400 font-medium">Categoria</span>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="rule-gold w-10 sm:w-12" />
+            <span className="label-luxe">Galeria</span>
+            <div className="rule-gold w-10 sm:w-12" />
           </div>
-          <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl md:text-7xl font-light break-words">{nome}</h1>
-          <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-foreground max-w-lg">
+          <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl md:text-7xl font-light break-words animate-title-glow-subtle">{nome}</h1>
+          <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-foreground max-w-lg italic">
             {desc}
           </p>
 
