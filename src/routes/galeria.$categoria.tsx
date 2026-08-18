@@ -462,10 +462,11 @@ function Galeria() {
             <span className="label-luxe">Galeria</span>
             <div className="rule-gold w-10 sm:w-12" />
           </div>
-          <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl md:text-7xl font-light break-words animate-title-glow-subtle">{nome}</h1>
-          <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-foreground max-w-lg italic">
+          <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl md:text-7xl font-light break-words animate-title-glow-subtle w-full">{nome}</h1>
+          <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-foreground max-w-lg italic px-4">
             {desc}
           </p>
+
 
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
