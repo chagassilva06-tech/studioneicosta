@@ -507,29 +507,20 @@ function Galeria() {
               Voltar
             </Link>
 
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center justify-center gap-2">
               {categories.map((c, idx) => (
                 <Link
                   key={c.id}
                   to="/galeria/$categoria"
                   params={{ categoria: c.name }}
-                  className={`px-4 py-2 rounded-xl text-xs font-medium border transition-all duration-300 hover:scale-[1.05] active:scale-[0.95] ${
+                  className={`px-4 py-2 rounded-full text-xs font-medium border transition-all duration-300 hover:scale-[1.05] active:scale-[0.95] ${
                     c.name === nome
-                      ? "border-sky-400 text-white shadow-[0_0_15px_rgba(56,189,248,0.4)] bg-sky-400/10"
+                      ? "border-[#d8bf85] text-[#d8bf85] shadow-[0_0_15px_rgba(216,191,133,0.3)] bg-[#d8bf85]/10"
                       : "border-white/10 text-foreground/70 hover:text-white hover:border-white/20"
                   }`}
                   style={{
-                    background: c.name === nome ? undefined : `linear-gradient(135deg, var(--btn-grad-from) 0%, var(--btn-grad-to) 100%)`,
-                    "--btn-grad-from": [
-                      "rgba(14,165,233,0.12)",
-                      "rgba(139,92,246,0.12)",
-                      "rgba(20,184,166,0.12)",
-                      "rgba(244,63,94,0.12)",
-                      "rgba(234,179,8,0.12)",
-                      "rgba(16,185,129,0.12)",
-                    ][idx % 6],
-                    "--btn-grad-to": "rgba(255,255,255,0.01)",
-                  } as any}
+                    background: c.name === nome ? 'rgba(216, 191, 133, 0.1)' : 'rgba(255, 255, 255, 0.03)',
+                  }}
                 >
                   {c.name}
                 </Link>
