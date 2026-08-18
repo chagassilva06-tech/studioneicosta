@@ -772,8 +772,9 @@ const Slot = memo(function Slot({
               title="Apagar imagem"
               aria-label="Apagar imagem"
               onClick={(e) => { e.stopPropagation(); setConfirmDelete(true); }}
-              className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[9px] font-medium tracking-wide border border-rose-400/70 text-rose-200 bg-background/70 backdrop-blur shadow-[0_0_8px_rgba(244,63,94,0.4)] hover:bg-rose-500/20 hover:border-rose-300 transition-all disabled:opacity-70"
+              className="inline-flex items-center gap-1.5 px-3 py-2 sm:px-2 sm:py-1 rounded-lg bg-rose-500 text-white hover:bg-rose-600 transition-all text-xs sm:text-[10px] font-bold shadow-lg"
             >
+
               {isDeleting ? (
                 <Loader2 className="h-2.5 w-2.5 shrink-0 animate-spin" />
               ) : (
@@ -791,8 +792,9 @@ const Slot = memo(function Slot({
                 title="Mover imagem para outra categoria"
                 aria-label="Mover imagem para outra categoria"
                 onClick={(e) => { e.stopPropagation(); setShowMoveMenu(!showMoveMenu); }}
-                className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[9px] font-medium tracking-wide border border-[#fde047]/60 text-[#fde047] bg-background/70 backdrop-blur shadow-[0_0_8px_rgba(253,224,71,0.3)] hover:bg-[#fde047]/15 hover:border-[#fde047] transition-all disabled:opacity-70"
+                className="inline-flex items-center gap-1 px-3 py-2 sm:px-2 sm:py-1 rounded-lg border border-[#fde047]/40 bg-background/80 text-foreground hover:bg-[#fde047]/15 hover:border-[#fde047]/60 transition-all text-xs sm:text-[10px]"
               >
+
                 {isMoving ? (
                   <Loader2 className="h-2.5 w-2.5 shrink-0 animate-spin" />
                 ) : (
