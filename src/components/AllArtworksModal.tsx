@@ -131,7 +131,7 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
 
   if (!open) return null;
 
-  const categorias = Array.from(new Set(items.map((i) => i.categoria))).sort();
+  const categorias = Array.from(new Set([...allCategories, ...items.map((i) => i.categoria)])).sort();
   const filtered = items.filter((i) => {
     const matchesCategory = filter === "Todas" || i.categoria === filter;
     const matchesSearch = searchQuery.trim() === "" || 
