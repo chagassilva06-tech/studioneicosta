@@ -111,7 +111,7 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
         <button
           onClick={onClose}
           aria-label="Fechar"
-          className="h-9 w-9 rounded-full inline-flex items-center justify-center text-sky-200 hover:bg-sky-400/15 border border-sky-400/40"
+          className="h-9 w-9 rounded-full inline-flex items-center justify-center text-[#fde047] hover:bg-[#fde047]/15 border border-[#fde047]/40"
         >
           <X className="h-4 w-4" />
         </button>
@@ -139,13 +139,13 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
           </div>
 
           <div className="relative w-full sm:w-64">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-sky-300/60" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#fde047]/60" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Pesquisar nestas obras..."
-              className="w-full pl-9 pr-8 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-sky-400/50 transition-all"
+              className="w-full pl-9 pr-8 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-[#fde047]/50 transition-all"
             />
             {searchQuery && (
               <button
@@ -161,7 +161,7 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
         {(filter !== "Todas" || searchQuery !== "") && (
           <button
             onClick={() => { setFilter("Todas"); setSearchQuery(""); }}
-            className="text-[10px] uppercase tracking-widest text-sky-400/70 hover:text-sky-300 self-start"
+            className="text-[10px] uppercase tracking-widest text-[#fde047]/70 hover:text-[#fde047] self-start"
           >
             Limpar Busca/Filtros
           </button>
@@ -173,7 +173,7 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
         onClick={(e) => e.stopPropagation()}
       >
         {loading ? (
-          <div className="flex items-center justify-center py-20 text-sky-300/80">
+          <div className="flex items-center justify-center py-20 text-[#fde047]/80">
             <Loader2 className="h-6 w-6 animate-spin" />
           </div>
         ) : filtered.length === 0 ? (
@@ -191,7 +191,7 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
                     categoria: it.categoria,
                   })
                 }
-                className="group relative aspect-[4/5] rounded-2xl overflow-hidden border border-white/5 bg-white/[0.02] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] hover:shadow-[0_25px_50px_-8px_rgba(56,189,248,0.2)] hover:border-sky-400/40 transition-all duration-500"
+                className="group relative aspect-[4/5] rounded-2xl overflow-hidden border border-white/5 bg-white/[0.02] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.5)] hover:shadow-[0_25px_50px_-8px_rgba(253,224,71,0.2)] hover:border-[#fde047]/40 transition-all duration-500"
               >
                 <img
                   src={it.url}

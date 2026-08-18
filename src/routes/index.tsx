@@ -177,7 +177,7 @@ const CategoryScroll = memo(({ categories, counts }: { categories: Cat[], counts
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -10 }}
             onClick={() => scroll(-1)}
-            className="absolute left-1 z-20 h-8 w-8 rounded-full flex items-center justify-center bg-background/80 border border-white/10 text-white/70 hover:text-white hover:bg-background shadow-lg backdrop-blur-sm transition-all"
+            className="absolute left-1 z-20 h-8 w-8 rounded-full flex items-center justify-center bg-background/80 border border-[#d8bf85]/40 text-[#d8bf85] hover:text-[#d8bf85] hover:bg-background shadow-[0_0_10px_rgba(216,191,133,0.3)] hover:shadow-[0_0_15px_rgba(216,191,133,0.5)] backdrop-blur-sm transition-all"
             aria-label="Anterior"
           >
             <ChevronLeft className="h-4 w-4" />
@@ -197,7 +197,7 @@ const CategoryScroll = memo(({ categories, counts }: { categories: Cat[], counts
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 10 }}
             onClick={() => scroll(1)}
-            className="absolute right-1 z-20 h-8 w-8 rounded-full flex items-center justify-center bg-background/80 border border-white/10 text-white/70 hover:text-white hover:bg-background shadow-lg backdrop-blur-sm transition-all"
+            className="absolute right-1 z-20 h-8 w-8 rounded-full flex items-center justify-center bg-background/80 border border-[#d8bf85]/40 text-[#d8bf85] hover:text-[#d8bf85] hover:bg-background shadow-[0_0_10px_rgba(216,191,133,0.3)] hover:shadow-[0_0_15px_rgba(216,191,133,0.5)] backdrop-blur-sm transition-all"
             aria-label="Próximo"
           >
             <ChevronRight className="h-4 w-4" />
