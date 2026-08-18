@@ -201,7 +201,35 @@ const CategoryScroll = memo(({ categories, counts }: { categories: Cat[], counts
                 key={c.id}
                 to="/galeria/$categoria"
                 params={{ categoria: c.name }}
-                className="shrink-0 snap-start group inline-flex min-h-[38px] items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-foreground/80 border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] hover:border-white/20 hover:text-white transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]"
+                className="shrink-0 snap-start group inline-flex min-h-[38px] items-center gap-2 px-5 py-2 rounded-xl text-xs sm:text-sm font-medium text-foreground/90 border border-white/10 bg-white/[0.03] hover:text-white transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] hover:shadow-[0_0_20px_-5px_var(--btn-glow)]"
+                style={{
+                  background: `linear-gradient(135deg, var(--btn-grad-from) 0%, var(--btn-grad-to) 100%)`,
+                  borderColor: `rgba(255,255,255,0.1)`,
+                  "--btn-grad-from": [
+                    "rgba(14,165,233,0.15)", // Sky
+                    "rgba(139,92,246,0.15)", // Violet
+                    "rgba(20,184,166,0.15)", // Teal
+                    "rgba(244,63,94,0.15)",  // Rose
+                    "rgba(234,179,8,0.15)",  // Yellow
+                    "rgba(16,185,129,0.15)", // Emerald
+                  ][categories.indexOf(c) % 6],
+                  "--btn-grad-to": [
+                    "rgba(14,165,233,0.02)",
+                    "rgba(139,92,246,0.02)",
+                    "rgba(20,184,166,0.02)",
+                    "rgba(244,63,94,0.02)",
+                    "rgba(234,179,8,0.02)",
+                    "rgba(16,185,129,0.02)",
+                  ][categories.indexOf(c) % 6],
+                  "--btn-glow": [
+                    "rgba(14,165,233,0.3)",
+                    "rgba(139,92,246,0.3)",
+                    "rgba(20,184,166,0.3)",
+                    "rgba(244,63,94,0.3)",
+                    "rgba(234,179,8,0.3)",
+                    "rgba(16,185,129,0.3)",
+                  ][categories.indexOf(c) % 6]
+                } as any}
               >
                 <Icon className="h-4 w-4 shrink-0 text-sky-400 group-hover:text-sky-300 transition-colors" />
                 <span className="whitespace-nowrap">{c.name}</span>
