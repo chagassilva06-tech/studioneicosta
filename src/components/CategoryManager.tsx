@@ -343,7 +343,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                                   className="fixed inset-0 z-10" 
                                   onClick={() => setMenuOpenId(null)} 
                                 />
-                                <div className="absolute right-0 top-full z-20 mt-1 w-48 origin-top-right overflow-hidden rounded-xl border border-sky-400/30 bg-background/95 shadow-xl backdrop-blur-md animate-in fade-in zoom-in-95 duration-150">
+                                <div className="absolute right-0 top-full z-20 mt-1 w-48 origin-top-right overflow-hidden rounded-xl border border-white/10 bg-[#050912]/95 shadow-2xl backdrop-blur-md animate-in fade-in zoom-in-95 duration-150">
                                   <button
                                     onClick={() => {
                                       startEdit(c);
