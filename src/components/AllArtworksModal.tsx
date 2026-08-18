@@ -1,6 +1,6 @@
 import { memo, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { X, Loader2 } from "lucide-react";
+import { X, Loader2, Search } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { LightboxData } from "@/components/Lightbox";
 
@@ -26,6 +26,7 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState<string>("Todas");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (!open) return;
@@ -84,7 +85,13 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
   if (!open) return null;
 
   const categorias = Array.from(new Set(items.map((i) => i.categoria))).sort();
-  const filtered = filter === "Todas" ? items : items.filter((i) => i.categoria === filter);
+  const filtered = items.filter((i) => {
+    const matchesCategory = filter === "Todas" || i.categoria === filter;
+    const matchesSearch = searchQuery.trim() === "" || 
+      i.categoria.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      `${i.categoria} ${i.slot + 1}`.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   const overlay = (
     <div
@@ -111,22 +118,54 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
       </div>
 
       <div
-        className="flex gap-3 overflow-x-auto px-6 sm:px-12 py-4 border-b border-white/5 bg-background/30 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex flex-col gap-4 px-6 sm:px-12 py-4 border-b border-white/5 bg-background/30"
         onClick={(e) => e.stopPropagation()}
       >
-        {["Todas", ...categorias].map((c) => (
+        <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
+          <div className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full sm:w-auto">
+            {["Todas", ...categorias].map((c) => (
+              <button
+                key={c}
+                onClick={() => setFilter(c)}
+                className={`shrink-0 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border transition-all duration-300 ${
+                  filter === c
+                    ? "bg-white text-slate-950 border-white shadow-[0_10px_20px_-5px_rgba(255,255,255,0.2)]"
+                    : "text-foreground/60 border-white/10 hover:border-white/20 hover:bg-white/5"
+                }`}
+              >
+                {c}
+              </button>
+            ))}
+          </div>
+
+          <div className="relative w-full sm:w-64">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-sky-300/60" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Pesquisar nestas obras..."
+              className="w-full pl-9 pr-8 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-sky-400/50 transition-all"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            )}
+          </div>
+        </div>
+        
+        {(filter !== "Todas" || searchQuery !== "") && (
           <button
-            key={c}
-            onClick={() => setFilter(c)}
-            className={`shrink-0 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border transition-all duration-300 ${
-              filter === c
-                ? "bg-white text-slate-950 border-white shadow-[0_10px_20px_-5px_rgba(255,255,255,0.2)]"
-                : "text-foreground/60 border-white/10 hover:border-white/20 hover:bg-white/5"
-            }`}
+            onClick={() => { setFilter("Todas"); setSearchQuery(""); }}
+            className="text-[10px] uppercase tracking-widest text-sky-400/70 hover:text-sky-300 self-start"
           >
-            {c}
+            Limpar Busca/Filtros
           </button>
-        ))}
+        )}
       </div>
 
       <div
@@ -177,5 +216,3 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
   if (typeof document === "undefined") return null;
   return createPortal(overlay, document.body);
 });
-
-

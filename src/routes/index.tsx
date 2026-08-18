@@ -17,7 +17,9 @@ import {
   LogIn,
   Copy,
   Check,
+  X,
 } from "lucide-react";
+
 
 import hero from "@/assets/hero.jpg";
 import artist from "@/assets/artist.webp";
@@ -131,6 +133,11 @@ const CategoryScroll = memo(({ categories, counts }: { categories: Cat[], counts
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(false);
 
+  // Filter categories that have artworks
+  const activeCategories = useMemo(() => {
+    return categories.filter(c => (counts[c.name] ?? 0) > 0);
+  }, [categories, counts]);
+
   const checkScroll = useCallback(() => {
     if (!scrollRef.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
@@ -148,7 +155,7 @@ const CategoryScroll = memo(({ categories, counts }: { categories: Cat[], counts
       el.removeEventListener("scroll", checkScroll);
       window.removeEventListener("resize", checkScroll);
     };
-  }, [checkScroll, categories]);
+  }, [checkScroll, activeCategories]);
 
   const scroll = (dir: 1 | -1) => {
     if (!scrollRef.current) return;
@@ -187,7 +194,7 @@ const CategoryScroll = memo(({ categories, counts }: { categories: Cat[], counts
         className="h-full overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth snap-x snap-mandatory overscroll-contain"
       >
         <div className="flex items-center gap-2 h-full px-1 pr-10">
-          {categories.map((c) => {
+          {activeCategories.map((c) => {
             const Icon = getIcon(c.icon);
             return (
               <Link
@@ -351,25 +358,32 @@ function Index() {
 
   const totalCount = Object.values(counts).reduce((a, b) => a + b, 0);
   const suggestions = query.trim()
-    ? categories.filter((c) => c.name.toLowerCase().includes(query.trim().toLowerCase()))
+    ? categories.filter((c) => 
+        c.name.toLowerCase().includes(query.trim().toLowerCase()) && 
+        (counts[c.name] ?? 0) > 0
+      )
     : [];
+
 
   // Build slides: fetch the first two items per category for the carousel
   const slides = useMemo(() => {
-    return categories.flatMap((c) => {
-      const urls = featuredUrls[c.name] ?? [];
-      const base = {
-        title: c.name,
-        categoria: c.name,
-        description: fallbackDescriptions[c.name] ?? `Obra da coleção ${c.name}.`,
-      };
-      
-      // Return 2 slides per category
-      return [
-        { ...base, src: urls[0] ?? fallbackSrc[c.name] ?? paisagem1, pos: 0 },
-        { ...base, src: urls[1] ?? fallbackSrc[c.name] ?? pintura1, pos: 1 },
-      ];
-    });
+    return categories
+      .filter(c => (counts[c.name] ?? 0) > 0)
+      .flatMap((c) => {
+        const urls = featuredUrls[c.name] ?? [];
+        const base = {
+          title: c.name,
+          categoria: c.name,
+          description: fallbackDescriptions[c.name] ?? `Obra da coleção ${c.name}.`,
+        };
+        
+        // Return 2 slides per category if they have images
+        return [
+          { ...base, src: urls[0] ?? fallbackSrc[c.name] ?? paisagem1, pos: 0 },
+          { ...base, src: urls[1] ?? fallbackSrc[c.name] ?? pintura1, pos: 1 },
+        ];
+      });
+
   }, [categories, featuredUrls]);
 
   if (!authChecked) {
@@ -498,33 +512,62 @@ function Index() {
                 onChange={(e) => setQuery(e.target.value)}
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setTimeout(() => setSearchFocused(false), 150)}
-                placeholder="Pesquisar obras..."
-                className="w-full min-h-[44px] pl-10 pr-4 py-2.5 rounded-2xl bg-white/[0.04] border border-white/10 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-sky-400/60 focus:bg-white/[0.06] focus:shadow-[0_0_20px_rgba(56,189,248,0.3)] transition-all duration-300"
+                placeholder="Pesquisar categorias..."
+                className="w-full min-h-[44px] pl-10 pr-10 py-2.5 rounded-2xl bg-white/[0.04] border border-white/10 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-sky-400/60 focus:bg-white/[0.06] focus:shadow-[0_0_20px_rgba(56,189,248,0.3)] transition-all duration-300"
               />
+              {query && (
+                <button
+                  onClick={() => setQuery("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Limpar busca"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
             </div>
 
-            {searchFocused && suggestions.length > 0 && (
+
+            {searchFocused && (
               <div className="absolute left-3 right-3 sm:left-6 sm:right-6 mt-1 max-h-[50vh] overflow-y-auto rounded-xl border border-sky-400/40 bg-background/95 backdrop-blur-md shadow-[0_10px_30px_-10px_rgba(56,155,255,0.5)] z-10 animate-fade-in">
-                {suggestions.map((c) => {
-                  const Icon = getIcon(c.icon);
-                  return (
-                    <Link
-                      key={c.id}
-                      to="/galeria/$categoria"
-                      params={{ categoria: c.name }}
-                      onClick={() => setQuery("")}
-                      className="flex min-h-11 items-center gap-2 px-3 py-2.5 text-sm text-foreground hover:bg-sky-400/10 hover:text-sky-100 transition-colors"
-                    >
-                      <Icon className="h-3.5 w-3.5 text-sky-300/85" />
-                      {c.name}
-                      <span className="ml-auto text-xs text-muted-foreground">
-                        ({counts[c.name] ?? 0})
-                      </span>
-                    </Link>
-                  );
-                })}
+                {query.trim() !== "" && (
+                  <button
+                    onClick={() => setQuery("")}
+                    className="flex w-full items-center gap-2 px-3 py-2 text-[10px] uppercase tracking-widest text-sky-400/70 hover:bg-sky-400/10 transition-colors border-b border-sky-400/10"
+                  >
+                    <X className="h-3 w-3" /> Limpar busca
+                  </button>
+                )}
+                {suggestions.length > 0 ? (
+                  suggestions.map((c) => {
+                    const Icon = getIcon(c.icon);
+                    return (
+                      <Link
+                        key={c.id}
+                        to="/galeria/$categoria"
+                        params={{ categoria: c.name }}
+                        onClick={() => setQuery("")}
+                        className="flex min-h-11 items-center gap-2 px-3 py-2.5 text-sm text-foreground hover:bg-sky-400/10 hover:text-sky-100 transition-colors"
+                      >
+                        <Icon className="h-3.5 w-3.5 text-sky-300/85" />
+                        {c.name}
+                        <span className="ml-auto text-xs text-muted-foreground">
+                          ({counts[c.name] ?? 0})
+                        </span>
+                      </Link>
+                    );
+                  })
+                ) : query.trim() !== "" ? (
+                  <div className="p-4 text-center text-xs text-muted-foreground">
+                    Nenhuma categoria encontrada para "{query}"
+                  </div>
+                ) : (
+                  <div className="p-4 text-center text-xs text-muted-foreground">
+                    Digite para pesquisar categorias...
+                  </div>
+                )}
               </div>
             )}
+
           </div>
         </div>
 
