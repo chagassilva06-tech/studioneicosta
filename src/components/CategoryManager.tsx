@@ -207,7 +207,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
               <button
                 onClick={create}
                 disabled={saving || !newName.trim()}
-                className="inline-flex shrink-0 items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-sky-400 text-slate-950 font-medium text-sm hover:bg-sky-300 disabled:opacity-60"
+                className="inline-flex shrink-0 items-center justify-center gap-1.5 px-4 py-2 rounded-lg bg-[#d8bf85] text-slate-950 font-medium text-sm hover:bg-[#f5e6b8] disabled:opacity-60 transition-colors shadow-[0_0_15px_rgba(216,191,133,0.3)]"
               >
                 {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
                 Criar
