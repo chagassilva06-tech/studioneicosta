@@ -512,10 +512,20 @@ function Index() {
                 onChange={(e) => setQuery(e.target.value)}
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setTimeout(() => setSearchFocused(false), 150)}
-                placeholder="Pesquisar obras..."
-                className="w-full min-h-[44px] pl-10 pr-4 py-2.5 rounded-2xl bg-white/[0.04] border border-white/10 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-sky-400/60 focus:bg-white/[0.06] focus:shadow-[0_0_20px_rgba(56,189,248,0.3)] transition-all duration-300"
+                placeholder="Pesquisar categorias..."
+                className="w-full min-h-[44px] pl-10 pr-10 py-2.5 rounded-2xl bg-white/[0.04] border border-white/10 text-base sm:text-sm text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-sky-400/60 focus:bg-white/[0.06] focus:shadow-[0_0_20px_rgba(56,189,248,0.3)] transition-all duration-300"
               />
+              {query && (
+                <button
+                  onClick={() => setQuery("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Limpar busca"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
             </div>
+
 
             {searchFocused && (
               <div className="absolute left-3 right-3 sm:left-6 sm:right-6 mt-1 max-h-[50vh] overflow-y-auto rounded-xl border border-sky-400/40 bg-background/95 backdrop-blur-md shadow-[0_10px_30px_-10px_rgba(56,155,255,0.5)] z-10 animate-fade-in">
