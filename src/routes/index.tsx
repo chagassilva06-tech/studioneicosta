@@ -185,7 +185,7 @@ const CategoryScroll = memo(({ categories, counts }: { categories: Cat[], counts
         ref={scrollRef}
         className="h-full overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth snap-x snap-mandatory overscroll-contain flex items-center"
       >
-        <div className="flex items-center gap-4 px-6">
+        <div className="flex items-center gap-4 h-full px-6 min-w-full">
           {activeCategories.map((c, idx) => {
             const Icon = getIcon(c.icon);
             const catColor = getCategoryColor(idx);
