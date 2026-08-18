@@ -258,21 +258,24 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                       style={{
                         background: `linear-gradient(135deg, var(--btn-grad-from) 0%, var(--btn-grad-to) 100%)`,
                         "--btn-grad-from": [
-                          "rgba(14,165,233,0.08)",
-                          "rgba(139,92,246,0.08)",
-                          "rgba(20,184,166,0.08)",
-                          "rgba(244,63,94,0.08)",
-                          "rgba(234,179,8,0.08)",
-                          "rgba(16,185,129,0.08)",
+                          "rgba(14,165,233,0.06)", // Sky
+                          "rgba(59,130,246,0.06)", // Blue
+                          "rgba(139,92,246,0.06)", // Violet
+                          "rgba(216,191,133,0.06)", // Gold
+                          "rgba(16,185,129,0.06)", // Emerald
+                          "rgba(244,63,94,0.06)",  // Rose
                         ][items.indexOf(c) % 6],
                         "--btn-grad-to": "rgba(255,255,255,0.01)",
                         "--btn-glow": [
                           "rgba(14,165,233,0.2)",
+                          "rgba(59,130,246,0.2)",
                           "rgba(139,92,246,0.2)",
-                          "rgba(20,184,166,0.2)",
-                          "rgba(244,63,94,0.2)",
-                          "rgba(234,179,8,0.2)",
+                          "rgba(216,191,133,0.2)",
                           "rgba(16,185,129,0.2)",
+                          "rgba(244,63,94,0.2)",
+                        ][items.indexOf(c) % 6],
+                        "--btn-glow-solid": [
+                          "#0ea5e9", "#3b82f6", "#8b5cf6", "#d8bf85", "#10b981", "#f43f5e"
                         ][items.indexOf(c) % 6]
                       } as any}
                     >
