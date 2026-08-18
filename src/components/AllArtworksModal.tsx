@@ -28,7 +28,6 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
   const [filter, setFilter] = useState<string>("Todas");
   const [searchQuery, setSearchQuery] = useState("");
 
-
   useEffect(() => {
     if (!open) return;
     let cancelled = false;
@@ -86,7 +85,13 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
   if (!open) return null;
 
   const categorias = Array.from(new Set(items.map((i) => i.categoria))).sort();
-  const filtered = filter === "Todas" ? items : items.filter((i) => i.categoria === filter);
+  const filtered = items.filter((i) => {
+    const matchesCategory = filter === "Todas" || i.categoria === filter;
+    const matchesSearch = searchQuery.trim() === "" || 
+      i.categoria.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      `${i.categoria} ${i.slot + 1}`.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   const overlay = (
     <div
@@ -163,21 +168,6 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
         )}
       </div>
 
-        {["Todas", ...categorias].map((c) => (
-          <button
-            key={c}
-            onClick={() => setFilter(c)}
-            className={`shrink-0 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border transition-all duration-300 ${
-              filter === c
-                ? "bg-white text-slate-950 border-white shadow-[0_10px_20px_-5px_rgba(255,255,255,0.2)]"
-                : "text-foreground/60 border-white/10 hover:border-white/20 hover:bg-white/5"
-            }`}
-          >
-            {c}
-          </button>
-        ))}
-      </div>
-
       <div
         className="flex-1 overflow-y-auto px-4 sm:px-8 py-6"
         onClick={(e) => e.stopPropagation()}
@@ -226,5 +216,3 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
   if (typeof document === "undefined") return null;
   return createPortal(overlay, document.body);
 });
-
-
