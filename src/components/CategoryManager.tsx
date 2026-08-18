@@ -254,7 +254,27 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                   return (
                     <li
                       key={c.id}
-                      className="group relative rounded-lg border border-border/50 bg-card/40 px-3 py-3 transition-all hover:border-sky-400/30"
+                      className="group relative rounded-lg border border-border/50 px-3 py-3 transition-all hover:border-sky-400/30 hover:shadow-[0_0_15px_-5px_var(--btn-glow)]"
+                      style={{
+                        background: `linear-gradient(135deg, var(--btn-grad-from) 0%, var(--btn-grad-to) 100%)`,
+                        "--btn-grad-from": [
+                          "rgba(14,165,233,0.08)",
+                          "rgba(139,92,246,0.08)",
+                          "rgba(20,184,166,0.08)",
+                          "rgba(244,63,94,0.08)",
+                          "rgba(234,179,8,0.08)",
+                          "rgba(16,185,129,0.08)",
+                        ][items.indexOf(c) % 6],
+                        "--btn-grad-to": "rgba(255,255,255,0.01)",
+                        "--btn-glow": [
+                          "rgba(14,165,233,0.2)",
+                          "rgba(139,92,246,0.2)",
+                          "rgba(20,184,166,0.2)",
+                          "rgba(244,63,94,0.2)",
+                          "rgba(234,179,8,0.2)",
+                          "rgba(16,185,129,0.2)",
+                        ][items.indexOf(c) % 6]
+                      } as any}
                     >
                       {editing ? (
                         <div className="flex flex-col gap-2 animate-in fade-in slide-in-from-top-1 duration-200">
