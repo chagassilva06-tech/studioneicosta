@@ -1,6 +1,7 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useState, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
-import { X, Loader2, Search } from "lucide-react";
+import { X, Loader2, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import type { LightboxData } from "@/components/Lightbox";
 
@@ -27,6 +28,22 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState<string>("Todas");
   const [searchQuery, setSearchQuery] = useState("");
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [showLeft, setShowLeft] = useState(false);
+  const [showRight, setShowRight] = useState(false);
+
+  const checkScroll = useCallback(() => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+    setShowLeft(scrollLeft > 10);
+    setShowRight(scrollLeft < scrollWidth - clientWidth - 10);
+  }, []);
+
+  const scroll = (dir: 1 | -1) => {
+    if (!scrollRef.current) return;
+    const scrollAmount = 200;
+    scrollRef.current.scrollBy({ left: dir * scrollAmount, behavior: "smooth" });
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -82,6 +99,23 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
     };
   }, [open, onClose]);
 
+  useEffect(() => {
+    if (!open) return;
+    const el = scrollRef.current;
+    if (!el) return;
+    
+    // Use a small delay to ensure content is rendered before checking scroll
+    const timer = setTimeout(checkScroll, 100);
+    
+    el.addEventListener("scroll", checkScroll, { passive: true });
+    window.addEventListener("resize", checkScroll);
+    return () => {
+      clearTimeout(timer);
+      el.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
+    };
+  }, [open, checkScroll, items]);
+
   if (!open) return null;
 
   const categorias = Array.from(new Set(items.map((i) => i.categoria))).sort();
@@ -122,23 +156,62 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-          <div className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full sm:w-auto">
-            {["Todas", ...categorias].map((c) => (
-              <button
-                key={c}
-                onClick={() => setFilter(c)}
-                className={`shrink-0 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border transition-all duration-300 ${
-                  filter === c
-                    ? "bg-white text-slate-950 border-white shadow-[0_10px_20px_-5px_rgba(255,255,255,0.2)]"
-                    : "text-foreground/60 border-white/10 hover:border-white/20 hover:bg-white/5"
-                }`}
+          <div className="relative flex-1 min-w-0 w-full">
+            {/* Horizontal scroll with navigation arrows, similar to index page */}
+            <div className="relative group/modal-scroll flex items-center">
+              <AnimatePresence>
+                {showLeft && (
+                  <motion.button
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -10 }}
+                    onClick={() => scroll(-1)}
+                    className="absolute left-0 z-20 h-7 w-7 rounded-full flex items-center justify-center bg-background/80 border border-[#fde047]/40 text-[#fde047] shadow-[0_0_10px_rgba(253,224,71,0.2)] hover:shadow-[0_0_15px_rgba(253,224,71,0.4)] backdrop-blur-sm transition-all"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </motion.button>
+                )}
+              </AnimatePresence>
+
+              <div 
+                ref={scrollRef}
+                className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full py-1 px-1 scroll-smooth"
               >
-                {c}
-              </button>
-            ))}
+                {["Todas", ...categorias].map((c) => (
+                  <button
+                    key={c}
+                    onClick={() => {
+                      setFilter(c);
+                      setTimeout(checkScroll, 50);
+                    }}
+                    className={`shrink-0 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold border transition-all duration-300 ${
+                      filter === c
+                        ? "bg-white text-slate-950 border-white shadow-[0_8px_15px_-5px_rgba(255,255,255,0.3)]"
+                        : "text-foreground/60 border-white/10 hover:border-white/20 hover:bg-white/5"
+                    }`}
+                  >
+                    {c}
+                  </button>
+                ))}
+              </div>
+
+              <AnimatePresence>
+                {showRight && (
+                  <motion.button
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 10 }}
+                    onClick={() => scroll(1)}
+                    className="absolute right-0 z-20 h-7 w-7 rounded-full flex items-center justify-center bg-background/80 border border-[#fde047]/40 text-[#fde047] shadow-[0_0_10px_rgba(253,224,71,0.2)] hover:shadow-[0_0_15px_rgba(253,224,71,0.4)] backdrop-blur-sm transition-all"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </motion.button>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
 
-          <div className="relative w-full sm:w-64">
+          <div className="relative w-full sm:w-64 shrink-0">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#fde047]/60" />
             <input
               type="text"
