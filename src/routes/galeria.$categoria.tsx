@@ -462,8 +462,9 @@ function Galeria() {
           </div>
           <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl md:text-7xl font-light break-words">{nome}</h1>
           <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-foreground max-w-lg">
-            Esta coleção receberá fotos em breve. Volte em breve para conferir novas obras.
+            {desc}
           </p>
+
 
           <div className="mt-6">
             <Link
