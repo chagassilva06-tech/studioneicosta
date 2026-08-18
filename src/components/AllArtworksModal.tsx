@@ -99,6 +99,23 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
     };
   }, [open, onClose]);
 
+  useEffect(() => {
+    if (!open) return;
+    const el = scrollRef.current;
+    if (!el) return;
+    
+    // Use a small delay to ensure content is rendered before checking scroll
+    const timer = setTimeout(checkScroll, 100);
+    
+    el.addEventListener("scroll", checkScroll, { passive: true });
+    window.addEventListener("resize", checkScroll);
+    return () => {
+      clearTimeout(timer);
+      el.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
+    };
+  }, [open, checkScroll, items]);
+
   if (!open) return null;
 
   const categorias = Array.from(new Set(items.map((i) => i.categoria))).sort();
