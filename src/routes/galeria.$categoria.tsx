@@ -151,22 +151,42 @@ function Galeria() {
           `[upload] ${(originalSize / 1024 / 1024).toFixed(2)}MB → ${(size / 1024 / 1024).toFixed(2)}MB`,
         );
       }
-      const path = `${nome}/slot-${i}-${Date.now()}.${ext}`;
+
+      // Sanitizar o nome da categoria para o caminho do storage para evitar erros de encoding
+      const safeCategoryName = nome
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9]/g, "-")
+        .toLowerCase();
+
+      const path = `${safeCategoryName}/slot-${i}-${Date.now()}.${ext}`;
+      
+      console.log(`[upload] Tentando enviar para: ${path}`);
+      
       const { error: upErr } = await supabase.storage
         .from(BUCKET)
         .upload(path, optimized, { upsert: true, contentType: optimized.type });
-      if (upErr) throw upErr;
-
+      
+      if (upErr) {
+        console.error("[upload] Erro no Supabase Storage:", upErr);
+        throw upErr;
+      }
 
       const previous = uploaded[i]?.path;
 
+      // Manter o nome original da categoria (com acentos) no banco de dados
       const { error: dbErr } = await supabase
         .from("artworks")
         .upsert(
           { categoria: nome, slot: i, storage_path: path, updated_at: new Date().toISOString() },
           { onConflict: "categoria,slot" },
         );
-      if (dbErr) throw dbErr;
+      
+      if (dbErr) {
+        console.error("[upload] Erro no Banco de Dados:", dbErr);
+        throw dbErr;
+      }
+
 
       if (previous && previous !== path) {
         await supabase.storage.from(BUCKET).remove([previous]);
