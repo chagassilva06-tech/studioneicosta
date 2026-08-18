@@ -177,6 +177,25 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
     onChanged();
   };
 
+  const registerCategory = async (name: string) => {
+    setSaving(true);
+    const nextOrder = (items[items.length - 1]?.sort_order ?? 0) + 1;
+    const { error } = await supabase.from("categories").insert({
+      name: name,
+      icon: "Palette",
+      description: "Categoria importada de obras existentes",
+      sort_order: nextOrder,
+    });
+    setSaving(false);
+    if (error) {
+      toast.error("Falha ao registrar: " + error.message);
+      return;
+    }
+    toast.success(`Categoria "${name}" registrada!`);
+    await load();
+    onChanged();
+  };
+
   const overlay = (
     <div
       className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
