@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { lazy, Suspense, useEffect, useState, useMemo, memo, useCallback } from "react";
+import { lazy, Suspense, useEffect, useState, useMemo, memo, useCallback, useRef } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -125,6 +125,89 @@ const fallbackDescriptions: Record<string, string> = Object.fromEntries(
 const fallbackSrc: Record<string, string> = Object.fromEntries(
   featuredSlides.map((s) => [s.categoria, s.src]),
 );
+
+const CategoryScroll = memo(({ categories, counts }: { categories: Cat[], counts: Record<string, number> }) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [showLeft, setShowLeft] = useState(false);
+  const [showRight, setShowRight] = useState(false);
+
+  const checkScroll = useCallback(() => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+    setShowLeft(scrollLeft > 10);
+    setShowRight(scrollLeft < scrollWidth - clientWidth - 10);
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    checkScroll();
+    el.addEventListener("scroll", checkScroll, { passive: true });
+    window.addEventListener("resize", checkScroll);
+    return () => {
+      el.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
+    };
+  }, [checkScroll, categories]);
+
+  const scroll = (dir: 1 | -1) => {
+    if (!scrollRef.current) return;
+    scrollRef.current.scrollBy({ left: dir * 240, behavior: "smooth" });
+  };
+
+  return (
+    <>
+      <AnimatePresence>
+        {showLeft && (
+          <motion.button
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -10 }}
+            onClick={() => scroll(-1)}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 h-8 w-8 items-center justify-center rounded-full bg-background/80 border border-white/10 text-[#d8bf85] backdrop-blur hidden sm:flex hover:bg-white hover:text-slate-950 transition-colors"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </motion.button>
+        )}
+        {showRight && (
+          <motion.button
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 10 }}
+            onClick={() => scroll(1)}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 h-8 w-8 items-center justify-center rounded-full bg-background/80 border border-white/10 text-[#d8bf85] backdrop-blur hidden sm:flex hover:bg-white hover:text-slate-950 transition-colors"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+
+      <div
+        ref={scrollRef}
+        className="h-full overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth snap-x snap-mandatory overscroll-contain"
+      >
+        <div className="flex items-center gap-2 h-full px-1 pr-10">
+          {categories.map((c) => {
+            const Icon = getIcon(c.icon);
+            return (
+              <Link
+                key={c.id}
+                to="/galeria/$categoria"
+                params={{ categoria: c.name }}
+                className="shrink-0 snap-start group inline-flex min-h-[38px] items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-foreground/80 border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] hover:border-white/20 hover:text-white transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]"
+              >
+                <Icon className="h-4 w-4 shrink-0 text-sky-400 group-hover:text-sky-300 transition-colors" />
+                <span className="whitespace-nowrap">{c.name}</span>
+                <span className="opacity-60 text-[10px] sm:text-xs">({counts[c.name] ?? 0})</span>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    </>
+  );
+});
+
 
 function Index() {
   const isMobile = useIsMobile();
@@ -381,30 +464,12 @@ function Index() {
               <span className="opacity-60 font-medium tabular-nums text-[10px] sm:text-xs">({totalCount})</span>
             </button>
 
-
-            {/* Categories — scrollable center */}
-            <div className="relative flex-1 min-w-0 h-full">
-              <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 sm:w-12 bg-gradient-to-l from-background/80 via-background/50 to-transparent z-10" />
-              <div className="h-full overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth snap-x snap-mandatory overscroll-contain">
-                <div className="flex items-center gap-2 h-full px-1 pr-10">
-                  {categories.map((c) => {
-                    const Icon = getIcon(c.icon);
-                    return (
-                      <Link
-                        key={c.id}
-                        to="/galeria/$categoria"
-                        params={{ categoria: c.name }}
-                        className="shrink-0 snap-start group inline-flex min-h-[38px] items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-foreground/80 border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] hover:border-white/20 hover:text-white transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]"
-                      >
-                        <Icon className="h-4 w-4 shrink-0 text-sky-400 group-hover:text-sky-300 transition-colors" />
-                        <span className="whitespace-nowrap">{c.name}</span>
-                        <span className="opacity-60 text-[10px] sm:text-xs">({counts[c.name] ?? 0})</span>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
+            {/* Categories — scrollable center with arrows */}
+            <div className="relative flex-1 min-w-0 h-full group/nav">
+              <CategoryScroll categories={categories} counts={counts} />
             </div>
+
+            {/* Gerenciar — fixed right */}
 
             {/* Gerenciar — fixed right */}
             {isAdmin && (

@@ -181,7 +181,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
             onClick={onClose}
             className="h-9 w-9 shrink-0 rounded-full inline-flex items-center justify-center text-sky-200 hover:bg-sky-400/15 border border-sky-400/40"
             aria-label="Fechar"
-            title="Fechar?"
+            title="Fechar"
           >
             <X className="h-4 w-4" />
           </button>
@@ -244,7 +244,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
                       {editing ? (
                         <div className="flex flex-col gap-2 animate-in fade-in slide-in-from-top-1 duration-200">
                           <p className="text-xs font-medium text-sky-300 mb-1">
-                            Editar categoria? "{draftName}"
+                            Editar categoria: "{draftName}"
                           </p>
                           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                             <input
@@ -352,7 +352,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
         {confirmId && (
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
             <div className="w-full max-w-sm rounded-2xl border border-rose-400/40 bg-background/95 p-6 shadow-[0_0_40px_-10px_rgba(244,63,94,0.5)] text-center">
-              <p className="text-sm text-muted-foreground mb-1">Excluir categoria?</p>
+              <p className="text-sm text-muted-foreground mb-1">Excluir categoria</p>
               <p className="text-lg font-medium mb-5">"{confirmName}"</p>
               <p className="text-xs text-muted-foreground mb-6">
                 A categoria e TODAS as fotos vinculadas a ela serão apagadas permanentemente.
