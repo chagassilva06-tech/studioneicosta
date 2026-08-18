@@ -406,7 +406,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
               <div className="flex items-center justify-center gap-3">
                 <button
                   onClick={cancelRemove}
-                  className="px-5 py-2 rounded-lg border border-sky-400/40 text-sm font-medium hover:bg-sky-400/15 transition-colors"
+                  className="px-5 py-2 rounded-lg border border-[#d8bf85]/40 text-sm font-medium hover:bg-[#d8bf85]/15 transition-colors"
                 >
                   Não
                 </button>
