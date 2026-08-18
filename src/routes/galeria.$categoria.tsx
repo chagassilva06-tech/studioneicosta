@@ -773,7 +773,7 @@ const Slot = memo(function Slot({
             title={hasImage ? "Substituir imagem" : "Carregar imagem"}
             aria-label={hasImage ? "Substituir imagem" : "Carregar imagem"}
             onClick={(e) => { e.stopPropagation(); onPickFile(); }}
-            className="inline-flex max-w-full items-center gap-1 px-2 py-1 rounded-full text-[9px] font-medium tracking-wide border border-sky-400/80 text-sky-100 bg-background/70 backdrop-blur shadow-[0_0_8px_rgba(56,155,255,0.45)] hover:bg-sky-400/20 hover:border-sky-300 transition-all disabled:opacity-70"
+            className="inline-flex max-w-full items-center gap-1 px-2 py-1 rounded-full text-[9px] font-medium tracking-wide border border-[#fde047]/60 text-[#fde047] bg-background/70 backdrop-blur shadow-[0_0_8px_rgba(253,224,71,0.3)] hover:bg-[#fde047]/15 hover:border-[#fde047] transition-all disabled:opacity-70"
           >
             {isUploading ? (
               <>
@@ -819,7 +819,7 @@ const Slot = memo(function Slot({
                 title="Mover imagem para outra categoria"
                 aria-label="Mover imagem para outra categoria"
                 onClick={(e) => { e.stopPropagation(); setShowMoveMenu(!showMoveMenu); }}
-                className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[9px] font-medium tracking-wide border border-sky-400/70 text-sky-200 bg-background/70 backdrop-blur shadow-[0_0_8px_rgba(56,155,255,0.4)] hover:bg-sky-500/20 hover:border-sky-300 transition-all disabled:opacity-70"
+                className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[9px] font-medium tracking-wide border border-[#fde047]/60 text-[#fde047] bg-background/70 backdrop-blur shadow-[0_0_8px_rgba(253,224,71,0.3)] hover:bg-[#fde047]/15 hover:border-[#fde047] transition-all disabled:opacity-70"
               >
                 {isMoving ? (
                   <Loader2 className="h-2.5 w-2.5 shrink-0 animate-spin" />
@@ -831,15 +831,15 @@ const Slot = memo(function Slot({
               
               {showMoveMenu && (
                 <div 
-                  className="absolute top-full left-0 mt-1 w-32 max-h-40 overflow-y-auto z-[30] rounded-lg border border-sky-400/40 bg-background/95 backdrop-blur-md shadow-xl py-1"
+                  className="absolute top-full left-0 mt-1 w-32 max-h-40 overflow-y-auto z-[30] rounded-lg border border-[#fde047]/40 bg-background/95 backdrop-blur-md shadow-xl py-1"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <p className="px-2 py-1 text-[8px] uppercase tracking-wider text-sky-400/60 border-b border-sky-400/20 mb-1">Para:</p>
+                  <p className="px-2 py-1 text-[8px] uppercase tracking-wider text-[#fde047]/60 border-b border-[#fde047]/20 mb-1">Para:</p>
                   {categories.map((cat) => (
                     <button
                       key={cat.id}
                       onClick={() => { setShowMoveMenu(false); onMove(cat.name); }}
-                      className="w-full text-left px-2 py-1.5 text-[10px] text-foreground hover:bg-sky-400/20 hover:text-sky-200 transition-colors truncate"
+                      className="w-full text-left px-2 py-1.5 text-[10px] text-foreground hover:bg-[#fde047]/15 hover:text-[#fde047] transition-colors truncate"
                     >
                       {cat.name}
                     </button>
@@ -869,7 +869,7 @@ const Slot = memo(function Slot({
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); setConfirmDelete(false); }}
-                className="px-3 py-1.5 rounded-lg border border-sky-400/40 text-[11px] font-medium hover:bg-sky-400/15 transition-colors"
+                className="px-3 py-1.5 rounded-lg border border-[#fde047]/40 text-[11px] font-medium hover:bg-[#fde047]/15 transition-colors"
               >
                 Não
               </button>
