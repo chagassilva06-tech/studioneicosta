@@ -503,28 +503,47 @@ function Index() {
               />
             </div>
 
-            {searchFocused && suggestions.length > 0 && (
+            {searchFocused && (
               <div className="absolute left-3 right-3 sm:left-6 sm:right-6 mt-1 max-h-[50vh] overflow-y-auto rounded-xl border border-sky-400/40 bg-background/95 backdrop-blur-md shadow-[0_10px_30px_-10px_rgba(56,155,255,0.5)] z-10 animate-fade-in">
-                {suggestions.map((c) => {
-                  const Icon = getIcon(c.icon);
-                  return (
-                    <Link
-                      key={c.id}
-                      to="/galeria/$categoria"
-                      params={{ categoria: c.name }}
-                      onClick={() => setQuery("")}
-                      className="flex min-h-11 items-center gap-2 px-3 py-2.5 text-sm text-foreground hover:bg-sky-400/10 hover:text-sky-100 transition-colors"
-                    >
-                      <Icon className="h-3.5 w-3.5 text-sky-300/85" />
-                      {c.name}
-                      <span className="ml-auto text-xs text-muted-foreground">
-                        ({counts[c.name] ?? 0})
-                      </span>
-                    </Link>
-                  );
-                })}
+                {query.trim() !== "" && (
+                  <button
+                    onClick={() => setQuery("")}
+                    className="flex w-full items-center gap-2 px-3 py-2 text-[10px] uppercase tracking-widest text-sky-400/70 hover:bg-sky-400/10 transition-colors border-b border-sky-400/10"
+                  >
+                    <X className="h-3 w-3" /> Limpar busca
+                  </button>
+                )}
+                {suggestions.length > 0 ? (
+                  suggestions.map((c) => {
+                    const Icon = getIcon(c.icon);
+                    return (
+                      <Link
+                        key={c.id}
+                        to="/galeria/$categoria"
+                        params={{ categoria: c.name }}
+                        onClick={() => setQuery("")}
+                        className="flex min-h-11 items-center gap-2 px-3 py-2.5 text-sm text-foreground hover:bg-sky-400/10 hover:text-sky-100 transition-colors"
+                      >
+                        <Icon className="h-3.5 w-3.5 text-sky-300/85" />
+                        {c.name}
+                        <span className="ml-auto text-xs text-muted-foreground">
+                          ({counts[c.name] ?? 0})
+                        </span>
+                      </Link>
+                    );
+                  })
+                ) : query.trim() !== "" ? (
+                  <div className="p-4 text-center text-xs text-muted-foreground">
+                    Nenhuma categoria encontrada para "{query}"
+                  </div>
+                ) : (
+                  <div className="p-4 text-center text-xs text-muted-foreground">
+                    Digite para pesquisar categorias...
+                  </div>
+                )}
               </div>
             )}
+
           </div>
         </div>
 
