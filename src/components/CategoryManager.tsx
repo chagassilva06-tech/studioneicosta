@@ -433,7 +433,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
 const IconPicker = memo(function IconPicker({ value, onChange, label }: { value: IconName; onChange: (v: IconName) => void; label?: string }) {
   return (
     <div className="flex flex-col gap-1 w-full sm:w-40">
-      {label && <label className="text-[10px] uppercase tracking-wider text-sky-400/60 ml-1">{label}</label>}
+      {label && <label className="text-[10px] uppercase tracking-wider text-[#d8bf85]/60 ml-1">{label}</label>}
       <select
         value={value}
         onChange={(e) => onChange(e.target.value as IconName)}
