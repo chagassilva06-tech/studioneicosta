@@ -241,7 +241,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
               </button>
             </div>
             {loading ? (
-              <div className="flex items-center justify-center py-8 text-sky-300/70">
+              <div className="flex items-center justify-center py-8 text-[#d8bf85]/70">
                 <Loader2 className="h-5 w-5 animate-spin" />
               </div>
             ) : (
