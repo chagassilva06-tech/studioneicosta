@@ -381,30 +381,12 @@ function Index() {
               <span className="opacity-60 font-medium tabular-nums text-[10px] sm:text-xs">({totalCount})</span>
             </button>
 
-
-            {/* Categories — scrollable center */}
-            <div className="relative flex-1 min-w-0 h-full">
-              <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 sm:w-12 bg-gradient-to-l from-background/80 via-background/50 to-transparent z-10" />
-              <div className="h-full overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth snap-x snap-mandatory overscroll-contain">
-                <div className="flex items-center gap-2 h-full px-1 pr-10">
-                  {categories.map((c) => {
-                    const Icon = getIcon(c.icon);
-                    return (
-                      <Link
-                        key={c.id}
-                        to="/galeria/$categoria"
-                        params={{ categoria: c.name }}
-                        className="shrink-0 snap-start group inline-flex min-h-[38px] items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-foreground/80 border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] hover:border-white/20 hover:text-white transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]"
-                      >
-                        <Icon className="h-4 w-4 shrink-0 text-sky-400 group-hover:text-sky-300 transition-colors" />
-                        <span className="whitespace-nowrap">{c.name}</span>
-                        <span className="opacity-60 text-[10px] sm:text-xs">({counts[c.name] ?? 0})</span>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
+            {/* Categories — scrollable center with arrows */}
+            <div className="relative flex-1 min-w-0 h-full group/nav">
+              <CategoryScroll categories={categories} counts={counts} />
             </div>
+
+            {/* Gerenciar — fixed right */}
 
             {/* Gerenciar — fixed right */}
             {isAdmin && (
