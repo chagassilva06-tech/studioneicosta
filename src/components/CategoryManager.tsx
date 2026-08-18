@@ -352,7 +352,7 @@ export const CategoryManager = memo(function CategoryManager({ open, onClose, on
         {confirmId && (
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
             <div className="w-full max-w-sm rounded-2xl border border-rose-400/40 bg-background/95 p-6 shadow-[0_0_40px_-10px_rgba(244,63,94,0.5)] text-center">
-              <p className="text-sm text-muted-foreground mb-1">Excluir categoria?</p>
+              <p className="text-sm text-muted-foreground mb-1">Excluir categoria</p>
               <p className="text-lg font-medium mb-5">"{confirmName}"</p>
               <p className="text-xs text-muted-foreground mb-6">
                 A categoria e TODAS as fotos vinculadas a ela serão apagadas permanentemente.
