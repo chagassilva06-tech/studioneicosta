@@ -51,12 +51,24 @@ export const AllArtworksModal = memo(function AllArtworksModal({ open, onClose, 
     let cancelled = false;
     (async () => {
       setLoading(true);
-      const { data } = await supabase
-        .from("artworks")
-        .select("id, categoria, slot, storage_path")
-        .order("categoria", { ascending: true })
-        .order("slot", { ascending: true });
-      if (!data || cancelled) {
+      // Fetch both artworks and all defined categories
+      const [artworksRes, categoriesRes] = await Promise.all([
+        supabase
+          .from("artworks")
+          .select("id, categoria, slot, storage_path")
+          .order("categoria", { ascending: true })
+          .order("slot", { ascending: true }),
+        supabase.from("categories").select("name").order("sort_order", { ascending: true })
+      ]);
+
+      if (cancelled) return;
+
+      if (categoriesRes.data) {
+        setAllCategories(categoriesRes.data.map(c => c.name));
+      }
+
+      const { data } = artworksRes;
+      if (!data) {
         setLoading(false);
         return;
       }
